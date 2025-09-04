@@ -1,0 +1,15 @@
+ext {
+    versiondata = [
+            versionCode: 551,
+            versionName: "5.5.1"
+    ]
+    signdata = [
+            keyAlias     : 'upload',
+            keyPassword  : 'youyu2021',
+            storeFile    : './keystore/upload-keystore-1224.jks',
+            storePassword: 'youyu2021'
+    ]
+    packagedata = [
+            applicationId: 'com.example.chaguaner2023'
+    ]
+}
