@@ -10,6 +10,8 @@ import 'package:chaguaner2023/view/homepage/online_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../utils/cache/image_net_tool.dart';
+
 class NakedChatOrderCard extends StatefulWidget {
   final Map? data;
   final int? type; //1 用户 2商家
@@ -61,7 +63,7 @@ class _NakedChatOrderCardState extends State<NakedChatOrderCard> {
                   height: 160.w,
                   width: 120.w,
                   margin: EdgeInsets.only(right: 15.5.w),
-                  child: NetImageTool(
+                  child: ImageNetTool(
                     url: cardData!['girl_chat']['cover'],
                   ),
                 ),

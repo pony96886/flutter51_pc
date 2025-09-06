@@ -1,6 +1,7 @@
 import 'package:bot_toast/bot_toast.dart';
 import 'package:chaguaner2023/components/cgDialog.dart';
 import 'package:chaguaner2023/theme/style_theme.dart';
+import 'package:chaguaner2023/utils/cache/image_net_tool.dart';
 import 'package:chaguaner2023/utils/common.dart';
 import 'package:chaguaner2023/utils/app_global.dart';
 import 'package:chaguaner2023/utils/local_png.dart';
@@ -10,22 +11,17 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ElegantRankCard extends StatefulWidget {
   final Map? cardInfo;
-  ElegantRankCard(
-      {Key? key,
-      this.cardInfo})
-      : super(key: key);
+  ElegantRankCard({Key? key, this.cardInfo}) : super(key: key);
   @override
   _ElegantRankCardState createState() => _ElegantRankCardState();
 }
 
 class _ElegantRankCardState extends State<ElegantRankCard> {
-
   @override
   Widget build(BuildContext context) {
     List resources =
         (widget.cardInfo!['resources'] ?? widget.cardInfo!['pic']) as List;
-    var image = resources.firstWhere((v) => v['type'] == 1,
-        orElse: () => null);
+    var image = resources.firstWhere((v) => v['type'] == 1, orElse: () => null);
     var imgCover = image == null ? ['300', '300'] : image['cover'].split(',');
     var isVideo = (resources.where((v) => v['type'] == 2).toList().length > 0);
 
@@ -43,7 +39,7 @@ class _ElegantRankCardState extends State<ElegantRankCard> {
             : widget.cardInfo!['info_id'].toString();
         if (widget.cardInfo!['status'] == 2) {
           AppGlobal.appRouter
-                ?.push(CommonUtils.getRealHash('vipDetailPage/' + _id + '/1' ));
+              ?.push(CommonUtils.getRealHash('vipDetailPage/' + _id + '/1'));
         } else {
           BotToast.showText(text: '资源正在处理中,请稍后再试', align: Alignment(0, 0));
         }
@@ -77,7 +73,7 @@ class _ElegantRankCardState extends State<ElegantRankCard> {
                           height: maxHeight,
                           child: resources.length > 0 &&
                                   resources[0]['url'] != null
-                              ? NetImageTool(
+                              ? ImageNetTool(
                                   url: image['url'],
                                 )
                               : LocalPNG(
@@ -100,7 +96,7 @@ class _ElegantRankCardState extends State<ElegantRankCard> {
                             : SizedBox()
                       ],
                     ),
-                   
+
                     // (widget.cardInfo!['status'] == 2 ||
                     //             widget.cardInfo!['status'] == 5) &&
                     //         widget.cardInfo!['appointment'] != 0 &&
@@ -168,13 +164,12 @@ class _ElegantRankCardState extends State<ElegantRankCard> {
                     mainAxisSize: MainAxisSize.max,
                     children: <Widget>[
                       Text(
-                              widget.cardInfo!['title'],
-                              style: TextStyle(
-                                  color: StyleTheme.cTitleColor,
-                                  fontSize: 15.sp),
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                            ),
+                        widget.cardInfo!['title'],
+                        style: TextStyle(
+                            color: StyleTheme.cTitleColor, fontSize: 15.sp),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
                       SizedBox(
                         height: 5.w,
                       ),

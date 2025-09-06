@@ -7,10 +7,13 @@ import 'package:chaguaner2023/utils/netimage_tool.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../utils/cache/image_net_tool.dart';
+
 class RenZhengRankCard extends StatefulWidget {
   final Map? chapuData;
   final bool? isNew;
-  RenZhengRankCard({Key? key, this.chapuData, this.isNew = true}) : super(key: key);
+  RenZhengRankCard({Key? key, this.chapuData, this.isNew = true})
+      : super(key: key);
 
   @override
   _RenZhengRankCardState createState() => _RenZhengRankCardState();
@@ -66,7 +69,7 @@ class _RenZhengRankCardState extends State<RenZhengRankCard> {
                             Container(
                               width: 170.w,
                               height: 170.w,
-                              child: NetImageTool(
+                              child: ImageNetTool(
                                 url: resources.length > 0
                                     ? resources[0]['url']
                                     : '',
@@ -296,7 +299,7 @@ class _RenZhengRankCardState extends State<RenZhengRankCard> {
                                               Container(
                                                 width: 85.w,
                                                 height: 85.w,
-                                                child: NetImageTool(
+                                                child: ImageNetTool(
                                                   url: resources.length > 0
                                                       ? resources[0]['url']
                                                       : '',

@@ -9,6 +9,8 @@ import 'package:chaguaner2023/utils/netimage_tool.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../utils/cache/image_net_tool.dart';
+
 class CommodityCategories extends StatefulWidget {
   const CommodityCategories({Key? key, this.id}) : super(key: key);
   final int? id;
@@ -73,7 +75,7 @@ class _CommodityCategoriesState extends State<CommodityCategories> {
                             SizedBox(
                               width: 90.w,
                               height: 90.w,
-                              child: NetImageTool(
+                              child: ImageNetTool(
                                 url: data['img'] ?? '111',
                                 radius: BorderRadius.circular(5.w),
                               ),

@@ -13,6 +13,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import "package:universal_html/html.dart" as html;
 
+import '../utils/cache/image_net_tool.dart';
+
 mixin PayMixin<T extends StatefulWidget> on State<T> {
   html.WindowBase? winRef;
   dynamic origin = html.window.location.origin! + '/';
@@ -136,7 +138,7 @@ mixin PayMixin<T extends StatefulWidget> on State<T> {
                                         Container(
                                           width: 40.w,
                                           height: 40.w,
-                                          child: NetImageTool(
+                                          child: ImageNetTool(
                                             url: pays[e]['img_url']
                                                         .indexOf('http') ==
                                                     -1

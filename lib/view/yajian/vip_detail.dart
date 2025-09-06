@@ -32,6 +32,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
+import '../../utils/cache/image_net_tool.dart';
+
 class VipDetailPage extends StatefulWidget {
   final String? id;
   final String? type;
@@ -333,7 +335,7 @@ class VipDetailState extends State<VipDetailPage>
                                 //   },
                                 // );
                               },
-                              child: NetImageTool(
+                              child: ImageNetTool(
                                 url: verifyDetail!['resources'][index]['url'],
                                 fit: BoxFit.fitHeight,
                               ),
@@ -1734,7 +1736,7 @@ class VipDetailState extends State<VipDetailPage>
                   },
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(5.w),
-                    child: NetImageTool(
+                    child: ImageNetTool(
                       url: item['media'][index]['media_full_url'],
                     ),
                   ),

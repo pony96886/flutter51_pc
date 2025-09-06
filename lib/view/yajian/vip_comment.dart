@@ -14,6 +14,8 @@ import 'package:chaguaner2023/utils/netimage_tool.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../utils/cache/image_net_tool.dart';
+
 class VipCommentPage extends StatefulWidget {
   final Map info;
   const VipCommentPage({Key? key, required this.info}) : super(key: key);
@@ -206,7 +208,7 @@ class _VipCommentPageState extends State<VipCommentPage> {
                       SizedBox(
                         width: 70.w,
                         height: 70.w,
-                        child: NetImageTool(
+                        child: ImageNetTool(
                           url: widget.info['resources'][0]['url'],
                           fit: BoxFit.cover,
                         ),

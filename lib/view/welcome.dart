@@ -19,6 +19,8 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import "package:universal_html/html.dart" as html;
 
+import '../utils/cache/image_net_tool.dart';
+
 //显示逻辑 是否显示简介幻灯片-》检测线路-》获取基础配置数据-》是否设置了私密锁-》是否显示广告-》进入主页
 class WelComePage extends StatefulWidget {
   const WelComePage({Key? key}) : super(key: key);
@@ -307,7 +309,7 @@ class WelComePageState extends State<WelComePage> {
                                     if (adsLinkUrl == '') return;
                                     CommonUtils.launchURL(adsLinkUrl);
                                   },
-                                  child: NetImageTool(
+                                  child: ImageNetTool(
                                     url: adsUrl,
                                     fit: BoxFit.cover,
                                   )),

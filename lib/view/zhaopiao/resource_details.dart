@@ -42,6 +42,8 @@ import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../utils/cache/image_net_tool.dart';
+
 class ResourcesDetailPage extends StatefulWidget {
   final String id;
   final int? type;
@@ -852,7 +854,7 @@ class ResourcesDetailState extends State<ResourcesDetailPage>
                                                                             ? SizedBox()
                                                                             : SizedBox(
                                                                                 height: 15.w,
-                                                                                child: NetImageTool(
+                                                                                child: ImageNetTool(
                                                                                   fit: BoxFit.fitHeight,
                                                                                   url: CommonUtils.getVipIcon(
                                                                                     verifyDetail?['user_vip_level'],
@@ -2806,7 +2808,7 @@ class ResourcesDetailState extends State<ResourcesDetailPage>
                     };
                     context.push('/teaViewPicPage');
                   },
-                  child: NetImageTool(
+                  child: ImageNetTool(
                     url: verifyDetail!['pic'][index]['url'],
                     fit: BoxFit.fitHeight,
                   ));

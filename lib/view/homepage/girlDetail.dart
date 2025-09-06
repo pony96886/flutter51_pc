@@ -19,6 +19,7 @@ import 'package:chaguaner2023/store/homeConfig.dart';
 import 'package:chaguaner2023/store/sharedPreferences.dart';
 import 'package:chaguaner2023/theme/style_theme.dart';
 import 'package:chaguaner2023/utils/api.dart';
+import 'package:chaguaner2023/utils/cache/image_net_tool.dart';
 import 'package:chaguaner2023/utils/cgprivilege.dart';
 import 'package:chaguaner2023/utils/common.dart';
 import 'package:chaguaner2023/utils/app_global.dart';
@@ -1836,7 +1837,7 @@ class GilrDrtailState extends State<GilrDrtailPage>
                   },
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(5.w),
-                    child: NetImageTool(
+                    child: ImageNetTool(
                       url: item['media'][index]['media_full_url'],
                     ),
                   ),
@@ -2293,7 +2294,7 @@ class GilrDrtailState extends State<GilrDrtailPage>
                         //   },
                         // );
                       },
-                      child: NetImageTool(
+                      child: ImageNetTool(
                         url: verifyDetail!['resources'][index]['url'],
                         fit: BoxFit.fitHeight,
                       ),

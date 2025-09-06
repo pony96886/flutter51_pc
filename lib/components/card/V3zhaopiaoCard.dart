@@ -15,6 +15,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 
+import '../../utils/cache/image_net_tool.dart';
+
 class V3ZhaoPiaoCard extends StatefulWidget {
   final bool isPeifu; //是否赔付
   final int type; //收藏 3 发布 4 待验证茶帖 5
@@ -326,12 +328,12 @@ class V3ZhaoPiaoCardState extends State<V3ZhaoPiaoCard> {
                                                 color: Color(0xFFF2F3EE),
                                                 width: 140.w,
                                                 height: 140.w,
-                                                child: NetImageTool(
+                                                child: ImageNetTool(
                                                   url: widget.zpInfo['pic']
                                                               .length >
                                                           0
                                                       ? widget.zpInfo['pic'][0]
-                                                          ['img_url'] 
+                                                          ['img_url']
                                                       : '',
                                                   fit: BoxFit.cover,
                                                 ),

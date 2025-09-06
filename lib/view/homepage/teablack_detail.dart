@@ -18,6 +18,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../utils/cache/image_net_tool.dart';
+
 class TeablackDetailPage extends StatefulWidget {
   final String id;
   const TeablackDetailPage({Key? key, required this.id}) : super(key: key);
@@ -185,7 +187,7 @@ class _TeablackDetailPageState extends State<TeablackDetailPage> {
                                                 child: Container(
                                                   width: 114.w,
                                                   height: 114.w,
-                                                  child: NetImageTool(
+                                                  child: ImageNetTool(
                                                     url: data['resources'][index]['url'],
                                                     fit: BoxFit.cover,
                                                   ),
@@ -397,7 +399,7 @@ class _TeablankCommentItemState extends State<TeablankCommentItem> {
                   },
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(5.w),
-                    child: NetImageTool(
+                    child: ImageNetTool(
                       url: widget.comment['media'][index]['url_str'],
                     ),
                   ),

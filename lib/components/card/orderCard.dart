@@ -12,6 +12,8 @@ import 'package:chaguaner2023/view/im/im_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../utils/cache/image_net_tool.dart';
+
 class OderCard extends StatefulWidget {
   final String? cardType;
   final int? status;
@@ -186,7 +188,7 @@ class _OderCardState extends State<OderCard> {
                                 width: 70.w,
                                 height: 70.w,
                                 margin: new EdgeInsets.only(right: 10.5.w),
-                                child: NetImageTool(
+                                child: ImageNetTool(
                                   url: resources![0]['url'],
                                   fit: BoxFit.cover,
                                 ),
@@ -218,7 +220,7 @@ class _OderCardState extends State<OderCard> {
                                 width: 70.w,
                                 height: 70.w,
                                 margin: new EdgeInsets.only(right: 10.w),
-                                child: NetImageTool(
+                                child: ImageNetTool(
                                   url: resources![0]['url'],
                                   fit: BoxFit.cover,
                                 ),

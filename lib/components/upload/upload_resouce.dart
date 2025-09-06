@@ -17,6 +17,7 @@ import 'package:go_router/go_router.dart';
 import 'package:heif_converter_plus/heif_converter.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:universal_html/html.dart' as html;
+import '../../utils/cache/image_net_tool.dart';
 import 'ui/fake_native_widget.dart'
     if (dart.library.html) 'ui/real_web_widget.dart' as ui;
 import 'package:video_compress/video_compress.dart';
@@ -516,7 +517,7 @@ class _UploadResouceWidgetState extends State<UploadResouceWidget>
               //   },
               // );
             },
-            child: NetImageTool(
+            child: ImageNetTool(
               url: path.indexOf('http') < 0
                   ? AppGlobal.bannerImgBase + path
                   : path,

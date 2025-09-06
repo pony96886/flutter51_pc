@@ -22,6 +22,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
+import '../../utils/cache/image_net_tool.dart';
+
 class ServiceParmas {
   static String? type;
   static String? orderId;
@@ -595,7 +597,7 @@ class OnlineServicState extends State<OnlineServicePage> {
                                       child: SizedBox(
                                         width: 150.w,
                                         height: 150.w,
-                                        child: NetImageTool(
+                                        child: ImageNetTool(
                                           url: msg,
                                           fit: BoxFit.contain,
                                         ),

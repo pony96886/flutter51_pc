@@ -10,6 +10,8 @@ import 'package:video_player/video_player.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 import 'package:universal_html/html.dart' as html;
 
+import '../utils/cache/image_net_tool.dart';
+
 class ShortVPlayer extends StatefulWidget {
   const ShortVPlayer(
       {Key? key,
@@ -82,10 +84,9 @@ class _ShortVPlayerState extends State<ShortVPlayer> {
                       playerLoadingFallback: Stack(
                         children: [
                           Positioned.fill(
-                            child: NetImageTool(
+                            child: ImageNetTool(
                               url: widget.cover_url,
                               fit: BoxFit.contain,
-                              isLoad: true,
                             ),
                           ),
                           Center(
@@ -142,7 +143,7 @@ class _ShortVPlayerState extends State<ShortVPlayer> {
                       playerLoadingFallback: Stack(
                         children: [
                           Positioned.fill(
-                            child: NetImageTool(
+                            child: ImageNetTool(
                                 url: widget.cover_url, fit: BoxFit.contain),
                           ),
                           Center(

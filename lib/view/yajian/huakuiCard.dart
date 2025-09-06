@@ -10,6 +10,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:video_player/video_player.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
+import '../../utils/cache/image_net_tool.dart';
+
 class HuakuiCard extends StatefulWidget {
   final ValueNotifier<int>? currentIndex;
   final int? loaddingIndex;
@@ -128,7 +130,7 @@ class _HuakuiCardState extends State<HuakuiCard> {
                         ? 1
                         : 0,
                     duration: Duration(milliseconds: 300),
-                    child: NetImageTool(url: imageUrl, fit: BoxFit.cover),
+                    child: ImageNetTool(url: imageUrl, fit: BoxFit.cover),
                   )),
                   Positioned(
                       bottom: 0,

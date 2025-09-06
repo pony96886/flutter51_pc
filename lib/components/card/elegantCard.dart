@@ -3,6 +3,7 @@ import 'package:chaguaner2023/components/cgDialog.dart';
 import 'package:chaguaner2023/store/global.dart';
 import 'package:chaguaner2023/theme/style_theme.dart';
 import 'package:chaguaner2023/utils/api.dart';
+import 'package:chaguaner2023/utils/cache/image_net_tool.dart';
 import 'package:chaguaner2023/utils/cgprivilege.dart';
 import 'package:chaguaner2023/utils/common.dart';
 import 'package:chaguaner2023/utils/app_global.dart';
@@ -233,8 +234,8 @@ class _ElegantCardState extends State<ElegantCard> {
         if (widget.cardInfo!['status'] == 2) {
           if (CgPrivilege.getPrivilegeStatus(
               PrivilegeType.infoVip, PrivilegeType.privilegeAppointment)) {
-            AppGlobal.appRouter
-                ?.push(CommonUtils.getRealHash('vipDetailPage/' + _id + '/null/'));
+            AppGlobal.appRouter?.push(
+                CommonUtils.getRealHash('vipDetailPage/' + _id + '/null/'));
           } else {
             CommonUtils.showVipDialog(
                 context, '购买会员才能在线预约雅间妹子，平台担保交易，照片和人不匹配平台包赔，让你约到合乎心意的妹子',
@@ -273,7 +274,7 @@ class _ElegantCardState extends State<ElegantCard> {
                           height: maxHeight,
                           child: resources.length > 0 &&
                                   resources[0]['url'] != null
-                              ? NetImageTool(
+                              ? ImageNetTool(
                                   url: image['url'],
                                 )
                               : LocalPNG(

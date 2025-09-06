@@ -15,6 +15,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 
+import '../../../utils/cache/image_net_tool.dart';
+
 class SquareList extends StatefulWidget {
   final Map
       tabList; // 例 {'type':[{'title':'认证'},'title':‘未认证’],'name':['title':'老王','title':'老张']};
@@ -318,7 +320,7 @@ class _SquareListState extends State<SquareList> {
                                                     ScreenUtil().screenWidth -
                                                         30.w,
                                                 height: 150.w,
-                                                child: NetImageTool(
+                                                child: ImageNetTool(
                                                   fit: BoxFit.cover,
                                                   url: widget.ads![e]
                                                       ['img_full_url'],

@@ -8,6 +8,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
+import '../../utils/cache/image_net_tool.dart';
+
 class TalkCard extends StatelessWidget {
   final Map<String, dynamic> item;
   final bool shareIcon;
@@ -103,7 +105,7 @@ class TalkCard extends StatelessWidget {
                   ),
                   child: Stack(
                     children: [
-                      NetImageTool(
+                      ImageNetTool(
                         url: _composeImgUrl(_imgBase(context), image),
                         fit: BoxFit.cover,
                         radius: BorderRadius.circular(5.w),

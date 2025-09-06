@@ -14,6 +14,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 
+import '../../utils/cache/image_net_tool.dart';
+
 class ApplicationCenter extends StatefulWidget {
   ApplicationCenter({Key? key}) : super(key: key);
 
@@ -202,7 +204,7 @@ class _ApplicationItemState extends State<ApplicationItem> {
               decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.all(Radius.circular(14.5.w))),
-              child: NetImageTool(
+              child: ImageNetTool(
                 url: (widget.iconurl!.contains('http')
                     ? widget.iconurl
                     : AppGlobal.bannerImgBase + widget.iconurl!) as String,
@@ -338,7 +340,7 @@ class _SwiperContainerState extends State<SwiperContainer> {
                     _onTapSwiper(index);
                   },
                   itemBuilder: (BuildContext context, int index) {
-                    return NetImageTool(
+                    return ImageNetTool(
                       url: _banner[index]['img_url'].contains('http')
                           ? _banner[index]['img_url']
                           : AppGlobal.bannerImgBase + _banner[index]['img_url'],
@@ -382,7 +384,7 @@ class _SwiperContainerState extends State<SwiperContainer> {
               width: double.infinity,
               height: _banner.length == 1 ? 150.w : 0,
               child: _banner.length == 1
-                  ? NetImageTool(
+                  ? ImageNetTool(
                       url: _banner[0]['img_url'].contains('http')
                           ? _banner[0]['img_url']
                           : AppGlobal.bannerImgBase + _banner[0]['img_url'],

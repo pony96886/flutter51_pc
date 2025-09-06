@@ -25,6 +25,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:bot_toast/bot_toast.dart';
 
+import '../../utils/cache/image_net_tool.dart';
+
 class SearchResult extends StatefulWidget {
   SearchResult({Key? key, this.parmas}) : super(key: key);
   final Object? parmas;
@@ -763,7 +765,7 @@ class _SearchSuggestionListState extends State<SearchSuggestionList>
                 margin: EdgeInsets.only(bottom: 10.w),
                 height: 100.w,
                 width: 100.w,
-                child: NetImageTool(
+                child: ImageNetTool(
                   url: url,
                   fit: BoxFit.cover,
                 ),

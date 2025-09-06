@@ -9,6 +9,8 @@ import 'package:go_router/go_router.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:photo_view/photo_view_gallery.dart';
 
+import '../../utils/cache/image_net_tool.dart';
+
 class TeaPicViewPage extends StatefulWidget {
   TeaPicViewPage({Key? key, this.pramas}) : super(key: key);
   final Map? pramas;
@@ -31,7 +33,8 @@ class _TeaPicViewPageState extends State<TeaPicViewPage> {
     CommonUtils.debugPrint(widget.pramas);
     widget.pramas!['resources'].forEach((item) {
       GlobalKey _key = GlobalKey();
-      TransformationController transformationController = TransformationController();
+      TransformationController transformationController =
+          TransformationController();
       transformationControllerList.add(transformationController);
       keyList.add(_key);
     });
@@ -97,17 +100,20 @@ class _TeaPicViewPageState extends State<TeaPicViewPage> {
                       initialScale: 1.0,
                       minScale: 1.0,
                       maxScale: 10.0,
-                      child: '${e['url'] ?? e['media_url_full'] ?? e['media_full_url']}'.contains('m3u8')
-                          ? ShortVPlayer(
-                              url: e['url'] ?? e['media_url_full'] ?? e['media_full_url'],
-                              cover_url: '',
-                              isSimple: true,
-                            )
-                          : NetImageTool(
-                              fit: BoxFit.contain,
-                              url: CommonUtils.getThumb(e),
-                              isLoad: true,
-                            ),
+                      child:
+                          '${e['url'] ?? e['media_url_full'] ?? e['media_full_url']}'
+                                  .contains('m3u8')
+                              ? ShortVPlayer(
+                                  url: e['url'] ??
+                                      e['media_url_full'] ??
+                                      e['media_full_url'],
+                                  cover_url: '',
+                                  isSimple: true,
+                                )
+                              : ImageNetTool(
+                                  fit: BoxFit.contain,
+                                  url: CommonUtils.getThumb(e),
+                                ),
                     );
                   },
                 ),
@@ -121,7 +127,10 @@ class _TeaPicViewPageState extends State<TeaPicViewPage> {
                     height: 80.w,
                     decoration: const BoxDecoration(
                       gradient: LinearGradient(
-                        colors: [Color.fromRGBO(0, 0, 0, 0.6), Color.fromRGBO(0, 0, 0, 0.0)],
+                        colors: [
+                          Color.fromRGBO(0, 0, 0, 0.6),
+                          Color.fromRGBO(0, 0, 0, 0.0)
+                        ],
                         begin: Alignment.topCenter,
                         end: Alignment.bottomCenter,
                       ),
@@ -132,9 +141,12 @@ class _TeaPicViewPageState extends State<TeaPicViewPage> {
               Positioned.fill(
                   child: Column(
                 children: [
-                  Container(height: kIsWeb ? 10.w : MediaQuery.of(context).padding.top),
                   Container(
-                    padding: EdgeInsets.symmetric(horizontal: StyleTheme.margin),
+                      height:
+                          kIsWeb ? 10.w : MediaQuery.of(context).padding.top),
+                  Container(
+                    padding:
+                        EdgeInsets.symmetric(horizontal: StyleTheme.margin),
                     height: StyleTheme.headTabHeight,
                     child: Stack(
                       children: [
@@ -145,7 +157,8 @@ class _TeaPicViewPageState extends State<TeaPicViewPage> {
                               behavior: HitTestBehavior.translucent,
                               child: SizedBox(
                                 height: double.infinity,
-                                child: Icon(Icons.close, size: 24.w, color: Colors.white),
+                                child: Icon(Icons.close,
+                                    size: 24.w, color: Colors.white),
                               ),
                               onTap: () {
                                 context.pop();
@@ -153,7 +166,8 @@ class _TeaPicViewPageState extends State<TeaPicViewPage> {
                             ),
                             Text(
                               '${_selectedIndex + 1} / ${widget.pramas!['resources'].length}',
-                              style: TextStyle(color: Colors.white, fontSize: 16.sp),
+                              style: TextStyle(
+                                  color: Colors.white, fontSize: 16.sp),
                             )
                           ],
                         ),

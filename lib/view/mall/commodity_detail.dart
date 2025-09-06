@@ -20,6 +20,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
+import '../../utils/cache/image_net_tool.dart';
+
 class CommodityDetail extends StatefulWidget {
   const CommodityDetail({Key? key, this.id});
   final int? id;
@@ -227,7 +229,7 @@ class _CommodityDetailState extends State<CommodityDetail> {
                                                       context.push(
                                                           '/teaViewPicPage');
                                                     },
-                                                    child: NetImageTool(
+                                                    child: ImageNetTool(
                                                       url: resources[index]
                                                           ['media_url_full'],
                                                       fit: BoxFit.fitHeight,
@@ -353,7 +355,7 @@ class _CommodityDetailState extends State<CommodityDetail> {
                                                       height: (box.maxWidth /
                                                               item['width']) *
                                                           item['height'],
-                                                      child: NetImageTool(
+                                                      child: ImageNetTool(
                                                         url: item[
                                                             'media_url_full'],
                                                       ),

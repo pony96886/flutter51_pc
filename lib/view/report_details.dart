@@ -18,6 +18,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
+import '../utils/cache/image_net_tool.dart';
+
 class ReportDetailPage extends StatefulWidget {
   final int? id;
   final String? infoId;
@@ -516,7 +518,7 @@ class ReportDetailPageState extends State<ReportDetailPage> {
                         };
                         context.push('/teaViewPicPage');
                       },
-                      child: NetImageTool(
+                      child: ImageNetTool(
                         url: photoAlbum![index]['img_url'],
                         fit: BoxFit.fitHeight,
                       ),

@@ -7,6 +7,8 @@ import 'package:chaguaner2023/utils/netimage_tool.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../utils/cache/image_net_tool.dart';
+
 class RenZhengCard extends StatefulWidget {
   final Map? chapuData;
   final bool? isNew;
@@ -66,7 +68,7 @@ class _RenZhengCardState extends State<RenZhengCard> {
                             Container(
                               width: 170.w,
                               height: 170.w,
-                              child: NetImageTool(
+                              child: ImageNetTool(
                                 url: resources.length > 0
                                     ? resources[0]['url']
                                     : '',
@@ -296,7 +298,7 @@ class _RenZhengCardState extends State<RenZhengCard> {
                                               Container(
                                                 width: 85.w,
                                                 height: 85.w,
-                                                child: NetImageTool(
+                                                child: ImageNetTool(
                                                   url: resources.length > 0
                                                       ? resources[0]['url']
                                                       : '',

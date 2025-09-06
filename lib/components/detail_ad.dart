@@ -9,6 +9,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:bot_toast/bot_toast.dart';
 
+import '../utils/cache/image_net_tool.dart';
+
 class Detail_ad extends StatelessWidget {
   final List? data;
   final double? width;
@@ -105,7 +107,7 @@ class Detail_ad extends StatelessWidget {
                                   child: SizedBox(
                                     width: 55.w,
                                     height: 55.w,
-                                    child: NetImageTool(
+                                    child: ImageNetTool(
                                       url: pageBanners[i]["img_url"] ?? "",
                                     ),
                                   ),
@@ -180,7 +182,7 @@ class Detail_ad extends StatelessWidget {
                     child: SizedBox(
                       width: width != null ? width : 1.sw,
                       height: height != null ? height : 1.sw * 0.24,
-                      child: NetImageTool(
+                      child: ImageNetTool(
                         url: data![index]["img_url"] ?? "",
                       ),
                     ),

@@ -35,6 +35,8 @@ import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh_notification/pull_to_refresh_notification.dart';
 
+import '../../utils/cache/image_net_tool.dart';
+
 class SquarePages extends StatefulWidget {
   SquarePages({Key? key}) : super(key: key);
 
@@ -628,7 +630,7 @@ class _SquarePagesState extends State<SquarePages> with TickerProviderStateMixin
         height: 82.w,
         child: Stack(
           children: [
-            NetImageTool(
+            ImageNetTool(
               url: url,
               fit: BoxFit.cover,
             ),
@@ -808,7 +810,7 @@ class GameButton extends StatelessWidget {
       child: SizedBox(
         width: 65.w,
         height: 62.5.w,
-        child: NetImageTool(
+        child: ImageNetTool(
           fit: BoxFit.contain,
           url: UserInfo.gameIconUrl!,
         ),

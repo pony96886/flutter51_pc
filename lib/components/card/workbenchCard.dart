@@ -12,6 +12,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../utils/cache/image_net_tool.dart';
+
 class WorkBenchCard extends StatefulWidget {
   final bool isShare;
   final int? keys;
@@ -213,7 +215,7 @@ class _WorkBenchCardState extends State<WorkBenchCard> {
                                   child: cardInfo!['resources'].length > 0 &&
                                           cardInfo!['resources'][0]['url'] !=
                                               null
-                                      ? NetImageTool(
+                                      ? ImageNetTool(
                                           url: image['url'],
                                         )
                                       : LocalPNG(

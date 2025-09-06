@@ -8,6 +8,8 @@ import 'package:chaguaner2023/utils/netimage_tool.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../utils/cache/image_net_tool.dart';
+
 class RankCard extends StatefulWidget {
   const RankCard({Key? key, this.data, this.isDelete = false})
       : super(key: key);
@@ -43,7 +45,7 @@ class _RankCardState extends State<RankCard> {
           children: [
             Container(
               height: 170.w,
-              child: NetImageTool(
+              child: ImageNetTool(
                 radius: BorderRadius.only(
                   topLeft: Radius.circular(5.w),
                   topRight: Radius.circular(5.w),

@@ -10,6 +10,8 @@ import 'package:chaguaner2023/utils/netimage_tool.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../utils/cache/image_net_tool.dart';
+
 class TanhuaListPage extends StatefulWidget {
   final String? type;
   TanhuaListPage({Key? key, this.type}) : super(key: key);
@@ -79,7 +81,7 @@ class _TanhuaListPageState extends State<TanhuaListPage> {
                     child: Container(
                       width: 167.5.w,
                       height: 96.w,
-                      child: NetImageTool(
+                      child: ImageNetTool(
                         url: item['thumb_cover'],
                         fit: BoxFit.cover,
                       ),

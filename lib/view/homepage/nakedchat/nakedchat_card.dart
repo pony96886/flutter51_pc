@@ -5,6 +5,8 @@ import 'package:chaguaner2023/utils/netimage_tool.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../utils/cache/image_net_tool.dart';
+
 class NakedchtCard extends StatelessWidget {
   final Map? data;
   const NakedchtCard({Key? key, this.data}) : super(key: key);
@@ -43,7 +45,7 @@ class NakedchtCard extends StatelessWidget {
                         color: Colors.white,
                         borderRadius:
                             BorderRadius.vertical(top: Radius.circular(10.w))),
-                    child: NetImageTool(
+                    child: ImageNetTool(
                       url: data!['cover'],
                     ),
                   ),

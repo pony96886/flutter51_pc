@@ -6,12 +6,14 @@ import 'package:chaguaner2023/utils/netimage_tool.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+import 'cache/image_net_tool.dart';
+
 extension WidgetUtils on Widget {
   addBackground(String img) {
     return Stack(
       children: [
         Positioned.fill(
-          child: NetImageTool(
+          child: ImageNetTool(
             url: img,
             fit: BoxFit.fill,
           ),
@@ -24,7 +26,7 @@ extension WidgetUtils on Widget {
   addImageBlur(String img) {
     return Stack(
       children: [
-        Opacity(opacity: 0.7, child: NetImageTool(url: img)),
+        Opacity(opacity: 0.7, child: ImageNetTool(url: img)),
         Positioned(
           right: 0,
           left: 0,

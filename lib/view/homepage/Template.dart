@@ -9,6 +9,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:html/parser.dart' as html_parser;
 import 'package:html/dom.dart' as dom;
 
+import '../../utils/cache/image_net_tool.dart';
+
 class Template extends StatefulWidget {
   final String? html;
   final String? title;
@@ -160,7 +162,7 @@ class TemplateState extends State<Template> {
       margin: EdgeInsets.symmetric(vertical: 14.5.w),
       constraints: BoxConstraints(maxHeight: 320.w),
       child: Center(
-        child: NetImageTool(url: urls, fit: BoxFit.cover),
+        child: ImageNetTool(url: urls, fit: BoxFit.cover),
       ),
     );
   }

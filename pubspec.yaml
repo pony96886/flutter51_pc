@@ -92,9 +92,9 @@ dependencies:
     path: plugins/video_player
   flick_video_player:
     path: plugins/flick_video_player-0.5.0
-  image_compression_flutter: 
+  image_compression_flutter:
     path: plugins/image_compression_flutter-1.0.4
-  flutter_html: 
+  flutter_html:
     path: plugins/flutter_html-3.0.0-alpha.6
 
   pull_to_refresh_notification: 3.1.0
@@ -114,10 +114,11 @@ dependencies:
   extended_tabs: 4.2.0
   webviewx_plus: ^0.5.0
   android_id: ^0.3.6
+  webcrypto: ^0.5.7
 
 dependency_overrides:
   fading_edge_scrollview: ^4.1.1
-  
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -125,7 +126,7 @@ dev_dependencies:
   build_runner: ^2.3.3
   drift_dev: ^2.4.1
 
-# dependency_overrides:
+  # dependency_overrides:
   # video_player_android:
   #   git:
   #     url: git@172.105.200.120:rn/video_player_android-2.3.9.git

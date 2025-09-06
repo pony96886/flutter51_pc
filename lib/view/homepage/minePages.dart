@@ -24,6 +24,8 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh_notification/pull_to_refresh_notification.dart';
 
+import '../../utils/cache/image_net_tool.dart';
+
 class MinePages extends StatefulWidget {
   MinePages({Key? key}) : super(key: key);
 
@@ -855,7 +857,7 @@ class _MinePagesState extends State<MinePages> with TickerProviderStateMixin {
           child: Stack(
             alignment: Alignment.center,
             children: <Widget>[
-              NetImageTool(
+              ImageNetTool(
                 url: members.vipInfo!['img_url'].isEmpty
                     ? AppGlobal.VipList[0]['img_url']
                     : members.vipInfo!['img_url'],

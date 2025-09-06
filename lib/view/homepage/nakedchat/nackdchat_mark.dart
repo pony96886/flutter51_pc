@@ -12,6 +12,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../utils/cache/image_net_tool.dart';
+
 class NackdChatMark extends StatefulWidget {
   final Map? data;
   const NackdChatMark({Key? key, this.data}) : super(key: key);
@@ -74,7 +76,7 @@ class _NackdChatMarkState extends State<NackdChatMark> {
                             width: 120.w,
                             margin: EdgeInsets.only(right: 15.5.w),
                             child:
-                                NetImageTool(url: data!['girl_chat']['cover']),
+                            ImageNetTool(url: data!['girl_chat']['cover']),
                           ),
                           Expanded(
                               child: SizedBox(

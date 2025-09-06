@@ -1,4 +1,5 @@
 import 'package:chaguaner2023/theme/style_theme.dart';
+import 'package:chaguaner2023/utils/cache/image_net_tool.dart';
 import 'package:chaguaner2023/utils/common.dart';
 import 'package:chaguaner2023/utils/app_global.dart';
 import 'package:chaguaner2023/utils/local_png.dart';
@@ -64,7 +65,7 @@ class _RenZhengCardState extends State<AdoptCard> {
                       Container(
                         width: 170.w,
                         height: 170.w,
-                        child: NetImageTool(
+                        child: ImageNetTool(
                           url: (resources != null &&
                                   resources.isNotEmpty &&
                                   resources[0]['media_url'] != '')

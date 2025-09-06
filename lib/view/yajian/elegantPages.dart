@@ -30,6 +30,8 @@ import 'package:provider/provider.dart';
 import 'package:pull_to_refresh_notification/pull_to_refresh_notification.dart';
 import 'package:waterfall_flow/waterfall_flow.dart';
 
+import '../../utils/cache/image_net_tool.dart';
+
 class ElegantRoomPages extends StatefulWidget {
   ElegantRoomPages({Key? key}) : super(key: key);
 
@@ -1523,7 +1525,7 @@ class GameButton extends StatelessWidget {
         child: SizedBox(
           width: double.infinity,
           height: double.infinity,
-          child: NetImageTool(
+          child: ImageNetTool(
             fit: BoxFit.contain,
             url: UserInfo.gameIconUrl!,
           ),

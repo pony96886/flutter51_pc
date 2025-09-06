@@ -21,6 +21,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../utils/cache/image_net_tool.dart';
+
 class NakedchatDetail extends StatefulWidget {
   final int? id;
   const NakedchatDetail({Key? key, this.id}) : super(key: key);
@@ -412,7 +414,7 @@ class _NakedchatDetailState extends State<NakedchatDetail> {
                                 };
                                 context.push('/teaViewPicPage');
                               },
-                              child: NetImageTool(
+                              child: ImageNetTool(
                                 url: verifyDetail!['photos'][index]['url'],
                                 fit: BoxFit.fitHeight,
                               ),

@@ -17,6 +17,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:waterfall_flow/waterfall_flow.dart';
 
+import '../../utils/cache/image_net_tool.dart';
+
 class AuthBeautyPage extends StatefulWidget {
   AuthBeautyPage({Key? key}) : super(key: key);
 
@@ -343,7 +345,7 @@ class _AuthBeautyPageState extends State<AuthBeautyPage> {
                                               height: CommonUtils.getWidth(164),
                                               child: Stack(
                                                 children: [
-                                                  NetImageTool(
+                                                  ImageNetTool(
                                                     url: headData[e]
                                                                 ['resources'][0]
                                                             ['url'] ??

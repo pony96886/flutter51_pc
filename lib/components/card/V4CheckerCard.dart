@@ -11,6 +11,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 
+import '../../utils/cache/image_net_tool.dart';
+
 class V4CheckerCard extends StatefulWidget {
   final int type;
   final bool isCollect;
@@ -226,7 +228,7 @@ class V4CheckerCardState extends State<V4CheckerCard> {
                                         width: 140.w,
                                         height: 140.w,
                                         color: Color(0xFFF2F3EE),
-                                        child: NetImageTool(
+                                        child: ImageNetTool(
                                           url: widget.zpInfo['pic'].length > 0
                                               ? widget.zpInfo['pic'][0]['url']
                                               : '',

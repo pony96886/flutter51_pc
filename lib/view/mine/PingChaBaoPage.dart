@@ -17,6 +17,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
+import '../../utils/cache/image_net_tool.dart';
+
 class PingChaBaoPage extends StatefulWidget {
   @override
   _PingChaBaoPageState createState() => _PingChaBaoPageState();
@@ -245,7 +247,7 @@ class _PCBItemState extends State<PCBItem> {
                         Container(
                           width: 70.w,
                           height: 70.w,
-                          child: NetImageTool(url: titleAvatar),
+                          child: ImageNetTool(url: titleAvatar),
                         ),
                         Padding(
                           padding: EdgeInsets.only(left: 10.w),

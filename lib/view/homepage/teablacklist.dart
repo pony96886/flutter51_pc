@@ -18,6 +18,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../utils/cache/image_net_tool.dart';
+
 class TeaBlackList extends StatefulWidget {
   TeaBlackList({Key? key}) : super(key: key);
 
@@ -327,7 +329,7 @@ class _BlackListCardState extends State<BlackListCard> {
                             child: Container(
                               width: 114.w,
                               height: 114.w,
-                              child: NetImageTool(
+                              child: ImageNetTool(
                                 url: widget.data!['resources'][index]['url'],
                                 fit: BoxFit.cover,
                               ),

@@ -15,6 +15,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:marquee/marquee.dart';
 import 'package:provider/provider.dart';
 
+import '../utils/cache/image_net_tool.dart';
+
 class NewMemberPage extends StatefulWidget {
   const NewMemberPage({Key? key}) : super(key: key);
 
@@ -153,7 +155,7 @@ class _NewMemberPageState extends State<NewMemberPage> with PayMixin {
                                           height: 150.w,
                                           margin: EdgeInsets.only(
                                               top: 17.w, bottom: 28.w),
-                                          child: NetImageTool(
+                                          child: ImageNetTool(
                                             url: myCard['bg_url'],
                                           ),
                                         ),
@@ -175,7 +177,7 @@ class _NewMemberPageState extends State<NewMemberPage> with PayMixin {
                                     width: 342.w,
                                     alignment: Alignment.centerLeft,
                                     padding: EdgeInsets.only(right: 26.5.w),
-                                    child: NetImageTool(
+                                    child: ImageNetTool(
                                         url: productList[index]['bg_url'],
                                         fit: BoxFit.fill),
                                   );
@@ -246,7 +248,7 @@ class _NewMemberPageState extends State<NewMemberPage> with PayMixin {
                                                 Container(
                                                   width: 46.w,
                                                   height: 39.w,
-                                                  child: NetImageTool(
+                                                  child: ImageNetTool(
                                                     url: right[index]
                                                             ['img_url'] ??
                                                         '',

@@ -13,6 +13,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../utils/cache/image_net_tool.dart';
+
 class MallOrderCard extends StatefulWidget {
   const MallOrderCard(
       {Key? key, this.isEvaluation = false, this.data, this.isEller = false});
@@ -468,7 +470,7 @@ class _MallOrderCardState extends State<MallOrderCard> {
                     : SizedBox(
                         width: 80.2.w,
                         height: 80.2.w,
-                        child: NetImageTool(
+                        child: ImageNetTool(
                           url: widget.data!['goods']['cover_images'][0]
                               ['media_url_full'],
                           radius: BorderRadius.circular(5.w),
@@ -626,7 +628,7 @@ class _MallOrderCardState extends State<MallOrderCard> {
                                                           '/teaViewPicPage');
                                                     },
                                                     child: Container(
-                                                      child: NetImageTool(
+                                                      child: ImageNetTool(
                                                         url: screenshot[index],
                                                       ),
                                                     ),

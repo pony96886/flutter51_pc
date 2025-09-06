@@ -26,6 +26,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
+import '../../utils/cache/image_net_tool.dart';
+
 class FormUserMsg {
   final String? avatar;
   final String? uuid;
@@ -1307,7 +1309,7 @@ class _UserDialogState extends State<UserDialog> {
           child: SizedBox(
             width: 125.w,
             height: 125.w,
-            child: NetImageTool(
+            child: ImageNetTool(
               url: imagePath,
               fit: BoxFit.cover,
             ),
@@ -1362,7 +1364,7 @@ class _UserDialogState extends State<UserDialog> {
                   SizedBox(
                     width: 60.w,
                     height: 60.w,
-                    child: NetImageTool(
+                    child: ImageNetTool(
                       url: data['avatar'].toString(),
                       fit: BoxFit.cover,
                     ),
@@ -1450,7 +1452,7 @@ class _UserDialogState extends State<UserDialog> {
                 child: SizedBox(
                   width: 50.w,
                   height: 50.w,
-                  child: NetImageTool(
+                  child: ImageNetTool(
                     url: imageUrl,
                     fit: BoxFit.cover,
                   ),

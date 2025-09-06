@@ -13,6 +13,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
+import '../../utils/cache/image_net_tool.dart';
+
 //茶女郎卡片
 class InfoCard extends StatefulWidget {
   final String? nickname;
@@ -104,7 +106,7 @@ class _InfoCardState extends State<InfoCard> {
               width: 60.w,
               height: 60.w,
               child: ClipRRect(
-                child: NetImageTool(
+                child: ImageNetTool(
                   url: widget.thumb!,
                   fit: BoxFit.cover,
                 ),
@@ -180,7 +182,9 @@ class _InfoCardState extends State<InfoCard> {
                     onTap: () {
                       if (agent == 1) {
                         AppGlobal.appRouter?.push(CommonUtils.getRealHash(
-                            'vipDetailPage/' + widget.id.toString() + '/null/'));
+                            'vipDetailPage/' +
+                                widget.id.toString() +
+                                '/null/'));
                       }
                       if (widget.status == 2) {
                         setState(() {

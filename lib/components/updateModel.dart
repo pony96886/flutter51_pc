@@ -13,6 +13,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:html_unescape/html_unescape.dart';
 import 'package:path_provider/path_provider.dart';
 
+import '../utils/cache/image_net_tool.dart';
+
 class UpdateModel {
   static void showAnnouncementDialog(BackButtonBehavior backButtonBehavior,
       {VoidCallback? cancel,
@@ -395,7 +397,7 @@ class UpdateModel {
                     child: SizedBox(
                       height: 1.sw / 3 * 2,
                       width: 1.sw / 3 * 2,
-                      child: NetImageTool(
+                      child: ImageNetTool(
                         url: url!.contains('http')
                             ? url
                             : AppGlobal.bannerImgBase + url,
@@ -456,7 +458,7 @@ class UpdateModel {
                               SizedBox(
                                 width: 60.w,
                                 height: 60.w,
-                                child: NetImageTool(
+                                child: ImageNetTool(
                                   url: AppGlobal.popAppAds[index]['img_url'],
                                   radius: BorderRadius.circular(5.w),
                                 ),

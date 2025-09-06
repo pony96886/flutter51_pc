@@ -19,6 +19,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:marquee/marquee.dart';
 import 'package:provider/provider.dart';
 
+import '/utils/cache/image_net_tool.dart';
+
 class GamePage extends StatefulWidget {
   GamePage({Key? key}) : super(key: key);
 
@@ -278,7 +280,7 @@ class _GamePageState extends State<GamePage> {
                       child: Container(
                         width: 76.w,
                         height: 76.w,
-                        child: NetImageTool(
+                        child: ImageNetTool(
                           url: 'assets/images/games/lingdang.png',
                           fit: BoxFit.contain,
                         ),
@@ -456,7 +458,7 @@ class _GamePageState extends State<GamePage> {
                                             child: ClipRRect(
                                                 borderRadius:
                                                     BorderRadius.circular(5),
-                                                child: NetImageTool(
+                                                child: ImageNetTool(
                                                   url: historyList[index]
                                                       ['icons'],
                                                 )),
@@ -526,7 +528,7 @@ class _GamePageState extends State<GamePage> {
                                         child: ClipRRect(
                                             borderRadius:
                                                 BorderRadius.circular(5),
-                                            child: NetImageTool(
+                                            child: ImageNetTool(
                                               url: moreGame![e]['icons'],
                                             )),
                                       ),

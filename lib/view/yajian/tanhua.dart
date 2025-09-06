@@ -16,6 +16,8 @@ import 'package:extended_tabs/extended_tabs.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../utils/cache/image_net_tool.dart';
+
 class TanhuaPage extends StatefulWidget {
   TanhuaPage({Key? key}) : super(key: key);
 
@@ -345,7 +347,7 @@ class _TanhuaCardState extends State<TanhuaCard> {
                   child: Container(
                     width: double.infinity,
                     height: CommonUtils.getWidth(192),
-                    child: NetImageTool(
+                    child: ImageNetTool(
                       url: widget.item!['thumb_cover'],
                       fit: BoxFit.cover,
                     ),

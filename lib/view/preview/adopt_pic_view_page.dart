@@ -9,6 +9,8 @@ import 'package:go_router/go_router.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:photo_view/photo_view_gallery.dart';
 
+import '../../utils/cache/image_net_tool.dart';
+
 class AdoptPicViewPage extends StatefulWidget {
   AdoptPicViewPage({Key? key, this.pramas}) : super(key: key);
   final Map? pramas;
@@ -105,10 +107,9 @@ class _AdoptPicViewPageState extends State<AdoptPicViewPage> {
                               cover_url: '',
                               isSimple: true,
                             )
-                          : NetImageTool(
+                          : ImageNetTool(
                               fit: BoxFit.contain,
                               url: e['media_url'] ?? CommonUtils.getThumb(e),
-                              isLoad: true,
                             ),
                     );
                   },

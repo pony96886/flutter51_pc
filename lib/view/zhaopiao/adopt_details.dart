@@ -23,6 +23,8 @@ import 'package:flutter/material.dart';
 import 'package:marquee/marquee.dart';
 import 'package:provider/provider.dart';
 
+import '../../utils/cache/image_net_tool.dart';
+
 class AdoptDetailPage extends StatefulWidget {
   final String id;
 
@@ -732,7 +734,7 @@ class AdoptDetailPageState extends State<AdoptDetailPage> with TickerProviderSta
                         AppGlobal.picMap = {'resources': verifyDetail!['images'], 'index': index};
                         context.push('/adoptViewPicPage');
                       },
-                      child: NetImageTool(
+                      child: ImageNetTool(
                         url: images[index]['media_url'],
                         fit: BoxFit.fitHeight,
                       ));

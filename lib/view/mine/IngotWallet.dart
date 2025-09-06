@@ -23,6 +23,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import "package:universal_html/html.dart" as html;
 
+import '../../utils/cache/image_net_tool.dart';
+
 class IngotWallet extends StatefulWidget {
   IngotWallet({Key? key}) : super(key: key);
 
@@ -903,7 +905,7 @@ class _ListViewTileState extends State<ListViewTile>
                   SizedBox(
                     width: 40.w,
                     height: 40.w,
-                    child: NetImageTool(
+                    child: ImageNetTool(
                       url:
                           widget.payway![index]['img_url'].indexOf('http') == -1
                               ? AppGlobal.bannerImgBase +
