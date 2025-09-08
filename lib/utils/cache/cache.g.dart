@@ -44,7 +44,8 @@ class _ImageCacheManager implements ImageCacheManager {
     _isInitialized = true;
 
     this.boxKey = boxKey;
-    _ImageCacheHooker();
+    // 确保Flutter绑定已初始化，但不创建新的绑定实例
+    WidgetsFlutterBinding.ensureInitialized();
 
     if (!kIsWeb) {
       _hivePath = (await getApplicationDocumentsDirectory()).path;
@@ -59,10 +60,8 @@ class _ImageCacheManager implements ImageCacheManager {
   @override
   Future<Uint8List> downLoadImage(String url) {
     // TODO: implement downLoadImage
-    final cacheKey = md5
-        .convert(utf8.encode(
-            '${_imageCacheManager._salt}${Uri.tryParse(url)?.path ?? url}'))
-        .toString();
+    final cacheKey =
+        md5.convert(utf8.encode('${_imageCacheManager._salt}${Uri.tryParse(url)?.path ?? url}')).toString();
     return downImageLoadAsync(url, cacheKey);
   }
 
@@ -324,9 +323,7 @@ class _ImageCache extends ImageCache {
   /// [maximumSize] and [maximumSizeBytes].
   void _touch(Object key, _CachedImage image, TimelineTask? timelineTask) {
     assert(timelineTask != null);
-    if (image.sizeBytes != null &&
-        image.sizeBytes! <= maximumSizeBytes &&
-        maximumSize > 0) {
+    if (image.sizeBytes != null && image.sizeBytes! <= maximumSizeBytes && maximumSize > 0) {
       _currentSizeBytes += image.sizeBytes!;
       _cache[key] = image;
       _checkCacheSize(timelineTask);
@@ -335,8 +332,7 @@ class _ImageCache extends ImageCache {
     }
   }
 
-  void _trackLiveImage(
-      Object key, ImageStreamCompleter completer, int? sizeBytes) {
+  void _trackLiveImage(Object key, ImageStreamCompleter completer, int? sizeBytes) {
     // Avoid adding unnecessary callbacks to the completer.
     _liveImages.putIfAbsent(key, () {
       // Even if no callers to ImageProvider.resolve have listened to the stream,
@@ -364,9 +360,7 @@ class _ImageCache extends ImageCache {
   /// no completers are cached and `null` is returned instead of a new
   /// completer.
   @override
-  ImageStreamCompleter? putIfAbsent(
-      Object key, ImageStreamCompleter Function() loader,
-      {ImageErrorListener? onError}) {
+  ImageStreamCompleter? putIfAbsent(Object key, ImageStreamCompleter Function() loader, {ImageErrorListener? onError}) {
     TimelineTask? timelineTask;
     TimelineTask? listenerTask;
     if (!kReleaseMode) {
@@ -393,8 +387,7 @@ class _ImageCache extends ImageCache {
     final _CachedImage? image = _cache.remove(key);
     if (image != null) {
       if (!kReleaseMode) {
-        timelineTask!
-            .finish(arguments: <String, dynamic>{'result': 'keepAlive'});
+        timelineTask!.finish(arguments: <String, dynamic>{'result': 'keepAlive'});
       }
       // The image might have been keptAlive but had no listeners (so not live).
       // Make sure the cache starts tracking it as live again.
@@ -418,8 +411,7 @@ class _ImageCache extends ImageCache {
         timelineTask,
       );
       if (!kReleaseMode) {
-        timelineTask!
-            .finish(arguments: <String, dynamic>{'result': 'keepAlive'});
+        timelineTask!.finish(arguments: <String, dynamic>{'result': 'keepAlive'});
       }
       return liveImage.completer;
     }
@@ -430,8 +422,7 @@ class _ImageCache extends ImageCache {
           result = loader();
         } else {
           final cacheKey = md5
-              .convert(utf8.encode(
-                  '${_imageCacheManager._salt}${Uri.tryParse(key.url)?.path ?? key.url}'))
+              .convert(utf8.encode('${_imageCacheManager._salt}${Uri.tryParse(key.url)?.path ?? key.url}'))
               .toString();
           final isContains = _imageCacheManager.cache.containsKey(cacheKey);
           if (isContains) {
@@ -445,8 +436,7 @@ class _ImageCache extends ImageCache {
                   });
                   throw Exception('NetworkImage is an empty cache');
                 }
-                return await PaintingBinding.instance
-                    .instantiateImageCodecWithSize(
+                return await PaintingBinding.instance.instantiateImageCodecWithSize(
                   await ui.ImmutableBuffer.fromUint8List(imageData),
                   getTargetSize: getTargetSize,
                 );
@@ -455,8 +445,7 @@ class _ImageCache extends ImageCache {
               debugLabel: key.url,
             );
           } else {
-            final StreamController<ImageChunkEvent> chunkEvents =
-                StreamController<ImageChunkEvent>();
+            final StreamController<ImageChunkEvent> chunkEvents = StreamController<ImageChunkEvent>();
 
             result = MultiFrameImageStreamCompleter(
               codec: imageLoadAsync(
@@ -606,14 +595,12 @@ class _ImageCache extends ImageCache {
     final Map<String, dynamic> finishArgs = <String, dynamic>{};
     TimelineTask? checkCacheTask;
     if (!kReleaseMode) {
-      checkCacheTask = TimelineTask(parent: timelineTask)
-        ..start('checkCacheSize');
+      checkCacheTask = TimelineTask(parent: timelineTask)..start('checkCacheSize');
       finishArgs['evictedKeys'] = <String>[];
       finishArgs['currentSize'] = currentSize;
       finishArgs['currentSizeBytes'] = currentSizeBytes;
     }
-    while (
-        _currentSizeBytes > _maximumSizeBytes || _cache.length > _maximumSize) {
+    while (_currentSizeBytes > _maximumSizeBytes || _cache.length > _maximumSize) {
       final Object key = _cache.keys.first;
       final _CachedImage image = _cache[key]!;
       _currentSizeBytes -= image.sizeBytes!;
@@ -662,13 +649,11 @@ abstract class _CachedImageBase {
 }
 
 class _CachedImage extends _CachedImageBase {
-  _CachedImage(ImageStreamCompleter completer, {int? sizeBytes})
-      : super(completer, sizeBytes: sizeBytes);
+  _CachedImage(ImageStreamCompleter completer, {int? sizeBytes}) : super(completer, sizeBytes: sizeBytes);
 }
 
 class _LiveImage extends _CachedImageBase {
-  _LiveImage(ImageStreamCompleter completer, VoidCallback handleRemove,
-      {int? sizeBytes})
+  _LiveImage(ImageStreamCompleter completer, VoidCallback handleRemove, {int? sizeBytes})
       : super(completer, sizeBytes: sizeBytes) {
     _handleRemove = () {
       handleRemove();

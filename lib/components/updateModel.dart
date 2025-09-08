@@ -14,14 +14,11 @@ import 'package:html_unescape/html_unescape.dart';
 import 'package:path_provider/path_provider.dart';
 
 import '../utils/cache/image_net_tool.dart';
+import '../utils/network_http.dart';
 
 class UpdateModel {
   static void showAnnouncementDialog(BackButtonBehavior backButtonBehavior,
-      {VoidCallback? cancel,
-      VoidCallback? confirm,
-      VoidCallback? confirmApp,
-      String? text,
-      String? type}) {
+      {VoidCallback? cancel, VoidCallback? confirm, VoidCallback? confirmApp, String? text, String? type}) {
     var tipSplit = text!.split('#');
     String iknow = '朕知道了';
     tipWidget(String value) {
@@ -90,11 +87,7 @@ class UpdateModel {
                               Container(
                                 width: double.infinity,
                                 height: double.infinity,
-                                padding: EdgeInsets.only(
-                                    top: 66.5.w,
-                                    left: 28.w,
-                                    right: 28.w,
-                                    bottom: 20.w),
+                                padding: EdgeInsets.only(top: 66.5.w, left: 28.w, right: 28.w, bottom: 20.w),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: <Widget>[
@@ -116,9 +109,7 @@ class UpdateModel {
                             child: GestureDetector(
                               onTap: () {
                                 cancelFunc();
-                                type == "1"
-                                    ? confirm!.call()
-                                    : confirmApp!.call();
+                                type == "1" ? confirm!.call() : confirmApp!.call();
                               },
                               child: Container(
                                 width: 175.w,
@@ -133,8 +124,7 @@ class UpdateModel {
                                       fit: BoxFit.cover,
                                     ),
                                     Center(
-                                        child: Text(
-                                            type == "1" ? iknow : '我要赚钱',
+                                        child: Text(type == "1" ? iknow : '我要赚钱',
                                             style: TextStyle(
                                                 color: Color(0xFFB0292B),
                                                 fontSize: 15.sp,
@@ -218,11 +208,7 @@ class UpdateModel {
                           Container(
                             width: double.infinity,
                             height: double.infinity,
-                            padding: EdgeInsets.only(
-                                top: 180.w,
-                                left: 75.w,
-                                right: 70.w,
-                                bottom: 24.5.w),
+                            padding: EdgeInsets.only(top: 180.w, left: 75.w, right: 70.w, bottom: 24.5.w),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
@@ -242,8 +228,7 @@ class UpdateModel {
                                   height: 142.5.w,
                                   child: SingleChildScrollView(
                                     child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
                                       children: newTipsWidget,
                                     ),
                                   ),
@@ -260,8 +245,7 @@ class UpdateModel {
                                           color: Color(0xFFFFCD69),
                                           decoration: TextDecoration.underline,
                                           decorationColor: Color(0xFFFFCD69),
-                                          decorationStyle:
-                                              TextDecorationStyle.solid,
+                                          decorationStyle: TextDecorationStyle.solid,
                                           fontWeight: FontWeight.normal,
                                           fontSize: 11.sp),
                                     ),
@@ -361,9 +345,7 @@ class UpdateModel {
             maxHeight: 1.sh,
           ),
           width: 1.sw,
-          padding: EdgeInsets.only(
-              top: ScreenUtil().statusBarHeight,
-              bottom: ScreenUtil().bottomBarHeight),
+          padding: EdgeInsets.only(top: ScreenUtil().statusBarHeight, bottom: ScreenUtil().bottomBarHeight),
           decoration: BoxDecoration(color: Colors.black38),
           child: Center(
             child: Column(
@@ -385,10 +367,7 @@ class UpdateModel {
                 Container(
                   constraints: BoxConstraints(
                       minHeight: 90.w,
-                      maxHeight: 1.sh -
-                          ScreenUtil().bottomBarHeight -
-                          ScreenUtil().statusBarHeight -
-                          150.w),
+                      maxHeight: 1.sh - ScreenUtil().bottomBarHeight - ScreenUtil().statusBarHeight - 150.w),
                   child: GestureDetector(
                     onTap: () {
                       cancelFunc();
@@ -398,9 +377,7 @@ class UpdateModel {
                       height: 1.sw / 3 * 2,
                       width: 1.sw / 3 * 2,
                       child: ImageNetTool(
-                        url: url!.contains('http')
-                            ? url
-                            : AppGlobal.bannerImgBase + url,
+                        url: url!.contains('http') ? url : AppGlobal.bannerImgBase + url,
                         fit: BoxFit.fitWidth,
                       ),
                     ),
@@ -442,15 +419,11 @@ class UpdateModel {
                       shrinkWrap: true,
                       itemCount: AppGlobal.popAppAds.length,
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          childAspectRatio: 0.75,
-                          crossAxisCount: 4,
-                          mainAxisSpacing: 15.w,
-                          crossAxisSpacing: 15.w),
+                          childAspectRatio: 0.75, crossAxisCount: 4, mainAxisSpacing: 15.w, crossAxisSpacing: 15.w),
                       itemBuilder: (context, index) {
                         return GestureDetector(
                           onTap: () {
-                            CommonUtils.launchURL(
-                                AppGlobal.popAppAds[index]['link_url']);
+                            CommonUtils.launchURL(AppGlobal.popAppAds[index]['link_url']);
                           },
                           child: Column(
                             mainAxisSize: MainAxisSize.min,
@@ -470,8 +443,7 @@ class UpdateModel {
                                 AppGlobal.popAppAds[index]['title'],
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
-                                style: TextStyle(
-                                    color: Colors.white, fontSize: 12.sp),
+                                style: TextStyle(color: Colors.white, fontSize: 12.sp),
                               )
                             ],
                           ),
@@ -504,9 +476,7 @@ class _DownloadApkState extends State<DownloadApk> {
     try {
       await CommonUtils.checkRequestInstallPackages();
       await CommonUtils.checkStoragePermission();
-      AppInstaller.installApk(savePath)
-          .then((result) {})
-          .catchError((error) {});
+      AppInstaller.installApk(savePath).then((result) {}).catchError((error) {});
     } on Exception catch (_) {}
   }
 
@@ -514,10 +484,8 @@ class _DownloadApkState extends State<DownloadApk> {
   void initState() {
     super.initState();
     getExternalStorageDirectory().then((documents) {
-      String savePath =
-          '${documents!.path}/chaguan.${DateTime.now().millisecondsSinceEpoch}.apk';
-      PlatformAwareHttp.download(widget.url!, savePath,
-          onReceiveProgress: (int count, int total) {
+      String savePath = '${documents!.path}/chaguan.${DateTime.now().millisecondsSinceEpoch}.apk';
+      NetworkHttp.instance.download(widget.url!, savePath, onReceiveProgress: (int count, int total) {
         var tmp = (count / total * 100).toInt();
         if (tmp % 1 == 0) {
           setState(() {
@@ -557,8 +525,7 @@ class _DownloadApkState extends State<DownloadApk> {
                     Container(
                       width: double.infinity,
                       height: double.infinity,
-                      padding: EdgeInsets.only(
-                          top: 180.w, left: 75.w, right: 70.w, bottom: 50.w),
+                      padding: EdgeInsets.only(top: 180.w, left: 75.w, right: 70.w, bottom: 50.w),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
@@ -580,26 +547,22 @@ class _DownloadApkState extends State<DownloadApk> {
                             child: Stack(
                               children: <Widget>[
                                 ClipRRect(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(2.w)),
+                                  borderRadius: BorderRadius.all(Radius.circular(2.w)),
                                   child: Stack(
                                     children: <Widget>[
                                       Container(
                                         width: 185.w,
                                         height: 4.w,
-                                        decoration: BoxDecoration(
-                                            color: Color(0xFFB84244)),
+                                        decoration: BoxDecoration(color: Color(0xFFB84244)),
                                       ),
                                       Positioned(
                                         left: 0,
                                         child: ClipRRect(
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(2.w)),
+                                          borderRadius: BorderRadius.all(Radius.circular(2.w)),
                                           child: Container(
                                             width: progress / 100 * 185.w,
                                             height: 4.w,
-                                            decoration: BoxDecoration(
-                                                color: Color(0xFFFFCD69)),
+                                            decoration: BoxDecoration(color: Color(0xFFFFCD69)),
                                           ),
                                         ),
                                       ),

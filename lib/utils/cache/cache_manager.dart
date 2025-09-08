@@ -39,11 +39,10 @@ class CacheManager {
   String get _sortKey => "sort_rank";
   String get _adKey => "home_ad";
   String get _fdsKey => "fds_v";
-  String get _defaultKey =>
-      "viiDw6axfsvec0nDfNjXow9nRSZkd+RDCsAcrJ7n+2lOrwchr6QKAmsVlmAxaGbU";
+  String get _defaultKey => "viiDw6axfsvec0nDfNjXow9nRSZkd+RDCsAcrJ7n+2lOrwchr6QKAmsVlmAxaGbU";
 
   late GoRouter appRouter;
-  late Map<String, dynamic> appinfo = {};
+  late Map appinfo = {};
   late String apiBaseURL = "";
   late String uploadImgUrl = "";
   late String uploadImgKey = "";
@@ -62,10 +61,8 @@ class CacheManager {
           'https://api1.xnxfmjg.com/api.php',
           'https://api2.xnxfmjg.com/api.php',
         ];
-  final String _tempGitLine =
-      "https://raw.githubusercontent.com/ailiu258099-blip/master/main/mrdssns.txt";
-  final String _tempId =
-      '${Utils.randomId(16)}_${DateTime.now().millisecondsSinceEpoch.toString()}';
+  final String _tempGitLine = "https://raw.githubusercontent.com/ailiu258099-blip/master/main/mrdssns.txt";
+  final String _tempId = '${Utils.randomId(16)}_${DateTime.now().millisecondsSinceEpoch.toString()}';
 
   Future<List<String>> getLines() async {
     final data = await _appBox.read(_lineKey);
@@ -75,24 +72,17 @@ class CacheManager {
     return _tempLines;
   }
 
-  Future<void> setLines(List<String>? v) async =>
-      await _appBox.upsert(_lineKey, v);
+  Future<void> setLines(List<String>? v) async => await _appBox.upsert(_lineKey, v);
 
-  Future<String> getToken() async =>
-      ((await _appBox.read(_tokenKey)) ?? "").toString();
-  Future<void> setToken(String? v) async =>
-      await _appBox.upsert(_tokenKey, v ?? "");
+  Future<String> getToken() async => ((await _appBox.read(_tokenKey)) ?? "").toString();
+  Future<void> setToken(String? v) async => await _appBox.upsert(_tokenKey, v ?? "");
   Future<void> clearToken() async => await _appBox.delete(_tokenKey);
 
-  Future<String> getGitLine() async =>
-      ((await _appBox.read(_gitKey)) ?? _tempGitLine).toString();
-  Future<void> setGitLine(String? v) async =>
-      await _appBox.upsert(_gitKey, v ?? "");
+  Future<String> getGitLine() async => ((await _appBox.read(_gitKey)) ?? _tempGitLine).toString();
+  Future<void> setGitLine(String? v) async => await _appBox.upsert(_gitKey, v ?? "");
 
-  Future<String> getOffice() async =>
-      ((await _appBox.read(_officeKey)) ?? "").toString();
-  Future<void> setOffice(String? v) async =>
-      await _appBox.upsert(_officeKey, v ?? "");
+  Future<String> getOffice() async => ((await _appBox.read(_officeKey)) ?? "").toString();
+  Future<void> setOffice(String? v) async => await _appBox.upsert(_officeKey, v ?? "");
 
   Future<Map<dynamic, dynamic>> getAds() async {
     final data = await _appBox.read(_adsmapKey);
@@ -102,18 +92,15 @@ class CacheManager {
     return {};
   }
 
-  Future<void> setAds(Map<dynamic, dynamic>? v) async =>
-      await _appBox.upsert(_adsmapKey, v);
+  Future<void> setAds(Map<dynamic, dynamic>? v) async => await _appBox.upsert(_adsmapKey, v);
   Future<void> clearAds() async => await _appBox.delete(_adsmapKey);
 
   Future<Uint8List?> getHomeAd() async => await _appBox.read(_adKey);
   Future<void> setHomeAd(Uint8List? v) async => await _appBox.upsert(_adKey, v);
   Future<void> clearHomeAd() async => await _appBox.delete(_adKey);
 
-  Future<String> getAuthorId() async =>
-      ((await _appBox.read(_authorKey)) ?? _tempId).toString();
-  Future<void> setAuthorId(String? v) async =>
-      await _appBox.upsert(_authorKey, v ?? "");
+  Future<String> getAuthorId() async => ((await _appBox.read(_authorKey)) ?? _tempId).toString();
+  Future<void> setAuthorId(String? v) async => await _appBox.upsert(_authorKey, v ?? "");
 
   Future<List<dynamic>> getHistory() async {
     final data = await _appBox.read(_recordKey);
@@ -123,8 +110,7 @@ class CacheManager {
     return [];
   }
 
-  Future<void> setHistory(List<dynamic>? v) async =>
-      await _appBox.upsert(_recordKey, v);
+  Future<void> setHistory(List<dynamic>? v) async => await _appBox.upsert(_recordKey, v);
 
   Future<void> clearHistory() async => await _appBox.delete(_recordKey);
 
@@ -152,7 +138,6 @@ class CacheManager {
   //保存fds
   Future<String> getFds() async => (await _appBox.read(_fdsKey)) ?? _defaultKey;
 
-  Future<void> setFds(String? v) async =>
-      await _appBox.upsert(_fdsKey, v ?? "");
+  Future<void> setFds(String? v) async => await _appBox.upsert(_fdsKey, v ?? "");
   Future<void> clearFds() async => await _appBox.delete(_fdsKey);
 }

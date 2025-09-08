@@ -8,6 +8,7 @@ import 'package:chaguaner2023/utils/common.dart';
 import 'package:chaguaner2023/utils/app_global.dart';
 import 'package:chaguaner2023/utils/http.dart';
 import 'package:chaguaner2023/utils/local_png.dart';
+import 'package:chaguaner2023/utils/network_http.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -101,8 +102,7 @@ class _SignInPageState extends State<SignInPage> {
     String? tips = Provider.of<SignInConfig>(context).datas.tips;
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 15.w),
-      decoration: BoxDecoration(
-          color: Colors.white, borderRadius: BorderRadius.circular(10.w)),
+      decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(10.w)),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
@@ -110,16 +110,12 @@ class _SignInPageState extends State<SignInPage> {
           Padding(
             padding: EdgeInsets.all(4.5.w),
             child: Text('已签到$_days天',
-                style: TextStyle(
-                    color: StyleTheme.cTitleColor,
-                    fontSize: 18.sp,
-                    fontWeight: FontWeight.w500)),
+                style: TextStyle(color: StyleTheme.cTitleColor, fontSize: 18.sp, fontWeight: FontWeight.w500)),
           ),
           tips!.isNotEmpty
               ? Text(
                   tips,
-                  style: TextStyle(
-                      color: Colors.black.withOpacity(0.4), fontSize: 10.sp),
+                  style: TextStyle(color: Colors.black.withOpacity(0.4), fontSize: 10.sp),
                 )
               : SizedBox(),
           SizedBox(height: 15.w),
@@ -145,16 +141,13 @@ class _SignInActionButtonState extends State<SignInActionButton> {
   void onSign(context) async {
     var result = await onSignUpSubmit();
     if (result!.status == 1) {
-      Response listResult = await PlatformAwareHttp.post("/api/user/getSignUp");
-      Provider.of<SignInConfig>(context, listen: false)
-          .setData(listResult.data["data"]);
+      Response listResult = await NetworkHttp.instance.post("/api/user/getSignUp");
+      Provider.of<SignInConfig>(context, listen: false).setData(listResult.data["data"]);
       getProfilePage().then((val) => {
             if (val!['status'] != 0)
               {
-                Provider.of<HomeConfig>(context, listen: false)
-                    .setCoins(val['data']['coin']),
-                Provider.of<HomeConfig>(context, listen: false)
-                    .setMoney(val['data']['money'])
+                Provider.of<HomeConfig>(context, listen: false).setCoins(val['data']['coin']),
+                Provider.of<HomeConfig>(context, listen: false).setMoney(val['data']['money'])
               }
           });
       BotToast.showText(
@@ -249,8 +242,7 @@ class SignInbox extends StatelessWidget {
   final int? status;
   final bool? last;
 
-  const SignInbox({Key? key, this.status, this.last, this.item})
-      : super(key: key);
+  const SignInbox({Key? key, this.status, this.last, this.item}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -259,20 +251,15 @@ class SignInbox extends StatelessWidget {
       width: last! ? 165.w : 80.w,
       height: 80.w,
       decoration: BoxDecoration(
-          border: Border.all(
-              color: status == 2 ? Color(0xFFFF4149) : Colors.transparent,
-              width: 2),
+          border: Border.all(color: status == 2 ? Color(0xFFFF4149) : Colors.transparent, width: 2),
           color: status == 1 ? Color(0xFFFF4149) : Color(0xFFF5F5F5),
           borderRadius: BorderRadius.circular(5.w)),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           status == 1
-              ? Text('已签到',
-                  style: TextStyle(color: Colors.white, fontSize: 11.sp))
-              : Text('第' + '${item!.days}' + '天',
-                  style: TextStyle(
-                      color: StyleTheme.cTitleColor, fontSize: 11.sp)),
+              ? Text('已签到', style: TextStyle(color: Colors.white, fontSize: 11.sp))
+              : Text('第' + '${item!.days}' + '天', style: TextStyle(color: StyleTheme.cTitleColor, fontSize: 11.sp)),
           item!.rewardType == 3
               ? Padding(
                   padding: EdgeInsets.symmetric(vertical: 5.w),
@@ -300,38 +287,22 @@ class SignInbox extends StatelessWidget {
                         padding: EdgeInsets.only(left: 3.w, right: 3.w),
                         child: Text(
                           'x',
-                          style: TextStyle(
-                              color: textColor,
-                              fontSize: 18.sp,
-                              fontWeight: FontWeight.w500),
+                          style: TextStyle(color: textColor, fontSize: 18.sp, fontWeight: FontWeight.w500),
                         )),
-                    Text('${item!.coin}',
-                        style: TextStyle(
-                            color: textColor,
-                            fontSize: 18,
-                            fontWeight: FontWeight.w500))
+                    Text('${item!.coin}', style: TextStyle(color: textColor, fontSize: 18, fontWeight: FontWeight.w500))
                   ],
                 )
               : SizedBox(),
           item!.rewardType == 2
               ? Text.rich(TextSpan(children: [
-                  TextSpan(
-                      text: '${item!.title}',
-                      style: TextStyle(color: textColor, fontSize: 12.w)),
+                  TextSpan(text: '${item!.title}', style: TextStyle(color: textColor, fontSize: 12.w)),
                   TextSpan(
                       text: '${item!.coin}',
-                      style: TextStyle(
-                          fontWeight: FontWeight.w500,
-                          color: textColor,
-                          fontSize: 18.w)),
+                      style: TextStyle(fontWeight: FontWeight.w500, color: textColor, fontSize: 18.w)),
                 ]))
               : SizedBox(),
           item!.rewardType == 3
-              ? Text('${item!.days}天',
-                  style: TextStyle(
-                      color: textColor,
-                      fontSize: 18.w,
-                      fontWeight: FontWeight.w500))
+              ? Text('${item!.days}天', style: TextStyle(color: textColor, fontSize: 18.w, fontWeight: FontWeight.w500))
               : SizedBox()
         ],
       ),

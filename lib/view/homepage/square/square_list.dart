@@ -16,17 +16,16 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 
 import '../../../utils/cache/image_net_tool.dart';
+import '../../../utils/network_http.dart';
 
 class SquareList extends StatefulWidget {
-  final Map
-      tabList; // 例 {'type':[{'title':'认证'},'title':‘未认证’],'name':['title':'老王','title':'老张']};
+  final Map tabList; // 例 {'type':[{'title':'认证'},'title':‘未认证’],'name':['title':'老王','title':'老张']};
   final String? api; // api地址
   final Function(Map data)? build;
   final int row;
   final double aspectRatio;
   final double mainAxisSpacing;
-  final Map?
-      filter; //exclude 排除 fixed 固定传值 'exclude': { 'type': [0] }, 'fixed': {'is_money': 0}
+  final Map? filter; //exclude 排除 fixed 固定传值 'exclude': { 'type': [0] }, 'fixed': {'is_money': 0}
   final double crossAxisSpacing;
   final List? ads; //广告
   final int? id;
@@ -84,8 +83,7 @@ class _SquareListState extends State<SquareList> {
         reqData[element] = selectTab[element];
       }
       setState(() {});
-      if (widget.tabList![element] != null &&
-          widget.tabList![element][selectTab[element]]['api'] != null) {
+      if (widget.tabList![element] != null && widget.tabList![element][selectTab[element]]['api'] != null) {
         //如果tab筛选需要请求新接口
         api = widget.tabList![element][selectTab[element]]['api'];
       } else {
@@ -95,10 +93,8 @@ class _SquareListState extends State<SquareList> {
 
     //如果有固定的Value值
     widget.tabList?.keys.forEach((element) {
-      if (reqData[element] != null &&
-          widget.tabList?[element][selectTab[element]]['value'] != null) {
-        reqData[element] =
-            widget.tabList?[element][selectTab[element]]['value'];
+      if (reqData[element] != null && widget.tabList?[element][selectTab[element]]['value'] != null) {
+        reqData[element] = widget.tabList?[element][selectTab[element]]['value'];
       }
     });
     //如果有固定传值
@@ -137,17 +133,14 @@ class _SquareListState extends State<SquareList> {
           }
         }
       }
-      Response<dynamic> res = await PlatformAwareHttp.post(api!, data: reqData);
+      Response<dynamic> res = await NetworkHttp.instance.post(api!, data: reqData);
       List resdata;
       isload = false;
       if (res.data['status'] != 0) {
         if (res.data['data'] != null && res.data['data'] is List) {
           resdata = (res.data['data'] == null ? [] : res.data['data']);
         } else {
-          resdata =
-              (res.data['data'] != null && res.data['data']['list'] != null
-                  ? res.data['data']['list']
-                  : []);
+          resdata = (res.data['data'] != null && res.data['data']['list'] != null ? res.data['data']['list'] : []);
         }
 
         isAll = resdata.length < reqData['limit'];
@@ -192,8 +185,7 @@ class _SquareListState extends State<SquareList> {
       AppGlobal.appRouter?.push(CommonUtils.getRealHash('$_adsUrl'));
     } else if (types == "2") {
       // WebViewPage
-      AppGlobal.appRouter?.push(
-          CommonUtils.getRealHash('activityPage/${Uri.encodeComponent(urls)}'));
+      AppGlobal.appRouter?.push(CommonUtils.getRealHash('activityPage/${Uri.encodeComponent(urls)}'));
     } else if (types == "3") {
       // 外部浏览器
       CommonUtils.launchURL(urls);
@@ -202,8 +194,7 @@ class _SquareListState extends State<SquareList> {
       CommonUtils.launchURL("$_adsUrl");
     } else if (types == "5") {
       // WebViewPage
-      AppGlobal.appRouter?.push(CommonUtils.getRealHash(
-          'activityPage/${Uri.encodeComponent(_adsUrl)}'));
+      AppGlobal.appRouter?.push(CommonUtils.getRealHash('activityPage/${Uri.encodeComponent(_adsUrl)}'));
     }
   }
 
@@ -222,8 +213,7 @@ class _SquareListState extends State<SquareList> {
             },
           )
         : Padding(
-            padding:
-                EdgeInsets.symmetric(horizontal: widget.row != 1 ? 15.w : 0),
+            padding: EdgeInsets.symmetric(horizontal: widget.row != 1 ? 15.w : 0),
             child: PullRefreshList(
               onLoading: () {
                 if (isAll || isload || loading) {
@@ -251,15 +241,13 @@ class _SquareListState extends State<SquareList> {
                               color: Color(0xfff8f6f1),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceAround,
+                                mainAxisAlignment: MainAxisAlignment.spaceAround,
                                 children: widget.tabList!.keys.map((_key) {
                                   return SingleChildScrollView(
                                       scrollDirection: Axis.horizontal,
                                       child: TabsContainer(
                                         tabs: widget.tabList![_key],
-                                        filter:
-                                            _key == 'type' ? postType : null,
+                                        filter: _key == 'type' ? postType : null,
                                         selectTabIndex: selectTab[_key],
                                         onTabs: (e) {
                                           if (selectTab[_key] == e) return;
@@ -288,10 +276,7 @@ class _SquareListState extends State<SquareList> {
                                       children: [
                                         GestureDetector(
                                             onTap: () {
-                                              _onTapSwiper(
-                                                  widget.ads![e]['type']
-                                                      .toString(),
-                                                  widget.ads![e]['url']);
+                                              _onTapSwiper(widget.ads![e]['type'].toString(), widget.ads![e]['url']);
                                               // if (widget.ads![e]['type'] == 1) {
                                               //   CommonUtils.launchURL(
                                               //       widget.ads![e]['url']);
@@ -303,29 +288,23 @@ class _SquareListState extends State<SquareList> {
                                               // }
                                             },
                                             child: Container(
-                                                margin: EdgeInsets.only(
-                                                    bottom: 10.w),
+                                                margin: EdgeInsets.only(bottom: 10.w),
                                                 decoration: BoxDecoration(
                                                   boxShadow: [
                                                     //阴影
                                                     BoxShadow(
                                                         color: Colors.black12,
-                                                        offset:
-                                                            Offset(0, 0.5.w),
+                                                        offset: Offset(0, 0.5.w),
                                                         blurRadius: 2.5.w)
                                                   ],
                                                   color: Colors.white,
                                                 ),
-                                                width:
-                                                    ScreenUtil().screenWidth -
-                                                        30.w,
+                                                width: ScreenUtil().screenWidth - 30.w,
                                                 height: 150.w,
                                                 child: ImageNetTool(
                                                   fit: BoxFit.cover,
-                                                  url: widget.ads![e]
-                                                      ['img_full_url'],
-                                                  radius:
-                                                      BorderRadius.circular(10),
+                                                  url: widget.ads![e]['img_full_url'],
+                                                  radius: BorderRadius.circular(10),
                                                 ))),
                                       ],
                                     );
@@ -350,15 +329,13 @@ class _SquareListState extends State<SquareList> {
                                   childCount: searchData!.length,
                                 ))
                               : SliverGrid(
-                                  gridDelegate:
-                                      SliverGridDelegateWithFixedCrossAxisCount(
+                                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                                     crossAxisCount: widget.row,
                                     mainAxisSpacing: widget.mainAxisSpacing,
                                     crossAxisSpacing: widget.crossAxisSpacing,
                                     childAspectRatio: widget.aspectRatio,
                                   ),
-                                  delegate: SliverChildBuilderDelegate(
-                                      (BuildContext context, int index) {
+                                  delegate: SliverChildBuilderDelegate((BuildContext context, int index) {
                                     return widget.build!(searchData![index]);
                                   }, childCount: searchData!.length),
                                 ))),

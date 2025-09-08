@@ -12,6 +12,7 @@ import 'package:chaguaner2023/utils/encdecrypt.dart';
 import 'package:chaguaner2023/utils/http.dart';
 import 'package:chaguaner2023/utils/local_png.dart';
 import 'package:chaguaner2023/utils/log_utils.dart' as chaguaner_log;
+import 'package:chaguaner2023/utils/network_http.dart';
 import 'package:chaguaner2023/view/im/im.dart';
 import 'package:common_utils/common_utils.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
@@ -743,7 +744,7 @@ class CommonUtils {
     Function reportErrorLines = () async {
       // 上报错误线路&保存服务端推荐线路到本地
       if (errorLines.isEmpty) return;
-      Response res = await PlatformAwareHttp.post('/api/home/domainCheckReport', data: {'list': errorLines});
+      Response res = await NetworkHttp.instance.post('/api/home/domainCheckReport', data: {'list': errorLines});
       CommonUtils.debugPrint("============reportErrorLines============");
       CommonUtils.debugPrint(res.data['data']);
     };

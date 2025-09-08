@@ -36,6 +36,7 @@ import 'package:provider/provider.dart';
 import 'package:pull_to_refresh_notification/pull_to_refresh_notification.dart';
 
 import '../../utils/cache/image_net_tool.dart';
+import '../../utils/network_http.dart';
 
 class SquarePages extends StatefulWidget {
   SquarePages({Key? key}) : super(key: key);
@@ -297,7 +298,7 @@ class _SquarePagesState extends State<SquarePages> with TickerProviderStateMixin
   }
 
   onSignUpList() async {
-    Response signInResult = await PlatformAwareHttp.post('/api/user/getSignUp');
+    Response signInResult = await NetworkHttp.instance.post('/api/user/getSignUp');
     context.read<SignInConfig>().setData(signInResult.data['data']);
   }
 
@@ -731,7 +732,6 @@ class _SquarePagesState extends State<SquarePages> with TickerProviderStateMixin
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
-          
           MenuCard(
               onTap: () {
                 AppGlobal.appRouter?.push(CommonUtils.getRealHash('cgmallPage'));

@@ -10,9 +10,11 @@ import 'package:chaguaner2023/store/homeConfig.dart';
 import 'package:chaguaner2023/store/sharedPreferences.dart';
 import 'package:chaguaner2023/store/signInConfig.dart';
 import 'package:chaguaner2023/utils/api.dart';
+import 'package:chaguaner2023/utils/cache/cache_manager.dart';
 import 'package:chaguaner2023/utils/common.dart';
 import 'package:chaguaner2023/utils/app_global.dart';
 import 'package:chaguaner2023/utils/index.dart';
+import 'package:chaguaner2023/utils/network_http.dart';
 import 'package:chaguaner2023/view/im/im.dart';
 import 'package:chaguaner2023/view/im/shared.dart';
 import 'package:device_info_plus/device_info_plus.dart';
@@ -32,6 +34,9 @@ import 'package:worker_manager/worker_manager.dart';
 
 void main() async {
   GoRouter.optionURLReflectsImperativeAPIs = true;
+
+  await CacheManager.instance.init();
+  await NetworkHttp.instance.init();
   // 初始化数据库，必须放在最前面
   await Hive.initFlutter();
   AppGlobal.appBox = await Hive.openBox('HiveBox'); // 用于存储一些简单的键值对

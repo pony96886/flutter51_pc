@@ -13,6 +13,8 @@ import 'package:go_router/go_router.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:waterfall_flow/waterfall_flow.dart';
 
+import '../../utils/network_http.dart';
+
 typedef BuildWidgetData = Function(
     BuildContext context, int index, dynamic data, int page, int limit, Function getListData);
 
@@ -94,7 +96,7 @@ class _PublicListState extends State<PublicList> {
       setState(() {});
     }
     try {
-      Response<dynamic> res = await PlatformAwareHttp.post(widget.api!, data: reqData);
+      Response<dynamic> res = await NetworkHttp.instance.post(widget.api!, data: reqData);
 
       List resdata = [];
       isload = false;

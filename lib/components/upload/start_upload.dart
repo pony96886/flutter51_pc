@@ -7,6 +7,7 @@ import 'package:chaguaner2023/components/upload/upload_resouce.dart';
 import 'package:chaguaner2023/utils/assets_image_base.dart';
 import 'package:chaguaner2023/utils/common.dart';
 import 'package:chaguaner2023/utils/http.dart';
+import 'package:chaguaner2023/utils/network_http.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -21,8 +22,7 @@ class StartUploadFile {
   static ValueNotifier<int> fileIndex = ValueNotifier<int>(0);
   static int fileTotal = 0;
   static bool isCancel = false;
-  static Future<Uint8List> addMark(Uint8List bytes,
-      {bool noMark = false}) async {
+  static Future<Uint8List> addMark(Uint8List bytes, {bool noMark = false}) async {
     final image1 = img.decodeImage(bytes);
     final image2 = img.decodeImage(base64.decode(AssetsImageBase.shuiyin));
 
@@ -31,18 +31,14 @@ class StartUploadFile {
     int targetWidth = (image1.width / 4).round();
     int targetHeight = (image2.height * (targetWidth / image2.width)).round();
 
-    final watermarkResized =
-        img.copyResize(image2, width: targetWidth, height: targetHeight);
+    final watermarkResized = img.copyResize(image2, width: targetWidth, height: targetHeight);
 
     int padding = 10;
     List<Map<String, int>> positions = [
       {'x': padding, 'y': padding},
       {'x': padding, 'y': image1.height - targetHeight - padding},
       {'x': image1.width - targetWidth - padding, 'y': padding},
-      {
-        'x': image1.width - targetWidth - padding,
-        'y': image1.height - targetHeight - padding
-      },
+      {'x': image1.width - targetWidth - padding, 'y': image1.height - targetHeight - padding},
     ];
     final pos = positions[Random().nextInt(positions.length)];
 
@@ -75,20 +71,14 @@ class StartUploadFile {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Container(
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(15.w)),
-                  padding:
-                      EdgeInsets.symmetric(horizontal: 35.w, vertical: 15.w),
+                  decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(15.w)),
+                  padding: EdgeInsets.symmetric(horizontal: 35.w, vertical: 15.w),
                   width: 350.w,
                   child: Column(
                     children: [
                       Text(
                         '资源上传',
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontWeight: FontWeight.w700,
-                            fontSize: 18.sp),
+                        style: TextStyle(color: Colors.black, fontWeight: FontWeight.w700, fontSize: 18.sp),
                       ),
                       SizedBox(
                         height: 15.w,
@@ -102,20 +92,16 @@ class StartUploadFile {
                                 height: 15.w,
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(7.5.w),
-                                    border: Border.all(
-                                        width: 1.w, color: Color(0xffe43234))),
+                                    border: Border.all(width: 1.w, color: Color(0xffe43234))),
                               ),
                               ValueListenableBuilder(
                                   valueListenable: uploadProgress,
                                   builder: (context, num value, child) {
                                     return Container(
                                       height: 15.w,
-                                      width: (value > 1 ? 1 : value) *
-                                          box.maxWidth,
+                                      width: (value > 1 ? 1 : value) * box.maxWidth,
                                       decoration: BoxDecoration(
-                                          color: Color(0xffe43234),
-                                          borderRadius:
-                                              BorderRadius.circular(7.5.w)),
+                                          color: Color(0xffe43234), borderRadius: BorderRadius.circular(7.5.w)),
                                     );
                                   }),
                             ],
@@ -133,20 +119,13 @@ class StartUploadFile {
                             children: [
                               Row(
                                 children: [
-                                  Text('当前上传至: ',
-                                      style: TextStyle(
-                                          fontSize: 12.sp,
-                                          color: Colors.black)),
+                                  Text('当前上传至: ', style: TextStyle(fontSize: 12.sp, color: Colors.black)),
                                   ValueListenableBuilder(
                                       valueListenable: fileIndex,
                                       builder: (contex, value, child) {
                                         return Text(
-                                          value.toString() +
-                                              '/' +
-                                              fileTotal.toString(),
-                                          style: TextStyle(
-                                              fontSize: 12.sp,
-                                              color: Color(0xffe43234)),
+                                          value.toString() + '/' + fileTotal.toString(),
+                                          style: TextStyle(fontSize: 12.sp, color: Color(0xffe43234)),
                                         );
                                       }),
                                 ],
@@ -156,20 +135,13 @@ class StartUploadFile {
                               ),
                               Row(
                                 children: [
-                                  Text('当前进度: ',
-                                      style: TextStyle(
-                                          fontSize: 12.sp,
-                                          color: Colors.black)),
+                                  Text('当前进度: ', style: TextStyle(fontSize: 12.sp, color: Colors.black)),
                                   ValueListenableBuilder(
                                       valueListenable: uploadProgress,
                                       builder: (contex, num value, child) {
                                         return Text(
-                                          ((value > 1 ? 1 : value) * 100)
-                                                  .toStringAsFixed(0) +
-                                              '%',
-                                          style: TextStyle(
-                                              fontSize: 12.sp,
-                                              color: Color(0xffe43234)),
+                                          ((value > 1 ? 1 : value) * 100).toStringAsFixed(0) + '%',
+                                          style: TextStyle(fontSize: 12.sp, color: Color(0xffe43234)),
                                         );
                                       }),
                                 ],
@@ -179,15 +151,11 @@ class StartUploadFile {
                           SizedBox(
                             height: 10.w,
                           ),
-                          Text('(图片水印会增加内存,请以左侧为准,图片不算入百分比进度)',
-                              style: TextStyle(
-                                  fontSize: 12.sp, color: Colors.red)),
+                          Text('(图片水印会增加内存,请以左侧为准,图片不算入百分比进度)', style: TextStyle(fontSize: 12.sp, color: Colors.red)),
                           SizedBox(
                             height: 10.w,
                           ),
-                          Text('长时间未响应可以尝试换个资源试试哦～',
-                              style:
-                                  TextStyle(fontSize: 12.sp, color: Colors.red))
+                          Text('长时间未响应可以尝试换个资源试试哦～', style: TextStyle(fontSize: 12.sp, color: Colors.red))
                         ],
                       ),
                       SizedBox(
@@ -197,9 +165,9 @@ class StartUploadFile {
                         child: ElevatedButton(
                           onPressed: () {
                             try {
-                              if (PlatformAwareHttp.cancelToken == null) return;
-                              if (!PlatformAwareHttp.cancelToken!.isCancelled) {
-                                PlatformAwareHttp.cancelToken!.cancel();
+                              if (NetworkHttp.cancelToken == null) return;
+                              if (!NetworkHttp.cancelToken!.isCancelled) {
+                                NetworkHttp.cancelToken!.cancel();
                                 isCancel = true;
                                 cancel();
                               }
@@ -218,8 +186,7 @@ class StartUploadFile {
                           ),
                           child: Text(
                             '取消上传',
-                            style: TextStyle(
-                                fontSize: 15, fontWeight: FontWeight.w600),
+                            style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600),
                           ),
                         ),
                       )
@@ -257,9 +224,7 @@ class StartUploadFile {
     });
     int getSize(int index, int count) {
       if (index == 0) return count;
-      int schedule = fileSzeList
-          .sublist(0, index)
-          .reduce((value, current) => value + current);
+      int schedule = fileSzeList.sublist(0, index).reduce((value, current) => value + current);
       return schedule + count;
     }
 
@@ -267,7 +232,7 @@ class StartUploadFile {
     await Future.forEach(fileList, (FileInfo element) {
       if (isCancel) return false;
       if (element.fileType == 'image') {
-        return PlatformAwareHttp.uploadImage(
+        return NetworkHttp.uploadImage(
                 imageUrl: element.uploadUrl!,
                 progressCallback: (count, total) {
                   // uploadProgress.value = getSize(fileIndex.value, count) / fileSize;
@@ -300,11 +265,13 @@ class StartUploadFile {
           }
         });
       } else {
-        return PlatformAwareHttp.uploadVideo(
-            videoUrl: kIsWeb ? element.uploadUrl : element.path,
-            progressCallback: (count, total) {
-              uploadProgress.value = getSize(fileIndex.value, count) / fileSize;
-            }).then((res) {
+        return NetworkHttp.instance
+            .uploadVideo(
+                videoUrl: kIsWeb ? element.uploadUrl : element.path,
+                progressCallback: (count, total) {
+                  uploadProgress.value = getSize(fileIndex.value, count) / fileSize;
+                })
+            .then((res) {
           if (res != null) {
             Map data = json.decode(res.data);
             if (data['code'] != 0) {
