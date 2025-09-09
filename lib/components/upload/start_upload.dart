@@ -265,13 +265,11 @@ class StartUploadFile {
           }
         });
       } else {
-        return NetworkHttp.instance
-            .uploadVideo(
-                videoUrl: kIsWeb ? element.uploadUrl : element.path,
-                progressCallback: (count, total) {
-                  uploadProgress.value = getSize(fileIndex.value, count) / fileSize;
-                })
-            .then((res) {
+        return NetworkHttp.uploadVideo(
+            videoUrl: kIsWeb ? element.uploadUrl : element.path,
+            progressCallback: (count, total) {
+              uploadProgress.value = getSize(fileIndex.value, count) / fileSize;
+            }).then((res) {
           if (res != null) {
             Map data = json.decode(res.data);
             if (data['code'] != 0) {
