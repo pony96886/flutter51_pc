@@ -6,7 +6,7 @@ import 'package:chaguaner2023/components/datetime/src/date_format.dart';
 import 'package:chaguaner2023/components/datetime/src/i18n_model.dart';
 import 'package:chaguaner2023/components/headerContainer.dart';
 import 'package:chaguaner2023/components/loading.dart';
-import 'package:chaguaner2023/components/pagetitlebar.dart';
+import 'package:chaguaner2023/components/page_title_bar.dart';
 import 'package:chaguaner2023/input/InputDailog.dart';
 import 'package:chaguaner2023/store/homeConfig.dart';
 import 'package:chaguaner2023/theme/style_theme.dart';

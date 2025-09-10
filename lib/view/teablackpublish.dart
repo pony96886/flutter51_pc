@@ -1,7 +1,7 @@
 import 'package:bot_toast/bot_toast.dart';
 import 'package:chaguaner2023/components/citypickers/CommonCity_pickers.dart';
 import 'package:chaguaner2023/components/headerContainer.dart';
-import 'package:chaguaner2023/components/pagetitlebar.dart';
+import 'package:chaguaner2023/components/page_title_bar.dart';
 import 'package:chaguaner2023/components/upload/start_upload.dart';
 import 'package:chaguaner2023/components/upload/upload_resouce.dart';
 import 'package:chaguaner2023/theme/style_theme.dart';
@@ -141,8 +141,7 @@ class _TeaBlackPublishState extends State<TeaBlackPublish> {
   }
 
   _showCityPickers(BuildContext context) async {
-    dynamic result =
-        await Navigator.push(context, new MaterialPageRoute(builder: (context) => CommonCityPickers()));
+    dynamic result = await Navigator.push(context, new MaterialPageRoute(builder: (context) => CommonCityPickers()));
     if (result != null) {
       setState(() {
         cityName = result.city;

@@ -3,7 +3,7 @@ import 'package:card_swiper/card_swiper.dart';
 import 'package:chaguaner2023/components/avatar_widget.dart';
 import 'package:chaguaner2023/components/headerContainer.dart';
 import 'package:chaguaner2023/components/loading.dart';
-import 'package:chaguaner2023/components/pagetitlebar.dart';
+import 'package:chaguaner2023/components/page_title_bar.dart';
 import 'package:chaguaner2023/components/starrating.dart';
 import 'package:chaguaner2023/store/homeConfig.dart';
 import 'package:chaguaner2023/theme/style_theme.dart';

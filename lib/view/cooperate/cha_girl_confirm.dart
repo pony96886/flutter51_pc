@@ -3,7 +3,7 @@ import 'dart:io';
 import 'dart:math';
 import 'package:camera/camera.dart';
 import 'package:chaguaner2023/components/headerContainer.dart';
-import 'package:chaguaner2023/components/pagetitlebar.dart';
+import 'package:chaguaner2023/components/page_title_bar.dart';
 import 'package:chaguaner2023/theme/style_theme.dart';
 import 'package:chaguaner2023/utils/common.dart';
 import 'package:chaguaner2023/utils/app_global.dart';
@@ -87,8 +87,7 @@ class _ChaGirlConfirmPageState extends State<ChaGirlConfirmPage> {
   }
 
   void showInSnackBar(String message) {
-    ScaffoldMessenger.of(context)
-        .showSnackBar(SnackBar(content: Text(message)));
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(message)));
   }
 
   void _showCameraException(CameraException e) {
@@ -187,12 +186,8 @@ class _ChaGirlConfirmPageState extends State<ChaGirlConfirmPage> {
               setState(() {
                 _isFinal = true;
               });
-              AppGlobal.girlParmas = {
-                'voicenumber': videoNumber,
-                'authvideo': videoPath
-              };
-              AppGlobal.appRouter
-                  ?.push(CommonUtils.getRealHash('chaGirlBaseInformation'));
+              AppGlobal.girlParmas = {'voicenumber': videoNumber, 'authvideo': videoPath};
+              AppGlobal.appRouter?.push(CommonUtils.getRealHash('chaGirlBaseInformation'));
             },
           ),
         ],
@@ -312,11 +307,8 @@ class _ChaGirlConfirmPageState extends State<ChaGirlConfirmPage> {
         child: ClipRRect(
           child: LinearProgressIndicator(
             backgroundColor: Colors.grey[200],
-            valueColor:
-                AlwaysStoppedAnimation(Color.fromRGBO(220, 76, 61, 1.0)),
-            value: _isClickStop
-                ? _curPlayTime / _endPlayTime
-                : _curRecordSecond / _endRecordTime,
+            valueColor: AlwaysStoppedAnimation(Color.fromRGBO(220, 76, 61, 1.0)),
+            value: _isClickStop ? _curPlayTime / _endPlayTime : _curRecordSecond / _endRecordTime,
           ),
           borderRadius: BorderRadius.circular(10.w),
         ),
@@ -349,9 +341,7 @@ class _ChaGirlConfirmPageState extends State<ChaGirlConfirmPage> {
                         aspectRatio: _isClickStop
                             ? videoController!.value.aspectRatio ?? 650 / 780
                             : controller!.value.aspectRatio,
-                        child: _isClickStop
-                            ? VideoPlayer(videoController!)
-                            : CameraPreview(controller!)),
+                        child: _isClickStop ? VideoPlayer(videoController!) : CameraPreview(controller!)),
                     borderRadius: BorderRadius.circular(5.w),
                   ),
           ),
@@ -536,8 +526,7 @@ class _ChaGirlConfirmPageState extends State<ChaGirlConfirmPage> {
                           Container(
                             decoration: BoxDecoration(
                               color: Color.fromRGBO(188, 55, 41, 1.0),
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(30.w)),
+                              borderRadius: BorderRadius.all(Radius.circular(30.w)),
                             ),
                             width: 30.w,
                             height: 30.w,
@@ -604,8 +593,7 @@ class _ChaGirlConfirmPageState extends State<ChaGirlConfirmPage> {
                           Container(
                             decoration: BoxDecoration(
                               color: Color.fromRGBO(188, 55, 41, 1.0),
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(30.w)),
+                              borderRadius: BorderRadius.all(Radius.circular(30.w)),
                             ),
                             width: 30.w,
                             height: 30.w,

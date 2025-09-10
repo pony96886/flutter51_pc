@@ -2,7 +2,7 @@ import 'package:bot_toast/bot_toast.dart';
 import 'package:chaguaner2023/components/citypickers/CommonCity_pickers.dart';
 import 'package:chaguaner2023/components/headerContainer.dart';
 import 'package:chaguaner2023/components/loading.dart';
-import 'package:chaguaner2023/components/pagetitlebar.dart';
+import 'package:chaguaner2023/components/page_title_bar.dart';
 import 'package:chaguaner2023/components/upload/start_upload.dart';
 import 'package:chaguaner2023/components/upload/upload_resouce.dart';
 import 'package:chaguaner2023/input/InputDailog.dart';
@@ -73,8 +73,7 @@ class _ResourcesCertificationState extends State<ResourcesCertification> {
         'title': '用户缴纳预约金',
         'onTop': null,
         'isNumber': true,
-        'condition':
-            (_reservationfee == '' || int.parse(_reservationfee!) < 200),
+        'condition': (_reservationfee == '' || int.parse(_reservationfee!) < 200),
         'inputInfo': '输入预约金，最少200元宝',
         'prompt': '请输入预约金，最少200元宝～',
         'value': _reservationfee,
@@ -85,12 +84,10 @@ class _ResourcesCertificationState extends State<ResourcesCertification> {
                 _reservationfee = val;
               });
             } else {
-              return BotToast.showText(
-                  text: '用户缴纳预约金至少为200元宝～', align: Alignment(0, 0));
+              return BotToast.showText(text: '用户缴纳预约金至少为200元宝～', align: Alignment(0, 0));
             }
           } catch (e) {
-            return BotToast.showText(
-                text: '请按要求输入正确的数字～', align: Alignment(0, 0));
+            return BotToast.showText(text: '请按要求输入正确的数字～', align: Alignment(0, 0));
           }
         }
       },
@@ -141,8 +138,7 @@ class _ResourcesCertificationState extends State<ResourcesCertification> {
               });
             }
           } catch (e) {
-            return BotToast.showText(
-                text: '请按要求输入正确的数字～', align: Alignment(0, 0));
+            return BotToast.showText(text: '请按要求输入正确的数字～', align: Alignment(0, 0));
           }
         }
       },
@@ -163,8 +159,7 @@ class _ResourcesCertificationState extends State<ResourcesCertification> {
               });
             }
           } catch (e) {
-            return BotToast.showText(
-                text: '请按要求输入正确的数字～', align: Alignment(0, 0));
+            return BotToast.showText(text: '请按要求输入正确的数字～', align: Alignment(0, 0));
           }
         }
       },
@@ -219,8 +214,8 @@ class _ResourcesCertificationState extends State<ResourcesCertification> {
   }
 
   _showCityPickers() async {
-    dynamic resultCity = await Navigator.push(context,
-        new MaterialPageRoute(builder: (context) => CommonCityPickers()));
+    dynamic resultCity =
+        await Navigator.push(context, new MaterialPageRoute(builder: (context) => CommonCityPickers()));
     if (resultCity != null) {
       setState(() {
         _city = resultCity.city;
@@ -250,11 +245,7 @@ class _ResourcesCertificationState extends State<ResourcesCertification> {
         'fee': _reservationfee,
         'price': _price,
         'cast_way': _castWayController.text,
-        'auth_pic': [
-          imageData['men'][0]['url'],
-          imageData['men'][0]['shi'],
-          imageData['bu'][0]['url']
-        ],
+        'auth_pic': [imageData['men'][0]['url'], imageData['men'][0]['shi'], imageData['bu'][0]['url']],
         'image': [..._oimag, ..._image]
       }).then((res) {
         if (res!['status'] != 0) {
@@ -319,8 +310,7 @@ class _ResourcesCertificationState extends State<ResourcesCertification> {
                                   child: Column(
                                     children: [
                                       LocalPNG(
-                                          url:
-                                              'assets/images/publish/waitingicon.png',
+                                          url: 'assets/images/publish/waitingicon.png',
                                           width: 125.5.w,
                                           height: 125.5.w,
                                           fit: BoxFit.contain),
@@ -338,11 +328,9 @@ class _ResourcesCertificationState extends State<ResourcesCertification> {
                           pageState != 0
                               ? Container()
                               : Padding(
-                                  padding:
-                                      EdgeInsets.symmetric(horizontal: 15.sp),
+                                  padding: EdgeInsets.symmetric(horizontal: 15.sp),
                                   child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       Text.rich(TextSpan(
                                           text: '认证材料',
@@ -353,23 +341,18 @@ class _ResourcesCertificationState extends State<ResourcesCertification> {
                                           children: [
                                             TextSpan(
                                               text: '（以下照片必须露出官方手势“6”手势）',
-                                              style: TextStyle(
-                                                  color: Color(0xffb4b4b4),
-                                                  fontSize: 12.sp),
+                                              style: TextStyle(color: Color(0xffb4b4b4), fontSize: 12.sp),
                                             )
                                           ])),
                                       Container(
                                         child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
+                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                           children: [
                                             for (var upItem in updateList)
                                               Column(
                                                 children: [
                                                   Container(
-                                                    margin: EdgeInsets.only(
-                                                        top: 20.w,
-                                                        bottom: 9.5.w),
+                                                    margin: EdgeInsets.only(top: 20.w, bottom: 9.5.w),
                                                     height: 110.w,
                                                     width: 110.w,
                                                     child: UploadResouceWidget(
@@ -385,15 +368,11 @@ class _ResourcesCertificationState extends State<ResourcesCertification> {
                                                       bottom: 29.w,
                                                     ),
                                                     child: Center(
-                                                      child: Text(
-                                                          upItem['title'],
+                                                      child: Text(upItem['title'],
                                                           style: TextStyle(
-                                                              color: StyleTheme
-                                                                  .cTitleColor,
+                                                              color: StyleTheme.cTitleColor,
                                                               fontSize: 15.sp,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w500)),
+                                                              fontWeight: FontWeight.w500)),
                                                     ),
                                                   )
                                                 ],
@@ -407,8 +386,7 @@ class _ResourcesCertificationState extends State<ResourcesCertification> {
                           pageState != 0
                               ? Container()
                               : Container(
-                                  padding:
-                                      EdgeInsets.symmetric(horizontal: 15.sp),
+                                  padding: EdgeInsets.symmetric(horizontal: 15.sp),
                                   width: double.infinity,
                                   height: 30.w,
                                   color: StyleTheme.bottomappbarColor,
@@ -431,12 +409,8 @@ class _ResourcesCertificationState extends State<ResourcesCertification> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 ListTile(
-                                  contentPadding:
-                                      EdgeInsets.only(left: 0, right: 0),
-                                  title: Text('茶铺介绍',
-                                      style: TextStyle(
-                                          color: StyleTheme.cTitleColor,
-                                          fontSize: 14.sp)),
+                                  contentPadding: EdgeInsets.only(left: 0, right: 0),
+                                  title: Text('茶铺介绍', style: TextStyle(color: StyleTheme.cTitleColor, fontSize: 14.sp)),
                                 ),
                                 Card(
                                     margin: EdgeInsets.zero,
@@ -450,15 +424,10 @@ class _ResourcesCertificationState extends State<ResourcesCertification> {
                                         textInputAction: TextInputAction.done,
                                         autofocus: false,
                                         maxLines: 8,
-                                        style: TextStyle(
-                                            fontSize: 14.sp,
-                                            color: StyleTheme.cTitleColor),
+                                        style: TextStyle(fontSize: 14.sp, color: StyleTheme.cTitleColor),
                                         decoration: InputDecoration.collapsed(
-                                            hintStyle: TextStyle(
-                                                fontSize: 14.sp,
-                                                color: StyleTheme.cBioColor),
-                                            hintText:
-                                                "输入茶铺介绍，可详细介绍门店特色服务项目及价格等"),
+                                            hintStyle: TextStyle(fontSize: 14.sp, color: StyleTheme.cBioColor),
+                                            hintText: "输入茶铺介绍，可详细介绍门店特色服务项目及价格等"),
                                       ),
                                     )),
                               ],
@@ -470,12 +439,8 @@ class _ResourcesCertificationState extends State<ResourcesCertification> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 ListTile(
-                                  contentPadding:
-                                      EdgeInsets.only(left: 0, right: 0),
-                                  title: Text('服务项目',
-                                      style: TextStyle(
-                                          color: StyleTheme.cTitleColor,
-                                          fontSize: 14.sp)),
+                                  contentPadding: EdgeInsets.only(left: 0, right: 0),
+                                  title: Text('服务项目', style: TextStyle(color: StyleTheme.cTitleColor, fontSize: 14.sp)),
                                 ),
                                 Card(
                                     margin: EdgeInsets.zero,
@@ -489,13 +454,9 @@ class _ResourcesCertificationState extends State<ResourcesCertification> {
                                         textInputAction: TextInputAction.done,
                                         autofocus: false,
                                         maxLines: 8,
-                                        style: TextStyle(
-                                            fontSize: 14.sp,
-                                            color: StyleTheme.cTitleColor),
+                                        style: TextStyle(fontSize: 14.sp, color: StyleTheme.cTitleColor),
                                         decoration: InputDecoration.collapsed(
-                                            hintStyle: TextStyle(
-                                                fontSize: 14.sp,
-                                                color: StyleTheme.cBioColor),
+                                            hintStyle: TextStyle(fontSize: 14.sp, color: StyleTheme.cBioColor),
                                             hintText: "请介绍茶铺的服务项目,要求服务项目真实。"),
                                       ),
                                     )),
@@ -503,23 +464,18 @@ class _ResourcesCertificationState extends State<ResourcesCertification> {
                             ),
                           ),
                           Padding(
-                            padding: EdgeInsets.symmetric(
-                                vertical: 30.w, horizontal: 15.sp),
+                            padding: EdgeInsets.symmetric(vertical: 30.w, horizontal: 15.sp),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text.rich(TextSpan(
                                     text: '对外展示照片',
                                     style: TextStyle(
-                                        color: StyleTheme.cTitleColor,
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 18.sp),
+                                        color: StyleTheme.cTitleColor, fontWeight: FontWeight.w500, fontSize: 18.sp),
                                     children: [
                                       TextSpan(
                                         text: '（第一张将作为封面展示）',
-                                        style: TextStyle(
-                                            color: Color(0xffb4b4b4),
-                                            fontSize: 12.sp),
+                                        style: TextStyle(color: Color(0xffb4b4b4), fontSize: 12.sp),
                                       )
                                     ])),
                                 Container(
@@ -533,8 +489,7 @@ class _ResourcesCertificationState extends State<ResourcesCertification> {
                                   initResouceList: resources == null
                                       ? []
                                       : resources!.map((e) {
-                                          return FileInfo(e['url'], 0, 1,
-                                              'image', 'image', null, 0, 0);
+                                          return FileInfo(e['url'], 0, 1, 'image', 'image', null, 0, 0);
                                         }).toList(),
                                 ),
                                 pageState == 1
@@ -542,60 +497,36 @@ class _ResourcesCertificationState extends State<ResourcesCertification> {
                                     : Center(
                                         child: GestureDetector(
                                           onTap: () {
-                                            for (var i = 0;
-                                                i < basicInfo().length;
-                                                i++) {
+                                            for (var i = 0; i < basicInfo().length; i++) {
                                               if (basicInfo()[i]['condition']) {
                                                 BotToast.showText(
-                                                    text: basicInfo()[i]
-                                                        ['prompt'],
-                                                    align: Alignment(0, 0));
+                                                    text: basicInfo()[i]['prompt'], align: Alignment(0, 0));
                                                 return;
                                               }
                                             }
-                                            for (var i = 0;
-                                                i < updateList.length;
-                                                i++) {
+                                            for (var i = 0; i < updateList.length; i++) {
                                               if (pageState == 0 &&
-                                                  UploadFileList
-                                                          .allFile[updateList[i]
-                                                              ['parmas']]!
-                                                          .urls
-                                                          .length ==
-                                                      0) {
-                                                BotToast.showText(
-                                                    text: '请上传按要求上传认证材料',
-                                                    align: Alignment(0, 0));
+                                                  UploadFileList.allFile[updateList[i]['parmas']]!.urls.length == 0) {
+                                                BotToast.showText(text: '请上传按要求上传认证材料', align: Alignment(0, 0));
                                                 return;
                                               }
                                             }
-                                            if (UploadFileList.allFile['image']!
-                                                        .originalUrls.length +
-                                                    UploadFileList
-                                                        .allFile['image']!
-                                                        .urls
-                                                        .length ==
+                                            if (UploadFileList.allFile['image']!.originalUrls.length +
+                                                    UploadFileList.allFile['image']!.urls.length ==
                                                 0) {
-                                              BotToast.showText(
-                                                  text: '请上传对外展示图片',
-                                                  align: Alignment(0, 0));
+                                              BotToast.showText(text: '请上传对外展示图片', align: Alignment(0, 0));
                                               return;
                                             }
-                                            if (_descriptionController.text ==
-                                                '') {
-                                              return CommonUtils.showText(
-                                                  '请填写茶铺介绍');
+                                            if (_descriptionController.text == '') {
+                                              return CommonUtils.showText('请填写茶铺介绍');
                                             }
                                             if (_castWayController.text == '') {
-                                              return CommonUtils.showText(
-                                                  '请填写服务项目');
+                                              return CommonUtils.showText('请填写服务项目');
                                             }
 
-                                            StartUploadFile.upload()
-                                                .then((value) {
+                                            StartUploadFile.upload().then((value) {
                                               if (value == null) {
-                                                return CommonUtils.showText(
-                                                    '资源上传错误,请重新上传');
+                                                return CommonUtils.showText('资源上传错误,请重新上传');
                                               }
                                               releaseChapuForm(value);
                                             });
@@ -607,20 +538,15 @@ class _ResourcesCertificationState extends State<ResourcesCertification> {
                                             child: Stack(
                                               children: [
                                                 LocalPNG(
-                                                  url:
-                                                      'assets/images/elegantroom/shuimo_btn.png',
+                                                  url: 'assets/images/elegantroom/shuimo_btn.png',
                                                   fit: BoxFit.contain,
                                                   width: 275.w,
                                                   height: 50.w,
                                                 ),
                                                 Center(
                                                   child: Text(
-                                                    pageState == 0
-                                                        ? '提交审核'
-                                                        : checkSubmStr,
-                                                    style: TextStyle(
-                                                        color: Colors.white,
-                                                        fontSize: 15.sp),
+                                                    pageState == 0 ? '提交审核' : checkSubmStr,
+                                                    style: TextStyle(color: Colors.white, fontSize: 15.sp),
                                                   ),
                                                 ),
                                               ],
@@ -644,9 +570,7 @@ class _ResourcesCertificationState extends State<ResourcesCertification> {
   Widget inputItem(Map item) {
     String selectStr = 'select';
     String unssd23 = 'unselect';
-    String selectvalue = item['type'] == 'radio'
-        ? (item['value'] ? selectStr : unssd23)
-        : unssd23;
+    String selectvalue = item['type'] == 'radio' ? (item['value'] ? selectStr : unssd23) : unssd23;
     String itemValueStr = item['value'].toString();
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 15.sp),
@@ -660,10 +584,7 @@ class _ResourcesCertificationState extends State<ResourcesCertification> {
                   item['onTop']();
                 } else if (item['type'] == 'input') {
                   InputDialog.show(context, item['title'],
-                          limitingText: 16,
-                          boardType: item['isNumber']
-                              ? TextInputType.phone
-                              : TextInputType.text)
+                          limitingText: 16, boardType: item['isNumber'] ? TextInputType.phone : TextInputType.text)
                       .then((value) {
                     item['callBack'](value);
                   });
@@ -673,9 +594,7 @@ class _ResourcesCertificationState extends State<ResourcesCertification> {
               }
             },
             contentPadding: EdgeInsets.only(left: 0, right: 0),
-            title: Text(item['title'],
-                style:
-                    TextStyle(color: StyleTheme.cTitleColor, fontSize: 14.sp)),
+            title: Text(item['title'], style: TextStyle(color: StyleTheme.cTitleColor, fontSize: 14.sp)),
             trailing: item['type'] == 'radio'
                 ? GestureDetector(
                     onTap: item['callBack'],
@@ -693,24 +612,19 @@ class _ResourcesCertificationState extends State<ResourcesCertification> {
                 : Row(mainAxisSize: MainAxisSize.min, children: <Widget>[
                     Container(
                       constraints: BoxConstraints(maxWidth: 250.w),
-                      child: Text(
-                          item['value'] == null || item['value'] == ''
-                              ? item['inputInfo']
-                              : itemValueStr,
+                      child: Text(item['value'] == null || item['value'] == '' ? item['inputInfo'] : itemValueStr,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
                               fontSize: 15.sp,
                               fontWeight: FontWeight.w500,
-                              color:
-                                  item['value'] == null || item['value'] == ''
-                                      ? StyleTheme.cBioColor
-                                      : StyleTheme.cTitleColor)),
+                              color: item['value'] == null || item['value'] == ''
+                                  ? StyleTheme.cBioColor
+                                  : StyleTheme.cTitleColor)),
                     ),
                     item['type'] == 'select'
                         ? (itemValueStr == null
-                            ? Icon(Icons.keyboard_arrow_right,
-                                color: StyleTheme.cBioColor)
+                            ? Icon(Icons.keyboard_arrow_right, color: StyleTheme.cBioColor)
                             : Container())
                         : Container()
                   ]),

@@ -8,7 +8,7 @@ import 'package:chaguaner2023/components/detail_ad.dart';
 import 'package:chaguaner2023/components/headerContainer.dart';
 import 'package:chaguaner2023/components/list/public_list.dart';
 import 'package:chaguaner2023/components/loading.dart';
-import 'package:chaguaner2023/components/pagetitlebar.dart';
+import 'package:chaguaner2023/components/page_title_bar.dart';
 import 'package:chaguaner2023/components/starrating.dart';
 import 'package:chaguaner2023/components/yy_dialog.dart';
 import 'package:chaguaner2023/input/InputDailog.dart';
@@ -47,8 +47,7 @@ class VipDetailPage extends StatefulWidget {
   State<StatefulWidget> createState() => VipDetailState();
 }
 
-class VipDetailState extends State<VipDetailPage>
-    with TickerProviderStateMixin {
+class VipDetailState extends State<VipDetailPage> with TickerProviderStateMixin {
   ScrollController? _scrollViewController;
   AnimationController? _lottieController;
 
@@ -96,8 +95,7 @@ class VipDetailState extends State<VipDetailPage>
     setState(() {
       networkErr = false;
     });
-    var _info =
-        await getVipInfoDetail(widget.id!, type: widget.type == "1" ? 1 : 0);
+    var _info = await getVipInfoDetail(widget.id!, type: widget.type == "1" ? 1 : 0);
     print(jsonEncode(_info));
     if (_info!['status'] == null) {
       setState(() {
@@ -126,12 +124,8 @@ class VipDetailState extends State<VipDetailPage>
           'icon': 'assets/images/detail/icon-money.png',
           'title': '消费情况',
           'type': true,
-          'introduction': (verifyDetail!['price_p'] != 0
-                  ? '1P:' + verifyDetail!['price_p'].toString() + '元,'
-                  : _null) +
-              (verifyDetail!['price_pp'] != 0
-                  ? '2P:' + verifyDetail!['price_pp'].toString() + '元,'
-                  : _null) +
+          'introduction': (verifyDetail!['price_p'] != 0 ? '1P:' + verifyDetail!['price_p'].toString() + '元,' : _null) +
+              (verifyDetail!['price_pp'] != 0 ? '2P:' + verifyDetail!['price_pp'].toString() + '元,' : _null) +
               (verifyDetail!['price_all_night'] != 0
                   ? '包夜:' + verifyDetail!['price_all_night'].toString() + '元'
                   : _null) //
@@ -158,23 +152,12 @@ class VipDetailState extends State<VipDetailPage>
       setState(() {});
       switch (verifyDetail!['status']) {
         case 4:
-          showBuy(
-                  '提示',
-                  verifyDetail!['post_type'] == 2
-                      ? '该男模已被经纪人删除～'
-                      : '该茶女郎已被经纪人删除～',
-                  2)
-              .then((val) => {
-                    if (val == true) {context.pop()}
-                  });
+          showBuy('提示', verifyDetail!['post_type'] == 2 ? '该男模已被经纪人删除～' : '该茶女郎已被经纪人删除～', 2).then((val) => {
+                if (val == true) {context.pop()}
+              });
           break;
         case 5:
-          showBuy(
-                  '提示',
-                  verifyDetail!['post_type'] == 2
-                      ? '该男模已下线,请返回并下拉刷新列表～'
-                      : '该茶女郎已下线,请返回并下拉刷新列表～',
-                  2)
+          showBuy('提示', verifyDetail!['post_type'] == 2 ? '该男模已下线,请返回并下拉刷新列表～' : '该茶女郎已下线,请返回并下拉刷新列表～', 2)
               .then((val) => {
                     if (val == true) {context.pop()}
                   });
@@ -192,11 +175,7 @@ class VipDetailState extends State<VipDetailPage>
     await isAppointment(widget.id!, selectId).then((res) {
       if (res!['status'] != 0) {
         getProfilePage().then((val) => {
-              if (val!['status'] != 0)
-                {
-                  Provider.of<HomeConfig>(context, listen: false)
-                      .setMoney(val['data']['money'])
-                }
+              if (val!['status'] != 0) {Provider.of<HomeConfig>(context, listen: false).setMoney(val['data']['money'])}
             });
         BotToast.showText(text: '预约成功～', align: Alignment(0, 0));
         context.pop('val');
@@ -242,8 +221,7 @@ class VipDetailState extends State<VipDetailPage>
     });
     var favorite = await favoriteVip(widget.id!);
     if (favorite!['status'] != 0) {
-      BotToast.showText(
-          text: isFavorite ? '收藏成功' : '取消收藏成功', align: Alignment(0, 0));
+      BotToast.showText(text: isFavorite ? '收藏成功' : '取消收藏成功', align: Alignment(0, 0));
       setState(() {
         verifyDetail!['userFavorite'] = isFavorite ? 1 : 0;
         isFavorite = verifyDetail!['userFavorite'] == 1;
@@ -253,8 +231,7 @@ class VipDetailState extends State<VipDetailPage>
         isFavorite = verifyDetail!['userFavorite'] == 1;
       });
       if (favorite['msg'] == 'err') {
-        CgDialog.cgShowDialog(
-            context, '温馨提示', '免费收藏已达上限，请前往开通会员', ['取消', '立即前往'], callBack: () {
+        CgDialog.cgShowDialog(context, '温馨提示', '免费收藏已达上限，请前往开通会员', ['取消', '立即前往'], callBack: () {
           AppGlobal.appRouter?.push(CommonUtils.getRealHash('memberCardsPage'));
         });
       } else {
@@ -297,16 +274,12 @@ class VipDetailState extends State<VipDetailPage>
   }
 
   Widget _swiper() {
-    var image = verifyDetail!['resources']
-        .where((element) => element['type'] != 2)
-        .toList();
-    return verifyDetail!['resources'] != null &&
-            verifyDetail!['resources'].length > 0
+    var image = verifyDetail!['resources'].where((element) => element['type'] != 2).toList();
+    return verifyDetail!['resources'] != null && verifyDetail!['resources'].length > 0
         ? Container(
             color: Color(0xFFE5E5E5),
             height: 240.w,
-            child: verifyDetail!['resources'] != null &&
-                    verifyDetail!['resources'].length > 0
+            child: verifyDetail!['resources'] != null && verifyDetail!['resources'].length > 0
                 ? Swiper(
                     itemBuilder: (BuildContext context, int index) {
                       return verifyDetail!['resources'][index]['type'] == 2
@@ -316,10 +289,7 @@ class VipDetailState extends State<VipDetailPage>
                             )
                           : GestureDetector(
                               onTap: () {
-                                AppGlobal.picMap = {
-                                  'resources': verifyDetail!['resources'],
-                                  'index': index
-                                };
+                                AppGlobal.picMap = {'resources': verifyDetail!['resources'], 'index': index};
                                 context.push('/teaViewPicPage');
                                 // CommonUtils.setStatusBar(isLight: true);
                                 // showImageViewer(
@@ -348,23 +318,18 @@ class VipDetailState extends State<VipDetailPage>
                     itemHeight: CommonUtils.getWidth(480),
                     pagination: SwiperPagination(
                       alignment: Alignment.bottomRight,
-                      builder: new SwiperCustomPagination(builder:
-                          (BuildContext context, SwiperPluginConfig config) {
+                      builder: new SwiperCustomPagination(builder: (BuildContext context, SwiperPluginConfig config) {
                         return IgnorePointer(
                           child: Container(
                               padding: new EdgeInsets.symmetric(
                                 horizontal: CommonUtils.getWidth(26),
                                 vertical: CommonUtils.getWidth(7),
                               ),
-                              decoration: BoxDecoration(
-                                  color: Colors.black45,
-                                  borderRadius: BorderRadius.circular(10.0)),
+                              decoration:
+                                  BoxDecoration(color: Colors.black45, borderRadius: BorderRadius.circular(10.0)),
                               child: Text(
-                                (config.activeIndex + 1).toString() +
-                                    '/' +
-                                    config.itemCount.toString(),
-                                style: TextStyle(
-                                    fontSize: 14.sp, color: Colors.white),
+                                (config.activeIndex + 1).toString() + '/' + config.itemCount.toString(),
+                                style: TextStyle(fontSize: 14.sp, color: Colors.white),
                               )),
                         );
                       }),
@@ -381,18 +346,14 @@ class VipDetailState extends State<VipDetailPage>
           left: CommonUtils.getWidth(31),
           right: 15.w,
           top: 15.w,
-          bottom:
-              CommonUtils.getWidth(verifyDetail!['video_valid'] == 1 ? 0 : 30)),
+          bottom: CommonUtils.getWidth(verifyDetail!['video_valid'] == 1 ? 0 : 30)),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Flexible(
               child: Text(
             verifyDetail!['title'],
-            style: TextStyle(
-                fontSize: 18.sp,
-                color: StyleTheme.cTitleColor,
-                fontWeight: FontWeight.bold),
+            style: TextStyle(fontSize: 18.sp, color: StyleTheme.cTitleColor, fontWeight: FontWeight.bold),
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
           )),
@@ -424,11 +385,7 @@ class VipDetailState extends State<VipDetailPage>
         verifyDetail!['video_valid'] == 1
             ? GestureDetector(
                 onTap: () {
-                  CgDialog.cgShowDialog(
-                      context,
-                      '视频认证',
-                      '视频认证指茶老板将牛郎织女素颜视频提交官方认证，官方确认人照差距不大后才会有视频认证的标识。',
-                      ['知道了']);
+                  CgDialog.cgShowDialog(context, '视频认证', '视频认证指茶老板将牛郎织女素颜视频提交官方认证，官方确认人照差距不大后才会有视频认证的标识。', ['知道了']);
                 },
                 child: Container(
                   child: LocalPNG(
@@ -449,16 +406,10 @@ class VipDetailState extends State<VipDetailPage>
           margin: EdgeInsets.only(left: 15.w),
           child: Row(
             children: <Widget>[
-              postureInfo(
-                  'assets/images/detail/vip-icon-age.png',
-                  verifyDetail!['girl_age_num'] == null
-                      ? '未填写年龄'
-                      : verifyDetail!['girl_age_num'].toString() + '岁'),
-              postureInfo(
-                  'assets/images/detail/vip-icon-height.png',
-                  verifyDetail!['girl_height'] == null
-                      ? '未填写身高'
-                      : verifyDetail!['girl_height'].toString() + 'cm'),
+              postureInfo('assets/images/detail/vip-icon-age.png',
+                  verifyDetail!['girl_age_num'] == null ? '未填写年龄' : verifyDetail!['girl_age_num'].toString() + '岁'),
+              postureInfo('assets/images/detail/vip-icon-height.png',
+                  verifyDetail!['girl_height'] == null ? '未填写身高' : verifyDetail!['girl_height'].toString() + 'cm'),
               postureInfo(
                   'assets/images/detail/vip-icon-cup.png',
                   verifyDetail!['post_type'] == 2
@@ -479,10 +430,8 @@ class VipDetailState extends State<VipDetailPage>
   }
 
   connectGirl() {
-    if (!CgPrivilege.getPrivilegeStatus(
-        PrivilegeType.infoVip, PrivilegeType.privilegeAppointment)) {
-      return showBuy(
-          '开通会员', '购买会员才能在线预约雅间服务，平台担保交易，照片和人不匹配平台包赔，让你约到合乎心意的嫩模', 3);
+    if (!CgPrivilege.getPrivilegeStatus(PrivilegeType.infoVip, PrivilegeType.privilegeAppointment)) {
+      return showBuy('开通会员', '购买会员才能在线预约雅间服务，平台担保交易，照片和人不匹配平台包赔，让你约到合乎心意的嫩模', 3);
     }
     if (WebSocketUtility.imToken == null) {
       CommonUtils.getImPath(context, callBack: () {
@@ -513,12 +462,10 @@ class VipDetailState extends State<VipDetailPage>
                   top: 20.w,
                 ),
                 color: Color(0xFFF8F8F8),
-                padding: new EdgeInsets.symmetric(
-                    horizontal: 15.5.w, vertical: 15.w),
+                padding: new EdgeInsets.symmetric(horizontal: 15.5.w, vertical: 15.w),
                 child: Text(
                   verifyDetail!['desc'],
-                  style:
-                      TextStyle(fontSize: 14.sp, color: StyleTheme.cTitleColor),
+                  style: TextStyle(fontSize: 14.sp, color: StyleTheme.cTitleColor),
                 ),
               ),
       ],
@@ -540,10 +487,8 @@ class VipDetailState extends State<VipDetailPage>
                     rightWidget: GestureDetector(
                         onTap: () {
                           if (verifyDetail!['notice'] != null) {
-                            String url =
-                                Uri.encodeComponent(verifyDetail!['notice']);
-                            AppGlobal.appRouter?.push(CommonUtils.getRealHash(
-                                'webview/' + url + '/消费须知'));
+                            String url = Uri.encodeComponent(verifyDetail!['notice']);
+                            AppGlobal.appRouter?.push(CommonUtils.getRealHash('webview/' + url + '/消费须知'));
                           }
                         },
                         child: Center(
@@ -552,9 +497,7 @@ class VipDetailState extends State<VipDetailPage>
                             child: Text(
                               '消费须知',
                               style: TextStyle(
-                                  color: StyleTheme.cTitleColor,
-                                  fontSize: 15.sp,
-                                  fontWeight: FontWeight.w500),
+                                  color: StyleTheme.cTitleColor, fontSize: 15.sp, fontWeight: FontWeight.w500),
                             ),
                           ),
                         )),
@@ -582,16 +525,9 @@ class VipDetailState extends State<VipDetailPage>
                               },
                               sliverHead: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  _swiper(),
-                                  _detailHeader(),
-                                  girlInfo(),
-                                  serverInfo(),
-                                  _totalScore()
-                                ],
+                                children: [_swiper(), _detailHeader(), girlInfo(), serverInfo(), _totalScore()],
                               ),
-                              itemBuild: (context, index, data, page, limit,
-                                  getListData) {
+                              itemBuild: (context, index, data, page, limit, getListData) {
                                 return _scoreCard(data);
                               },
                             )
@@ -602,15 +538,12 @@ class VipDetailState extends State<VipDetailPage>
                             ? Container()
                             : Container(
                                 height: 49.w + ScreenUtil().bottomBarHeight,
-                                padding: new EdgeInsets.only(
-                                    bottom: ScreenUtil().bottomBarHeight,
-                                    left: 15.w,
-                                    right: 15.w),
+                                padding:
+                                    new EdgeInsets.only(bottom: ScreenUtil().bottomBarHeight, left: 15.w, right: 15.w),
                                 color: StyleTheme.bottomappbarColor,
                                 width: double.infinity,
                                 child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
                                     Row(
                                       mainAxisSize: MainAxisSize.min,
@@ -621,33 +554,19 @@ class VipDetailState extends State<VipDetailPage>
                                             GestureDetector(
                                               onTap: () {
                                                 if (CgPrivilege.getPrivilegeStatus(
-                                                    PrivilegeType.infoVip,
-                                                    PrivilegeType
-                                                        .privilegeAppointment)) {
+                                                    PrivilegeType.infoVip, PrivilegeType.privilegeAppointment)) {
                                                   _collect();
                                                 } else {
-                                                  showBuy(
-                                                      '开通会员',
-                                                      '购买会员才能在线预约雅间服务，平台担保交易，照片和人不匹配平台包赔，让你约到合乎心意的嫩模',
-                                                      3);
+                                                  showBuy('开通会员', '购买会员才能在线预约雅间服务，平台担保交易，照片和人不匹配平台包赔，让你约到合乎心意的嫩模', 3);
                                                 }
                                               },
                                               child: Container(
-                                                margin: EdgeInsets.only(
-                                                    right:
-                                                        (fullAmount ? 10 : 20)
-                                                            .w),
+                                                margin: EdgeInsets.only(right: (fullAmount ? 10 : 20).w),
                                                 child: Row(
-                                                  mainAxisSize:
-                                                      MainAxisSize.min,
+                                                  mainAxisSize: MainAxisSize.min,
                                                   children: [
                                                     Container(
-                                                      margin:
-                                                          new EdgeInsets.only(
-                                                              right: (fullAmount
-                                                                      ? 0
-                                                                      : 10)
-                                                                  .w),
+                                                      margin: new EdgeInsets.only(right: (fullAmount ? 0 : 10).w),
                                                       child: LocalPNG(
                                                         url: isFavorite
                                                             ? 'assets/images/card/iscollect.png'
@@ -656,9 +575,7 @@ class VipDetailState extends State<VipDetailPage>
                                                         height: 25.w,
                                                       ),
                                                     ),
-                                                    fullAmount
-                                                        ? Container()
-                                                        : Text('收藏')
+                                                    fullAmount ? Container() : Text('收藏')
                                                   ],
                                                 ),
                                               ),
@@ -666,23 +583,17 @@ class VipDetailState extends State<VipDetailPage>
                                             GestureDetector(
                                                 onTap: connectGirl,
                                                 child: Row(
-                                                  mainAxisSize:
-                                                      MainAxisSize.min,
+                                                  mainAxisSize: MainAxisSize.min,
                                                   children: [
                                                     Container(
-                                                      margin:
-                                                          new EdgeInsets.only(
-                                                              right: 10.w),
+                                                      margin: new EdgeInsets.only(right: 10.w),
                                                       child: LocalPNG(
-                                                        url:
-                                                            'assets/images/detail/chat.png',
+                                                        url: 'assets/images/detail/chat.png',
                                                         width: 25.w,
                                                         height: 25.w,
                                                       ),
                                                     ),
-                                                    fullAmount
-                                                        ? Container()
-                                                        : Text('私聊')
+                                                    fullAmount ? Container() : Text('私聊')
                                                   ],
                                                 )),
                                           ],
@@ -701,26 +612,21 @@ class VipDetailState extends State<VipDetailPage>
                                                 Container(
                                                   width: 110.w,
                                                   height: 40.w,
-                                                  margin: new EdgeInsets.only(
-                                                      left: 10.w),
+                                                  margin: new EdgeInsets.only(left: 10.w),
                                                   child: Stack(
                                                     children: [
                                                       LocalPNG(
                                                         width: 110.w,
                                                         height: 40.w,
-                                                        url:
-                                                            'assets/images/detail/vip_qezf.png',
+                                                        url: 'assets/images/detail/vip_qezf.png',
                                                       ),
                                                       Center(
                                                         child: Text(
                                                           '全额支付',
                                                           style: TextStyle(
-                                                              color:
-                                                                  Colors.white,
+                                                              color: Colors.white,
                                                               fontSize: 14.sp,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w500),
+                                                              fontWeight: FontWeight.w500),
                                                         ),
                                                       ),
                                                     ],
@@ -734,19 +640,12 @@ class VipDetailState extends State<VipDetailPage>
                                       // ignore: missing_return
                                       onTap: () {
                                         if (!CgPrivilege.getPrivilegeStatus(
-                                            PrivilegeType.infoVip,
-                                            PrivilegeType
-                                                .privilegeAppointment)) {
-                                          showBuy(
-                                              '开通会员',
-                                              '购买会员才能在线预约雅间服务，平台担保交易，照片和人不匹配平台包赔，让你约到合乎心意的嫩模',
-                                              3);
+                                            PrivilegeType.infoVip, PrivilegeType.privilegeAppointment)) {
+                                          showBuy('开通会员', '购买会员才能在线预约雅间服务，平台担保交易，照片和人不匹配平台包赔，让你约到合乎心意的嫩模', 3);
                                           return;
                                         }
                                         if (verifyDetail!['status'] == 1) {
-                                          BotToast.showText(
-                                              text: '该资源正在审核当中,无法下单',
-                                              align: Alignment(0, 0));
+                                          BotToast.showText(text: '该资源正在审核当中,无法下单', align: Alignment(0, 0));
                                         }
                                         if (verifyDetail!['status'] == 2) {
                                           setState(() {
@@ -764,17 +663,13 @@ class VipDetailState extends State<VipDetailPage>
                                             LocalPNG(
                                               width: 110.w,
                                               height: 40.w,
-                                              url:
-                                                  'assets/images/mymony/money-img.png',
+                                              url: 'assets/images/mymony/money-img.png',
                                             ),
                                             Center(
                                               child: Text(
                                                 '支付预约金',
                                                 style: TextStyle(
-                                                    color: Colors.white,
-                                                    fontSize: 14.sp,
-                                                    fontWeight:
-                                                        FontWeight.w500),
+                                                    color: Colors.white, fontSize: 14.sp, fontWeight: FontWeight.w500),
                                               ),
                                             ),
                                           ],
@@ -815,10 +710,7 @@ class VipDetailState extends State<VipDetailPage>
                     Center(
                       child: Text(
                         title,
-                        style: TextStyle(
-                            color: StyleTheme.cTitleColor,
-                            fontSize: 18.sp,
-                            fontWeight: FontWeight.bold),
+                        style: TextStyle(color: StyleTheme.cTitleColor, fontSize: 18.sp, fontWeight: FontWeight.bold),
                       ),
                     ),
                     Container(
@@ -826,9 +718,7 @@ class VipDetailState extends State<VipDetailPage>
                         child: (content is String)
                             ? Text(
                                 content,
-                                style: TextStyle(
-                                    fontSize: 14.sp,
-                                    color: StyleTheme.cTitleColor),
+                                style: TextStyle(fontSize: 14.sp, color: StyleTheme.cTitleColor),
                               )
                             : content),
                     GestureDetector(
@@ -857,8 +747,7 @@ class VipDetailState extends State<VipDetailPage>
                                   Center(
                                       child: Text(
                                     '取消',
-                                    style: TextStyle(
-                                        fontSize: 15.sp, color: Colors.white),
+                                    style: TextStyle(fontSize: 15.sp, color: Colors.white),
                                   )),
                                 ],
                               ),
@@ -872,9 +761,7 @@ class VipDetailState extends State<VipDetailPage>
                                   child: GestureDetector(
                                     onTap: () {
                                       Navigator.of(context).pop();
-                                      AppGlobal.appRouter?.push(
-                                          CommonUtils.getRealHash(
-                                              'memberCardsPage'));
+                                      AppGlobal.appRouter?.push(CommonUtils.getRealHash('memberCardsPage'));
                                     },
                                     child: Container(
                                       margin: new EdgeInsets.only(top: 30.w),
@@ -885,15 +772,12 @@ class VipDetailState extends State<VipDetailPage>
                                           LocalPNG(
                                             height: 50.w,
                                             width: 110.w,
-                                            url:
-                                                'assets/images/mymony/money-img.png',
+                                            url: 'assets/images/mymony/money-img.png',
                                           ),
                                           Center(
                                               child: Text(
                                             '去开通',
-                                            style: TextStyle(
-                                                fontSize: 15.sp,
-                                                color: Colors.white),
+                                            style: TextStyle(fontSize: 15.sp, color: Colors.white),
                                           )),
                                         ],
                                       ),
@@ -905,16 +789,9 @@ class VipDetailState extends State<VipDetailPage>
                                     switch (type) {
                                       case 0:
                                         Navigator.of(context).pop();
-                                        if (double.parse(verifyDetail!['fee']
-                                                .toString()) >
+                                        if (double.parse(verifyDetail!['fee'].toString()) >
                                             double.parse(myMoney.toString())) {
-                                          showBuy(
-                                              '确认下单',
-                                              '需要支付预约金' +
-                                                  verifyDetail!['fee']
-                                                      .toString() +
-                                                  '元宝。',
-                                              1);
+                                          showBuy('确认下单', '需要支付预约金' + verifyDetail!['fee'].toString() + '元宝。', 1);
                                           return;
                                         } else {
                                           reservation();
@@ -922,9 +799,7 @@ class VipDetailState extends State<VipDetailPage>
                                         break;
                                       case 1:
                                         context.pop();
-                                        AppGlobal.appRouter?.push(
-                                            CommonUtils.getRealHash(
-                                                'ingotWallet'));
+                                        AppGlobal.appRouter?.push(CommonUtils.getRealHash('ingotWallet'));
                                         break;
                                       case 2:
                                         Navigator.of(context).pop();
@@ -941,17 +816,12 @@ class VipDetailState extends State<VipDetailPage>
                                         LocalPNG(
                                           height: 50.w,
                                           width: 110.w,
-                                          url:
-                                              'assets/images/mymony/money-img.png',
+                                          url: 'assets/images/mymony/money-img.png',
                                         ),
                                         Center(
                                             child: Text(
-                                          type != 2
-                                              ? (type == 1 ? '去充值' : '确认支付')
-                                              : '朕知道了',
-                                          style: TextStyle(
-                                              fontSize: 15.sp,
-                                              color: Colors.white),
+                                          type != 2 ? (type == 1 ? '去充值' : '确认支付') : '朕知道了',
+                                          style: TextStyle(fontSize: 15.sp, color: Colors.white),
                                         )),
                                       ],
                                     ),
@@ -985,22 +855,14 @@ class VipDetailState extends State<VipDetailPage>
   Widget _totalScore() {
     if (_avg == null) return Container();
     String zeross = '0.0';
-    String ljsStr = _avg['avg(girl_face)'] == null
-        ? zeross
-        : _avg['avg(girl_face)'].substring(0, 3);
-    String avgsd = _avg['avg(girl_service)'] == null
-        ? zeross
-        : _avg['avg(girl_service)'].substring(0, 3);
+    String ljsStr = _avg['avg(girl_face)'] == null ? zeross : _avg['avg(girl_face)'].substring(0, 3);
+    String avgsd = _avg['avg(girl_service)'] == null ? zeross : _avg['avg(girl_service)'].substring(0, 3);
     return Container(
         height: 53.w,
         margin: new EdgeInsets.only(bottom: 18.5.w),
         decoration: BoxDecoration(
           color: Colors.white,
-          border: Border(
-              bottom: BorderSide(
-                  color: StyleTheme.textbgColor1,
-                  width: 1.w,
-                  style: BorderStyle.solid)),
+          border: Border(bottom: BorderSide(color: StyleTheme.textbgColor1, width: 1.w, style: BorderStyle.solid)),
         ),
         child: Row(
           children: <Widget>[
@@ -1009,10 +871,7 @@ class VipDetailState extends State<VipDetailPage>
               margin: EdgeInsets.only(left: 15.w),
               child: Text(
                 verifyDetail!['confirm'].toString() + '人评价',
-                style: TextStyle(
-                    fontSize: 18.sp,
-                    color: StyleTheme.cTitleColor,
-                    fontWeight: FontWeight.bold),
+                style: TextStyle(fontSize: 18.sp, color: StyleTheme.cTitleColor, fontWeight: FontWeight.bold),
               ),
             )),
             Expanded(
@@ -1022,13 +881,11 @@ class VipDetailState extends State<VipDetailPage>
                   children: [
                     Text(
                       '颜值 $ljsStr',
-                      style: TextStyle(
-                          fontSize: 14.sp, color: StyleTheme.cTitleColor),
+                      style: TextStyle(fontSize: 14.sp, color: StyleTheme.cTitleColor),
                     ),
                     Text(
                       '服务 $avgsd',
-                      style: TextStyle(
-                          fontSize: 14.sp, color: StyleTheme.cTitleColor),
+                      style: TextStyle(fontSize: 14.sp, color: StyleTheme.cTitleColor),
                     ),
                   ],
                 ))
@@ -1053,10 +910,7 @@ class VipDetailState extends State<VipDetailPage>
                   alignment: Alignment.center,
                   children: <Widget>[
                     Container(
-                        padding: EdgeInsets.only(
-                            top: CommonUtils.getWidth(40),
-                            left: 15.w,
-                            right: 15.w),
+                        padding: EdgeInsets.only(top: CommonUtils.getWidth(40), left: 15.w, right: 15.w),
                         child: Swiper(
                           controller: swiperController,
                           physics: NeverScrollableScrollPhysics(),
@@ -1064,8 +918,7 @@ class VipDetailState extends State<VipDetailPage>
                             return index == 0
                                 ? Column(
                                     mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       Container(
                                         child: Center(
@@ -1080,13 +933,10 @@ class VipDetailState extends State<VipDetailPage>
                                       Container(
                                         child: Flex(
                                           direction: Axis.horizontal,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.end,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
+                                          mainAxisAlignment: MainAxisAlignment.end,
+                                          crossAxisAlignment: CrossAxisAlignment.center,
                                           children: [
-                                            Expanded(
-                                                flex: 1, child: Container()),
+                                            Expanded(flex: 1, child: Container()),
                                             Expanded(
                                                 flex: 2,
                                                 child: Container(
@@ -1095,46 +945,28 @@ class VipDetailState extends State<VipDetailPage>
                                                   ),
                                                   child: Center(
                                                     child: Row(
-                                                      mainAxisSize:
-                                                          MainAxisSize.min,
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .center,
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .center,
+                                                      mainAxisSize: MainAxisSize.min,
+                                                      mainAxisAlignment: MainAxisAlignment.center,
+                                                      crossAxisAlignment: CrossAxisAlignment.center,
                                                       children: [
                                                         LocalPNG(
-                                                          width: CommonUtils
-                                                              .getWidth(76),
-                                                          height: CommonUtils
-                                                              .getWidth(54),
-                                                          url:
-                                                              'assets/images/detail/vip-yuanbao.png',
+                                                          width: CommonUtils.getWidth(76),
+                                                          height: CommonUtils.getWidth(54),
+                                                          url: 'assets/images/detail/vip-yuanbao.png',
                                                           fit: BoxFit.contain,
                                                         ),
                                                         SizedBox(
-                                                          width: CommonUtils
-                                                              .getWidth(22),
+                                                          width: CommonUtils.getWidth(22),
                                                         ),
                                                         Text.rich(TextSpan(
-                                                            text: (verifyDetail![
-                                                                        'fee'] -
-                                                                    selectValue)
-                                                                .toString(),
+                                                            text: (verifyDetail!['fee'] - selectValue).toString(),
                                                             style: TextStyle(
-                                                                color: StyleTheme
-                                                                    .cTitleColor,
-                                                                fontSize:
-                                                                    36.sp),
+                                                                color: StyleTheme.cTitleColor, fontSize: 36.sp),
                                                             children: [
                                                               TextSpan(
                                                                 text: '元宝',
                                                                 style: TextStyle(
-                                                                    color: StyleTheme
-                                                                        .cTitleColor,
-                                                                    fontSize:
-                                                                        18.sp),
+                                                                    color: StyleTheme.cTitleColor, fontSize: 18.sp),
                                                               )
                                                             ])),
                                                       ],
@@ -1143,25 +975,16 @@ class VipDetailState extends State<VipDetailPage>
                                                 )),
                                             Expanded(
                                                 flex: 1,
-                                                child: zfType == 2 &&
-                                                        selectValue != 0
+                                                child: zfType == 2 && selectValue != 0
                                                     ? Container(
-                                                        margin: EdgeInsets.only(
-                                                            top: 15.w),
+                                                        margin: EdgeInsets.only(top: 15.w),
                                                         child: Text(
-                                                          verifyDetail!['fee']
-                                                                  .toString() +
-                                                              '元宝',
+                                                          verifyDetail!['fee'].toString() + '元宝',
                                                           style: TextStyle(
-                                                            color: StyleTheme
-                                                                .cBioColor,
+                                                            color: StyleTheme.cBioColor,
                                                             fontSize: 18.sp,
-                                                            decoration:
-                                                                TextDecoration
-                                                                    .lineThrough,
-                                                            decorationColor:
-                                                                StyleTheme
-                                                                    .cBioColor,
+                                                            decoration: TextDecoration.lineThrough,
+                                                            decorationColor: StyleTheme.cBioColor,
                                                           ),
                                                         ),
                                                       )
@@ -1171,14 +994,10 @@ class VipDetailState extends State<VipDetailPage>
                                       ),
                                       Center(
                                         child: Consumer<HomeConfig>(
-                                          builder:
-                                              (context, homeConfig, child) {
+                                          builder: (context, homeConfig, child) {
                                             return Text(
                                               "账户余额${homeConfig.member.money}元宝",
-                                              style: TextStyle(
-                                                  color:
-                                                      StyleTheme.cDangerColor,
-                                                  fontSize: 12.sp),
+                                              style: TextStyle(color: StyleTheme.cDangerColor, fontSize: 12.sp),
                                             );
                                           },
                                         ),
@@ -1204,16 +1023,10 @@ class VipDetailState extends State<VipDetailPage>
                                           : Container(),
                                       zfType == 1
                                           ? Container(
-                                              margin: EdgeInsets.only(
-                                                  top: 15.w,
-                                                  bottom:
-                                                      CommonUtils.getWidth(44)),
+                                              margin: EdgeInsets.only(top: 15.w, bottom: CommonUtils.getWidth(44)),
                                               child: Text(
                                                 '选择消费',
-                                                style: TextStyle(
-                                                    color:
-                                                        StyleTheme.cTitleColor,
-                                                    fontSize: 14.sp),
+                                                style: TextStyle(color: StyleTheme.cTitleColor, fontSize: 14.sp),
                                               ),
                                             )
                                           : Container(),
@@ -1223,10 +1036,7 @@ class VipDetailState extends State<VipDetailPage>
                                                 mainAxisSize: MainAxisSize.min,
                                                 children: <Widget>[
                                                   for (var item in radioList)
-                                                    checkbox(
-                                                        item['title'],
-                                                        item['id'],
-                                                        setBottomSheetState)
+                                                    checkbox(item['title'], item['id'], setBottomSheetState)
                                                 ],
                                               ),
                                             )
@@ -1236,49 +1046,31 @@ class VipDetailState extends State<VipDetailPage>
                                           ? Container()
                                           : rowText(
                                               '优惠券',
-                                              selectValue == 0
-                                                  ? '选择优惠券'
-                                                  : selectValue.toString() +
-                                                      '元宝优惠券',
+                                              selectValue == 0 ? '选择优惠券' : selectValue.toString() + '元宝优惠券',
                                               setBottomSheetState,
-                                              selectValue == 0
-                                                  ? StyleTheme.cBioColor
-                                                  : StyleTheme.cDangerColor,
+                                              selectValue == 0 ? StyleTheme.cBioColor : StyleTheme.cDangerColor,
                                             ),
                                       BottomLine(),
-                                      rowText(
-                                          verifyDetail!['post_type'] == 2
-                                              ? '预约男模'
-                                              : '预约妹子',
-                                          verifyDetail!['title'],
+                                      rowText(verifyDetail!['post_type'] == 2 ? '预约男模' : '预约妹子', verifyDetail!['title'],
                                           setBottomSheetState),
                                       BottomLine(),
-                                      rowText('发布用户', verifyDetail!['nickname'],
-                                          setBottomSheetState),
+                                      rowText('发布用户', verifyDetail!['nickname'], setBottomSheetState),
                                       BottomLine(),
                                       Expanded(
                                           child: Center(
                                         child: GestureDetector(
                                           onTap: () {
-                                            if (myMoney <
-                                                (verifyDetail!['fee'] -
-                                                    selectValue)) {
-                                              AppGlobal.appRouter?.push(
-                                                  CommonUtils.getRealHash(
-                                                      'ingotWallet'));
+                                            if (myMoney < (verifyDetail!['fee'] - selectValue)) {
+                                              AppGlobal.appRouter?.push(CommonUtils.getRealHash('ingotWallet'));
                                             } else {
-                                              if (verifyDetail!['status'] ==
-                                                  2) {
+                                              if (verifyDetail!['status'] == 2) {
                                                 reservation();
                                               } else {
-                                                switch (
-                                                    verifyDetail!['status']) {
+                                                switch (verifyDetail!['status']) {
                                                   case 4:
                                                     showBuy(
                                                         '提示',
-                                                        verifyDetail![
-                                                                    'post_type'] ==
-                                                                2
+                                                        verifyDetail!['post_type'] == 2
                                                             ? '当前男模已被经纪人删除,不能支付预约金哦～'
                                                             : '当前茶女郎已被经纪人删除,不能支付预约金哦～',
                                                         2);
@@ -1286,9 +1078,7 @@ class VipDetailState extends State<VipDetailPage>
                                                   case 5:
                                                     showBuy(
                                                         '提示',
-                                                        verifyDetail![
-                                                                    'post_type'] ==
-                                                                2
+                                                        verifyDetail!['post_type'] == 2
                                                             ? '当前男模不在线,不能支付预约金,请稍后再来吧～'
                                                             : '当前妹子不在线,不能支付预约金,请稍后再来吧～',
                                                         2);
@@ -1302,46 +1092,29 @@ class VipDetailState extends State<VipDetailPage>
                                             mainAxisSize: MainAxisSize.min,
                                             children: [
                                               Container(
-                                                margin: EdgeInsets.only(
-                                                    bottom:
-                                                        CommonUtils.getWidth(
-                                                            20)),
-                                                width:
-                                                    CommonUtils.getWidth(550),
+                                                margin: EdgeInsets.only(bottom: CommonUtils.getWidth(20)),
+                                                width: CommonUtils.getWidth(550),
                                                 height: 50.w,
                                                 child: Stack(
                                                   children: [
                                                     LocalPNG(
-                                                      width:
-                                                          CommonUtils.getWidth(
-                                                              550),
-                                                      height:
-                                                          CommonUtils.getWidth(
-                                                              100),
-                                                      url:
-                                                          'assets/images/mymony/money-img.png',
+                                                      width: CommonUtils.getWidth(550),
+                                                      height: CommonUtils.getWidth(100),
+                                                      url: 'assets/images/mymony/money-img.png',
                                                     ),
                                                     Center(
                                                         child: Text(
-                                                      myMoney <
-                                                              (verifyDetail![
-                                                                      'fee'] -
-                                                                  selectValue)
+                                                      myMoney < (verifyDetail!['fee'] - selectValue)
                                                           ? '余额不足,去充值'
                                                           : _null + '立即支付',
-                                                      style: TextStyle(
-                                                          fontSize: 15.w,
-                                                          color: Colors.white),
+                                                      style: TextStyle(fontSize: 15.w, color: Colors.white),
                                                     )),
                                                   ],
                                                 ),
                                               ),
                                               Text(
                                                 '支付预约金前，请先和茶老板沟通妹子和服务等',
-                                                style: TextStyle(
-                                                    color:
-                                                        StyleTheme.cDangerColor,
-                                                    fontSize: 12.sp),
+                                                style: TextStyle(color: StyleTheme.cDangerColor, fontSize: 12.sp),
                                               )
                                             ],
                                           ),
@@ -1412,10 +1185,7 @@ class VipDetailState extends State<VipDetailPage>
                 child: Center(
               child: Text(
                 '选择优惠券',
-                style: TextStyle(
-                    fontSize: 18.sp,
-                    color: StyleTheme.cTitleColor,
-                    fontWeight: FontWeight.w500),
+                style: TextStyle(fontSize: 18.sp, color: StyleTheme.cTitleColor, fontWeight: FontWeight.w500),
               ),
             )),
             GestureDetector(
@@ -1451,13 +1221,11 @@ class VipDetailState extends State<VipDetailPage>
       reqReply(_id, nickname);
       return;
     }
-    if (CgPrivilege.getPrivilegeStatus(
-        PrivilegeType.infoConfirm, PrivilegeType.privilegeComment)) {
+    if (CgPrivilege.getPrivilegeStatus(PrivilegeType.infoConfirm, PrivilegeType.privilegeComment)) {
       if (userPaid) {
         reqReply(_id, nickname);
       } else {
-        YyShowDialog.showdialog(context, title: '提示', btnText: '支付预约金',
-            callBack: () {
+        YyShowDialog.showdialog(context, title: '提示', btnText: '支付预约金', callBack: () {
           if (verifyDetail!['status'] == 2) {
             setState(() {
               myMoney = money;
@@ -1472,14 +1240,12 @@ class VipDetailState extends State<VipDetailPage>
         });
       }
     } else {
-      return CommonUtils.showVipDialog(
-          context, PrivilegeType.privilegeCommentString);
+      return CommonUtils.showVipDialog(context, PrivilegeType.privilegeCommentString);
     }
   }
 
   reqReply(_id, String nickname) {
-    InputDialog.show(context, '回复给 $nickname', limitingText: 99, btnText: '发送',
-        onSubmit: (value) {
+    InputDialog.show(context, '回复给 $nickname', limitingText: 99, btnText: '发送', onSubmit: (value) {
       if (value != null) {
         replyVipComment(confirmId: _id, content: value).then((res) {
           if (res!['status'] != 0) {
@@ -1492,8 +1258,7 @@ class VipDetailState extends State<VipDetailPage>
     });
   }
 
-  Widget rowText(String title, String content, Function callBack,
-      [Color? color]) {
+  Widget rowText(String title, String content, Function callBack, [Color? color]) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -1534,8 +1299,7 @@ class VipDetailState extends State<VipDetailPage>
               )
             : Text(
                 content,
-                style:
-                    TextStyle(fontSize: 14.sp, color: StyleTheme.cTitleColor),
+                style: TextStyle(fontSize: 14.sp, color: StyleTheme.cTitleColor),
               )
       ],
     );
@@ -1586,13 +1350,12 @@ class VipDetailState extends State<VipDetailPage>
                 margin: new EdgeInsets.only(right: 9.5.w),
                 child: GestureDetector(
                   onTap: () {
-                    AppGlobal.appRouter?.push(CommonUtils.getRealHash(
-                        'brokerHomepage/' +
-                            item['aff'].toString() +
-                            '/' +
-                            Uri.encodeComponent(item['thumb'].toString()) +
-                            '/' +
-                            Uri.encodeComponent(item['nickname'].toString())));
+                    AppGlobal.appRouter?.push(CommonUtils.getRealHash('brokerHomepage/' +
+                        item['aff'].toString() +
+                        '/' +
+                        Uri.encodeComponent(item['thumb'].toString()) +
+                        '/' +
+                        Uri.encodeComponent(item['nickname'].toString())));
                   },
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(15.w),
@@ -1623,11 +1386,9 @@ class VipDetailState extends State<VipDetailPage>
                     children: [
                       Text(
                         "${DateUtil.formatDateStr(item['created_str'].toString(), format: DateFormats.y_mo_d)}",
-                        style: TextStyle(
-                            color: StyleTheme.color153, fontSize: 11.sp),
+                        style: TextStyle(color: StyleTheme.color153, fontSize: 11.sp),
                       ),
-                      if (item['time_str'] != null &&
-                          item['time_str'].trim().isNotEmpty)
+                      if (item['time_str'] != null && item['time_str'].trim().isNotEmpty)
                         Padding(
                           padding: EdgeInsets.only(left: 6.w),
                           child: Row(
@@ -1638,10 +1399,8 @@ class VipDetailState extends State<VipDetailPage>
                                 height: 13.w,
                                 padding: EdgeInsets.symmetric(horizontal: 6.w),
                                 decoration: BoxDecoration(
-                                    gradient: LinearGradient(colors: [
-                                      Color.fromRGBO(255, 144, 0, 1),
-                                      Color.fromRGBO(255, 194, 30, 1)
-                                    ]),
+                                    gradient: LinearGradient(
+                                        colors: [Color.fromRGBO(255, 144, 0, 1), Color.fromRGBO(255, 194, 30, 1)]),
                                     borderRadius: BorderRadius.only(
                                       topLeft: Radius.circular(6.5.w),
                                       bottomLeft: Radius.circular(6.5.w),
@@ -1649,9 +1408,7 @@ class VipDetailState extends State<VipDetailPage>
                                     )),
                                 child: Text(
                                   "${item['time_str']}",
-                                  style: TextStyle(
-                                      color: Color.fromRGBO(248, 253, 255, 1),
-                                      fontSize: 8.sp),
+                                  style: TextStyle(color: Color.fromRGBO(248, 253, 255, 1), fontSize: 8.sp),
                                 ),
                               )
                             ],
@@ -1689,14 +1446,11 @@ class VipDetailState extends State<VipDetailPage>
                             height: 15.w,
                             alignment: Alignment.center,
                             decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(7.5.w),
-                                color: StyleTheme.color253240228),
+                                borderRadius: BorderRadius.circular(7.5.w), color: StyleTheme.color253240228),
                             padding: EdgeInsets.symmetric(horizontal: 6.5.w),
                             child: Text(
                               e,
-                              style: TextStyle(
-                                  fontSize: 10.w,
-                                  color: StyleTheme.cDangerColor),
+                              style: TextStyle(fontSize: 10.w, color: StyleTheme.cDangerColor),
                             ),
                           )
                         ],
@@ -1721,17 +1475,11 @@ class VipDetailState extends State<VipDetailPage>
               padding: EdgeInsets.symmetric(vertical: 11.w),
               physics: NeverScrollableScrollPhysics(),
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 3,
-                  mainAxisSpacing: 7.5.w,
-                  crossAxisSpacing: 7.5.w,
-                  childAspectRatio: 1),
+                  crossAxisCount: 3, mainAxisSpacing: 7.5.w, crossAxisSpacing: 7.5.w, childAspectRatio: 1),
               itemBuilder: (context, index) {
                 return GestureDetector(
                   onTap: () {
-                    AppGlobal.picMap = {
-                      'resources': item['media'],
-                      'index': index
-                    };
+                    AppGlobal.picMap = {'resources': item['media'], 'index': index};
                     context.push('/teaViewPicPage');
                   },
                   child: ClipRRect(
@@ -1752,8 +1500,7 @@ class VipDetailState extends State<VipDetailPage>
                   children: [
                     Text(
                       verifyDetail!['post_type'] == 2 ? '男模颜值:' : '妹子颜值:',
-                      style: TextStyle(
-                          fontSize: 14.sp, color: StyleTheme.cTitleColor),
+                      style: TextStyle(fontSize: 14.sp, color: StyleTheme.cTitleColor),
                     ),
                     StarRating(
                       rating: item['girl_face'].toDouble(),
@@ -1780,8 +1527,7 @@ class VipDetailState extends State<VipDetailPage>
                       ),
                       Text(
                         '回复',
-                        style: TextStyle(
-                            color: StyleTheme.cTitleColor, fontSize: 12.sp),
+                        style: TextStyle(color: StyleTheme.cTitleColor, fontSize: 12.sp),
                       )
                     ],
                   ),
@@ -1796,8 +1542,7 @@ class VipDetailState extends State<VipDetailPage>
               children: [
                 Text(
                   '服务质量:',
-                  style:
-                      TextStyle(fontSize: 14.sp, color: StyleTheme.cTitleColor),
+                  style: TextStyle(fontSize: 14.sp, color: StyleTheme.cTitleColor),
                 ),
                 StarRating(
                   rating: item['girl_service'].toDouble(),
@@ -1813,9 +1558,7 @@ class VipDetailState extends State<VipDetailPage>
             Container(
               padding: EdgeInsets.symmetric(horizontal: 11.w, vertical: 2.w),
               margin: EdgeInsets.only(top: 11.5.w),
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(5),
-                  color: StyleTheme.bottomappbarColor),
+              decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), color: StyleTheme.bottomappbarColor),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -1836,12 +1579,9 @@ class VipDetailState extends State<VipDetailPage>
                                   child: CommonUtils.authorWidget(),
                                 ),
                               ),
-                            TextSpan(
-                                text: "${e['desc']}",
-                                style: TextStyle(color: StyleTheme.color102))
+                            TextSpan(text: "${e['desc']}", style: TextStyle(color: StyleTheme.color102))
                           ]),
-                          style: TextStyle(
-                              fontSize: 15.sp, color: StyleTheme.color34),
+                          style: TextStyle(fontSize: 15.sp, color: StyleTheme.color34),
                         )
                       ],
                     ),
@@ -1919,14 +1659,8 @@ class VipDetailState extends State<VipDetailPage>
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               for (var item in _introductionList!)
-                _introductionItem(
-                    item['icon'],
-                    item['title'],
-                    item['introduction'],
-                    item['star'],
-                    item['type'],
-                    item['copy'],
-                    item['isTag'])
+                _introductionItem(item['icon'], item['title'], item['introduction'], item['star'], item['type'],
+                    item['copy'], item['isTag'])
             ],
           ),
         ));
@@ -1966,11 +1700,7 @@ class VipDetailState extends State<VipDetailPage>
                   child: Text(
                     title + ':',
                     style: TextStyle(
-                        height: 1.3,
-                        fontSize: 14.sp,
-                        color: type
-                            ? StyleTheme.cTitleColor
-                            : StyleTheme.cDangerColor),
+                        height: 1.3, fontSize: 14.sp, color: type ? StyleTheme.cTitleColor : StyleTheme.cDangerColor),
                   )),
               star != null
                   ? StarRating(
@@ -1987,9 +1717,7 @@ class VipDetailState extends State<VipDetailPage>
                               ? Wrap(
                                   spacing: CommonUtils.getWidth(20),
                                   runSpacing: CommonUtils.getWidth(20),
-                                  children: <Widget>[
-                                    for (var item in introduction) yjTag(item)
-                                  ],
+                                  children: <Widget>[for (var item in introduction) yjTag(item)],
                                 )
                               : Text('--'),
                         ))
@@ -1999,9 +1727,7 @@ class VipDetailState extends State<VipDetailPage>
                             style: TextStyle(
                                 height: 1.3,
                                 fontSize: 14.sp,
-                                color: type
-                                    ? StyleTheme.cTitleColor
-                                    : StyleTheme.cDangerColor),
+                                color: type ? StyleTheme.cTitleColor : StyleTheme.cDangerColor),
                             maxLines: 4,
                             overflow: TextOverflow.ellipsis,
                           ),
@@ -2019,11 +1745,9 @@ class VipDetailState extends State<VipDetailPage>
       children: <Widget>[
         Container(
           height: 15.w,
-          padding:
-              new EdgeInsets.symmetric(horizontal: CommonUtils.getWidth(13)),
-          decoration: BoxDecoration(
-              color: Color(0xFFFDF0E4),
-              borderRadius: BorderRadius.circular(CommonUtils.getWidth(15))),
+          padding: new EdgeInsets.symmetric(horizontal: CommonUtils.getWidth(13)),
+          decoration:
+              BoxDecoration(color: Color(0xFFFDF0E4), borderRadius: BorderRadius.circular(CommonUtils.getWidth(15))),
           child: Center(
             child: Text(
               tag,
@@ -2037,8 +1761,7 @@ class VipDetailState extends State<VipDetailPage>
 
   Widget postureInfo(String icon, String title) {
     return Container(
-      margin: EdgeInsets.only(
-          right: CommonUtils.getWidth(40), bottom: CommonUtils.getWidth(37)),
+      margin: EdgeInsets.only(right: CommonUtils.getWidth(40), bottom: CommonUtils.getWidth(37)),
       child: Row(
         children: <Widget>[
           LocalPNG(
@@ -2060,8 +1783,7 @@ class VipDetailState extends State<VipDetailPage>
   }
 
   Widget yjTag(String title) {
-    dynamic numberSS =
-        title.length > 4 ? 4 : (title.length < 2 ? 2 : title.length);
+    dynamic numberSS = title.length > 4 ? 4 : (title.length < 2 ? 2 : title.length);
     return Container(
       margin: EdgeInsets.only(right: CommonUtils.getWidth(10)),
       height: 15.w,
@@ -2078,8 +1800,7 @@ class VipDetailState extends State<VipDetailPage>
               children: <Widget>[
                 Text(
                   title,
-                  style: TextStyle(
-                      fontSize: 10.sp, color: StyleTheme.cDangerColor),
+                  style: TextStyle(fontSize: 10.sp, color: StyleTheme.cDangerColor),
                 ),
               ],
             ),
@@ -2092,8 +1813,7 @@ class VipDetailState extends State<VipDetailPage>
   Widget newSee() {
     return Container(
       color: StyleTheme.bottomappbarColor,
-      padding: new EdgeInsets.only(
-          left: CommonUtils.getWidth(24), right: CommonUtils.getWidth(37)),
+      padding: new EdgeInsets.only(left: CommonUtils.getWidth(24), right: CommonUtils.getWidth(37)),
       // margin: new EdgeInsets.only(bottom: 15.w),
       height: CommonUtils.getWidth(140),
       child: Row(
@@ -2118,10 +1838,7 @@ class VipDetailState extends State<VipDetailPage>
               children: <Widget>[
                 Text(
                   '如果不满意可以联系茶老板退预约金，消费金额包含预约金，点击右上角“消费须知”了解更多',
-                  style: TextStyle(
-                      height: 2,
-                      color: StyleTheme.cDangerColor,
-                      fontSize: 12.sp),
+                  style: TextStyle(height: 2, color: StyleTheme.cDangerColor, fontSize: 12.sp),
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                 ),

@@ -12,7 +12,7 @@ import 'package:chaguaner2023/components/headerContainer.dart';
 import 'package:chaguaner2023/components/loading.dart';
 import 'package:chaguaner2023/components/networkErr.dart';
 import 'package:chaguaner2023/components/nodata.dart';
-import 'package:chaguaner2023/components/pagetitlebar.dart';
+import 'package:chaguaner2023/components/page_title_bar.dart';
 import 'package:chaguaner2023/components/starrating.dart';
 import 'package:chaguaner2023/components/tab/v3_tab.dart';
 import 'package:chaguaner2023/components/yy_dialog.dart';

@@ -1,6 +1,6 @@
 import 'package:bot_toast/bot_toast.dart';
 import 'package:chaguaner2023/components/headerContainer.dart';
-import 'package:chaguaner2023/components/pagetitlebar.dart';
+import 'package:chaguaner2023/components/page_title_bar.dart';
 import 'package:chaguaner2023/components/starrating.dart';
 import 'package:chaguaner2023/components/upload/start_upload.dart';
 import 'package:chaguaner2023/components/upload/upload_resouce.dart';
@@ -21,8 +21,7 @@ class FinishPublish extends StatefulWidget {
   final Map? editInfoData;
   final Map<String, String>? publishdata;
   final PageController? controller;
-  FinishPublish(
-      {Key? key, this.publishdata, this.editInfoData, this.controller});
+  FinishPublish({Key? key, this.publishdata, this.editInfoData, this.controller});
 
   @override
   State<StatefulWidget> createState() => FinishPublishState();
@@ -71,11 +70,9 @@ class FinishPublishState extends State<FinishPublish> {
       _addreensController.text = widget.editInfoData?['address'] ?? '';
       _descriptionController.text = widget.editInfoData!['desc'];
       _phonenumber = AppGlobal.publishPostType == 1
-          ? widget.editInfoData!['phone']
-              .substring(2, widget.editInfoData!['phone'].length)
+          ? widget.editInfoData!['phone'].substring(2, widget.editInfoData!['phone'].length)
           : '';
-      List _connect =
-          (widget.editInfoData!['contact_info'] as String).split(':');
+      List _connect = (widget.editInfoData!['contact_info'] as String).split(':');
       if (_connect.length > 1) {
         _selectedValue = _connect[0];
         contactInfo = _connect[1];
@@ -95,8 +92,7 @@ class FinishPublishState extends State<FinishPublish> {
     }
     for (var j = 0; j < _contactType.length; j++) {
       dynamic titles = _contactType[j]['title'];
-      if (widget.editInfoData?['phone'] != null &&
-          widget.editInfoData?['phone'].indexOf(titles) > -1) {
+      if (widget.editInfoData?['phone'] != null && widget.editInfoData?['phone'].indexOf(titles) > -1) {
         activeContactType = j;
         contactString = titles;
       }
@@ -129,8 +125,7 @@ class FinishPublishState extends State<FinishPublish> {
       return;
     }
     if (AppGlobal.publishPostType == 0) {
-      List _Oimage =
-          (UploadFileList.allFile['screenshot']?.originalUrls ?? []).map((e) {
+      List _Oimage = (UploadFileList.allFile['screenshot']?.originalUrls ?? []).map((e) {
         return Uri.parse(e.path).path;
       }).toList();
       List _nImage = (fileMap['screenshot'] ?? []).map((e) {
@@ -170,8 +165,7 @@ class FinishPublishState extends State<FinishPublish> {
         getProfilePage().then((val) {
           if (val!['status'] != 0) {
             // Provider.read<GlobalState>().setProfile(val.data);
-            Provider.of<GlobalState>(context, listen: false)
-                .setProfile(val['data']);
+            Provider.of<GlobalState>(context, listen: false).setProfile(val['data']);
           }
         });
         AppGlobal.appRouter?.push(CommonUtils.getRealHash('waitingaudit/2'));
@@ -325,8 +319,7 @@ class FinishPublishState extends State<FinishPublish> {
           ),
           content: new Text(
               "iOS14的用户请注意，为了您更好的上传体验，请允许茶馆儿访问所有照片，如果您是通过“选择照片...”去选择，那么下次上传时就只能选择你勾选的那一部分照片了，卸载重装可以修复“无法选择所有图片”这个问题。"),
-          shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(10))),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
           actions: <Widget>[
             GestureDetector(
               onTap: () {
@@ -344,8 +337,7 @@ class FinishPublishState extends State<FinishPublish> {
               },
               child: Text(
                 "知道了",
-                style:
-                    TextStyle(color: StyleTheme.cDangerColor, fontSize: 14.sp),
+                style: TextStyle(color: StyleTheme.cDangerColor, fontSize: 14.sp),
               ),
             )
           ],
@@ -375,17 +367,12 @@ class FinishPublishState extends State<FinishPublish> {
           },
           child: Container(
             decoration: BoxDecoration(
-                color: activeContactType == i
-                    ? StyleTheme.cDangerColor
-                    : Colors.transparent,
+                color: activeContactType == i ? StyleTheme.cDangerColor : Colors.transparent,
                 borderRadius: BorderRadius.circular(15.w)),
             padding: EdgeInsets.symmetric(vertical: 2.w, horizontal: 11.5.w),
             child: Text(titleValue,
-                style: TextStyle(
-                    color: activeContactType == i
-                        ? Colors.white
-                        : StyleTheme.cTitleColor,
-                    fontSize: 12.sp)),
+                style:
+                    TextStyle(color: activeContactType == i ? Colors.white : StyleTheme.cTitleColor, fontSize: 12.sp)),
           ),
         ),
       );
@@ -428,53 +415,37 @@ class FinishPublishState extends State<FinishPublish> {
               height: double.infinity,
               child: ListView(children: <Widget>[
                 Padding(
-                  padding: EdgeInsets.symmetric(
-                      vertical: 15.5.w, horizontal: 15.5.w),
+                  padding: EdgeInsets.symmetric(vertical: 15.5.w, horizontal: 15.5.w),
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Text("场所信息",
                           textAlign: TextAlign.left,
-                          style: TextStyle(
-                              color: StyleTheme.cTitleColor,
-                              fontSize: 18.sp,
-                              fontWeight: FontWeight.w500)),
+                          style:
+                              TextStyle(color: StyleTheme.cTitleColor, fontSize: 18.sp, fontWeight: FontWeight.w500)),
                       SizedBox(height: 10.w),
                       ListTile(
                         onTap: () {
-                          InputDialog.show(context, '营业时间', limitingText: 16)
-                              .then((value) {
+                          InputDialog.show(context, '营业时间', limitingText: 16).then((value) {
                             setState(() {
                               _businesshours = value;
                             });
                           });
                         },
                         contentPadding: EdgeInsets.only(left: 0, right: 0),
-                        title: Text('营业时间',
-                            style: TextStyle(
-                                color: StyleTheme.cTitleColor,
-                                fontSize: 14.sp)),
-                        trailing: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: <Widget>[
-                              Text(
-                                  _businesshours == null
-                                      ? '早9点～晚5点'
-                                      : _businesshours.toString(),
-                                  style: TextStyle(
-                                      fontSize: 14.sp,
-                                      color: _businesshours == null
-                                          ? StyleTheme.cBioColor
-                                          : StyleTheme.cTitleColor)),
-                            ]),
+                        title: Text('营业时间', style: TextStyle(color: StyleTheme.cTitleColor, fontSize: 14.sp)),
+                        trailing: Row(mainAxisSize: MainAxisSize.min, children: <Widget>[
+                          Text(_businesshours == null ? '早9点～晚5点' : _businesshours.toString(),
+                              style: TextStyle(
+                                  fontSize: 14.sp,
+                                  color: _businesshours == null ? StyleTheme.cBioColor : StyleTheme.cTitleColor)),
+                        ]),
                       ),
                       BottomLine(),
                       ListTile(
                         onTap: () {
-                          InputDialog.show(context, '最低价格',
-                                  limitingText: 16,
-                                  boardType: TextInputType.number)
+                          InputDialog.show(context, '最低价格', limitingText: 16, boardType: TextInputType.number)
                               .then((value) {
                             setState(() {
                               _minPrice = value;
@@ -482,80 +453,51 @@ class FinishPublishState extends State<FinishPublish> {
                           });
                         },
                         contentPadding: EdgeInsets.only(left: 0, right: 0),
-                        title: Text('最低价格',
-                            style: TextStyle(
-                                color: StyleTheme.cTitleColor,
-                                fontSize: 14.sp)),
-                        trailing: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: <Widget>[
-                              Text(
-                                  _minPrice == null
-                                      ? '输入价格（元)'
-                                      : _minPrice.toString(),
-                                  style: TextStyle(
-                                      fontSize: 14.sp,
-                                      color: _minPrice == null
-                                          ? StyleTheme.cBioColor
-                                          : StyleTheme.cTitleColor)),
-                            ]),
+                        title: Text('最低价格', style: TextStyle(color: StyleTheme.cTitleColor, fontSize: 14.sp)),
+                        trailing: Row(mainAxisSize: MainAxisSize.min, children: <Widget>[
+                          Text(_minPrice == null ? '输入价格（元)' : _minPrice.toString(),
+                              style: TextStyle(
+                                  fontSize: 14.sp,
+                                  color: _minPrice == null ? StyleTheme.cBioColor : StyleTheme.cTitleColor)),
+                        ]),
                       ),
                       BottomLine(),
                       ListTile(
                         onTap: () {
-                          InputDialog.show(context, '消费情况', limitingText: 20)
-                              .then((value) {
+                          InputDialog.show(context, '消费情况', limitingText: 20).then((value) {
                             setState(() {
                               _consumption = value;
                             });
                           });
                         },
                         contentPadding: EdgeInsets.only(left: 0, right: 0),
-                        title: Text('消费情况',
-                            style: TextStyle(
-                                color: StyleTheme.cTitleColor,
-                                fontSize: 14.sp)),
-                        trailing: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: <Widget>[
-                              Text(
-                                  _consumption == null
-                                      ? ppTips
-                                      : "$_consumption",
-                                  style: TextStyle(
-                                      fontSize: 14.sp,
-                                      color: _consumption == null
-                                          ? StyleTheme.cBioColor
-                                          : StyleTheme.cTitleColor)),
-                            ]),
+                        title: Text('消费情况', style: TextStyle(color: StyleTheme.cTitleColor, fontSize: 14.sp)),
+                        trailing: Row(mainAxisSize: MainAxisSize.min, children: <Widget>[
+                          Text(_consumption == null ? ppTips : "$_consumption",
+                              style: TextStyle(
+                                  fontSize: 14.sp,
+                                  color: _consumption == null ? StyleTheme.cBioColor : StyleTheme.cTitleColor)),
+                        ]),
                       ),
                       BottomLine(),
                       ListTile(
                         contentPadding: EdgeInsets.only(left: 0, right: 0),
-                        title: Text("环境设备",
-                            style: TextStyle(
-                                color: StyleTheme.cTitleColor,
-                                fontSize: 14.sp)),
-                        trailing: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: <Widget>[
-                              StarRating(
-                                rating: _environmental,
-                                onRatingChanged: (value) {
-                                  setState(() {
-                                    _environmental = value;
-                                  });
-                                },
-                              ),
-                            ]),
+                        title: Text("环境设备", style: TextStyle(color: StyleTheme.cTitleColor, fontSize: 14.sp)),
+                        trailing: Row(mainAxisSize: MainAxisSize.min, children: <Widget>[
+                          StarRating(
+                            rating: _environmental,
+                            onRatingChanged: (value) {
+                              setState(() {
+                                _environmental = value;
+                              });
+                            },
+                          ),
+                        ]),
                       ),
                       BottomLine(),
                       ListTile(
                         contentPadding: EdgeInsets.only(left: 0, right: 0),
-                        title: Text('详细描述',
-                            style: TextStyle(
-                                color: StyleTheme.cTitleColor,
-                                fontSize: 14.sp)),
+                        title: Text('详细描述', style: TextStyle(color: StyleTheme.cTitleColor, fontSize: 14.sp)),
                       ),
                       Card(
                           margin: EdgeInsets.zero,
@@ -568,25 +510,18 @@ class FinishPublishState extends State<FinishPublish> {
                               textInputAction: TextInputAction.done,
                               autofocus: false,
                               maxLines: 8,
-                              style: TextStyle(
-                                  fontSize: 14.sp,
-                                  color: StyleTheme.cTitleColor),
+                              style: TextStyle(fontSize: 14.sp, color: StyleTheme.cTitleColor),
                               decoration: InputDecoration.collapsed(
-                                  hintStyle: TextStyle(
-                                      fontSize: 14.sp,
-                                      color: StyleTheme.cBioColor),
-                                  hintText:
-                                      "请阐述真实过程，字数不得少于30个字。字数越多，图片质量越好，管理员审核后所标价的铜钱越高。"),
+                                  hintStyle: TextStyle(fontSize: 14.sp, color: StyleTheme.cBioColor),
+                                  hintText: "请阐述真实过程，字数不得少于30个字。字数越多，图片质量越好，管理员审核后所标价的铜钱越高。"),
                             ),
                           )),
-                      widget.editInfoData != null ||
-                              AppGlobal.publishPostType == 0
+                      widget.editInfoData != null || AppGlobal.publishPostType == 0
                           ? Container()
                           : SizedBox(
                               height: 30.w,
                             ),
-                      widget.editInfoData != null ||
-                              AppGlobal.publishPostType == 0
+                      widget.editInfoData != null || AppGlobal.publishPostType == 0
                           ? Container()
                           : Row(
                               crossAxisAlignment: CrossAxisAlignment.center,
@@ -595,25 +530,18 @@ class FinishPublishState extends State<FinishPublish> {
                                   child: Text("联系信息",
                                       textAlign: TextAlign.left,
                                       style: TextStyle(
-                                          color: StyleTheme.cTitleColor,
-                                          fontSize: 18.sp,
-                                          fontWeight: FontWeight.w500)),
+                                          color: StyleTheme.cTitleColor, fontSize: 18.sp, fontWeight: FontWeight.w500)),
                                 ),
                                 Container(
                                   decoration: BoxDecoration(
-                                      color: Color(0xFFFDF0E4),
-                                      borderRadius:
-                                          BorderRadius.circular(15.w)),
+                                      color: Color(0xFFFDF0E4), borderRadius: BorderRadius.circular(15.w)),
                                   child: contactType(),
                                 ),
                               ],
                             ),
                       ListTile(
                         contentPadding: EdgeInsets.only(left: 0, right: 0),
-                        title: Text('详细地址',
-                            style: TextStyle(
-                                color: StyleTheme.cTitleColor,
-                                fontSize: 14.sp)),
+                        title: Text('详细地址', style: TextStyle(color: StyleTheme.cTitleColor, fontSize: 14.sp)),
                         trailing: Container(
                           width: 200.w,
                           child: TextField(
@@ -622,13 +550,9 @@ class FinishPublishState extends State<FinishPublish> {
                             autofocus: false,
                             textAlign: TextAlign.right,
                             maxLines: 1,
-                            style: TextStyle(
-                                fontSize: 14.sp, color: StyleTheme.cTitleColor),
+                            style: TextStyle(fontSize: 14.sp, color: StyleTheme.cTitleColor),
                             decoration: InputDecoration.collapsed(
-                                hintStyle: TextStyle(
-                                    fontSize: 14.sp,
-                                    color: StyleTheme.cBioColor),
-                                hintText: "输入详细地址"),
+                                hintStyle: TextStyle(fontSize: 14.sp, color: StyleTheme.cBioColor), hintText: "输入详细地址"),
                           ),
                         ),
                       ),
@@ -641,35 +565,24 @@ class FinishPublishState extends State<FinishPublish> {
                                 BottomLine(),
                                 ListTile(
                                   onTap: () {
-                                    InputDialog.show(
-                                            context, '联系$contactString',
-                                            limitingText: 20,
-                                            boardType: contactInputType)
+                                    InputDialog.show(context, '联系$contactString',
+                                            limitingText: 20, boardType: contactInputType)
                                         .then((value) {
                                       setState(() {
                                         _phonenumber = value;
                                       });
                                     });
                                   },
-                                  contentPadding:
-                                      EdgeInsets.only(left: 0, right: 0),
+                                  contentPadding: EdgeInsets.only(left: 0, right: 0),
                                   title: Text('联系' + contactString,
-                                      style: TextStyle(
-                                          color: StyleTheme.cTitleColor,
-                                          fontSize: 14.sp)),
-                                  trailing: Row(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: <Widget>[
-                                        Text(
-                                            _phonenumber == null
-                                                ? '输入联系' + contactString
-                                                : _phonenumber.toString(),
-                                            style: TextStyle(
-                                                fontSize: 14.sp,
-                                                color: _phonenumber == null
-                                                    ? StyleTheme.cBioColor
-                                                    : StyleTheme.cTitleColor)),
-                                      ]),
+                                      style: TextStyle(color: StyleTheme.cTitleColor, fontSize: 14.sp)),
+                                  trailing: Row(mainAxisSize: MainAxisSize.min, children: <Widget>[
+                                    Text(_phonenumber == null ? '输入联系' + contactString : _phonenumber.toString(),
+                                        style: TextStyle(
+                                            fontSize: 14.sp,
+                                            color:
+                                                _phonenumber == null ? StyleTheme.cBioColor : StyleTheme.cTitleColor)),
+                                  ]),
                                 ),
                                 BottomLine(),
                                 SizedBox(height: 5.w),
@@ -677,13 +590,9 @@ class FinishPublishState extends State<FinishPublish> {
                                     TextSpan(text: '备用联系方式', children: [
                                       TextSpan(
                                           text: '（备用、非必填）',
-                                          style: TextStyle(
-                                              color: StyleTheme.cDangerColor,
-                                              fontSize: 12.sp))
+                                          style: TextStyle(color: StyleTheme.cDangerColor, fontSize: 12.sp))
                                     ]),
-                                    style: TextStyle(
-                                        color: StyleTheme.cTitleColor,
-                                        fontSize: 14.sp)),
+                                    style: TextStyle(color: StyleTheme.cTitleColor, fontSize: 14.sp)),
                                 SizedBox(height: 5.w),
                                 GestureDetector(
                                   behavior: HitTestBehavior.translucent,
@@ -691,9 +600,7 @@ class FinishPublishState extends State<FinishPublish> {
                                     if ((_selectedValue ?? '').isEmpty) {
                                       return CommonUtils.showText('请选择备用联系方式');
                                     }
-                                    InputDialog.show(context, '联系方式',
-                                            limitingText: 20,
-                                            boardType: TextInputType.text)
+                                    InputDialog.show(context, '联系方式', limitingText: 20, boardType: TextInputType.text)
                                         .then((value) {
                                       setState(() {
                                         contactInfo = value!;
@@ -716,39 +623,28 @@ class FinishPublishState extends State<FinishPublish> {
                                         },
                                         alignment: Alignment.center,
                                         // 将选项列表转换为 DropdownMenuItem 列表
-                                        items: _dropdownItems
-                                            .map<DropdownMenuItem<String>>(
-                                                (String value) {
+                                        items: _dropdownItems.map<DropdownMenuItem<String>>((String value) {
                                           return DropdownMenuItem<String>(
                                             value: value,
                                             child: Container(
                                               decoration: BoxDecoration(
-                                                  border: Border(
-                                                      bottom: BorderSide(
-                                                          width: 1.w,
-                                                          color:
-                                                              Colors.white12))),
+                                                  border:
+                                                      Border(bottom: BorderSide(width: 1.w, color: Colors.white12))),
                                               alignment: Alignment.center,
                                               child: Text(
                                                 value,
-                                                style: TextStyle(
-                                                    color: Colors.white,
-                                                    fontSize: 14.sp),
+                                                style: TextStyle(color: Colors.white, fontSize: 14.sp),
                                               ),
                                             ),
                                           );
                                         }).toList(),
-                                        selectedItemBuilder:
-                                            (BuildContext context) {
-                                          return _dropdownItems
-                                              .map<Widget>((String value) {
+                                        selectedItemBuilder: (BuildContext context) {
+                                          return _dropdownItems.map<Widget>((String value) {
                                             return Container(
                                               alignment: Alignment.center,
                                               child: Text(
                                                 value,
-                                                style: TextStyle(
-                                                    color: Colors.black,
-                                                    fontSize: 14.w),
+                                                style: TextStyle(color: Colors.black, fontSize: 14.w),
                                               ),
                                             );
                                           }).toList();
@@ -757,10 +653,7 @@ class FinishPublishState extends State<FinishPublish> {
                                       Expanded(
                                           child: Container(
                                         alignment: Alignment.centerRight,
-                                        child: Text(
-                                            contactInfo.isEmpty
-                                                ? '输入备用联系方式'
-                                                : contactInfo.toString(),
+                                        child: Text(contactInfo.isEmpty ? '输入备用联系方式' : contactInfo.toString(),
                                             style: TextStyle(
                                                 fontSize: 14.sp,
                                                 color: contactInfo.isEmpty
@@ -778,9 +671,7 @@ class FinishPublishState extends State<FinishPublish> {
                         child: Center(
                           child: Text(
                             '发帖大忌：\n禁止将联系方式和地址填写在联系信息之外的地方，并禁止填写QQ群，否则平台将直接封号删帖。',
-                            style: TextStyle(
-                                color: StyleTheme.cDangerColor,
-                                fontSize: 12.sp),
+                            style: TextStyle(color: StyleTheme.cDangerColor, fontSize: 12.sp),
                           ),
                         ),
                       ),
@@ -789,10 +680,8 @@ class FinishPublishState extends State<FinishPublish> {
                       ),
                       Text("照片",
                           textAlign: TextAlign.left,
-                          style: TextStyle(
-                              color: StyleTheme.cTitleColor,
-                              fontSize: 18.sp,
-                              fontWeight: FontWeight.w500)),
+                          style:
+                              TextStyle(color: StyleTheme.cTitleColor, fontSize: 18.sp, fontWeight: FontWeight.w500)),
                       SizedBox(height: 5.w),
                       UploadResouceWidget(
                         parmas: 'pic',
@@ -800,10 +689,8 @@ class FinishPublishState extends State<FinishPublish> {
                         maxLength: 10,
                         initResouceList: widget.editInfoData == null
                             ? null
-                            : (widget.editInfoData!['photos'] ?? [])
-                                .map<FileInfo>((e) {
-                                return FileInfo(
-                                    e['url'], 0, 1, 'pic', 'image', null, 0, 0);
+                            : (widget.editInfoData!['photos'] ?? []).map<FileInfo>((e) {
+                                return FileInfo(e['url'], 0, 1, 'pic', 'image', null, 0, 0);
                               }).toList(),
                       ),
                       Container(
@@ -811,9 +698,7 @@ class FinishPublishState extends State<FinishPublish> {
                         child: Center(
                           child: Text(
                             '温馨提示：\n请上传门店外部，内部环境照片，技师照片，如涉及店名、门牌、个人信息请打码处理',
-                            style: TextStyle(
-                                color: StyleTheme.cDangerColor,
-                                fontSize: 12.sp),
+                            style: TextStyle(color: StyleTheme.cDangerColor, fontSize: 12.sp),
                           ),
                         ),
                       ),
@@ -828,9 +713,7 @@ class FinishPublishState extends State<FinishPublish> {
                                 Text("验证截图",
                                     textAlign: TextAlign.left,
                                     style: TextStyle(
-                                        color: StyleTheme.cTitleColor,
-                                        fontSize: 18.sp,
-                                        fontWeight: FontWeight.w500)),
+                                        color: StyleTheme.cTitleColor, fontSize: 18.sp, fontWeight: FontWeight.w500)),
                                 SizedBox(height: 5.w),
                                 UploadResouceWidget(
                                   parmas: 'screenshot',
@@ -838,18 +721,8 @@ class FinishPublishState extends State<FinishPublish> {
                                   maxLength: 1,
                                   initResouceList: widget.editInfoData == null
                                       ? null
-                                      : (widget.editInfoData!['screenshot'] ??
-                                              [])
-                                          .map<FileInfo>((e) {
-                                          return FileInfo(
-                                              e['url'],
-                                              0,
-                                              1,
-                                              'screenshot',
-                                              'image',
-                                              null,
-                                              0,
-                                              0);
+                                      : (widget.editInfoData!['screenshot'] ?? []).map<FileInfo>((e) {
+                                          return FileInfo(e['url'], 0, 1, 'screenshot', 'image', null, 0, 0);
                                         }).toList(),
                                 ),
                                 Container(
@@ -857,9 +730,7 @@ class FinishPublishState extends State<FinishPublish> {
                                   child: Center(
                                     child: Text(
                                       '*需上传街道门牌照片，门店外部、内部照片，技师照片，个人消费记录照片。\n*若上传除此以外（沟通截图）的图片一律不予通过，请勿浪费时间。\n*该验证截图不会被显示，审核专用。',
-                                      style: TextStyle(
-                                          color: StyleTheme.cDangerColor,
-                                          fontSize: 12.sp),
+                                      style: TextStyle(color: StyleTheme.cDangerColor, fontSize: 12.sp),
                                     ),
                                   ),
                                 ),

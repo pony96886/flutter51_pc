@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:io';
 import 'package:chaguaner2023/components/VerticalModalSheet.dart';
 import 'package:chaguaner2023/components/cgDialog.dart';
-import 'package:chaguaner2023/components/pagetitlebar.dart';
+import 'package:chaguaner2023/components/page_title_bar.dart';
 import 'package:chaguaner2023/components/popupbox.dart';
 import 'package:chaguaner2023/mixins/pay_mixin.dart';
 import 'package:chaguaner2023/store/global.dart';
@@ -79,8 +79,7 @@ class MemberCardsPageState extends State<MemberCardsPage> with PayMixin {
                                     Center(
                                         child: Text(
                                       '我知道了',
-                                      style: TextStyle(
-                                          fontSize: 15.sp, color: Colors.white),
+                                      style: TextStyle(fontSize: 15.sp, color: Colors.white),
                                     )),
                                   ],
                                 ),
@@ -127,8 +126,8 @@ class MemberCardsPageState extends State<MemberCardsPage> with PayMixin {
 
   getCountDown() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    var installtimestamp = new DateTime.fromMillisecondsSinceEpoch(
-        int.parse(prefs.getString('${SpKeys.installTime}')!));
+    var installtimestamp =
+        new DateTime.fromMillisecondsSinceEpoch(int.parse(prefs.getString('${SpKeys.installTime}')!));
     var current = new DateTime.now().difference(installtimestamp);
     if (['', null, false].contains(installtimestamp)) {
     } else {
@@ -154,16 +153,10 @@ class MemberCardsPageState extends State<MemberCardsPage> with PayMixin {
               _countdownTime = 0;
               _countdownTips = "00:00:00";
             } else {
-              num hours =
-                  num.parse((_countdownTime ~/ 3600).toStringAsFixed(0));
-              num minutes =
-                  num.parse((_countdownTime ~/ 60 % 60).toStringAsFixed(0));
+              num hours = num.parse((_countdownTime ~/ 3600).toStringAsFixed(0));
+              num minutes = num.parse((_countdownTime ~/ 60 % 60).toStringAsFixed(0));
               num seconds = num.parse((_countdownTime % 60).toStringAsFixed(0));
-              String tipscount = checktime(hours) +
-                  ":" +
-                  checktime(minutes) +
-                  ":" +
-                  checktime(seconds);
+              String tipscount = checktime(hours) + ":" + checktime(minutes) + ":" + checktime(seconds);
               _countdownTips = tipscount;
               --_countdownTime;
             }
@@ -176,18 +169,10 @@ class MemberCardsPageState extends State<MemberCardsPage> with PayMixin {
   Map getImageSet(int vipLevel, int temp) {
     if (vipLevel == 1 && temp == 0) {
       //白银
-      return {
-        'bg': 'assets/images/member/silvernew.png',
-        'logo': 'assets/images/member/silver-logo.png',
-        'text': '月卡'
-      };
+      return {'bg': 'assets/images/member/silvernew.png', 'logo': 'assets/images/member/silver-logo.png', 'text': '月卡'};
     } else if (vipLevel == 2 && temp == 0) {
       //黄金
-      return {
-        'bg': 'assets/images/member/goldnew.png',
-        'logo': 'assets/images/member/gold-logo.png',
-        'text': '季卡'
-      };
+      return {'bg': 'assets/images/member/goldnew.png', 'logo': 'assets/images/member/gold-logo.png', 'text': '季卡'};
     } else if (vipLevel == 3 && temp == 0) {
       //钻石
       return {
@@ -204,30 +189,17 @@ class MemberCardsPageState extends State<MemberCardsPage> with PayMixin {
       };
     } else if (vipLevel == 4 && temp == 0) {
       //璀璨
-      return {
-        'bg': 'assets/images/member/cuican.png',
-        'logo': 'assets/images/member/diamond-logo.png',
-        'text': '永久'
-      };
+      return {'bg': 'assets/images/member/cuican.png', 'logo': 'assets/images/member/diamond-logo.png', 'text': '永久'};
     } else if (vipLevel == 5 && temp == 0) {
       //至尊
-      return {
-        'bg': 'assets/images/member/zhizun.png',
-        'logo': 'assets/images/member/zhizun-logo.png',
-        'text': '永久'
-      };
+      return {'bg': 'assets/images/member/zhizun.png', 'logo': 'assets/images/member/zhizun-logo.png', 'text': '永久'};
     } else {
-      return {
-        'bg': 'assets/images/member/cuican.png',
-        'logo': 'assets/images/member/diamond-logo.png',
-        'text': '永久'
-      };
+      return {'bg': 'assets/images/member/cuican.png', 'logo': 'assets/images/member/diamond-logo.png', 'text': '永久'};
     }
   }
 
   void _showDialogCommon(String text) {
-    PopupBox.showText(backButtonBehavior,
-        title: '权益明细', text: '$text', confirmtext: '知道了', tapMaskClose: true);
+    PopupBox.showText(backButtonBehavior, title: '权益明细', text: '$text', confirmtext: '知道了', tapMaskClose: true);
   }
 
   List<Widget> renderRights(Map product) {
@@ -239,14 +211,9 @@ class MemberCardsPageState extends State<MemberCardsPage> with PayMixin {
         child: RichText(
             text: TextSpan(
                 text: product['pname'],
-                style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 17.w),
+                style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 17.w),
                 children: <TextSpan>[
-              TextSpan(
-                  text: " ($textStr)",
-                  style: TextStyle(color: Colors.white, fontSize: 12.sp)),
+              TextSpan(text: " ($textStr)", style: TextStyle(color: Colors.white, fontSize: 12.sp)),
             ])),
       )
     ];
@@ -273,8 +240,7 @@ class MemberCardsPageState extends State<MemberCardsPage> with PayMixin {
       newProducts.asMap().forEach((key, product) {
         Map _imageset = getImageSet(product['vip_level'], product['temp']);
         String textS = _imageset['text'];
-        String promoPrice =
-            double.parse(product['promo_price']).toStringAsFixed(0);
+        String promoPrice = double.parse(product['promo_price']).toStringAsFixed(0);
         String price = double.parse(product['price']).toStringAsFixed(0);
         StringBuffer rightText = StringBuffer();
         List rightlist = product['right'].toList();
@@ -301,8 +267,7 @@ class MemberCardsPageState extends State<MemberCardsPage> with PayMixin {
                       url: _imageset['bg'],
                     ),
                     Padding(
-                      padding: EdgeInsets.symmetric(
-                          horizontal: 30.w, vertical: 20.w),
+                      padding: EdgeInsets.symmetric(horizontal: 30.w, vertical: 20.w),
                       child: Column(
                         children: <Widget>[
                           Row(
@@ -325,41 +290,31 @@ class MemberCardsPageState extends State<MemberCardsPage> with PayMixin {
                                           text: TextSpan(
                                               text: product['pname'],
                                               style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 17.sp),
+                                                  color: Colors.white, fontWeight: FontWeight.bold, fontSize: 17.sp),
                                               children: <TextSpan>[
                                             TextSpan(
                                                 text: " ($textS)",
                                                 style: TextStyle(
-                                                    color: Colors.white,
-                                                    fontWeight: FontWeight.w400,
-                                                    fontSize: 12.sp)),
+                                                    color: Colors.white, fontWeight: FontWeight.w400, fontSize: 12.sp)),
                                           ])),
                                     ),
                                     SizedBox(height: 6.w),
                                     Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
                                       children: <Widget>[
                                         RichText(
                                             text: TextSpan(
                                                 text: '$promoPrice元 ',
                                                 style: TextStyle(
-                                                    color: Colors.white,
-                                                    fontWeight: FontWeight.bold,
-                                                    fontSize: 16.w),
+                                                    color: Colors.white, fontWeight: FontWeight.bold, fontSize: 16.w),
                                                 children: <TextSpan>[
                                               TextSpan(
                                                   text: '原价$price元',
                                                   style: TextStyle(
-                                                      decoration: TextDecoration
-                                                          .lineThrough,
+                                                      decoration: TextDecoration.lineThrough,
                                                       color: Colors.white,
-                                                      fontWeight:
-                                                          FontWeight.w400,
+                                                      fontWeight: FontWeight.w400,
                                                       fontSize: 12.sp)),
                                             ])),
                                       ],
@@ -387,10 +342,7 @@ class MemberCardsPageState extends State<MemberCardsPage> with PayMixin {
                                   child: Center(
                                     child: Text(
                                       '查看权益',
-                                      style: TextStyle(
-                                          height: 1,
-                                          color: Color(0xFFBE2D2C),
-                                          fontSize: 14.sp),
+                                      style: TextStyle(height: 1, color: Color(0xFFBE2D2C), fontSize: 14.sp),
                                     ),
                                   ),
                                 ),
@@ -398,19 +350,13 @@ class MemberCardsPageState extends State<MemberCardsPage> with PayMixin {
                               GestureDetector(
                                 onTap: () {
                                   if (vipLevel <= product['vip_level']) {
-                                    if (vipLevel == product['vip_level'] &&
-                                        product['temp'] != 1) {
-                                      CgDialog.cgShowDialog(context, '提示',
-                                          '您已经是此会员，无需再次购买。', ['知道了']);
+                                    if (vipLevel == product['vip_level'] && product['temp'] != 1) {
+                                      CgDialog.cgShowDialog(context, '提示', '您已经是此会员，无需再次购买。', ['知道了']);
                                     } else {
                                       showPay(product);
                                     }
                                   } else {
-                                    CgDialog.cgShowDialog(
-                                        context,
-                                        '提示',
-                                        '此会员卡等级在您当前会员卡等级以下，所以无法购买当前会员卡。',
-                                        ['知道了']);
+                                    CgDialog.cgShowDialog(context, '提示', '此会员卡等级在您当前会员卡等级以下，所以无法购买当前会员卡。', ['知道了']);
                                   }
                                 },
                                 behavior: HitTestBehavior.translucent,
@@ -424,10 +370,7 @@ class MemberCardsPageState extends State<MemberCardsPage> with PayMixin {
                                   child: Center(
                                     child: Text(
                                       '立即购买',
-                                      style: TextStyle(
-                                          height: 1,
-                                          color: Color(0xFFBE2D2C),
-                                          fontSize: 14.sp),
+                                      style: TextStyle(height: 1, color: Color(0xFFBE2D2C), fontSize: 14.sp),
                                     ),
                                   ),
                                 ),
@@ -488,19 +431,15 @@ class MemberCardsPageState extends State<MemberCardsPage> with PayMixin {
                       title: 'VIP充值',
                       rightWidget: GestureDetector(
                         onTap: () {
-                          AppGlobal.appRouter?.push(
-                              CommonUtils.getRealHash('rechargeRecord/1'));
+                          AppGlobal.appRouter?.push(CommonUtils.getRealHash('rechargeRecord/1'));
                         },
                         child: Center(
                           child: Container(
-                              margin:
-                                  new EdgeInsets.only(left: 3.w, right: 15.w),
+                              margin: new EdgeInsets.only(left: 3.w, right: 15.w),
                               child: Text(
                                 '订单记录',
                                 style: TextStyle(
-                                    color: StyleTheme.cTitleColor,
-                                    fontSize: 15.sp,
-                                    fontWeight: FontWeight.w500),
+                                    color: StyleTheme.cTitleColor, fontSize: 15.sp, fontWeight: FontWeight.w500),
                               )),
                         ),
                       ),
@@ -542,16 +481,13 @@ class MemberCardsPageState extends State<MemberCardsPage> with PayMixin {
                                       LocalPNG(
                                         width: 160.w,
                                         height: 50.w,
-                                        url:
-                                            "assets/images/member/tipstext.png",
+                                        url: "assets/images/member/tipstext.png",
                                         fit: BoxFit.cover,
                                       ),
                                       Center(
                                         child: Text(_countdownTips,
                                             style: TextStyle(
-                                                color: Colors.white,
-                                                fontWeight: FontWeight.w700,
-                                                fontSize: 18.w)),
+                                                color: Colors.white, fontWeight: FontWeight.w700, fontSize: 18.w)),
                                       ),
                                     ],
                                   ),
@@ -575,8 +511,7 @@ class MemberCardsPageState extends State<MemberCardsPage> with PayMixin {
                             libaoProducts.length == 0
                                 ? Container()
                                 : Container(
-                                    margin: EdgeInsets.only(
-                                        top: 30.w, bottom: 30.w),
+                                    margin: EdgeInsets.only(top: 30.w, bottom: 30.w),
                                     child: Center(
                                       child: Container(
                                         width: 345.w,
@@ -589,22 +524,16 @@ class MemberCardsPageState extends State<MemberCardsPage> with PayMixin {
                                                 child: LocalPNG(
                                                   width: 345.w,
                                                   height: 187.w,
-                                                  url:
-                                                      'assets/images/card/lb-bg.png',
+                                                  url: 'assets/images/card/lb-bg.png',
                                                 )),
                                             Center(
                                               child: Container(
                                                 width: 345.w,
                                                 child: Row(
                                                   // mainAxisSize: MainAxisSize.min,
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceEvenly,
+                                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                                   children: <Widget>[
-                                                    for (var item
-                                                        in libaoProducts)
-                                                      _liCard(getLiBao(item.id),
-                                                          item)
+                                                    for (var item in libaoProducts) _liCard(getLiBao(item.id), item)
                                                   ],
                                                 ),
                                               ),

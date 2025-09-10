@@ -5,7 +5,7 @@ import 'package:bot_toast/bot_toast.dart';
 import 'package:chaguaner2023/components/citypickers/CommonCity_pickers.dart';
 import 'package:chaguaner2023/components/headerContainer.dart';
 import 'package:chaguaner2023/components/page_status.dart';
-import 'package:chaguaner2023/components/pagetitlebar.dart';
+import 'package:chaguaner2023/components/page_title_bar.dart';
 import 'package:chaguaner2023/components/upload/start_upload.dart';
 import 'package:chaguaner2023/components/upload/upload_resouce.dart';
 import 'package:chaguaner2023/input/InputDailog.dart';

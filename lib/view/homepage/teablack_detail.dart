@@ -3,7 +3,7 @@ import 'package:chaguaner2023/components/citypickers/elegantCity.dart';
 import 'package:chaguaner2023/components/headerContainer.dart';
 import 'package:chaguaner2023/components/list/public_list.dart';
 import 'package:chaguaner2023/components/page_status.dart';
-import 'package:chaguaner2023/components/pagetitlebar.dart';
+import 'package:chaguaner2023/components/page_title_bar.dart';
 import 'package:chaguaner2023/components/yy_dialog.dart';
 import 'package:chaguaner2023/input/InputDailog.dart';
 import 'package:chaguaner2023/model/basic.dart';

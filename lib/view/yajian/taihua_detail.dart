@@ -2,7 +2,7 @@ import 'package:chaguaner2023/components/avatar_widget.dart';
 import 'package:chaguaner2023/components/cgDialog.dart';
 import 'package:chaguaner2023/components/detail_ad.dart';
 import 'package:chaguaner2023/components/loading.dart';
-import 'package:chaguaner2023/components/pagetitlebar.dart';
+import 'package:chaguaner2023/components/page_title_bar.dart';
 import 'package:chaguaner2023/input/InputDailog.dart';
 import 'package:chaguaner2023/store/global.dart';
 import 'package:chaguaner2023/store/homeConfig.dart';

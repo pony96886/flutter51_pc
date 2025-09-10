@@ -6,7 +6,7 @@ import 'package:chaguaner2023/components/headerContainer.dart';
 import 'package:chaguaner2023/components/loading.dart';
 import 'package:chaguaner2023/components/networkErr.dart';
 import 'package:chaguaner2023/components/nodata.dart';
-import 'package:chaguaner2023/components/pagetitlebar.dart';
+import 'package:chaguaner2023/components/page_title_bar.dart';
 import 'package:chaguaner2023/store/global.dart';
 import 'package:chaguaner2023/theme/style_theme.dart';
 import 'package:chaguaner2023/utils/api.dart';
@@ -78,8 +78,7 @@ class ReportState extends State<ReportPage> {
   void initState() {
     super.initState();
     scrollController.addListener(() {
-      if (scrollController.position.pixels ==
-          scrollController.position.maxScrollExtent) {
+      if (scrollController.position.pixels == scrollController.position.maxScrollExtent) {
         if (!isAll) {
           setState(() {
             page++;
@@ -117,8 +116,7 @@ class ReportState extends State<ReportPage> {
       cityName = result2!.cityName;
     });
     var areaCode = int.parse(result2!.cityId!);
-    Provider.of<GlobalState>(context, listen: false)
-        .setCityCode(areaCode.toString());
+    Provider.of<GlobalState>(context, listen: false).setCityCode(areaCode.toString());
     var result = setArea(areaCode).then((value) => {
           setState(() {
             reportList = [];
@@ -154,16 +152,13 @@ class ReportState extends State<ReportPage> {
                           text: '还有没验茶报告哦～',
                         )
                       : ListView.separated(
-                          padding: EdgeInsets.only(
-                              top: 5.w,
-                              bottom: ScreenUtil().bottomBarHeight + 20.w),
+                          padding: EdgeInsets.only(top: 5.w, bottom: ScreenUtil().bottomBarHeight + 20.w),
                           controller: scrollController,
                           itemCount: reportList.length,
                           physics: const ClampingScrollPhysics(),
 
                           ///新增坑位留给更多布局
-                          separatorBuilder: (BuildContext context, int index) =>
-                              Divider(
+                          separatorBuilder: (BuildContext context, int index) => Divider(
                                 color: Colors.transparent,
                                 height: 15.w,
                               ),
@@ -173,9 +168,7 @@ class ReportState extends State<ReportPage> {
                                 index == 0
                                     ? GestureDetector(
                                         onTap: () {
-                                          AppGlobal.appRouter?.push(
-                                              CommonUtils.getRealHash(
-                                                  'teaAppreciator'));
+                                          AppGlobal.appRouter?.push(CommonUtils.getRealHash('teaAppreciator'));
                                         },
                                         behavior: HitTestBehavior.translucent,
                                         child: Container(
@@ -185,21 +178,16 @@ class ReportState extends State<ReportPage> {
                                           child: LocalPNG(
                                               width: double.infinity,
                                               height: 120.w,
-                                              url:
-                                                  'assets/images/card/jianchabanner.png',
+                                              url: 'assets/images/card/jianchabanner.png',
                                               fit: BoxFit.fill),
                                         ),
                                       )
                                     : Container(),
                                 Container(
                                   margin: new EdgeInsets.only(bottom: 20.w),
-                                  child: ReportCard(
-                                      key: Key('zhaopiao_card_$index'),
-                                      reportInfo: reportList[index]),
+                                  child: ReportCard(key: Key('zhaopiao_card_$index'), reportInfo: reportList[index]),
                                 ),
-                                index == reportList.length - 1
-                                    ? renderMore()
-                                    : Container()
+                                index == reportList.length - 1 ? renderMore() : Container()
                               ],
                             );
                           })))),

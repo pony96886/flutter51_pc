@@ -1,6 +1,6 @@
 import 'package:chaguaner2023/components/headerContainer.dart';
 import 'package:chaguaner2023/components/loading.dart';
-import 'package:chaguaner2023/components/pagetitlebar.dart';
+import 'package:chaguaner2023/components/page_title_bar.dart';
 import 'package:chaguaner2023/store/homeConfig.dart';
 import 'package:chaguaner2023/theme/style_theme.dart';
 import 'package:chaguaner2023/utils/agent_item.dart';
@@ -84,31 +84,19 @@ class _FaTieCiShuShuoMingPageState extends State<FaTieCiShuShuoMingPage> {
                                 ),
                                 InitNumber(
                                   title: "· VIP用户：",
-                                  value: (_faTieCiShuEntity!['data']
-                                              ['init_vip_post_num'] ??
-                                          0)
-                                      .toString(),
+                                  value: (_faTieCiShuEntity!['data']['init_vip_post_num'] ?? 0).toString(),
                                 ),
                                 InitNumber(
                                   title: "· 茶女郎：",
-                                  value: (_faTieCiShuEntity!['data']
-                                              ['init_girl_post_num'] ??
-                                          0)
-                                      .toString(),
+                                  value: (_faTieCiShuEntity!['data']['init_girl_post_num'] ?? 0).toString(),
                                 ),
                                 InitNumber(
                                   title: "· 茶小二：",
-                                  value: (_faTieCiShuEntity!['data']
-                                              ['init_auth_post_num'] ??
-                                          0)
-                                      .toString(),
+                                  value: (_faTieCiShuEntity!['data']['init_auth_post_num'] ?? 0).toString(),
                                 ),
                                 InitNumber(
                                   title: "· 茶老板：",
-                                  value: (_faTieCiShuEntity!['data']
-                                              ['init_agent_post_num'] ??
-                                          0)
-                                      .toString(),
+                                  value: (_faTieCiShuEntity!['data']['init_agent_post_num'] ?? 0).toString(),
                                 ),
                               ],
                             )
@@ -121,11 +109,8 @@ class _FaTieCiShuShuoMingPageState extends State<FaTieCiShuShuoMingPage> {
   }
 
   _firstWidget() {
-    dynamic agentValue = _faTieCiShuEntity != null
-        ? AgentItem.name(_faTieCiShuEntity!['data']['agent'])
-        : "";
-    String useravatar =
-        Provider.of<HomeConfig>(context).member.thumb; //KyGlobal.avatar;
+    dynamic agentValue = _faTieCiShuEntity != null ? AgentItem.name(_faTieCiShuEntity!['data']['agent']) : "";
+    String useravatar = Provider.of<HomeConfig>(context).member.thumb; //KyGlobal.avatar;
     String usernickname = Provider.of<HomeConfig>(context).member.nickname!;
 
     ///KyGlobal.nickname;
@@ -150,10 +135,7 @@ class _FaTieCiShuShuoMingPageState extends State<FaTieCiShuShuoMingPage> {
             children: <Widget>[
               Text(
                 "$usernickname",
-                style: TextStyle(
-                    color: StyleTheme.cTitleColor,
-                    fontSize: 16.w,
-                    fontWeight: FontWeight.bold),
+                style: TextStyle(color: StyleTheme.cTitleColor, fontSize: 16.w, fontWeight: FontWeight.bold),
               ),
               SizedBox(height: 7.5.w),
               Text(
@@ -171,15 +153,9 @@ class _FaTieCiShuShuoMingPageState extends State<FaTieCiShuShuoMingPage> {
   }
 
   _secondWidget() {
-    String max_post_num = (AppGlobal.publishPostType == 0
-        ? 'max_store_post_num'
-        : 'max_post_num');
-    String now_post_num = (AppGlobal.publishPostType == 0
-        ? 'now_store_post_num'
-        : 'now_post_num');
-    int exp = _faTieCiShuEntity!['data']
-            [AppGlobal.publishPostType == 0 ? 'exp1' : 'exp'] ??
-        0;
+    String max_post_num = (AppGlobal.publishPostType == 0 ? 'max_store_post_num' : 'max_post_num');
+    String now_post_num = (AppGlobal.publishPostType == 0 ? 'now_store_post_num' : 'now_post_num');
+    int exp = _faTieCiShuEntity!['data'][AppGlobal.publishPostType == 0 ? 'exp1' : 'exp'] ?? 0;
     int levelUpNum = _faTieCiShuEntity!['data']['level_up_num'] ?? 200;
     int addNum = exp ~/ levelUpNum + 1;
     double alljindutiao = 1.sw - 70.w;
@@ -195,10 +171,7 @@ class _FaTieCiShuShuoMingPageState extends State<FaTieCiShuShuoMingPage> {
       decoration: BoxDecoration(
         boxShadow: [
           //阴影
-          BoxShadow(
-              color: Colors.black12,
-              offset: Offset(0, 0.5.w),
-              blurRadius: 2.5.w)
+          BoxShadow(color: Colors.black12, offset: Offset(0, 0.5.w), blurRadius: 2.5.w)
         ],
         color: Colors.white,
         borderRadius: BorderRadius.circular(10),
@@ -215,10 +188,7 @@ class _FaTieCiShuShuoMingPageState extends State<FaTieCiShuShuoMingPage> {
                   children: [
                     Text(
                       "$maxPostNum",
-                      style: TextStyle(
-                          color: StyleTheme.cTitleColor,
-                          fontSize: 24.w,
-                          fontWeight: FontWeight.bold),
+                      style: TextStyle(color: StyleTheme.cTitleColor, fontSize: 24.w, fontWeight: FontWeight.bold),
                     ),
                     SizedBox(height: 7.5.w),
                     Text(
@@ -234,10 +204,7 @@ class _FaTieCiShuShuoMingPageState extends State<FaTieCiShuShuoMingPage> {
                   children: [
                     Text(
                       (fatienum < 0 ? 0 : fatienum).toString(),
-                      style: TextStyle(
-                          color: StyleTheme.cTitleColor,
-                          fontSize: 24.w,
-                          fontWeight: FontWeight.bold),
+                      style: TextStyle(color: StyleTheme.cTitleColor, fontSize: 24.w, fontWeight: FontWeight.bold),
                     ),
                     SizedBox(height: 7.5.w),
                     Text(
@@ -255,10 +222,7 @@ class _FaTieCiShuShuoMingPageState extends State<FaTieCiShuShuoMingPage> {
           Text.rich(
             TextSpan(
                 text: '积分 ',
-                style: TextStyle(
-                    color: StyleTheme.cTitleColor,
-                    fontSize: 32.sp,
-                    fontWeight: FontWeight.bold),
+                style: TextStyle(color: StyleTheme.cTitleColor, fontSize: 32.sp, fontWeight: FontWeight.bold),
                 children: [
                   TextSpan(
                     text: '(每增加' + cishuLe.toString() + '积分，发帖上限+1)',
@@ -314,8 +278,7 @@ class _FaTieCiShuShuoMingPageState extends State<FaTieCiShuShuoMingPage> {
                           child: Text(
                             // '100/200',
                             expValue,
-                            style:
-                                TextStyle(color: Colors.white, fontSize: 10.sp),
+                            style: TextStyle(color: Colors.white, fontSize: 10.sp),
                           ),
                         ),
                         top: 7.5.w,
@@ -356,10 +319,8 @@ class _FaTieCiShuShuoMingPageState extends State<FaTieCiShuShuoMingPage> {
                 "1、用户使用元宝解锁你的茶贴，积分+" + unlockNum.toString(),
               ),
               Text("2、VIP用户或者花费元宝解锁者的投诉，发帖者积分-" + expNum.toString()),
-              Text(
-                  "(仅骗子和无效${AppGlobal.publishPostType == 1 ? '联系方式' : '地址'}的投诉类型才会扣分，如遇恶意投诉者可通过“消息”-“在线客服”向平台申诉)"),
-              Text(
-                  "3、不可发布漏点图片及未成年人信息${AppGlobal.publishPostType == 1 ? '，联系方式请按正常格式发布，不可转加联系方式。' : ''}"),
+              Text("(仅骗子和无效${AppGlobal.publishPostType == 1 ? '联系方式' : '地址'}的投诉类型才会扣分，如遇恶意投诉者可通过“消息”-“在线客服”向平台申诉)"),
+              Text("3、不可发布漏点图片及未成年人信息${AppGlobal.publishPostType == 1 ? '，联系方式请按正常格式发布，不可转加联系方式。' : ''}"),
               Text("4、禁止私下收取用户定金、路费等，收取请走平台品茶宝（茶小二）"),
             ],
           )),

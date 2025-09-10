@@ -1,6 +1,6 @@
 import 'package:bot_toast/bot_toast.dart';
 import 'package:chaguaner2023/components/headerContainer.dart';
-import 'package:chaguaner2023/components/pagetitlebar.dart';
+import 'package:chaguaner2023/components/page_title_bar.dart';
 import 'package:chaguaner2023/components/starrating.dart';
 import 'package:chaguaner2023/theme/style_theme.dart';
 import 'package:chaguaner2023/utils/api.dart';
@@ -49,16 +49,13 @@ class _NackdChatMarkState extends State<NackdChatMark> {
                   title: '评价',
                   rightWidget: GestureDetector(
                     onTap: () {
-                      AppGlobal.appRouter?.push(
-                          CommonUtils.getRealHash('nakedchatComplain'),
-                          extra: {
-                            'id': widget.data!['id'],
-                          });
+                      AppGlobal.appRouter?.push(CommonUtils.getRealHash('nakedchatComplain'), extra: {
+                        'id': widget.data!['id'],
+                      });
                     },
                     child: Text(
                       '投诉',
-                      style: TextStyle(
-                          color: StyleTheme.cTitleColor, fontSize: 14.sp),
+                      style: TextStyle(color: StyleTheme.cTitleColor, fontSize: 14.sp),
                     ),
                   ),
                 ),
@@ -66,8 +63,7 @@ class _NackdChatMarkState extends State<NackdChatMark> {
                     child: ListView(
                   children: [
                     Container(
-                      margin:
-                          EdgeInsets.only(left: 15.w, right: 15.w, top: 10.w),
+                      margin: EdgeInsets.only(left: 15.w, right: 15.w, top: 10.w),
                       color: Colors.white,
                       child: Row(
                         children: [
@@ -75,8 +71,7 @@ class _NackdChatMarkState extends State<NackdChatMark> {
                             height: 160.w,
                             width: 120.w,
                             margin: EdgeInsets.only(right: 15.5.w),
-                            child:
-                            ImageNetTool(url: data!['girl_chat']['cover']),
+                            child: ImageNetTool(url: data!['girl_chat']['cover']),
                           ),
                           Expanded(
                               child: SizedBox(
@@ -87,9 +82,7 @@ class _NackdChatMarkState extends State<NackdChatMark> {
                                 Text(
                                   '${data!['girl_chat']['title']}',
                                   style: TextStyle(
-                                      color: StyleTheme.cTitleColor,
-                                      fontSize: 15.sp,
-                                      fontWeight: FontWeight.w500),
+                                      color: StyleTheme.cTitleColor, fontSize: 15.sp, fontWeight: FontWeight.w500),
                                 ),
                                 Text(
                                   'ID：${data!['girl_chat']['id']}',
@@ -141,9 +134,7 @@ class _NackdChatMarkState extends State<NackdChatMark> {
                               children: [
                                 Text(
                                   '妹子颜值:',
-                                  style: TextStyle(
-                                      fontSize: 14.sp,
-                                      color: StyleTheme.cTitleColor),
+                                  style: TextStyle(fontSize: 14.sp, color: StyleTheme.cTitleColor),
                                 ),
                                 StarRating(
                                   onRatingChanged: (rating) {
@@ -163,9 +154,7 @@ class _NackdChatMarkState extends State<NackdChatMark> {
                               children: [
                                 Text(
                                   '服务质量:',
-                                  style: TextStyle(
-                                      fontSize: 14.sp,
-                                      color: StyleTheme.cTitleColor),
+                                  style: TextStyle(fontSize: 14.sp, color: StyleTheme.cTitleColor),
                                 ),
                                 StarRating(
                                   rating: serverMass,
@@ -183,9 +172,8 @@ class _NackdChatMarkState extends State<NackdChatMark> {
                             margin: EdgeInsets.only(bottom: 20.w, top: 15.w),
                             height: 151.w,
                             padding: EdgeInsets.all(10.w),
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(5.w),
-                                color: Color(0xfff5f5f5)),
+                            decoration:
+                                BoxDecoration(borderRadius: BorderRadius.circular(5.w), color: Color(0xfff5f5f5)),
                             child: TextField(
                               maxLines: 999,
                               maxLength: 300,
@@ -193,14 +181,10 @@ class _NackdChatMarkState extends State<NackdChatMark> {
                               decoration: InputDecoration(
                                 contentPadding: EdgeInsets.zero,
                                 hintText: '说说你对本次体验的想法吧',
-                                counterStyle: TextStyle(
-                                    color: Color(0xffb4b4b4), fontSize: 15.sp),
-                                hintStyle: TextStyle(
-                                    color: Color(0xffb4b4b4), fontSize: 15.sp),
-                                labelStyle: TextStyle(
-                                    color: Color(0xff1e1e1e), fontSize: 15.sp),
-                                border: InputBorder
-                                    .none, // Removes the default border
+                                counterStyle: TextStyle(color: Color(0xffb4b4b4), fontSize: 15.sp),
+                                hintStyle: TextStyle(color: Color(0xffb4b4b4), fontSize: 15.sp),
+                                labelStyle: TextStyle(color: Color(0xff1e1e1e), fontSize: 15.sp),
+                                border: InputBorder.none, // Removes the default border
                               ),
                             ),
                           )
@@ -218,11 +202,7 @@ class _NackdChatMarkState extends State<NackdChatMark> {
                         return;
                       }
                       BotToast.showLoading();
-                      girlchatEvaluation(
-                              id: data!['id'],
-                              face: girlFace,
-                              service: serverMass,
-                              comment: content.text)
+                      girlchatEvaluation(id: data!['id'], face: girlFace, service: serverMass, comment: content.text)
                           .then((res) {
                         if (res!['status'] != 0) {
                           CommonUtils.showText(res['msg']);

@@ -1,5 +1,5 @@
 import 'package:bot_toast/bot_toast.dart';
-import 'package:chaguaner2023/components/pagetitlebar.dart';
+import 'package:chaguaner2023/components/page_title_bar.dart';
 import 'package:chaguaner2023/input/countdown.dart';
 import 'package:chaguaner2023/store/global.dart';
 import 'package:chaguaner2023/store/homeConfig.dart';

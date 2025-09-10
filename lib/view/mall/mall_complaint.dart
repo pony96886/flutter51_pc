@@ -1,6 +1,6 @@
 import 'package:chaguaner2023/components/headerContainer.dart';
 import 'package:chaguaner2023/components/page_status.dart';
-import 'package:chaguaner2023/components/pagetitlebar.dart';
+import 'package:chaguaner2023/components/page_title_bar.dart';
 import 'package:chaguaner2023/components/upload/start_upload.dart';
 import 'package:chaguaner2023/components/upload/upload_resouce.dart';
 import 'package:chaguaner2023/theme/style_theme.dart';
@@ -64,12 +64,7 @@ class _MallComplaintState extends State<MallComplaint> {
           return e['url'];
         }).toList();
         PageStatus.showLoading();
-        productComplaint(
-                content: content,
-                product_id: widget.id,
-                types: type.value,
-                img: _img.join(','))
-            .then((res) {
+        productComplaint(content: content, product_id: widget.id, types: type.value, img: _img.join(',')).then((res) {
           if (res!['status'] != 0) {
             context.pop();
             CommonUtils.showText('举报成功');
@@ -82,9 +77,7 @@ class _MallComplaintState extends State<MallComplaint> {
       });
     } else {
       PageStatus.showLoading();
-      productComplaint(
-              content: content, product_id: widget.id, types: type.value)
-          .then((res) {
+      productComplaint(content: content, product_id: widget.id, types: type.value).then((res) {
         if (res!['status'] != 0) {
           context.pop();
           CommonUtils.showText('举报成功');
@@ -114,8 +107,7 @@ class _MallComplaintState extends State<MallComplaint> {
                 body: loading
                     ? PageStatus.loading(true)
                     : ListView(
-                        padding: EdgeInsets.symmetric(
-                            horizontal: 19.w, vertical: 24.w),
+                        padding: EdgeInsets.symmetric(horizontal: 19.w, vertical: 24.w),
                         children: [
                           LayoutBuilder(builder: (context, box) {
                             return ValueListenableBuilder(
@@ -132,12 +124,10 @@ class _MallComplaintState extends State<MallComplaint> {
                                         child: Container(
                                           width: box.maxWidth / 2 - 5.w,
                                           child: Row(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
+                                            crossAxisAlignment: CrossAxisAlignment.start,
                                             children: [
                                               Padding(
-                                                padding:
-                                                    EdgeInsets.only(top: 5.w),
+                                                padding: EdgeInsets.only(top: 5.w),
                                                 child: LocalPNG(
                                                   url:
                                                       'assets/images/card/${e == type.value ? 'select' : 'unselect'}.png',
@@ -151,10 +141,7 @@ class _MallComplaintState extends State<MallComplaint> {
                                               Expanded(
                                                   child: Text(
                                                 types[e],
-                                                style: TextStyle(
-                                                    color:
-                                                        StyleTheme.cTitleColor,
-                                                    fontSize: 15.sp),
+                                                style: TextStyle(color: StyleTheme.cTitleColor, fontSize: 15.sp),
                                               ))
                                             ],
                                           ),
@@ -169,18 +156,14 @@ class _MallComplaintState extends State<MallComplaint> {
                           ),
                           Text(
                             tips ?? '',
-                            style: TextStyle(
-                                color: Color(0xffff4149),
-                                fontSize: 13.sp,
-                                height: 1.5),
+                            style: TextStyle(color: Color(0xffff4149), fontSize: 13.sp, height: 1.5),
                           ),
                           Container(
                             margin: EdgeInsets.only(top: 21.w, bottom: 17.w),
                             height: 140.w,
                             padding: EdgeInsets.all(10.w),
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(5.w),
-                                color: Color(0xfff5f5f5)),
+                            decoration:
+                                BoxDecoration(borderRadius: BorderRadius.circular(5.w), color: Color(0xfff5f5f5)),
                             child: TextField(
                               maxLines: 999,
                               onChanged: (e) {
@@ -189,25 +172,19 @@ class _MallComplaintState extends State<MallComplaint> {
                               decoration: InputDecoration(
                                 contentPadding: EdgeInsets.zero,
                                 hintText: '请输入具体原因',
-                                hintStyle: TextStyle(
-                                    color: Color(0xffb4b4b4), fontSize: 15.sp),
-                                labelStyle: TextStyle(
-                                    color: Color(0xff1e1e1e), fontSize: 15.sp),
-                                border: InputBorder
-                                    .none, // Removes the default border
+                                hintStyle: TextStyle(color: Color(0xffb4b4b4), fontSize: 15.sp),
+                                labelStyle: TextStyle(color: Color(0xff1e1e1e), fontSize: 15.sp),
+                                border: InputBorder.none, // Removes the default border
                               ),
                             ),
                           ),
-                          Text('备注(选填)',
-                              style: TextStyle(
-                                  color: Color(0xff1e1e1e), fontSize: 18.sp)),
+                          Text('备注(选填)', style: TextStyle(color: Color(0xff1e1e1e), fontSize: 18.sp)),
                           SizedBox(
                             height: 17.w,
                           ),
                           Text(
                             '（请提供图片证明，越详细越好）\n为了尽快为您处理，请务必提供关键的聊天截图',
-                            style: TextStyle(
-                                color: Color(0xffb4b4b4), fontSize: 14.sp),
+                            style: TextStyle(color: Color(0xffb4b4b4), fontSize: 14.sp),
                           ),
                           SizedBox(height: 15.w),
                           UploadResouceWidget(
@@ -223,19 +200,14 @@ class _MallComplaintState extends State<MallComplaint> {
                                 onTap: _submit,
                                 child: Stack(
                                   children: [
-                                    Positioned.fill(
-                                        child: LocalPNG(
-                                            url:
-                                                'assets/images/elegantroom/shuimo_btn.png')),
+                                    Positioned.fill(child: LocalPNG(url: 'assets/images/elegantroom/shuimo_btn.png')),
                                     Container(
                                       width: 275.w,
                                       height: 50.w,
                                       alignment: Alignment.center,
                                       child: Text(
                                         '确认提交',
-                                        style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 15.sp),
+                                        style: TextStyle(color: Colors.white, fontSize: 15.sp),
                                       ),
                                     )
                                   ],

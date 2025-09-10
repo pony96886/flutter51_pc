@@ -1,5 +1,5 @@
 import 'package:chaguaner2023/components/headerContainer.dart';
-import 'package:chaguaner2023/components/pagetitlebar.dart';
+import 'package:chaguaner2023/components/page_title_bar.dart';
 import 'package:chaguaner2023/utils/pageviewmixin.dart';
 import 'package:chaguaner2023/view/cooperate/IntentionSheet.dart';
 import 'package:flutter/material.dart';

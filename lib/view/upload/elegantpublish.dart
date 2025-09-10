@@ -1,6 +1,6 @@
 import 'package:chaguaner2023/components/citypickers/CommonCity_pickers.dart';
 import 'package:chaguaner2023/components/headerContainer.dart';
-import 'package:chaguaner2023/components/pagetitlebar.dart';
+import 'package:chaguaner2023/components/page_title_bar.dart';
 import 'package:chaguaner2023/components/upload/upload_resouce.dart';
 import 'package:chaguaner2023/input/InputDailog.dart';
 import 'package:chaguaner2023/theme/style_theme.dart';

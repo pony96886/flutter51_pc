@@ -5,7 +5,7 @@ import 'package:chaguaner2023/components/avatar_widget.dart';
 import 'package:chaguaner2023/components/headerContainer.dart';
 import 'package:chaguaner2023/components/loading.dart';
 import 'package:chaguaner2023/components/loading_gif.dart';
-import 'package:chaguaner2023/components/pagetitlebar.dart';
+import 'package:chaguaner2023/components/page_title_bar.dart';
 import 'package:chaguaner2023/components/upload/start_upload.dart';
 import 'package:chaguaner2023/components/upload/upload_resouce.dart';
 import 'package:chaguaner2023/store/homeConfig.dart';
@@ -36,9 +36,7 @@ class OnlineServicePage extends StatefulWidget {
   final String? orderId;
   final String? isSend;
   final List? images;
-  OnlineServicePage(
-      {Key? key, this.orderId, this.images, this.isSend, this.type})
-      : super(key: key);
+  OnlineServicePage({Key? key, this.orderId, this.images, this.isSend, this.type}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => OnlineServicState();
@@ -71,8 +69,7 @@ class OnlineServicState extends State<OnlineServicePage> {
         dynamic chaguanStr = regExp.stringMatch(pathList[i]);
         var newMsg = chaguanStr == null
             ? pathList[i]
-            : pathList[i].replaceAll(regExp.stringMatch(pathList[i])!,
-                '$chaguanString$chaguanStr$chaguanString');
+            : pathList[i].replaceAll(regExp.stringMatch(pathList[i])!, '$chaguanString$chaguanStr$chaguanString');
         textList.addAll(newMsg.split(chaguanString));
       } else {
         textList.add(pathList[i]);
@@ -89,15 +86,9 @@ class OnlineServicState extends State<OnlineServicePage> {
                       style: TextStyle(
                         fontSize: 14.sp,
                         color: regExp.hasMatch(textList[e])
-                            ? (status == 2
-                                ? Color(0xff1967D2)
-                                : Color(0xffffffff))
-                            : (status == 2
-                                ? StyleTheme.cTitleColor
-                                : Colors.white),
-                        decoration: regExp.hasMatch(textList[e])
-                            ? TextDecoration.underline
-                            : null,
+                            ? (status == 2 ? Color(0xff1967D2) : Color(0xffffffff))
+                            : (status == 2 ? StyleTheme.cTitleColor : Colors.white),
+                        decoration: regExp.hasMatch(textList[e]) ? TextDecoration.underline : null,
                         height: 1.2,
                       ),
                       recognizer: TapGestureRecognizer()
@@ -139,9 +130,7 @@ class OnlineServicState extends State<OnlineServicePage> {
     BotToast.showCustomLoading(toastBuilder: (cancelFunc) {
       return Container(
         padding: const EdgeInsets.all(15),
-        decoration: const BoxDecoration(
-            color: Colors.black54,
-            borderRadius: BorderRadius.all(Radius.circular(8))),
+        decoration: const BoxDecoration(color: Colors.black54, borderRadius: BorderRadius.all(Radius.circular(8))),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
@@ -194,13 +183,7 @@ class OnlineServicState extends State<OnlineServicePage> {
       var msg = await sendFeeding(text, 1, getHelpType());
       if (msg!['status'] != 0) {
         setState(() {
-          Map msgResult = {
-            "messageType": 1,
-            "status": 1,
-            "createdAt": null,
-            "message": text,
-            "thumb": thumb
-          };
+          Map msgResult = {"messageType": 1, "status": 1, "createdAt": null, "message": text, "thumb": thumb};
           msgList?.insert(0, msgResult);
         });
       } else {
@@ -249,14 +232,11 @@ class OnlineServicState extends State<OnlineServicePage> {
   void initState() {
     super.initState();
     getFeedback();
-    editingController.text =
-        (ServiceParmas.orderId == null ? '' : ServiceParmas.orderId)!;
+    editingController.text = (ServiceParmas.orderId == null ? '' : ServiceParmas.orderId)!;
     scrollControllerFalse.addListener(() {
-      if (scrollControllerFalse.position.pixels ==
-          scrollControllerFalse.position.maxScrollExtent) {
+      if (scrollControllerFalse.position.pixels == scrollControllerFalse.position.maxScrollExtent) {
         if (!isAll) {
-          EasyDebounce.debounce('getFeedback-debouncer',
-              Duration(milliseconds: 500), () => getFeedback());
+          EasyDebounce.debounce('getFeedback-debouncer', Duration(milliseconds: 500), () => getFeedback());
         }
       }
     });
@@ -285,20 +265,13 @@ class OnlineServicState extends State<OnlineServicePage> {
         problemList.add(problem);
       }
     });
-    Map msgResult = {
-      "messageType": 1,
-      "status": 2,
-      "createdAt": null,
-      "problemList": problemList
-    };
+    Map msgResult = {"messageType": 1, "status": 2, "createdAt": null, "problemList": problemList};
     msgList!.insert(0, msgResult);
     if ((ServiceParmas.images != null || ServiceParmas.isSend == 'send')) {
       BotToast.showCustomLoading(toastBuilder: (cancelFunc) {
         return Container(
           padding: const EdgeInsets.all(15),
-          decoration: const BoxDecoration(
-              color: Colors.black54,
-              borderRadius: BorderRadius.all(Radius.circular(8))),
+          decoration: const BoxDecoration(color: Colors.black54, borderRadius: BorderRadius.all(Radius.circular(8))),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
@@ -344,10 +317,7 @@ class OnlineServicState extends State<OnlineServicePage> {
                     }
                 }
               else
-                {
-                  BotToast.closeAllLoading(),
-                  BotToast.showText(text: '网络不佳,请重新尝试～', align: Alignment(0, 0))
-                }
+                {BotToast.closeAllLoading(), BotToast.showText(text: '网络不佳,请重新尝试～', align: Alignment(0, 0))}
             });
       });
     }
@@ -376,13 +346,7 @@ class OnlineServicState extends State<OnlineServicePage> {
     return Expanded(
       child: GestureDetector(
           onTap: () {
-            Map msgResult = {
-              "messageType": 1,
-              "status": 2,
-              "createdAt": null,
-              "message": reply,
-              "thumb": thumb
-            };
+            Map msgResult = {"messageType": 1, "status": 2, "createdAt": null, "message": reply, "thumb": thumb};
             setState(() {
               msgList!.insert(0, msgResult);
             });
@@ -427,11 +391,9 @@ class OnlineServicState extends State<OnlineServicePage> {
                         shrinkWrap: true,
                         physics: ClampingScrollPhysics(),
                         controller: scrollControllerFalse,
-                        padding: EdgeInsets.only(
-                            top: 5.w, left: 15.w, right: 15.w, bottom: 20.w),
+                        padding: EdgeInsets.only(top: 5.w, left: 15.w, right: 15.w, bottom: 20.w),
                         reverse: true,
-                        separatorBuilder: (BuildContext context, int index) =>
-                            Container(),
+                        separatorBuilder: (BuildContext context, int index) => Container(),
                         itemCount: msgList!.length,
                         itemBuilder: (BuildContext context, int index) {
                           return conversationTimeItem(msgList![index], index);
@@ -448,8 +410,7 @@ class OnlineServicState extends State<OnlineServicePage> {
                     right: 15.w,
                   ),
                   child: Container(
-                    margin: new EdgeInsets.only(
-                        bottom: ScreenUtil().bottomBarHeight),
+                    margin: new EdgeInsets.only(bottom: ScreenUtil().bottomBarHeight),
                     child: Row(
                       children: [
                         Stack(
@@ -472,10 +433,8 @@ class OnlineServicState extends State<OnlineServicePage> {
                                   print(value);
                                   sendImage(value!['images'][0]['url']);
                                 }).whenComplete(() {
-                                  UploadFileList.allFile['images']!.originalUrls
-                                      .clear();
-                                  UploadFileList.allFile['images']!.urls
-                                      .clear();
+                                  UploadFileList.allFile['images']!.originalUrls.clear();
+                                  UploadFileList.allFile['images']!.urls.clear();
                                 });
                               },
                             ))
@@ -486,18 +445,14 @@ class OnlineServicState extends State<OnlineServicePage> {
                             height: 35.w,
                             margin: EdgeInsets.only(left: 15.w),
                             decoration: BoxDecoration(
-                                color: StyleTheme.bottomappbarColor,
-                                borderRadius: BorderRadius.circular(17.5.w)),
+                                color: StyleTheme.bottomappbarColor, borderRadius: BorderRadius.circular(17.5.w)),
                             child: TextField(
                               controller: editingController,
                               decoration: InputDecoration(
                                   isDense: true,
-                                  contentPadding: EdgeInsets.only(
-                                      left: 10, right: 10, top: 5, bottom: 5),
+                                  contentPadding: EdgeInsets.only(left: 10, right: 10, top: 5, bottom: 5),
                                   border: InputBorder.none,
-                                  hintStyle: TextStyle(
-                                      color: StyleTheme.cBioColor,
-                                      fontSize: 16.sp),
+                                  hintStyle: TextStyle(color: StyleTheme.cBioColor, fontSize: 16.sp),
                                   hintText: "请输入消息..."),
                             ),
                           ),
@@ -509,13 +464,11 @@ class OnlineServicState extends State<OnlineServicePage> {
                               width: 55.w,
                               height: 30.w,
                               decoration: BoxDecoration(
-                                  color: StyleTheme.cDangerColor,
-                                  borderRadius: BorderRadius.circular(5.w)),
+                                  color: StyleTheme.cDangerColor, borderRadius: BorderRadius.circular(5.w)),
                               child: Center(
                                 child: Text(
                                   '发送',
-                                  style: TextStyle(
-                                      color: Colors.white, fontSize: 14.sp),
+                                  style: TextStyle(color: Colors.white, fontSize: 14.sp),
                                 ),
                               ),
                             ))
@@ -528,8 +481,7 @@ class OnlineServicState extends State<OnlineServicePage> {
     ));
   }
 
-  Widget conversationItem(String msg, int status, String thumb, int messageType,
-      List? problemList, int isLocal) {
+  Widget conversationItem(String msg, int status, String thumb, int messageType, List? problemList, int isLocal) {
     var _avatarType = Provider.of<HomeConfig>(context).member.thumb;
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -539,8 +491,7 @@ class OnlineServicState extends State<OnlineServicePage> {
         Container(
             width: 40.w,
             height: 40.w,
-            margin: new EdgeInsets.only(
-                right: status == 2 ? 10.w : 0, left: status == 1 ? 10.w : 0),
+            margin: new EdgeInsets.only(right: status == 2 ? 10.w : 0, left: status == 1 ? 10.w : 0),
             child: status == 2
                 ? LocalPNG(
                     url: 'assets/images/service.png',
@@ -558,30 +509,21 @@ class OnlineServicState extends State<OnlineServicePage> {
             child: Container(
           margin: new EdgeInsets.only(bottom: 50.w),
           width: double.infinity,
-          child:
-              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             problemList == null
                 ? Row(
-                    mainAxisAlignment: status == 2
-                        ? MainAxisAlignment.start
-                        : MainAxisAlignment.end,
+                    mainAxisAlignment: status == 2 ? MainAxisAlignment.start : MainAxisAlignment.end,
                     children: [
                       Flexible(
                           child: Container(
                               decoration: BoxDecoration(
                                   boxShadow: [
                                     //阴影
-                                    BoxShadow(
-                                        color: Colors.black12,
-                                        offset: Offset(0, 0.5.w),
-                                        blurRadius: 2.5.w)
+                                    BoxShadow(color: Colors.black12, offset: Offset(0, 0.5.w), blurRadius: 2.5.w)
                                   ],
-                                  color: status == 2
-                                      ? StyleTheme.bottomappbarColor
-                                      : StyleTheme.cDangerColor,
+                                  color: status == 2 ? StyleTheme.bottomappbarColor : StyleTheme.cDangerColor,
                                   borderRadius: BorderRadius.circular(8.w)),
-                              padding: new EdgeInsets.symmetric(
-                                  horizontal: 12.5.w, vertical: 12.5.w),
+                              padding: new EdgeInsets.symmetric(horizontal: 12.5.w, vertical: 12.5.w),
                               child: messageType == 1
                                   ? getMsgPath(msg, status)
                                   : GestureDetector(
@@ -607,18 +549,11 @@ class OnlineServicState extends State<OnlineServicePage> {
                   )
                 : Container(
                     //常见问题
-                    decoration: BoxDecoration(
-                        boxShadow: [
-                          //阴影
-                          BoxShadow(
-                              color: Colors.black12,
-                              offset: Offset(0, 0.5.w),
-                              blurRadius: 2.5.w)
-                        ],
-                        color: StyleTheme.bottomappbarColor,
-                        borderRadius: BorderRadius.circular(8.w)),
-                    padding: new EdgeInsets.symmetric(
-                        horizontal: 12.5.w, vertical: 12.w),
+                    decoration: BoxDecoration(boxShadow: [
+                      //阴影
+                      BoxShadow(color: Colors.black12, offset: Offset(0, 0.5.w), blurRadius: 2.5.w)
+                    ], color: StyleTheme.bottomappbarColor, borderRadius: BorderRadius.circular(8.w)),
+                    padding: new EdgeInsets.symmetric(horizontal: 12.5.w, vertical: 12.w),
                     child: Container(
                         margin: new EdgeInsets.only(bottom: 10.w),
                         child: Container(
@@ -639,9 +574,7 @@ class OnlineServicState extends State<OnlineServicePage> {
                             ),
                             for (var item in problemList)
                               Row(
-                                children: [
-                                  problemItem(item['problem'], item['reply'])
-                                ],
+                                children: [problemItem(item['problem'], item['reply'])],
                               ),
                             Row(
                               children: [
@@ -674,8 +607,7 @@ class OnlineServicState extends State<OnlineServicePage> {
           item['created_at'] != null &&
                   (index >= 1 &&
                       index < msgList!.length - 1 &&
-                      msgList![index].createdAt !=
-                          msgList![index + 1].createdAt)
+                      msgList![index].createdAt != msgList![index + 1].createdAt)
               ? Container(
                   margin: new EdgeInsets.only(bottom: 20.w),
                   child: Center(
@@ -688,13 +620,8 @@ class OnlineServicState extends State<OnlineServicePage> {
                   ),
                 )
               : Container(),
-          conversationItem(
-              item['message'] ?? '',
-              item['status'],
-              item['thumb'] ?? '0',
-              item['messageType'],
-              item['problemList'] ?? null,
-              item['isLocal'] ?? 0)
+          conversationItem(item['message'] ?? '', item['status'], item['thumb'] ?? '0', item['messageType'],
+              item['problemList'] ?? null, item['isLocal'] ?? 0)
         ],
       ),
     );

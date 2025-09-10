@@ -1,5 +1,5 @@
 import 'package:chaguaner2023/components/page_status.dart';
-import 'package:chaguaner2023/components/pagetitlebar.dart';
+import 'package:chaguaner2023/components/page_title_bar.dart';
 import 'package:chaguaner2023/theme/style_theme.dart';
 import 'package:chaguaner2023/utils/api.dart';
 import 'package:chaguaner2023/utils/common.dart';
@@ -22,10 +22,8 @@ class _UpAuthPageState extends State<UpAuthPage> {
       height: 40.w,
       width: double.infinity,
       padding: EdgeInsets.symmetric(horizontal: 19.5.w),
-      decoration: BoxDecoration(
-          image: DecorationImage(
-              fit: BoxFit.fill,
-              image: AssetImage('assets/images/mine/work_bgb.png'))),
+      decoration:
+          BoxDecoration(image: DecorationImage(fit: BoxFit.fill, image: AssetImage('assets/images/mine/work_bgb.png'))),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -36,16 +34,11 @@ class _UpAuthPageState extends State<UpAuthPage> {
           ),
           Expanded(
               child: Center(
-            child: Text(content!,
-                style:
-                    TextStyle(color: StyleTheme.cTitleColor, fontSize: 14.sp)),
+            child: Text(content!, style: TextStyle(color: StyleTheme.cTitleColor, fontSize: 14.sp)),
           )),
           Text(
             status! ? '已完成' : '未达标',
-            style: TextStyle(
-                color:
-                    status ? StyleTheme.cDangerColor : StyleTheme.cTitleColor,
-                fontSize: 14.sp),
+            style: TextStyle(color: status ? StyleTheme.cDangerColor : StyleTheme.cTitleColor, fontSize: 14.sp),
           )
         ],
       ),
@@ -127,13 +120,11 @@ class _UpAuthPageState extends State<UpAuthPage> {
                   : Column(
                       children: [
                         Container(
-                          padding: EdgeInsets.only(
-                              left: 37.5.w, right: 37.5.w, bottom: 18.5.w),
+                          padding: EdgeInsets.only(left: 37.5.w, right: 37.5.w, bottom: 18.5.w),
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(5.w),
                               color: Colors.white,
-                              border: Border.all(
-                                  width: 0.5.w, color: Color(0XFFf1aa7a))),
+                              border: Border.all(width: 0.5.w, color: Color(0XFFf1aa7a))),
                           width: double.infinity,
                           child: Column(
                             children: [
@@ -147,9 +138,7 @@ class _UpAuthPageState extends State<UpAuthPage> {
                               ),
                               Text(
                                 '请通过以下方式添加官方审核账号：',
-                                style: TextStyle(
-                                    color: StyleTheme.cTitleColor,
-                                    fontSize: 14.sp),
+                                style: TextStyle(color: StyleTheme.cTitleColor, fontSize: 14.sp),
                               ),
                               SizedBox(
                                 height: 15.w,
@@ -160,8 +149,7 @@ class _UpAuthPageState extends State<UpAuthPage> {
                                   GestureDetector(
                                     behavior: HitTestBehavior.translucent,
                                     onTap: () {
-                                      CommonUtils.launchURL(
-                                          infoData['tg_link']);
+                                      CommonUtils.launchURL(infoData['tg_link']);
                                     },
                                     child: Column(
                                       children: [
@@ -175,9 +163,7 @@ class _UpAuthPageState extends State<UpAuthPage> {
                                         ),
                                         Text(
                                           'Telegram',
-                                          style: TextStyle(
-                                              color: Colors.black,
-                                              fontSize: 16.sp),
+                                          style: TextStyle(color: Colors.black, fontSize: 16.sp),
                                         )
                                       ],
                                     ),
@@ -188,8 +174,7 @@ class _UpAuthPageState extends State<UpAuthPage> {
                                   GestureDetector(
                                     behavior: HitTestBehavior.translucent,
                                     onTap: () {
-                                      CommonUtils.launchURL(
-                                          infoData['pt_link']);
+                                      CommonUtils.launchURL(infoData['pt_link']);
                                     },
                                     child: Column(
                                       children: [
@@ -203,9 +188,7 @@ class _UpAuthPageState extends State<UpAuthPage> {
                                         ),
                                         Text(
                                           'Potato',
-                                          style: TextStyle(
-                                              color: Colors.black,
-                                              fontSize: 16.sp),
+                                          style: TextStyle(color: Colors.black, fontSize: 16.sp),
                                         )
                                       ],
                                     ),
@@ -224,17 +207,11 @@ class _UpAuthPageState extends State<UpAuthPage> {
                                     SizedBox(
                                       height: 15.w,
                                     ),
-                                    itemFc(
-                                        ic: 'ic_auth_a',
-                                        content: '提现≥1000人民币',
-                                        status: infoData['withdraw_verify']),
+                                    itemFc(ic: 'ic_auth_a', content: '提现≥1000人民币', status: infoData['withdraw_verify']),
                                     SizedBox(
                                       height: 10.w,
                                     ),
-                                    itemFc(
-                                        ic: 'ic_auth_b',
-                                        content: '视频需要举牌、水印',
-                                        status: infoData['video_verify']),
+                                    itemFc(ic: 'ic_auth_b', content: '视频需要举牌、水印', status: infoData['video_verify']),
                                     SizedBox(
                                       height: 15.w,
                                     ),
@@ -243,10 +220,8 @@ class _UpAuthPageState extends State<UpAuthPage> {
                                       height: 15.w,
                                     ),
                                     Text(
-                                      (infoData['instruction_tips'] as String)
-                                          .replaceAll('\n', '\n'),
-                                      style: TextStyle(
-                                          color: Colors.black, fontSize: 14.sp),
+                                      (infoData['instruction_tips'] as String).replaceAll('\n', '\n'),
+                                      style: TextStyle(color: Colors.black, fontSize: 14.sp),
                                     )
                                   ],
                                 ),
@@ -287,9 +262,7 @@ class _UpAuthPageState extends State<UpAuthPage> {
                               ),
                               style: TextStyle(
                                   fontSize: 14.sp,
-                                  color: infoData['apply_status'] == -1
-                                      ? Color(0xff9b450b)
-                                      : Color(0XFF6c6c6c)),
+                                  color: infoData['apply_status'] == -1 ? Color(0xff9b450b) : Color(0XFF6c6c6c)),
                             ),
                           ),
                         )

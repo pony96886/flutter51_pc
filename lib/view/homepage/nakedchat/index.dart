@@ -2,7 +2,7 @@ import 'package:chaguaner2023/components/detail_ad.dart';
 import 'package:chaguaner2023/components/headerContainer.dart';
 import 'package:chaguaner2023/components/list/public_list.dart';
 import 'package:chaguaner2023/components/page_status.dart';
-import 'package:chaguaner2023/components/pagetitlebar.dart';
+import 'package:chaguaner2023/components/page_title_bar.dart';
 import 'package:chaguaner2023/components/tab/nav_tab_bar_mixin.dart';
 import 'package:chaguaner2023/theme/style_theme.dart';
 import 'package:chaguaner2023/utils/api.dart';
@@ -26,8 +26,7 @@ class NakedChatPage extends StatefulWidget {
   State<NakedChatPage> createState() => _NakedChatPageState();
 }
 
-class _NakedChatPageState extends State<NakedChatPage>
-    with SingleTickerProviderStateMixin {
+class _NakedChatPageState extends State<NakedChatPage> with SingleTickerProviderStateMixin {
   List _banner = [];
   ScrollController _scrollViewController = ScrollController();
   bool loading = true;
@@ -70,11 +69,7 @@ class _NakedChatPageState extends State<NakedChatPage>
             child: Container(
             margin: EdgeInsets.only(top: 5.w, left: 15.w, right: 15.w),
             height: 175.w,
-            child: Detail_ad(
-                radius: 18.w,
-                width: ScreenUtil().screenWidth - 30.w,
-                app_layout: true,
-                data: _banner),
+            child: Detail_ad(radius: 18.w, width: ScreenUtil().screenWidth - 30.w, app_layout: true, data: _banner),
           ))
         : SizedBox(height: 0);
   }
@@ -92,9 +87,7 @@ class _NakedChatPageState extends State<NakedChatPage>
                 title: '裸聊预约',
                 rightWidget: GestureDetector(
                   onTap: () {
-                    AppGlobal.appRouter?.push(
-                        CommonUtils.getRealHash('searchResult'),
-                        extra: {'index': 5});
+                    AppGlobal.appRouter?.push(CommonUtils.getRealHash('searchResult'), extra: {'index': 5});
                   },
                   child: Padding(
                     padding: EdgeInsets.only(left: 15.w),
@@ -121,13 +114,11 @@ class _NakedChatPageState extends State<NakedChatPage>
                                 child: tips.isEmpty
                                     ? SizedBox()
                                     : Padding(
-                                        padding: EdgeInsets.only(
-                                            left: 15.w, right: 15.w, top: 10.w),
+                                        padding: EdgeInsets.only(left: 15.w, right: 15.w, top: 10.w),
                                         child: Row(
                                           children: [
                                             LocalPNG(
-                                              url:
-                                                  "assets/images/home/icon_notices.png",
+                                              url: "assets/images/home/icon_notices.png",
                                               width: 18.w,
                                               height: 18.w,
                                             ),
@@ -139,10 +130,7 @@ class _NakedChatPageState extends State<NakedChatPage>
                                               height: 18.w,
                                               child: new Marquee(
                                                 text: tips,
-                                                style: new TextStyle(
-                                                    color:
-                                                        StyleTheme.cTitleColor,
-                                                    fontSize: 12.sp),
+                                                style: new TextStyle(color: StyleTheme.cTitleColor, fontSize: 12.sp),
                                                 scrollAxis: Axis.horizontal,
                                               ),
                                             ))
@@ -157,21 +145,13 @@ class _NakedChatPageState extends State<NakedChatPage>
                               NavTabBarWidget(
                                 tabBarHeight: 44.0.w,
                                 tabVc: tabController,
-                                tabs: tabs
-                                    .map((e) =>
-                                        (e['name'] ?? e['title']).toString())
-                                    .toList(),
+                                tabs: tabs.map((e) => (e['name'] ?? e['title']).toString()).toList(),
                                 // containerPadding: EdgeInsets.symmetric(horizontal: 70.w),
-                                textPadding:
-                                    EdgeInsets.symmetric(horizontal: 6.w),
+                                textPadding: EdgeInsets.symmetric(horizontal: 6.w),
                                 selectedIndex: tabController!.index,
-                                norTextStyle: TextStyle(
-                                    color: StyleTheme.cTitleColor,
-                                    fontSize: 14.sp),
+                                norTextStyle: TextStyle(color: StyleTheme.cTitleColor, fontSize: 14.sp),
                                 selTextStyle: TextStyle(
-                                    color: StyleTheme.cTitleColor,
-                                    fontSize: 18.sp,
-                                    fontWeight: FontWeight.bold),
+                                    color: StyleTheme.cTitleColor, fontSize: 18.sp, fontWeight: FontWeight.bold),
                                 indicatorStyle: NavIndicatorStyle.none,
                               ),
                               Expanded(
@@ -181,8 +161,7 @@ class _NakedChatPageState extends State<NakedChatPage>
                                         (e) {
                                           return PageViewMixin(
                                             child: PublicList(
-                                                controller:
-                                                    _scrollViewController,
+                                                controller: _scrollViewController,
                                                 isShow: true,
                                                 limit: 30,
                                                 isFlow: false,
@@ -193,12 +172,7 @@ class _NakedChatPageState extends State<NakedChatPage>
                                                 aspectRatio: 0.74,
                                                 mainAxisSpacing: 10.w,
                                                 crossAxisSpacing: 5.w,
-                                                itemBuild: (context,
-                                                    index,
-                                                    data,
-                                                    page,
-                                                    limit,
-                                                    getListData) {
+                                                itemBuild: (context, index, data, page, limit, getListData) {
                                                   return NakedchtCard(
                                                     data: data,
                                                   );
@@ -217,12 +191,10 @@ class _NakedChatPageState extends State<NakedChatPage>
             child: GestureDetector(
               onTap: () {
                 if (WebSocketUtility.agent == 2) {
-                  AppGlobal.appRouter
-                      ?.push(CommonUtils.getRealHash('naledChatManage'));
+                  AppGlobal.appRouter?.push(CommonUtils.getRealHash('naledChatManage'));
                 } else {
                   ServiceParmas.type = 'chat';
-                  AppGlobal.appRouter
-                      ?.push(CommonUtils.getRealHash('onlineServicePage'));
+                  AppGlobal.appRouter?.push(CommonUtils.getRealHash('onlineServicePage'));
                 }
               },
               child: LocalPNG(

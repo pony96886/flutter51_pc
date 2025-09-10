@@ -7,7 +7,7 @@ import 'package:chaguaner2023/components/card/infoCard.dart';
 import 'package:chaguaner2023/components/cgDialog.dart';
 import 'package:chaguaner2023/components/headerContainer.dart';
 import 'package:chaguaner2023/components/page_status.dart';
-import 'package:chaguaner2023/components/pagetitlebar.dart';
+import 'package:chaguaner2023/components/page_title_bar.dart';
 import 'package:chaguaner2023/components/upload/start_upload.dart';
 import 'package:chaguaner2023/components/upload/upload_resouce.dart';
 import 'package:chaguaner2023/store/global.dart';
@@ -1058,7 +1058,8 @@ class _LLchatState extends State<LLchat> with SingleTickerProviderStateMixin {
                               if (useInfo!.isVipDetail!) {
                                 context.pop();
                               } else {
-                                AppGlobal.appRouter?.push(CommonUtils.getRealHash('vipDetailPage/' + id.toString() + '/null/'));
+                                AppGlobal.appRouter
+                                    ?.push(CommonUtils.getRealHash('vipDetailPage/' + id.toString() + '/null/'));
                               }
                             },
                             nickname: useInfo!.nickname,

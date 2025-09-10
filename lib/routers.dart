@@ -50,10 +50,16 @@ import 'package:chaguaner2023/view/homepage/teablank_comment.dart';
 import 'package:chaguaner2023/view/homepage/to_be_verified.dart';
 import 'package:chaguaner2023/view/homepage/up_auth.dart';
 import 'package:chaguaner2023/view/homepage/video_publish.dart';
-import 'package:chaguaner2023/view/homepage/video_work.dart';
+import 'package:chaguaner2023/view/mine/mine_game/game_webview.dart';
+import 'package:chaguaner2023/view/mine/mine_game/recharge.dart';
+import 'package:chaguaner2023/view/mine/mine_game/recording.dart';
+import 'package:chaguaner2023/view/mine/mine_ingot/mine_ingot_wallet_page.dart';
+import 'package:chaguaner2023/view/mine/mine_ingot/mine_ingots_detail_page.dart';
+import 'package:chaguaner2023/view/mine/mine_reservation/mine_reservation_page.dart';
+import 'package:chaguaner2023/view/mine/mine_video_work/mine_video_work_page.dart';
 import 'package:chaguaner2023/view/im/im_page.dart';
 import 'package:chaguaner2023/view/im/share_meizi.dart';
-import 'package:chaguaner2023/view/list/recharge_record.dart';
+import 'package:chaguaner2023/view/mine/mine_recharge_record/mine_recharge_record_page.dart';
 import 'package:chaguaner2023/view/loginPage.dart';
 import 'package:chaguaner2023/view/mall/buy_commodity.dart';
 import 'package:chaguaner2023/view/mall/commodity_categories.dart';
@@ -62,40 +68,33 @@ import 'package:chaguaner2023/view/mall/commodity_evaluate.dart';
 import 'package:chaguaner2023/view/mall/mall_complaint.dart';
 import 'package:chaguaner2023/view/mall/mall_publish.dart';
 import 'package:chaguaner2023/view/mall/merchant_home.dart';
-import 'package:chaguaner2023/view/mall/user_mall_order.dart';
-// import 'package:chaguaner2023/view/member_card.dart';
-import 'package:chaguaner2023/view/mine/IngotWallet.dart';
-import 'package:chaguaner2023/view/mine/PingChaBaoPage.dart';
-import 'package:chaguaner2023/view/mine/adopt_manage.dart';
-import 'package:chaguaner2023/view/mine/cardpack.dart';
-import 'package:chaguaner2023/view/mine/changepassword.dart';
-import 'package:chaguaner2023/view/mine/elegantcollect.dart';
-import 'package:chaguaner2023/view/mine/exchangecoupon.dart';
-import 'package:chaguaner2023/view/mine/exchangemember.dart';
-import 'package:chaguaner2023/view/mine/game_page.dart/game_webview.dart';
-import 'package:chaguaner2023/view/mine/game_page.dart/recharge.dart';
-import 'package:chaguaner2023/view/mine/game_page.dart/recording.dart';
-import 'package:chaguaner2023/view/mine/ingots_detail.dart';
-import 'package:chaguaner2023/view/mine/merchant_center.dart';
-import 'package:chaguaner2023/view/mine/mony_detail.dart';
-import 'package:chaguaner2023/view/mine/mymony.dart';
-import 'package:chaguaner2023/view/mine/myteapost.dart';
-import 'package:chaguaner2023/view/mine/popularize.dart';
-import 'package:chaguaner2023/view/mine/promotion_record.dart';
-import 'package:chaguaner2023/view/mine/reservation_form.dart';
-import 'package:chaguaner2023/view/mine/sharemethod.dart';
-import 'package:chaguaner2023/view/mine/shareqrcode.dart';
-import 'package:chaguaner2023/view/mine/withdraw.dart';
-import 'package:chaguaner2023/view/mine/withdrawal_account.dart';
-import 'package:chaguaner2023/view/mine/withdrawals_record.dart';
-import 'package:chaguaner2023/view/new_member.dart';
+import 'package:chaguaner2023/view/mine/mine_user_mall_order/mine_user_mall_order_page.dart';
+import 'package:chaguaner2023/view/mine/mine_pin_cha_bao/mine_ping_cha_bao_page.dart';
+import 'package:chaguaner2023/view/mine/mine_adopt_manege_screen/mine_adopt_manage_page.dart';
+import 'package:chaguaner2023/view/mine/mine_cardpack/mine_cardpack_page.dart';
+import 'package:chaguaner2023/view/mine/mine_setting/mine_setting_change_password_page.dart';
+import 'package:chaguaner2023/view/mine/mine_elegantcollect/mine_elegantcollect_page.dart';
+import 'package:chaguaner2023/view/mine/mine_cardpack/mine_cardpack_exchange_coupon_page.dart';
+import 'package:chaguaner2023/view/mine/mine_ingot/mine_ingot_exchange_member_page.dart';
+import 'package:chaguaner2023/view/mine/mine_merchant_center/mine_merchant_center_page.dart';
+import 'package:chaguaner2023/view/mine/mine_mony/mine_mony_detail_page.dart';
+import 'package:chaguaner2023/view/mine/mine_mony/mine_mony_page.dart';
+import 'package:chaguaner2023/view/mine/mine_tea_post/mine_tea_post_page.dart';
+import 'package:chaguaner2023/view/mine/mine_popularize/mine_popularize_page.dart';
+import 'package:chaguaner2023/view/mine/mine_withdraw/mine_withdraw_record_page.dart';
+import 'package:chaguaner2023/view/mine/mine_promotion_record/mine_promotion_record_page.dart';
+import 'package:chaguaner2023/view/mine/mine_share/mine_share_method_page.dart';
+import 'package:chaguaner2023/view/mine/mine_share_qrcode/mine_share_qrcode_page.dart';
+import 'package:chaguaner2023/view/mine/mine_withdraw/mine_withdraw_page.dart';
+import 'package:chaguaner2023/view/mine/mine_withdraw/mine_withdraw_account.dart';
+import 'package:chaguaner2023/view/mine/mine_member/mine_member_page.dart';
 import 'package:chaguaner2023/view/post_review.dart';
 import 'package:chaguaner2023/view/preview/adopt_pic_view_page.dart';
 import 'package:chaguaner2023/view/preview/tea_pic_view_page.dart';
 import 'package:chaguaner2023/view/report_details.dart';
-import 'package:chaguaner2023/view/setting/bindPhone.dart';
-import 'package:chaguaner2023/view/setting/changephone.dart';
-import 'package:chaguaner2023/view/setting/setting.dart';
+import 'package:chaguaner2023/view/mine/mine_setting/mine_setting_bind_phone_page.dart';
+import 'package:chaguaner2023/view/mine/mine_setting/mine_setting_change_phone_page.dart';
+import 'package:chaguaner2023/view/mine/mine_setting/mine_setting.dart';
 import 'package:chaguaner2023/view/system_notice.dart';
 import 'package:chaguaner2023/view/tea/tea_list.dart';
 import 'package:chaguaner2023/view/teablackpublish.dart';
@@ -139,26 +138,19 @@ class GoRouterModel {
 extension GetGoRouter on GoRouterModel {
   GoRoute toGoRouter({List<GoRoute>? routes}) {
     return this.pageBuilder != null
-        ? GoRoute(
-            path: this.key!,
-            pageBuilder: this.pageBuilder,
-            routes: routes ?? [])
-        : GoRoute(
-            path: this.key!, builder: this.builder!, routes: routes ?? []);
+        ? GoRoute(path: this.key!, pageBuilder: this.pageBuilder, routes: routes ?? [])
+        : GoRoute(path: this.key!, builder: this.builder!, routes: routes ?? []);
   }
 }
 
 class Routes {
   //首页
-  static GoRouterModel home =
-      GoRouterModel(key: 'home', builder: (context, state) => Home());
+  static GoRouterModel home = GoRouterModel(key: 'home', builder: (context, state) => Home());
   //虚拟茶叶列表
   static GoRouterModel tealist = GoRouterModel(
       key: 'tealist',
-      pageBuilder: (context, state) => TeaListPage().addTransitionPage(
-          state.pageKey,
-          transitionDuration: 50,
-          isAnimation: false));
+      pageBuilder: (context, state) =>
+          TeaListPage().addTransitionPage(state.pageKey, transitionDuration: 50, isAnimation: false));
 //活动webView
   static GoRouterModel activityPage = GoRouterModel(
       key: 'activityPage/:activityUrl',
@@ -166,24 +158,20 @@ class Routes {
             url: Uri.decodeComponent(state.pathParameters['activityUrl']!),
           ));
 //应用中心
-  static GoRouterModel applicationCenter = GoRouterModel(
-      key: 'applicationCenter',
-      builder: (context, state) => ApplicationCenter());
+  static GoRouterModel applicationCenter =
+      GoRouterModel(key: 'applicationCenter', builder: (context, state) => ApplicationCenter());
   //兑换会员
-  static GoRouterModel exchangeMember = GoRouterModel(
-      key: 'exchangemember', builder: (context, state) => ExchangeMember());
+  static GoRouterModel exchangeMember =
+      GoRouterModel(key: 'exchangemember', builder: (context, state) => MineIngotExchangeMemberPage());
 //兑换优惠券
-  static GoRouterModel exchangeCoupon = GoRouterModel(
-      key: 'exchangecoupon', builder: (context, state) => ExchangeCoupon());
+  static GoRouterModel exchangeCoupon =
+      GoRouterModel(key: 'exchangecoupon', builder: (context, state) => MineCardpackExchangeCouponPage());
 //每日茶谈
-  static GoRouterModel talkListPage = GoRouterModel(
-      key: 'talkListPage', builder: (context, state) => TalkListPage());
-  static GoRouterModel authenticationList = GoRouterModel(
-      key: 'authenticationList',
-      builder: (context, state) => AuthenticationList());
+  static GoRouterModel talkListPage = GoRouterModel(key: 'talkListPage', builder: (context, state) => TalkListPage());
+  static GoRouterModel authenticationList =
+      GoRouterModel(key: 'authenticationList', builder: (context, state) => AuthenticationList());
   // PayoutList
-  static GoRouterModel payoutList = GoRouterModel(
-      key: 'payoutList', builder: (context, state) => PayoutList());
+  static GoRouterModel payoutList = GoRouterModel(key: 'payoutList', builder: (context, state) => PayoutList());
   //茶谈详情
   static GoRouterModel tackDetailPage = GoRouterModel(
       key: 'tackDetailPage/:tackId',
@@ -198,28 +186,25 @@ class Routes {
             title: state.pathParameters['browserTitle'],
           ));
   //验茶报告
-  static GoRouterModel reportPage = GoRouterModel(
-      key: 'reportPage', builder: (context, state) => ReportPage());
+  static GoRouterModel reportPage = GoRouterModel(key: 'reportPage', builder: (context, state) => ReportPage());
   //鉴察师认证
-  static GoRouterModel teaAppreciator = GoRouterModel(
-      key: 'teaAppreciator', builder: (context, state) => TeaAppreciator());
+  static GoRouterModel teaAppreciator =
+      GoRouterModel(key: 'teaAppreciator', builder: (context, state) => TeaAppreciator());
 
   //茶馆黑榜
-  static GoRouterModel teaBlackList = GoRouterModel(
-      key: 'teaBlackList', builder: (context, state) => TeaBlackList());
+  static GoRouterModel teaBlackList = GoRouterModel(key: 'teaBlackList', builder: (context, state) => TeaBlackList());
 
 //茶馆黑榜曝光
-  static GoRouterModel teaBlackPublish = GoRouterModel(
-      key: 'teaBlackPublish', builder: (context, state) => TeaBlackPublish());
+  static GoRouterModel teaBlackPublish =
+      GoRouterModel(key: 'teaBlackPublish', builder: (context, state) => TeaBlackPublish());
 
   //茶馆黑榜发布待审核
-  static GoRouterModel waittingStatusPage = GoRouterModel(
-      key: 'waittingStatusPage',
-      builder: (context, state) => WaittingStatusPage());
+  static GoRouterModel waittingStatusPage =
+      GoRouterModel(key: 'waittingStatusPage', builder: (context, state) => WaittingStatusPage());
 
   //待验证茶帖
-  static GoRouterModel toBeVerifiedPage = GoRouterModel(
-      key: 'toBeVerifiedPage', builder: (context, state) => ToBeVerifiedPage());
+  static GoRouterModel toBeVerifiedPage =
+      GoRouterModel(key: 'toBeVerifiedPage', builder: (context, state) => ToBeVerifiedPage());
 
   //登录注册
   static GoRouterModel loginPage = GoRouterModel(
@@ -228,25 +213,24 @@ class Routes {
             type: int.parse(state.pathParameters['logType']!),
           ));
   //忘记密码
-  static GoRouterModel forgetPassword = GoRouterModel(
-      key: 'forgetPassword', builder: (context, state) => ForgetPassword());
+  static GoRouterModel forgetPassword =
+      GoRouterModel(key: 'forgetPassword', builder: (context, state) => ForgetPassword());
   //设置
-  static GoRouterModel setting =
-      GoRouterModel(key: 'setting', builder: (context, state) => SettingPage());
+  static GoRouterModel setting = GoRouterModel(key: 'setting', builder: (context, state) => MineSettingPage());
   //修改手机号
   static GoRouterModel changePhone = GoRouterModel(
       key: 'changePhone/:cphone/:cshowPhone/:cphonePrefix',
-      builder: (context, state) => ChangePhone(
+      builder: (context, state) => MineSettingChangePhone(
             phone: state.pathParameters['cphone'],
             showPhone: state.pathParameters['cshowPhone'],
             phonePrefix: state.pathParameters['cphonePrefix'],
           ));
   //会员卡充值
-  static GoRouterModel memberCardsPage = GoRouterModel(
-      key: 'memberCardsPage', builder: (context, state) => NewMemberPage());
+  static GoRouterModel memberCardsPage =
+      GoRouterModel(key: 'memberCardsPage', builder: (context, state) => MineMemberPage());
   //绑定手机号
   static GoRouterModel bindphone =
-      GoRouterModel(key: 'bindphone', builder: (context, state) => BindPhone());
+      GoRouterModel(key: 'bindphone', builder: (context, state) => MineSettingBindPhonePage());
   //绑定手机号
   static GoRouterModel tianZiYiHaoPage = GoRouterModel(
       key: 'tianZiYiHaoPage/:vipClub',
@@ -256,66 +240,60 @@ class Routes {
 //订单记录
   static GoRouterModel rechargeRecord = GoRouterModel(
       key: 'rechargeRecord/:rechargtype',
-      builder: (context, state) => RechargeRecord(
+      builder: (context, state) => MineRechargeRecordPage(
             type: state.pathParameters['rechargtype'],
           ));
 
 //在线客服
-  static GoRouterModel onlineServicePage = GoRouterModel(
-      key: 'onlineServicePage',
-      builder: (context, state) => OnlineServicePage());
+  static GoRouterModel onlineServicePage =
+      GoRouterModel(key: 'onlineServicePage', builder: (context, state) => OnlineServicePage());
 
   //包养管理
-  static GoRouterModel adoptManageScreen = GoRouterModel(
-      key: 'adoptManageScreen',
-      builder: (context, state) => AdoptManegeScreen());
+  static GoRouterModel adoptManageScreen =
+      GoRouterModel(key: 'adoptManageScreen', builder: (context, state) => MineAdoptManegeScreenPage());
 
   //官方消息
-  static GoRouterModel officeMessage = GoRouterModel(
-      key: 'officeMessage', builder: (context, state) => OfficeMessagePage());
+  static GoRouterModel officeMessage =
+      GoRouterModel(key: 'officeMessage', builder: (context, state) => OfficeMessagePage());
 
 //品茶宝
-  static GoRouterModel pingChaBaoPage = GoRouterModel(
-      key: 'pingChaBaoPage', builder: (context, state) => PingChaBaoPage());
+  static GoRouterModel pingChaBaoPage =
+      GoRouterModel(key: 'pingChaBaoPage', builder: (context, state) => MinePingChaBaoPage());
 
 //元宝充值
-  static GoRouterModel ingotWallet = GoRouterModel(
-      key: 'ingotWallet', builder: (context, state) => IngotWallet());
+  static GoRouterModel ingotWallet =
+      GoRouterModel(key: 'ingotWallet', builder: (context, state) => MineIngotWalletPage());
 
 //元宝提现
   static GoRouterModel withdrawPage = GoRouterModel(
       key: 'withdrawPage/:type',
-      builder: (context, state) =>
-          WithdrawPage(type: int.parse(state.pathParameters['type']!)));
+      builder: (context, state) => MineWithdrawPage(type: int.parse(state.pathParameters['type']!)));
 
 //提现记录
   static GoRouterModel withdrawRecordPage = GoRouterModel(
       key: 'withdrawRecordPage/:t',
-      builder: (context, state) =>
-          WithdrawRecordPage(type: int.parse(state.pathParameters['t']!)));
+      builder: (context, state) => MineWithdrawRecordPage(type: int.parse(state.pathParameters['t']!)));
 //选择提现账号
   static GoRouterModel withdrawAccountPage = GoRouterModel(
       key: 'withdrawAccountPage/:withdrawId',
-      builder: (context, state) => WithdrawAccountPage(
+      builder: (context, state) => MineWithdrawAccountPage(
             selectId: state.pathParameters['withdrawId']!,
           ));
 
   //选择提现账号
-  static GoRouterModel ingotsDetailPage = GoRouterModel(
-      key: 'ingotsDetailPage', builder: (context, state) => IngotsDetailPage());
+  static GoRouterModel ingotsDetailPage =
+      GoRouterModel(key: 'ingotsDetailPage', builder: (context, state) => MineIngotsDetailPage());
 
   //推广赚钱
-  static GoRouterModel popularize = GoRouterModel(
-      key: 'popularize', builder: (context, state) => Popularize());
+  static GoRouterModel popularize = GoRouterModel(key: 'popularize', builder: (context, state) => MinePopularizePage());
 
   //推广记录
-  static GoRouterModel promotionRecordPage = GoRouterModel(
-      key: 'promotionRecordPage',
-      builder: (context, state) => PromotionRecordPage());
+  static GoRouterModel promotionRecordPage =
+      GoRouterModel(key: 'promotionRecordPage', builder: (context, state) => MinePromotionRecordPage());
 
   //二维码分享
-  static GoRouterModel shareQRCodePage = GoRouterModel(
-      key: 'shareQRCodePage', builder: (context, state) => ShareQRCodePage());
+  static GoRouterModel shareQRCodePage =
+      GoRouterModel(key: 'shareQRCodePage', builder: (context, state) => MineShareQRCodePage());
 
   //图片预览
   static GoRouterModel teaViewPicPage = GoRouterModel(
@@ -332,15 +310,13 @@ class Routes {
           ));
 
   //邀请方法
-  static GoRouterModel shareMethodPage = GoRouterModel(
-      key: 'shareMethodPage', builder: (context, state) => ShareMethodPage());
+  static GoRouterModel shareMethodPage =
+      GoRouterModel(key: 'shareMethodPage', builder: (context, state) => MineShareMethodPage());
 
   //邀请方法
-  static GoRouterModel gamePage =
-      GoRouterModel(key: 'gamePage', builder: (context, state) => GamePage());
+  static GoRouterModel gamePage = GoRouterModel(key: 'gamePage', builder: (context, state) => GamePage());
 //游戏充值
-  static GoRouterModel rechargePage = GoRouterModel(
-      key: 'rechargePage', builder: (context, state) => RechargePage());
+  static GoRouterModel rechargePage = GoRouterModel(key: 'rechargePage', builder: (context, state) => RechargePage());
 
 //游戏充值记录
   static GoRouterModel recordingPage = GoRouterModel(
@@ -353,17 +329,15 @@ class Routes {
       key: 'gameWebView/:gameUrl/:gameTitle',
       builder: (context, state) => GameWebView(
             url: state.pathParameters['gameUrl'],
-            title: state.pathParameters['gameTitle'] == '0'
-                ? ''
-                : state.pathParameters['gameTitle'],
+            title: state.pathParameters['gameTitle'] == '0' ? '' : state.pathParameters['gameTitle'],
           ));
 //活动webView
-  static GoRouterModel youhuiquanCard = GoRouterModel(
-      key: 'youhuiquanCard', builder: (context, state) => MyCards());
+  static GoRouterModel youhuiquanCard =
+      GoRouterModel(key: 'youhuiquanCard', builder: (context, state) => MineCardpackPage());
 //我的茶帖
   static GoRouterModel myTeaPost = GoRouterModel(
       key: 'myTeaPost/:tab',
-      builder: (context, state) => MyTeaPost(
+      builder: (context, state) => MineMyTeaPostPage(
             initTab: int.parse(state.pathParameters['tab']!),
           ));
 
@@ -371,23 +345,15 @@ class Routes {
   static GoRouterModel resourcesDetailPage = GoRouterModel(
       key: 'resourcesDetailPage/:isBrokerhome/:id/:isComplaint/:buyId/:rtype',
       builder: (context, state) => ResourcesDetailPage(
-            type: state.pathParameters['rtype'] == 'null'
-                ? 1
-                : int.parse(state.pathParameters['rtype']!),
+            type: state.pathParameters['rtype'] == 'null' ? 1 : int.parse(state.pathParameters['rtype']!),
             id: state.pathParameters['id']!,
-            buyId: state.pathParameters['buyId'] == 'null'
-                ? null
-                : state.pathParameters['buyId'],
+            buyId: state.pathParameters['buyId'] == 'null' ? null : state.pathParameters['buyId'],
             isBrokerhome: state.pathParameters['isBrokerhome'] == 'null'
                 ? false
-                : (state.pathParameters['isBrokerhome'] == 'false'
-                    ? false
-                    : true),
+                : (state.pathParameters['isBrokerhome'] == 'false' ? false : true),
             isComplaint: state.pathParameters['isComplaint'] == 'null'
                 ? true
-                : (state.pathParameters['isComplaint'] == 'false'
-                    ? false
-                    : true),
+                : (state.pathParameters['isComplaint'] == 'false' ? false : true),
           ));
 
   static GoRouterModel adoptDetailPage = GoRouterModel(
@@ -400,28 +366,18 @@ class Routes {
   static GoRouterModel verificationReportPage = GoRouterModel(
       key: 'verificationReportPage/:vrid/:vragent/:vrindex/:vrisReport',
       builder: (context, state) => VerificationReportPage(
-            id: state.pathParameters['vrid'] == 'null'
-                ? null
-                : state.pathParameters['vrid'],
-            agent: state.pathParameters['vragent'] == 'null'
-                ? null
-                : int.parse(state.pathParameters['vragent']!),
-            index: state.pathParameters['vrindex'] == 'null'
-                ? null
-                : int.parse(state.pathParameters['vrindex']!),
+            id: state.pathParameters['vrid'] == 'null' ? null : state.pathParameters['vrid'],
+            agent: state.pathParameters['vragent'] == 'null' ? null : int.parse(state.pathParameters['vragent']!),
+            index: state.pathParameters['vrindex'] == 'null' ? null : int.parse(state.pathParameters['vrindex']!),
             isReport: state.pathParameters['vrisReport'] == 'null'
                 ? false
-                : (state.pathParameters['vrisReport'] == 'false'
-                    ? false
-                    : true),
+                : (state.pathParameters['vrisReport'] == 'false' ? false : true),
           ));
   //意向单
   static GoRouterModel teaTastingIntention = GoRouterModel(
       key: 'teaTastingIntention/:orderid',
       builder: (context, state) => TeaTastingIntention(
-            oderId: state.pathParameters['orderid'] == 'null'
-                ? null
-                : state.pathParameters['orderid'].toString(),
+            oderId: state.pathParameters['orderid'] == 'null' ? null : state.pathParameters['orderid'].toString(),
           ));
   //雅间详情
   static GoRouterModel vipDetailPage = GoRouterModel(
@@ -432,17 +388,14 @@ class Routes {
     ),
   );
   //花魁阁楼
-  static GoRouterModel huakuiGelou = GoRouterModel(
-      key: 'huakuiGelou', builder: (context, state) => HuakuiGelou());
+  static GoRouterModel huakuiGelou = GoRouterModel(key: 'huakuiGelou', builder: (context, state) => HuakuiGelou());
   //Webview
   static GoRouterModel webview = GoRouterModel(
       key: 'webview/:webviewUrl/:webviewTitle',
       builder: (context, state) {
         return CgWebview(
             url: state.pathParameters['webviewUrl'],
-            title: state.pathParameters['webviewTitle'] == 'null'
-                ? ''
-                : state.pathParameters['webviewTitle']);
+            title: state.pathParameters['webviewTitle'] == 'null' ? '' : state.pathParameters['webviewTitle']);
       });
   //品茶探花
   static GoRouterModel tanhuaPage = GoRouterModel(
@@ -496,26 +449,26 @@ class Routes {
   static GoRouterModel reservationPage = GoRouterModel(
       key: 'reservationPage',
       builder: (context, state) {
-        return ReservationPage();
+        return MineReservationPage();
       });
   //雅间收藏
   static GoRouterModel elegantCollect = GoRouterModel(
       key: 'elegantCollect',
       builder: (context, state) {
-        return ElegantCollect();
+        return MineElegantCollect();
       });
   //我的铜钱
   static GoRouterModel myMonyPage = GoRouterModel(
       key: 'myMonyPage',
       builder: (context, state) {
-        return MyMonyPage();
+        return MineMonyPage();
       });
 
   //铜钱明细
   static GoRouterModel monyDtailPage = GoRouterModel(
       key: 'monyDtailPage',
       builder: (context, state) {
-        return MonyDtailPage();
+        return MineMonyDtailPage();
       });
 
   //搜索
@@ -537,8 +490,7 @@ class Routes {
       key: 'searchSuggestionList/:searchTitle',
       builder: (context, state) {
         return SearchSuggestionList(
-            title: state.pathParameters['searchTitle'],
-            extra: state.extra as Map<dynamic, dynamic>?);
+            title: state.pathParameters['searchTitle'], extra: state.extra as Map<dynamic, dynamic>?);
       });
   //认证合作页面
   static GoRouterModel employmentIntroduce = GoRouterModel(
@@ -585,9 +537,7 @@ class Routes {
       key: 'publishPage/:pid',
       builder: (context, state) {
         return PublishPage(
-          id: state.pathParameters['pid'] == 'null'
-              ? null
-              : state.pathParameters['pid'],
+          id: state.pathParameters['pid'] == 'null' ? null : state.pathParameters['pid'],
         );
       });
 
@@ -671,8 +621,7 @@ class Routes {
         return ReportDetailPage(
             id: int.parse(state.pathParameters['rid']!),
             infoId: state.pathParameters['rinfoId'],
-            isDetail:
-                state.pathParameters['risDetail'] == 'false' ? false : true);
+            isDetail: state.pathParameters['risDetail'] == 'false' ? false : true);
       });
 
   //个人主页
@@ -745,7 +694,7 @@ class Routes {
   static GoRouterModel changePassword = GoRouterModel(
       key: 'changePassword/:issetting',
       builder: (context, state) {
-        return ChangePassword(
+        return MineSettingChangePasswordPage(
           isSetting: state.pathParameters['issetting'] == 'true',
         );
       });
@@ -778,7 +727,7 @@ class Routes {
   static GoRouterModel merchantCenter = GoRouterModel(
       key: 'merchantCenter',
       builder: (context, state) {
-        return MerchantCenter();
+        return MineMerchantCenterPage();
       });
   //商家中心
   static GoRouterModel commodityDetail = GoRouterModel(
@@ -817,7 +766,7 @@ class Routes {
   static GoRouterModel userMallOrder = GoRouterModel(
       key: 'userMallOrder',
       builder: (context, state) {
-        return UserMallOrder();
+        return MineUserMallOrderPage();
       });
   //用户商城订单
   static GoRouterModel mallComplaint = GoRouterModel(
@@ -925,7 +874,7 @@ class Routes {
   static GoRouterModel videoWork = GoRouterModel(
       key: 'videoWork',
       builder: (context, state) {
-        return VideoWork();
+        return MineVideoWorkPage();
       });
 
   //创作中心
@@ -1102,24 +1051,17 @@ class Routes {
       debugLogDiagnostics: true,
       initialLocation: "/",
       routerNeglect: true,
-      routes: [
-        GoRoute(
-            path: '/',
-            builder: (context, state) => WelComePage(),
-            routes: pages)
-      ],
+      routes: [GoRoute(path: '/', builder: (context, state) => WelComePage(), routes: pages)],
       observers: [BotToastNavigatorObserver(), MyNavObserver()],
     );
   }
 }
 
 changeRouter() {
-  GoRouter(routerNeglect: true, routes: [
-    GoRoute(path: '/', builder: (context, state) => WelComePage(), routes: [])
-  ], observers: [
-    BotToastNavigatorObserver(),
-    MyNavObserver()
-  ]);
+  GoRouter(
+      routerNeglect: true,
+      routes: [GoRoute(path: '/', builder: (context, state) => WelComePage(), routes: [])],
+      observers: [BotToastNavigatorObserver(), MyNavObserver()]);
 }
 
 class MyNavObserver extends NavigatorObserver {
@@ -1130,8 +1072,7 @@ class MyNavObserver extends NavigatorObserver {
   @override
   void didPush(Route<dynamic>? route, Route<dynamic>? previousRoute) {
     changeRouter();
-    CommonUtils.debugPrint(
-        'didPush: 当前路由=${route?.settings.name}, previousRoute= ${previousRoute?.settings.name}');
+    CommonUtils.debugPrint('didPush: 当前路由=${route?.settings.name}, previousRoute= ${previousRoute?.settings.name}');
   }
 
   @override
@@ -1142,13 +1083,11 @@ class MyNavObserver extends NavigatorObserver {
 
   @override
   void didRemove(Route<dynamic>? route, Route<dynamic>? previousRoute) =>
-      CommonUtils.debugPrint(
-          'didRemove: ${route!.str}, previousRoute= ${previousRoute!.str}');
+      CommonUtils.debugPrint('didRemove: ${route!.str}, previousRoute= ${previousRoute!.str}');
 
   @override
   void didReplace({Route<dynamic>? newRoute, Route<dynamic>? oldRoute}) =>
-      CommonUtils.debugPrint(
-          'didReplace: new= ${newRoute!.str}, old= ${oldRoute!.str}');
+      CommonUtils.debugPrint('didReplace: new= ${newRoute!.str}, old= ${oldRoute!.str}');
 
   @override
   void didStartUserGesture(

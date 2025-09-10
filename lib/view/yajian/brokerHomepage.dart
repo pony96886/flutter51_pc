@@ -4,7 +4,7 @@ import 'package:chaguaner2023/components/card/elegantCard.dart';
 import 'package:chaguaner2023/components/card/reportCard.dart';
 import 'package:chaguaner2023/components/list/public_list.dart';
 import 'package:chaguaner2023/components/loading.dart';
-import 'package:chaguaner2023/components/pagetitlebar.dart';
+import 'package:chaguaner2023/components/page_title_bar.dart';
 import 'package:chaguaner2023/components/tab/tab_nav_shuimo.dart';
 import 'package:chaguaner2023/utils/api.dart';
 import 'package:chaguaner2023/utils/app_global.dart';

@@ -2,7 +2,7 @@ import 'package:chaguaner2023/components/card/adoptCard.dart';
 import 'package:chaguaner2023/components/loading.dart';
 import 'package:chaguaner2023/components/nodata.dart';
 import 'package:chaguaner2023/components/page_status.dart';
-import 'package:chaguaner2023/components/pagetitlebar.dart';
+import 'package:chaguaner2023/components/page_title_bar.dart';
 import 'package:chaguaner2023/components/pullrefreshlist.dart';
 import 'package:chaguaner2023/store/homeConfig.dart';
 import 'package:chaguaner2023/theme/style_theme.dart';
@@ -23,8 +23,7 @@ class AdoptScreen extends StatefulWidget {
   State<AdoptScreen> createState() => _AdoptScreenState();
 }
 
-class _AdoptScreenState extends State<AdoptScreen>
-    with TickerProviderStateMixin {
+class _AdoptScreenState extends State<AdoptScreen> with TickerProviderStateMixin {
   bool loading = true;
   bool listLoading = true;
   bool isload = false;
@@ -98,9 +97,7 @@ class _AdoptScreenState extends State<AdoptScreen>
                 title: '包养',
                 rightWidget: GestureDetector(
                   onTap: () {
-                    AppGlobal.appRouter?.push(
-                        CommonUtils.getRealHash('searchResult'),
-                        extra: {'index': 8});
+                    AppGlobal.appRouter?.push(CommonUtils.getRealHash('searchResult'), extra: {'index': 8});
                   },
                   child: Padding(
                     padding: EdgeInsets.only(left: 15.w),
@@ -138,10 +135,7 @@ class _AdoptScreenState extends State<AdoptScreen>
                                           scrollDirection: Axis.horizontal,
                                           child: TabsContainer(
                                             tabs: entry.key == 'order'
-                                                ? List<
-                                                        Map<String,
-                                                            dynamic>>.from(
-                                                    filterTabs[entry.key])
+                                                ? List<Map<String, dynamic>>.from(filterTabs[entry.key])
                                                 : filterTabs[entry.key],
                                             selectTabIndex: entry.value,
                                             onTabs: (int index) {
@@ -158,8 +152,7 @@ class _AdoptScreenState extends State<AdoptScreen>
                                             },
                                           ),
                                         ),
-                                        if (entry.key == 'girl_price')
-                                          SizedBox(height: 10.w),
+                                        if (entry.key == 'girl_price') SizedBox(height: 10.w),
                                       ],
                                     ))
                                 .toList())),
@@ -187,36 +180,28 @@ class _AdoptScreenState extends State<AdoptScreen>
                             page++;
                             _filterAdoptList();
                           },
-                          child: CustomScrollView(
-                              physics: ClampingScrollPhysics(),
-                              cacheExtent: 3.h,
-                              slivers: [
-                                listLoading
+                          child: CustomScrollView(physics: ClampingScrollPhysics(), cacheExtent: 3.h, slivers: [
+                            listLoading
+                                ? SliverToBoxAdapter(
+                                    child: PageStatus.loading(true),
+                                  )
+                                : (adoptList.length == 0
                                     ? SliverToBoxAdapter(
-                                        child: PageStatus.loading(true),
-                                      )
-                                    : (adoptList.length == 0
-                                        ? SliverToBoxAdapter(
-                                            child: NoData(
-                                            text: '没有数据啦～',
-                                          ))
-                                        : SliverGrid(
-                                            gridDelegate:
-                                                SliverGridDelegateWithFixedCrossAxisCount(
-                                              crossAxisCount: 2,
-                                              mainAxisSpacing: 7.w,
-                                              crossAxisSpacing: 7.w,
-                                              childAspectRatio: 0.7,
-                                            ),
-                                            delegate:
-                                                SliverChildBuilderDelegate(
-                                                    (BuildContext context,
-                                                        int index) {
-                                              return AdoptCard(
-                                                  adoptData: adoptList[index]);
-                                            }, childCount: adoptList.length),
-                                          ))
-                              ])),
+                                        child: NoData(
+                                        text: '没有数据啦～',
+                                      ))
+                                    : SliverGrid(
+                                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                                          crossAxisCount: 2,
+                                          mainAxisSpacing: 7.w,
+                                          crossAxisSpacing: 7.w,
+                                          childAspectRatio: 0.7,
+                                        ),
+                                        delegate: SliverChildBuilderDelegate((BuildContext context, int index) {
+                                          return AdoptCard(adoptData: adoptList[index]);
+                                        }, childCount: adoptList.length),
+                                      ))
+                          ])),
                     ),
                   )
                 ]),
@@ -232,11 +217,9 @@ class _AdoptScreenState extends State<AdoptScreen>
                 ),
                 onPressed: () {
                   if (value.member.isKeepAuth == 1) {
-                    AppGlobal.appRouter
-                        ?.push(CommonUtils.getRealHash('adoptManageScreen'));
+                    AppGlobal.appRouter?.push(CommonUtils.getRealHash('adoptManageScreen'));
                   } else {
-                    AppGlobal.appRouter
-                        ?.push(CommonUtils.getRealHash('onlineServicePage'));
+                    AppGlobal.appRouter?.push(CommonUtils.getRealHash('onlineServicePage'));
                   }
                 });
           })),
@@ -250,13 +233,7 @@ class TabsContainer extends StatefulWidget {
   final Function? onTabs;
   final bool? needLimit;
   final int? filter;
-  TabsContainer(
-      {Key? key,
-      this.tabs,
-      this.selectTabIndex,
-      this.onTabs,
-      this.needLimit = false,
-      this.filter})
+  TabsContainer({Key? key, this.tabs, this.selectTabIndex, this.onTabs, this.needLimit = false, this.filter})
       : super(key: key);
 
   @override
@@ -312,8 +289,7 @@ class TabsItem extends StatelessWidget {
   final int? index;
   final int? keys;
   final GestureTapCallback? onTap;
-  TabsItem({Key? key, this.title, this.index, this.onTap, this.keys})
-      : super(key: key);
+  TabsItem({Key? key, this.title, this.index, this.onTap, this.keys}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -334,18 +310,14 @@ class TabsItem extends StatelessWidget {
                         child: Container(
                           width: 12.w,
                           height: 12.w,
-                          decoration: BoxDecoration(
-                              color: StyleTheme.cDangerColor,
-                              borderRadius: BorderRadius.circular(10)),
+                          decoration:
+                              BoxDecoration(color: StyleTheme.cDangerColor, borderRadius: BorderRadius.circular(10)),
                         ),
                       )
                     : SizedBox()),
             Text("$title",
                 style: index == keys
-                    ? TextStyle(
-                        color: Color(0xff646464),
-                        fontSize: 12.sp,
-                        fontWeight: FontWeight.w700)
+                    ? TextStyle(color: Color(0xff646464), fontSize: 12.sp, fontWeight: FontWeight.w700)
                     : TextStyle(color: Color(0xff646464), fontSize: 12.sp)),
           ],
         ),

@@ -3,7 +3,7 @@ import 'package:chaguaner2023/components/headerContainer.dart';
 import 'package:chaguaner2023/components/loading.dart';
 import 'package:chaguaner2023/components/networkErr.dart';
 import 'package:chaguaner2023/components/nodata.dart';
-import 'package:chaguaner2023/components/pagetitlebar.dart';
+import 'package:chaguaner2023/components/page_title_bar.dart';
 import 'package:chaguaner2023/theme/style_theme.dart';
 import 'package:chaguaner2023/utils/api.dart';
 import 'package:flutter/material.dart';
@@ -17,8 +17,7 @@ class ToBeVerifiedPage extends StatefulWidget {
 }
 
 class ToBeVerifiedState extends State<ToBeVerifiedPage> {
-  RefreshController _refreshController =
-      RefreshController(initialRefresh: false);
+  RefreshController _refreshController = RefreshController(initialRefresh: false);
   List? unconfirmData;
   bool loading = true;
   bool networkErr = false;
@@ -81,8 +80,7 @@ class ToBeVerifiedState extends State<ToBeVerifiedPage> {
   void initState() {
     super.initState();
     scrollController.addListener(() {
-      if (scrollController.position.pixels ==
-          scrollController.position.maxScrollExtent) {
+      if (scrollController.position.pixels == scrollController.position.maxScrollExtent) {
         if (!isAll && !isLoading) {
           setState(() {
             page++;
@@ -129,16 +127,13 @@ class ToBeVerifiedState extends State<ToBeVerifiedPage> {
                         : ListView.separated(
                             controller: scrollController,
                             physics: ClampingScrollPhysics(),
-                            padding: EdgeInsets.only(
-                                top: 5.w,
-                                bottom: ScreenUtil().bottomBarHeight + 20.w),
+                            padding: EdgeInsets.only(top: 5.w, bottom: ScreenUtil().bottomBarHeight + 20.w),
                             itemCount: unconfirmData!.length + 1,
                             // physics: ClampingScrollPhysics(),
-                            separatorBuilder:
-                                (BuildContext context, int index) => Divider(
-                                      color: Colors.transparent,
-                                      height: 15.w,
-                                    ),
+                            separatorBuilder: (BuildContext context, int index) => Divider(
+                                  color: Colors.transparent,
+                                  height: 15.w,
+                                ),
                             itemBuilder: (BuildContext context, int index) {
                               return index != unconfirmData!.length
                                   ? V3ZhaoPiaoCard(

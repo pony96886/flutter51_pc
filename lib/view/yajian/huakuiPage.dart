@@ -4,7 +4,7 @@ import 'package:chaguaner2023/components/headerContainer.dart';
 import 'package:chaguaner2023/components/loading.dart';
 import 'package:chaguaner2023/components/networkErr.dart';
 import 'package:chaguaner2023/components/nodata.dart';
-import 'package:chaguaner2023/components/pagetitlebar.dart';
+import 'package:chaguaner2023/components/page_title_bar.dart';
 import 'package:chaguaner2023/theme/style_theme.dart';
 import 'package:chaguaner2023/utils/api.dart';
 import 'package:chaguaner2023/utils/app_global.dart';
@@ -52,8 +52,7 @@ class _HuakuiGelouState extends State<HuakuiGelou> {
           gelouList!.addAll(huakui['data'] == null ? [] : huakui['data']);
         }
       } else {
-        BotToast.showText(
-            text: huakui['msg'] ?? '出现错误，请稍后再试～', align: Alignment(0, 0));
+        BotToast.showText(text: huakui['msg'] ?? '出现错误，请稍后再试～', align: Alignment(0, 0));
         WidgetsBinding.instance.addPostFrameCallback((_) {
           context.pop();
         });
@@ -75,19 +74,15 @@ class _HuakuiGelouState extends State<HuakuiGelou> {
     });
     String celSSStr = '收藏成功';
     String canlcolles = '取消收藏成功';
-    var favorite =
-        await favoriteVip(gelouList![currentIndex.value]['id'].toString());
+    var favorite = await favoriteVip(gelouList![currentIndex.value]['id'].toString());
     if (favorite!['status'] != 0) {
-      BotToast.showText(
-          text: isFavorite.value ? celSSStr : canlcolles,
-          align: Alignment(0, 0));
+      BotToast.showText(text: isFavorite.value ? celSSStr : canlcolles, align: Alignment(0, 0));
       gelouList![currentIndex.value]['userFavorite'] = isFavorite.value ? 1 : 0;
       isFavorite.value = gelouList![currentIndex.value]['userFavorite'] == 1;
     } else {
       isFavorite.value = gelouList![currentIndex.value]['userFavorite'] == 1;
       if (favorite['msg'] == 'err') {
-        CgDialog.cgShowDialog(
-            context, '温馨提示', '免费收藏已达上限，请前往开通会员', ['取消', '立即前往'], callBack: () {
+        CgDialog.cgShowDialog(context, '温馨提示', '免费收藏已达上限，请前往开通会员', ['取消', '立即前往'], callBack: () {
           AppGlobal.appRouter?.push(CommonUtils.getRealHash('memberCardsPage'));
         });
       } else {
@@ -159,70 +154,53 @@ class _HuakuiGelouState extends State<HuakuiGelou> {
                                             key: PageStorageKey('huakui_$e'),
                                             decoration: BoxDecoration(
                                               color: Colors.white,
-                                              borderRadius:
-                                                  BorderRadius.circular(10),
+                                              borderRadius: BorderRadius.circular(10),
                                             ),
-                                            child: gelouList![e]['resources']
-                                                        .where((item) =>
-                                                            item['type'] == 2)
-                                                        .length ==
-                                                    0
-                                                ? ClipRRect(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            10),
-                                                    child: NoData(
-                                                      text: '此资源没有视频～',
-                                                    ))
-                                                : HuakuiCard(
-                                                    gelouInfo: gelouList![e],
-                                                    loaddingIndex: e,
-                                                    currentIndex:
-                                                        currentIndex));
+                                            child:
+                                                gelouList![e]['resources'].where((item) => item['type'] == 2).length ==
+                                                        0
+                                                    ? ClipRRect(
+                                                        borderRadius: BorderRadius.circular(10),
+                                                        child: NoData(
+                                                          text: '此资源没有视频～',
+                                                        ))
+                                                    : HuakuiCard(
+                                                        gelouInfo: gelouList![e],
+                                                        loaddingIndex: e,
+                                                        currentIndex: currentIndex));
                                       }).toList(),
                                       size: Size(325.w, 490.w),
                                       controller: _controller,
                                       onForward: (index, info) {
                                         currentIndex.value = index;
-                                        isFavorite.value = (gelouList![index]
-                                                ['userFavorite'] ==
-                                            1);
-                                        if (currentIndex.value ==
-                                                (gelouList!.length - 3) &&
-                                            !isAll) {
+                                        isFavorite.value = (gelouList![index]['userFavorite'] == 1);
+                                        if (currentIndex.value == (gelouList!.length - 3) && !isAll) {
                                           page++;
                                           gethuakuiData();
                                         }
                                       },
                                       onBack: (int index) {
                                         currentIndex.value = index;
-                                        isFavorite.value =
-                                            (gelouList![currentIndex.value]
-                                                    ['userFavorite'] ==
-                                                1);
+                                        isFavorite.value = (gelouList![currentIndex.value]['userFavorite'] == 1);
                                       },
                                     );
                                   }),
                             )),
                             Container(
                               color: Colors.transparent,
-                              margin: EdgeInsets.only(
-                                  bottom: ScreenUtil().bottomBarHeight + 28.w,
-                                  top: 30.w),
+                              margin: EdgeInsets.only(bottom: ScreenUtil().bottomBarHeight + 28.w, top: 30.w),
                               child: Center(
                                 child: Container(
                                   width: CommonUtils.getWidth(540),
                                   height: CommonUtils.getWidth(80),
                                   decoration: BoxDecoration(
                                       color: Colors.white70,
-                                      borderRadius: BorderRadius.circular(
-                                          CommonUtils.getWidth(40))),
+                                      borderRadius: BorderRadius.circular(CommonUtils.getWidth(40))),
                                   child: Stack(
                                     clipBehavior: Clip.none,
                                     children: <Widget>[
                                       Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                         children: <Widget>[
                                           GestureDetector(
                                             excludeFromSemantics: true,
@@ -239,23 +217,16 @@ class _HuakuiGelouState extends State<HuakuiGelou> {
                                                     height: double.infinity,
                                                     color: Colors.transparent,
                                                     child: Opacity(
-                                                      opacity:
-                                                          value == 0 ? 0.5 : 1,
+                                                      opacity: value == 0 ? 0.5 : 1,
                                                       child: Row(
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .center,
+                                                        crossAxisAlignment: CrossAxisAlignment.center,
                                                         children: <Widget>[
                                                           Container(
                                                             width: 8.w,
                                                             height: 11.w,
-                                                            margin:
-                                                                EdgeInsets.only(
-                                                                    right: 11.w,
-                                                                    left: 20.w),
+                                                            margin: EdgeInsets.only(right: 11.w, left: 20.w),
                                                             child: LocalPNG(
-                                                              url:
-                                                                  'assets/images/card/previou.png',
+                                                              url: 'assets/images/card/previou.png',
                                                               width: 8.w,
                                                               height: 11.w,
                                                             ),
@@ -263,9 +234,7 @@ class _HuakuiGelouState extends State<HuakuiGelou> {
                                                           Text(
                                                             '上一张',
                                                             style: TextStyle(
-                                                                fontSize: 12.sp,
-                                                                color: StyleTheme
-                                                                    .cTitleColor),
+                                                                fontSize: 12.sp, color: StyleTheme.cTitleColor),
                                                           )
                                                         ],
                                                       ),
@@ -276,8 +245,7 @@ class _HuakuiGelouState extends State<HuakuiGelou> {
                                           GestureDetector(
                                             onTap: () {
                                               // swiperController.next();
-                                              if (currentIndex.value !=
-                                                  gelouList!.length - 1) {
+                                              if (currentIndex.value != gelouList!.length - 1) {
                                                 _controller.forward();
                                               }
                                             },
@@ -285,40 +253,22 @@ class _HuakuiGelouState extends State<HuakuiGelou> {
                                                 height: double.infinity,
                                                 color: Colors.transparent,
                                                 child: ValueListenableBuilder(
-                                                    valueListenable:
-                                                        currentIndex,
-                                                    builder: (context, value,
-                                                        child) {
+                                                    valueListenable: currentIndex,
+                                                    builder: (context, value, child) {
                                                       return Opacity(
-                                                        opacity: value ==
-                                                                gelouList!
-                                                                        .length -
-                                                                    1
-                                                            ? 0.5
-                                                            : 1,
+                                                        opacity: value == gelouList!.length - 1 ? 0.5 : 1,
                                                         child: Row(
-                                                          crossAxisAlignment:
-                                                              CrossAxisAlignment
-                                                                  .center,
+                                                          crossAxisAlignment: CrossAxisAlignment.center,
                                                           children: <Widget>[
                                                             Text('下一张',
                                                                 style: TextStyle(
-                                                                    fontSize:
-                                                                        12.sp,
-                                                                    color: StyleTheme
-                                                                        .cTitleColor)),
+                                                                    fontSize: 12.sp, color: StyleTheme.cTitleColor)),
                                                             Container(
                                                               width: 8.w,
                                                               height: 11.w,
-                                                              margin: EdgeInsets
-                                                                  .only(
-                                                                      right:
-                                                                          20.w,
-                                                                      left:
-                                                                          11.w),
+                                                              margin: EdgeInsets.only(right: 20.w, left: 11.w),
                                                               child: LocalPNG(
-                                                                url:
-                                                                    'assets/images/card/next.png',
+                                                                url: 'assets/images/card/next.png',
                                                                 width: 8.w,
                                                                 height: 11.w,
                                                               ),
@@ -335,30 +285,20 @@ class _HuakuiGelouState extends State<HuakuiGelou> {
                                           left: CommonUtils.getWidth(200),
                                           child: ValueListenableBuilder(
                                               valueListenable: isFavorite,
-                                              builder:
-                                                  (context, bool value, child) {
+                                              builder: (context, bool value, child) {
                                                 String yishStr = "yishoucang";
                                                 String weishouc = "weishoucang";
-                                                String isFaStr =
-                                                    value ? yishStr : weishouc;
+                                                String isFaStr = value ? yishStr : weishouc;
                                                 return GestureDetector(
                                                   onTap: _collect,
                                                   child: Container(
-                                                    width: CommonUtils.getWidth(
-                                                        140),
-                                                    height:
-                                                        CommonUtils.getWidth(
-                                                            120),
+                                                    width: CommonUtils.getWidth(140),
+                                                    height: CommonUtils.getWidth(120),
                                                     color: Colors.transparent,
                                                     child: LocalPNG(
-                                                        width: CommonUtils
-                                                            .getWidth(140),
-                                                        height: CommonUtils
-                                                            .getWidth(120),
-                                                        url:
-                                                            'assets/images/card/' +
-                                                                isFaStr +
-                                                                '.png',
+                                                        width: CommonUtils.getWidth(140),
+                                                        height: CommonUtils.getWidth(120),
+                                                        url: 'assets/images/card/' + isFaStr + '.png',
                                                         fit: BoxFit.cover),
                                                   ),
                                                 );

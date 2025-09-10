@@ -1,7 +1,7 @@
 import 'package:bot_toast/bot_toast.dart';
 import 'package:chaguaner2023/components/headerContainer.dart';
 import 'package:chaguaner2023/components/loading.dart';
-import 'package:chaguaner2023/components/pagetitlebar.dart';
+import 'package:chaguaner2023/components/page_title_bar.dart';
 import 'package:chaguaner2023/components/starrating.dart';
 import 'package:chaguaner2023/components/tab/tab_nav.dart';
 import 'package:chaguaner2023/components/upload/start_upload.dart';
@@ -22,9 +22,7 @@ class VerificationReportPage extends StatefulWidget {
   final int? agent;
   final int? index;
   final bool? isReport;
-  VerificationReportPage(
-      {Key? key, this.id, this.agent, this.isReport = false, this.index})
-      : super(key: key);
+  VerificationReportPage({Key? key, this.id, this.agent, this.isReport = false, this.index}) : super(key: key);
   @override
   State<StatefulWidget> createState() => VerificationReportState();
 }
@@ -48,13 +46,9 @@ class VerificationReportState extends State<VerificationReportPage> {
 
     updateList.forEach((element) {
       if (fileData[element['img']] != null) {
-        imageData.add({
-          'url': fileData[element['img']][0]['url'],
-          'type': getType(element['img'])
-        });
+        imageData.add({'url': fileData[element['img']][0]['url'], 'type': getType(element['img'])});
       } else {
-        Uri _url = Uri.parse(
-            UploadFileList.allFile[element['img']]!.originalUrls[0].path);
+        Uri _url = Uri.parse(UploadFileList.allFile[element['img']]!.originalUrls[0].path);
         imageData.add({'url': _url.path, 'type': getType(element['img'])});
       }
     });
@@ -83,10 +77,8 @@ class VerificationReportState extends State<VerificationReportPage> {
       String sunbbm = _tabState ? bbb : repoo;
       BotToast.showText(text: '您的$sunbbm已提交成功～', align: Alignment(0, 0));
       context.go('/home');
-      AppGlobal.appRouter?.push(CommonUtils.getRealHash(
-          'resourcesDetailPage/false/' +
-              widget.id.toString() +
-              '/null/null/null'));
+      AppGlobal.appRouter
+          ?.push(CommonUtils.getRealHash('resourcesDetailPage/false/' + widget.id.toString() + '/null/null/null'));
     } else {
       BotToast.showText(text: quitGroup!['msg'], align: Alignment(0, 0));
     }
@@ -146,8 +138,7 @@ class VerificationReportState extends State<VerificationReportPage> {
           similarValues = res['data']['girl_face_like'];
           cup = res['data']['girl_cup'];
           faceValueStar = double.parse(res['data']['girl_face'].toString());
-          serviceQualityStar =
-              double.parse(res!['data']['girl_service'].toString());
+          serviceQualityStar = double.parse(res!['data']['girl_service'].toString());
           surroundings = double.parse(res['data']['env'].toString());
           descriptionControllerTrue.text = res['data']['girl_service_detail'];
           editId = res['data']['id'].toString();
@@ -228,8 +219,7 @@ class VerificationReportState extends State<VerificationReportPage> {
       if (!isUpload) {
         return BotToast.showText(text: '必须按要求上传四张图片', align: Alignment(0, 0));
       }
-      if (UploadFileList.allFile['falsePic'] != null &&
-          UploadFileList.allFile['falsePic']!.urls.length != 0) {
+      if (UploadFileList.allFile['falsePic'] != null && UploadFileList.allFile['falsePic']!.urls.length != 0) {
         UploadFileList.allFile['falsePic']!.urls = [];
       }
       setState(() {});
@@ -243,12 +233,10 @@ class VerificationReportState extends State<VerificationReportPage> {
       } else if (descriptionControllerFalse.text == '') {
         return BotToast.showText(text: '请填写具体内容', align: Alignment(0, 0));
       }
-      if (falseType == 3 &&
-          UploadFileList.allFile['falsePic']!.urls.length == 0) {
+      if (falseType == 3 && UploadFileList.allFile['falsePic']!.urls.length == 0) {
         return BotToast.showText(text: '选择投诉骗子请提供图片证明', align: Alignment(0, 0));
       }
-      if (UploadFileList.allFile['video'] != null &&
-          UploadFileList.allFile['video']!.urls.length != 0) {
+      if (UploadFileList.allFile['video'] != null && UploadFileList.allFile['video']!.urls.length != 0) {
         UploadFileList.allFile['video']!.urls = [];
       }
       updateList.forEach((element) {
@@ -283,18 +271,15 @@ class VerificationReportState extends State<VerificationReportPage> {
       }).toList();
     }
 
-    var fakeInfo = await submitFakeInfo(
-        falseType!, descriptionControllerFalse.text, widget.id!, _img);
+    var fakeInfo = await submitFakeInfo(falseType!, descriptionControllerFalse.text, widget.id!, _img);
     String repString = '报告';
     if (fakeInfo!['status'] != 0) {
       Navigator.of(context).pop(widget.index);
       String submm = _tabState ? repString : '投诉';
       BotToast.showText(text: '您的$submm已提交成功～', align: Alignment(0, 0));
       context.go('/home');
-      AppGlobal.appRouter?.push(CommonUtils.getRealHash(
-          'resourcesDetailPage/false/' +
-              widget.id.toString() +
-              '/null/null/null'));
+      AppGlobal.appRouter
+          ?.push(CommonUtils.getRealHash('resourcesDetailPage/false/' + widget.id.toString() + '/null/null/null'));
     } else {
       BotToast.showText(text: fakeInfo!['msg'], align: Alignment(0, 0));
     }
@@ -466,9 +451,7 @@ class VerificationReportState extends State<VerificationReportPage> {
                           GestureDetector(
                             onTap: _verification,
                             child: Container(
-                              padding: new EdgeInsets.only(
-                                  top: 30.w,
-                                  bottom: 30.w + ScreenUtil().bottomBarHeight),
+                              padding: new EdgeInsets.only(top: 30.w, bottom: 30.w + ScreenUtil().bottomBarHeight),
                               child: LocalPNG(
                                 url: 'assets/images/submit-bottom.png',
                                 height: 50.w,
@@ -507,9 +490,7 @@ class VerificationReportState extends State<VerificationReportPage> {
                 ),
           Container(
             padding: new EdgeInsets.only(left: 10.5.w),
-            child: Text(title,
-                style:
-                    TextStyle(fontSize: 15.sp, color: StyleTheme.cTitleColor)),
+            child: Text(title, style: TextStyle(fontSize: 15.sp, color: StyleTheme.cTitleColor)),
           )
         ],
       ),
@@ -531,22 +512,18 @@ class VerificationReportState extends State<VerificationReportPage> {
             spacing: 50.w,
             direction: Axis.horizontal,
             children: [
-              for (var item in _radioList)
-                _radeoItem(item['value'], item['state']),
+              for (var item in _radioList) _radeoItem(item['value'], item['state']),
               Text(
                 "* 恶意投诉者，核实后平台将对其进行永久封号处理！",
-                style:
-                    TextStyle(color: StyleTheme.cDangerColor, fontSize: 14.sp),
+                style: TextStyle(color: StyleTheme.cDangerColor, fontSize: 14.sp),
               ),
               Text(
                 "* 加不上联系方式的话，可能对方已经休息，如24小时后仍未加上再投诉，谢谢！",
-                style:
-                    TextStyle(color: StyleTheme.cDangerColor, fontSize: 14.sp),
+                style: TextStyle(color: StyleTheme.cDangerColor, fontSize: 14.sp),
               ),
               Text(
                 "* 有的骗子会使用语音和电话行骗，无法进行截图，这种情况可以随便传一张图，在描述里面说明情况就行，平台会有专人处理",
-                style:
-                    TextStyle(color: StyleTheme.cDangerColor, fontSize: 14.sp),
+                style: TextStyle(color: StyleTheme.cDangerColor, fontSize: 14.sp),
               ),
               _inputDetail('请输入具体原因', descriptionControllerFalse)
             ],
@@ -555,21 +532,14 @@ class VerificationReportState extends State<VerificationReportPage> {
           RichText(
               text: TextSpan(
                   text: "照片 ",
-                  style: TextStyle(
-                      color: StyleTheme.cTitleColor,
-                      fontSize: 18.sp,
-                      fontWeight: FontWeight.w500),
+                  style: TextStyle(color: StyleTheme.cTitleColor, fontSize: 18.sp, fontWeight: FontWeight.w500),
                   children: <TextSpan>[
                 TextSpan(
                     text: ' (请提供图片证明，越详细越好)',
-                    style: TextStyle(
-                        color: StyleTheme.cDangerColor,
-                        fontSize: 14.sp,
-                        fontWeight: FontWeight.w400))
+                    style: TextStyle(color: StyleTheme.cDangerColor, fontSize: 14.sp, fontWeight: FontWeight.w400))
               ])),
           DefaultTextStyle(
-              style: TextStyle(
-                  height: 1.5, color: StyleTheme.cDangerColor, fontSize: 14.sp),
+              style: TextStyle(height: 1.5, color: StyleTheme.cDangerColor, fontSize: 14.sp),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -603,50 +573,34 @@ class VerificationReportState extends State<VerificationReportPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   for (var itemText in _formList())
-                    _inputItem(
-                        itemText['title'],
-                        itemText['topic'],
-                        itemText['setvalue'],
-                        itemText['isNum'] != null,
+                    _inputItem(itemText['title'], itemText['topic'], itemText['setvalue'], itemText['isNum'] != null,
                         itemText['value']),
                   Container(
                     child: Text(
                       '服务详情',
-                      style: TextStyle(
-                          color: StyleTheme.cTitleColor, fontSize: 14.sp),
+                      style: TextStyle(color: StyleTheme.cTitleColor, fontSize: 14.sp),
                     ),
                     padding: new EdgeInsets.only(top: 19.5.w, bottom: 15.w),
                   ),
                   _inputDetail('具体写整个服务过程、感受（尤其特点）', descriptionControllerTrue),
                   for (var starItem in _startList())
-                    _starItem(starItem['title'], starItem['star'],
-                        starItem['setvalue']),
+                    _starItem(starItem['title'], starItem['star'], starItem['setvalue']),
                   Container(
                     child: Text('真实图片信息',
-                        style: TextStyle(
-                            color: StyleTheme.cTitleColor,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 18.sp)),
+                        style: TextStyle(color: StyleTheme.cTitleColor, fontWeight: FontWeight.bold, fontSize: 18.sp)),
                     padding: new EdgeInsets.only(top: 19.5.w, bottom: 15.w),
                   ),
                   Text.rich(
                     TextSpan(
                       text: '必须按要求上传四张图片，',
-                      style: TextStyle(
-                          color: StyleTheme.cDangerColor, fontSize: 14.sp),
-                      children: <TextSpan>[
-                        TextSpan(
-                            text: '审核通过后图片信息会公开',
-                            style: TextStyle(color: Color(0xFF969696)))
-                      ],
+                      style: TextStyle(color: StyleTheme.cDangerColor, fontSize: 14.sp),
+                      children: <TextSpan>[TextSpan(text: '审核通过后图片信息会公开', style: TextStyle(color: Color(0xFF969696)))],
                     ),
                   ),
                   Center(
                     child: Wrap(
                       spacing: 35.w,
-                      children: [
-                        for (var upItem in updateList) _upItem(upItem)
-                      ],
+                      children: [for (var upItem in updateList) _upItem(upItem)],
                     ),
                   ),
                   widget.agent == 3 || widget.agent == 4
@@ -662,15 +616,9 @@ class VerificationReportState extends State<VerificationReportPage> {
                                   text: TextSpan(
                                       text: "视频 ",
                                       style: TextStyle(
-                                          color: StyleTheme.cTitleColor,
-                                          fontSize: 18.sp,
-                                          fontWeight: FontWeight.bold),
+                                          color: StyleTheme.cTitleColor, fontSize: 18.sp, fontWeight: FontWeight.bold),
                                       children: <TextSpan>[
-                                    TextSpan(
-                                        text: ' (选填)',
-                                        style: TextStyle(
-                                            color: Color(0xFFB4B4B4),
-                                            fontSize: 14.sp))
+                                    TextSpan(text: ' (选填)', style: TextStyle(color: Color(0xFFB4B4B4), fontSize: 14.sp))
                                   ])),
                               SizedBox(
                                 height: 20.w,
@@ -682,10 +630,7 @@ class VerificationReportState extends State<VerificationReportPage> {
                                   disabled: videoEditUrl != null,
                                   initResouceList: videoEditUrl == null
                                       ? null
-                                      : [
-                                          FileInfo(editImg[videoEditUrl], 0, 1,
-                                              videoEditUrl, 'video', null, 0, 0)
-                                        ]),
+                                      : [FileInfo(editImg[videoEditUrl], 0, 1, videoEditUrl, 'video', null, 0, 0)]),
                             ],
                           ),
                         )
@@ -711,9 +656,7 @@ class VerificationReportState extends State<VerificationReportPage> {
             maxLines: 8,
             style: TextStyle(fontSize: 15.sp, color: StyleTheme.cTitleColor),
             decoration: InputDecoration.collapsed(
-                hintStyle:
-                    TextStyle(fontSize: 15.sp, color: StyleTheme.cBioColor),
-                hintText: topic),
+                hintStyle: TextStyle(fontSize: 15.sp, color: StyleTheme.cBioColor), hintText: topic),
           ),
         ));
   }
@@ -734,36 +677,24 @@ class VerificationReportState extends State<VerificationReportPage> {
                 isIndependent: true,
                 initResouceList: editImg[item['img']] == null
                     ? null
-                    : [
-                        FileInfo(editImg[item['img']], 0, 1, item['img'],
-                            'image', null, 0, 0)
-                      ]),
+                    : [FileInfo(editImg[item['img']], 0, 1, item['img'], 'image', null, 0, 0)]),
           ),
           Text(item['title'],
-              style: TextStyle(
-                  color: StyleTheme.cTitleColor,
-                  fontSize: 15.sp,
-                  fontWeight: FontWeight.w500)),
+              style: TextStyle(color: StyleTheme.cTitleColor, fontSize: 15.sp, fontWeight: FontWeight.w500)),
           Text(
             item['topic'],
-            style:
-                TextStyle(color: Color(0xFF969696), fontSize: 12.sp, height: 2),
+            style: TextStyle(color: Color(0xFF969696), fontSize: 12.sp, height: 2),
           )
         ],
       ),
     );
   }
 
-  Widget _inputItem(
-      String title, String topic, Function setVelue, bool isNum, String value) {
+  Widget _inputItem(String title, String topic, Function setVelue, bool isNum, String value) {
     return Container(
       height: 54.w,
       decoration: BoxDecoration(
-        border: Border(
-            bottom: BorderSide(
-                color: StyleTheme.textbgColor1,
-                width: 1,
-                style: BorderStyle.solid)),
+        border: Border(bottom: BorderSide(color: StyleTheme.textbgColor1, width: 1, style: BorderStyle.solid)),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -782,9 +713,7 @@ class VerificationReportState extends State<VerificationReportPage> {
                 setVelue(val);
               },
               decoration: InputDecoration.collapsed(
-                  hintStyle:
-                      TextStyle(fontSize: 15.sp, color: StyleTheme.cBioColor),
-                  hintText: topic),
+                  hintStyle: TextStyle(fontSize: 15.sp, color: StyleTheme.cBioColor), hintText: topic),
             ),
           )
         ],

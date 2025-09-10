@@ -1,5 +1,5 @@
 import 'package:chaguaner2023/components/headerContainer.dart';
-import 'package:chaguaner2023/components/pagetitlebar.dart';
+import 'package:chaguaner2023/components/page_title_bar.dart';
 import 'package:chaguaner2023/theme/style_theme.dart';
 import 'package:chaguaner2023/utils/local_png.dart';
 import 'package:flutter/material.dart';
@@ -34,17 +34,10 @@ class TeaDetailState extends State<TeaDetailPage> {
                   15.w,
                 ),
                 children: [
-                  LocalPNG(
-                      width: double.infinity,
-                      height: 240.w,
-                      url: widget.data!['image'],
-                      fit: BoxFit.cover),
+                  LocalPNG(width: double.infinity, height: 240.w, url: widget.data!['image'], fit: BoxFit.cover),
                   Text(
                     widget.data!['name']!,
-                    style: TextStyle(
-                        fontSize: 18.w,
-                        color: StyleTheme.cTitleColor,
-                        fontWeight: FontWeight.w500),
+                    style: TextStyle(fontSize: 18.w, color: StyleTheme.cTitleColor, fontWeight: FontWeight.w500),
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,

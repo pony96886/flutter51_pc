@@ -6,7 +6,7 @@ import 'package:chaguaner2023/components/nodata.dart';
 import 'package:chaguaner2023/components/pullrefreshlist.dart';
 import 'package:chaguaner2023/utils/api.dart';
 import 'package:flutter/material.dart';
-import 'package:chaguaner2023/components/pagetitlebar.dart';
+import 'package:chaguaner2023/components/page_title_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class AuthenticationList extends StatefulWidget {
@@ -78,17 +78,14 @@ class _AuthenticationListState extends State<AuthenticationList> {
                               cacheExtent: 5.sh,
                               slivers: [
                                 SliverGrid(
-                                  gridDelegate:
-                                      SliverGridDelegateWithFixedCrossAxisCount(
+                                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                                     crossAxisCount: 2,
                                     childAspectRatio: 0.7,
                                     mainAxisSpacing: 5.w,
                                     crossAxisSpacing: 5.w,
                                   ),
-                                  delegate: SliverChildBuilderDelegate(
-                                      (BuildContext context, int index) {
-                                    return RenZhengCard(
-                                        chapuData: chaCardList[index]);
+                                  delegate: SliverChildBuilderDelegate((BuildContext context, int index) {
+                                    return RenZhengCard(chapuData: chaCardList[index]);
                                   }, childCount: chaCardList.length),
                                 )
                               ],

@@ -6,7 +6,7 @@ import 'package:chaguaner2023/components/nodata.dart';
 import 'package:chaguaner2023/components/pullrefreshlist.dart';
 import 'package:chaguaner2023/utils/api.dart';
 import 'package:flutter/material.dart';
-import 'package:chaguaner2023/components/pagetitlebar.dart';
+import 'package:chaguaner2023/components/page_title_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class PayoutList extends StatefulWidget {
@@ -71,18 +71,12 @@ class _PayoutListState extends State<PayoutList> {
                           chaCardList = [];
                           _onLoad();
                         },
-                        child: CustomScrollView(
-                            physics: ClampingScrollPhysics(),
-                            cacheExtent: 5.sh,
-                            slivers: [
-                              SliverList(
-                                delegate: SliverChildBuilderDelegate(
-                                    (BuildContext context, int index) {
-                                  return V3ZhaoPiaoCard(
-                                      isPeifu: true,
-                                      zpInfo: chaCardList[index]);
-                                }, childCount: chaCardList.length),
-                              ),
-                            ])))));
+                        child: CustomScrollView(physics: ClampingScrollPhysics(), cacheExtent: 5.sh, slivers: [
+                          SliverList(
+                            delegate: SliverChildBuilderDelegate((BuildContext context, int index) {
+                              return V3ZhaoPiaoCard(isPeifu: true, zpInfo: chaCardList[index]);
+                            }, childCount: chaCardList.length),
+                          ),
+                        ])))));
   }
 }

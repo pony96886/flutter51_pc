@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:chaguaner2023/components/headerContainer.dart';
 import 'package:chaguaner2023/components/loading.dart';
-import 'package:chaguaner2023/components/pagetitlebar.dart';
+import 'package:chaguaner2023/components/page_title_bar.dart';
 import 'package:chaguaner2023/model/homedata.dart';
 import 'package:chaguaner2023/store/global.dart';
 import 'package:chaguaner2023/store/homeConfig.dart';
@@ -42,9 +42,7 @@ class _ChagirlReviewState extends State<ChagirlReview> {
       loading = false;
       applicationUrl = result['data']['potato_url'][0]['url'];
       contactUrl = result['data']['potato_url'][1]['url'];
-      wechatQr = result['data']['potato_url'][1]['url'] != null
-          ? result['data']['potato_url'][1]['url']
-          : null;
+      wechatQr = result['data']['potato_url'][1]['url'] != null ? result['data']['potato_url'][1]['url'] : null;
       setState(() {});
     }
   }
@@ -83,18 +81,14 @@ class _ChagirlReviewState extends State<ChagirlReview> {
                       Center(
                           child: Text('已提交审核',
                               style: TextStyle(
-                                  color: StyleTheme.cTitleColor,
-                                  fontSize: 18.sp,
-                                  fontWeight: FontWeight.w700))),
+                                  color: StyleTheme.cTitleColor, fontSize: 18.sp, fontWeight: FontWeight.w700))),
                       SizedBox(
                         height: 20.w,
                       ),
                       Center(
                           child: Text("请按照以下步骤操作，联系运营人员审核",
                               style: TextStyle(
-                                  color: StyleTheme.cTitleColor,
-                                  fontSize: 18.sp,
-                                  fontWeight: FontWeight.w700))),
+                                  color: StyleTheme.cTitleColor, fontSize: 18.sp, fontWeight: FontWeight.w700))),
                       SizedBox(
                         height: 18.5.w,
                       ),
@@ -124,10 +118,7 @@ class TitleTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(title!,
         textAlign: TextAlign.left,
-        style: TextStyle(
-            color: StyleTheme.cTitleColor,
-            fontSize: 18.sp,
-            fontWeight: FontWeight.bold));
+        style: TextStyle(color: StyleTheme.cTitleColor, fontSize: 18.sp, fontWeight: FontWeight.bold));
   }
 }
 
@@ -175,9 +166,7 @@ class _WechatQrcodeState extends State<WechatQrcode> {
     Member member = Provider.of<HomeConfig>(context, listen: false).member;
     return Container(
         padding: EdgeInsets.all(15.w),
-        decoration: BoxDecoration(
-            color: Color(0xFFF8E2BA),
-            borderRadius: BorderRadius.all(Radius.circular(5.w))),
+        decoration: BoxDecoration(color: Color(0xFFF8E2BA), borderRadius: BorderRadius.all(Radius.circular(5.w))),
         child: Column(children: <Widget>[
           Row(
             children: [
@@ -185,16 +174,11 @@ class _WechatQrcodeState extends State<WechatQrcode> {
                 margin: EdgeInsets.only(right: 10.w),
                 width: 30.w,
                 height: 30.w,
-                decoration: BoxDecoration(
-                    color: Color(0xffbc3729),
-                    borderRadius: BorderRadius.circular(30)),
+                decoration: BoxDecoration(color: Color(0xffbc3729), borderRadius: BorderRadius.circular(30)),
                 child: Center(
                   child: Text(
                     '1',
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 18.sp,
-                        fontWeight: FontWeight.w700),
+                    style: TextStyle(color: Colors.white, fontSize: 18.sp, fontWeight: FontWeight.w700),
                   ),
                 ),
               ),
@@ -227,27 +211,19 @@ class _WechatQrcodeState extends State<WechatQrcode> {
                     return;
                   }
                   CommonUtils.getImPath(context, callBack: () {
-                    AppGlobal.chatUser = FormUserMsg(
-                        uuid: UserInfo.shenheUuid!,
-                        nickname: '茶女郎管理',
-                        avatar: 'chaxiaowai');
-                    AppGlobal.appRouter
-                        ?.push(CommonUtils.getRealHash('llchat'));
+                    AppGlobal.chatUser =
+                        FormUserMsg(uuid: UserInfo.shenheUuid!, nickname: '茶女郎管理', avatar: 'chaxiaowai');
+                    AppGlobal.appRouter?.push(CommonUtils.getRealHash('llchat'));
                   });
                 },
                 child: Container(
-                  decoration: BoxDecoration(
-                      color: StyleTheme.cDangerColor,
-                      borderRadius: BorderRadius.circular(10)),
+                  decoration: BoxDecoration(color: StyleTheme.cDangerColor, borderRadius: BorderRadius.circular(10)),
                   width: 265.w,
                   height: 40.w,
                   child: Center(
                     child: Text(
                       '点击前往',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 18.w,
-                          fontWeight: FontWeight.w700),
+                      style: TextStyle(color: Colors.white, fontSize: 18.w, fontWeight: FontWeight.w700),
                     ),
                   ),
                 ),
@@ -260,16 +236,11 @@ class _WechatQrcodeState extends State<WechatQrcode> {
                 margin: EdgeInsets.only(right: 10.w),
                 width: 30.w,
                 height: 30.w,
-                decoration: BoxDecoration(
-                    color: Color(0xffbc3729),
-                    borderRadius: BorderRadius.circular(30)),
+                decoration: BoxDecoration(color: Color(0xffbc3729), borderRadius: BorderRadius.circular(30)),
                 child: Center(
                   child: Text(
                     '2',
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 18.sp,
-                        fontWeight: FontWeight.w700),
+                    style: TextStyle(color: Colors.white, fontSize: 18.sp, fontWeight: FontWeight.w700),
                   ),
                 ),
               ),
@@ -329,15 +300,10 @@ class StepDetail extends StatelessWidget {
     String androidTIpsStr = "* 安卓用户如果无法正常打开网站，请复制链接使用google浏览器打开";
     return Container(
         padding: EdgeInsets.all(15.w),
-        decoration: BoxDecoration(
-            color: Color(0xFFF8E2BA),
-            borderRadius: BorderRadius.all(Radius.circular(5.w))),
+        decoration: BoxDecoration(color: Color(0xFFF8E2BA), borderRadius: BorderRadius.all(Radius.circular(5.w))),
         child: Column(
           children: <Widget>[
-            Text(
-                kIsWeb
-                    ? iosTipsStr
-                    : (Platform.isAndroid ? androidTIpsStr : iosTipsStr),
+            Text(kIsWeb ? iosTipsStr : (Platform.isAndroid ? androidTIpsStr : iosTipsStr),
                 style: TextStyle(
                   color: Color(0xFFB82424),
                   fontSize: 12.sp,
@@ -348,14 +314,10 @@ class StepDetail extends StatelessWidget {
                 Container(
                   width: 30.w,
                   height: 30.w,
-                  decoration: BoxDecoration(
-                      color: Color(0xFFBC3729), shape: BoxShape.circle),
+                  decoration: BoxDecoration(color: Color(0xFFBC3729), shape: BoxShape.circle),
                   child: Center(
-                    child: Text('1',
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 18.sp,
-                            fontWeight: FontWeight.bold)),
+                    child:
+                        Text('1', style: TextStyle(color: Colors.white, fontSize: 18.sp, fontWeight: FontWeight.bold)),
                   ),
                 ),
                 SizedBox(width: 10.w),
@@ -395,20 +357,15 @@ class StepDetail extends StatelessWidget {
                 Container(
                   width: 30.w,
                   height: 30.w,
-                  decoration: BoxDecoration(
-                      color: Color(0xFFBC3729), shape: BoxShape.circle),
+                  decoration: BoxDecoration(color: Color(0xFFBC3729), shape: BoxShape.circle),
                   child: Center(
-                    child: Text('2',
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 18.sp,
-                            fontWeight: FontWeight.bold)),
+                    child:
+                        Text('2', style: TextStyle(color: Colors.white, fontSize: 18.sp, fontWeight: FontWeight.bold)),
                   ),
                 ),
                 SizedBox(width: 10.w),
                 Expanded(
-                  child: Text(
-                      '下载成功后，点击以下链接联系该账号(需要互加好友才能正常聊天，工作人员看到你的添加请求后会回加你为好友，请注意通过验证)',
+                  child: Text('下载成功后，点击以下链接联系该账号(需要互加好友才能正常聊天，工作人员看到你的添加请求后会回加你为好友，请注意通过验证)',
                       style: TextStyle(
                         color: Color(0xFFB82424),
                         fontSize: 14.sp,

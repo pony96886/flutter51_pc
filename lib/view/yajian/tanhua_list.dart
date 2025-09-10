@@ -1,6 +1,6 @@
 import 'package:chaguaner2023/components/headerContainer.dart';
 import 'package:chaguaner2023/components/list/public_list.dart';
-import 'package:chaguaner2023/components/pagetitlebar.dart';
+import 'package:chaguaner2023/components/page_title_bar.dart';
 import 'package:chaguaner2023/theme/style_theme.dart';
 import 'package:chaguaner2023/utils/cgprivilege.dart';
 import 'package:chaguaner2023/utils/common.dart';
@@ -56,18 +56,14 @@ class _TanhuaListPageState extends State<TanhuaListPage> {
     return Container(
       margin: EdgeInsets.only(bottom: 10.w),
       padding: EdgeInsets.only(bottom: 10.w),
-      decoration: BoxDecoration(
-          border: Border(bottom: BorderSide(color: Color(0xffeeeeee)))),
+      decoration: BoxDecoration(border: Border(bottom: BorderSide(color: Color(0xffeeeeee)))),
       child: GestureDetector(
         onTap: () {
-          if (CgPrivilege.getPrivilegeStatus(
-              PrivilegeType.infoMv, PrivilegeType.privilegeView)) {
+          if (CgPrivilege.getPrivilegeStatus(PrivilegeType.infoMv, PrivilegeType.privilegeView)) {
             var _id = item['id'];
-            AppGlobal.appRouter?.push(
-                CommonUtils.getRealHash('tanhuaDetailPage/' + _id.toString()));
+            AppGlobal.appRouter?.push(CommonUtils.getRealHash('tanhuaDetailPage/' + _id.toString()));
           } else {
-            CommonUtils.showVipDialog(context,
-                PrivilegeType.infoMvString + PrivilegeType.privilegeViewString);
+            CommonUtils.showVipDialog(context, PrivilegeType.infoMvString + PrivilegeType.privilegeViewString);
           }
         },
         child: Row(
@@ -92,15 +88,13 @@ class _TanhuaListPageState extends State<TanhuaListPage> {
                       bottom: 6.w,
                       child: Container(
                         decoration: BoxDecoration(
-                            color: Color.fromRGBO(0, 0, 0, 0.4),
-                            borderRadius: BorderRadius.circular(8.5.w)),
+                            color: Color.fromRGBO(0, 0, 0, 0.4), borderRadius: BorderRadius.circular(8.5.w)),
                         height: 17.w,
                         padding: EdgeInsets.symmetric(horizontal: 4.w),
                         child: Center(
                           child: Text(
                             CommonUtils.secondsToString(item['duration']),
-                            style:
-                                TextStyle(color: Colors.white, fontSize: 11.sp),
+                            style: TextStyle(color: Colors.white, fontSize: 11.sp),
                           ),
                         ),
                       ))
@@ -147,18 +141,14 @@ class _TanhuaListPageState extends State<TanhuaListPage> {
                     Center(
                       child: Text(
                         '成为会员',
-                        style: TextStyle(
-                            color: StyleTheme.cTitleColor,
-                            fontSize: 18.sp,
-                            fontWeight: FontWeight.bold),
+                        style: TextStyle(color: StyleTheme.cTitleColor, fontSize: 18.sp, fontWeight: FontWeight.bold),
                       ),
                     ),
                     Container(
                         margin: new EdgeInsets.only(top: 20.w),
                         child: Text(
                           '开通会员即可无限观看',
-                          style: TextStyle(
-                              fontSize: 14.sp, color: StyleTheme.cTitleColor),
+                          style: TextStyle(fontSize: 14.sp, color: StyleTheme.cTitleColor),
                         )),
                     GestureDetector(
                         onTap: () => {
@@ -167,8 +157,7 @@ class _TanhuaListPageState extends State<TanhuaListPage> {
                         child: GestureDetector(
                           onTap: () {
                             Navigator.of(context).pop(true);
-                            AppGlobal.appRouter?.push(
-                                CommonUtils.getRealHash('memberCardsPage'));
+                            AppGlobal.appRouter?.push(CommonUtils.getRealHash('memberCardsPage'));
                           },
                           child: Container(
                             margin: new EdgeInsets.only(top: 30.w),
@@ -184,8 +173,7 @@ class _TanhuaListPageState extends State<TanhuaListPage> {
                                 Center(
                                     child: Text(
                                   '立即开通',
-                                  style: TextStyle(
-                                      fontSize: 15.sp, color: Colors.white),
+                                  style: TextStyle(fontSize: 15.sp, color: Colors.white),
                                 )),
                               ],
                             ),
@@ -199,10 +187,7 @@ class _TanhuaListPageState extends State<TanhuaListPage> {
                   child: GestureDetector(
                       onTap: () => Navigator.of(context).pop(true),
                       child: LocalPNG(
-                          width: 30.w,
-                          height: 30.w,
-                          url: 'assets/images/mymony/close.png',
-                          fit: BoxFit.cover)),
+                          width: 30.w, height: 30.w, url: 'assets/images/mymony/close.png', fit: BoxFit.cover)),
                 )
               ],
             ),

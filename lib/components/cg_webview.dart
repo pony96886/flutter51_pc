@@ -1,6 +1,6 @@
 import 'package:bot_toast/bot_toast.dart';
 import 'package:chaguaner2023/components/page_status.dart';
-import 'package:chaguaner2023/components/pagetitlebar.dart';
+import 'package:chaguaner2023/components/page_title_bar.dart';
 import 'package:chaguaner2023/utils/common.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -49,9 +49,7 @@ class _CgWebviewState extends State<CgWebview> {
             children: [
               PageStatus.loading(true),
               WebViewX(
-                height: kIsWeb
-                    ? 1.sh - ScreenUtil().statusBarHeight
-                    : double.infinity,
+                height: kIsWeb ? 1.sh - ScreenUtil().statusBarHeight : double.infinity,
                 width: kIsWeb ? 1.sw : double.infinity,
                 onPageStarted: (e) {},
                 initialSourceType: SourceType.url,

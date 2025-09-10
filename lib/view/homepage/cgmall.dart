@@ -1,7 +1,7 @@
 import 'package:chaguaner2023/components/detail_ad.dart';
 import 'package:chaguaner2023/components/headerContainer.dart';
 import 'package:chaguaner2023/components/loading.dart';
-import 'package:chaguaner2023/components/pagetitlebar.dart';
+import 'package:chaguaner2023/components/page_title_bar.dart';
 import 'package:chaguaner2023/components/tab/nav_tab_bar_mixin.dart';
 import 'package:chaguaner2023/store/global.dart';
 import 'package:chaguaner2023/theme/style_theme.dart';
@@ -22,8 +22,7 @@ class CgmallPage extends StatefulWidget {
   State<CgmallPage> createState() => _CgmallPageState();
 }
 
-class _CgmallPageState extends State<CgmallPage>
-    with SingleTickerProviderStateMixin {
+class _CgmallPageState extends State<CgmallPage> with SingleTickerProviderStateMixin {
   ValueNotifier<List> _banner = ValueNotifier([]);
   List<Map> tabs = [];
   ValueNotifier<List> categoryList = ValueNotifier([]);
@@ -38,8 +37,7 @@ class _CgmallPageState extends State<CgmallPage>
       print(res);
       print('_________');
       if (res!['status'] != 0) {
-        tabs =
-            (res!['data']['categories'] as List).map((e) => e as Map).toList();
+        tabs = (res!['data']['categories'] as List).map((e) => e as Map).toList();
         tabController = TabController(length: tabs.length, vsync: this);
         _banner.value = res!['data']['banner'];
         loading = false;
@@ -73,9 +71,7 @@ class _CgmallPageState extends State<CgmallPage>
                 title: '茶馆商城',
                 rightWidget: GestureDetector(
                   onTap: () {
-                    AppGlobal.appRouter?.push(
-                        CommonUtils.getRealHash('searchResult'),
-                        extra: {'index': 7});
+                    AppGlobal.appRouter?.push(CommonUtils.getRealHash('searchResult'), extra: {'index': 7});
                   },
                   child: Padding(
                     padding: EdgeInsets.only(left: 15.w),
@@ -99,10 +95,8 @@ class _CgmallPageState extends State<CgmallPage>
                       // containerPadding: EdgeInsets.symmetric(horizontal: 70.w),
                       textPadding: EdgeInsets.symmetric(horizontal: 12.5.w),
                       selectedIndex: tabController!.index,
-                      norTextStyle: TextStyle(
-                          color: StyleTheme.cTitleColor, fontSize: 15.sp),
-                      selTextStyle: TextStyle(
-                          color: StyleTheme.cTitleColor, fontSize: 16.sp),
+                      norTextStyle: TextStyle(color: StyleTheme.cTitleColor, fontSize: 15.sp),
+                      selTextStyle: TextStyle(color: StyleTheme.cTitleColor, fontSize: 16.sp),
                       indicatorStyle: NavIndicatorStyle.sys_fixed,
                     ),
                     Expanded(
@@ -115,20 +109,14 @@ class _CgmallPageState extends State<CgmallPage>
                                 SliverToBoxAdapter(
                                   child: ValueListenableBuilder(
                                       valueListenable: _banner,
-                                      builder: (context, List<dynamic> value,
-                                          child) {
+                                      builder: (context, List<dynamic> value, child) {
                                         return value.length > 0
                                             ? RepaintBoundary(
                                                 child: Container(
-                                                margin: EdgeInsets.only(
-                                                    top: 5.w,
-                                                    left: 15.w,
-                                                    right: 15.w),
+                                                margin: EdgeInsets.only(top: 5.w, left: 15.w, right: 15.w),
                                                 child: Detail_ad(
                                                     radius: 18.w,
-                                                    width: ScreenUtil()
-                                                            .screenWidth -
-                                                        30.w,
+                                                    width: ScreenUtil().screenWidth - 30.w,
                                                     app_layout: true,
                                                     data: value),
                                               ))
@@ -137,10 +125,7 @@ class _CgmallPageState extends State<CgmallPage>
                                 ),
                               ];
                             },
-                            body: CGmaillList(
-                                tags: item['tags'],
-                                orderBy: item['orderBy'],
-                                goodsType: item['id']));
+                            body: CGmaillList(tags: item['tags'], orderBy: item['orderBy'], goodsType: item['id']));
                       }).toList(),
                     ))
                   ],
@@ -154,8 +139,7 @@ class _CgmallPageState extends State<CgmallPage>
                 if (UserInfo.isMerchant! > 0) {
                   context.push(CommonUtils.getRealHash('merchantCenter'));
                 } else {
-                  AppGlobal.appRouter
-                      ?.push(CommonUtils.getRealHash('onlineServicePage'));
+                  AppGlobal.appRouter?.push(CommonUtils.getRealHash('onlineServicePage'));
                   // if (!CgPrivilege.getPrivilegeStatus(
                   //     PrivilegeType.infoSystem, PrivilegeType.privilegeIm)) {
                   //   CommonUtils.showVipDialog(

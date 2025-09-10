@@ -1,7 +1,7 @@
 import 'package:bot_toast/bot_toast.dart';
 import 'package:chaguaner2023/components/headerContainer.dart';
 import 'package:chaguaner2023/components/page_status.dart';
-import 'package:chaguaner2023/components/pagetitlebar.dart';
+import 'package:chaguaner2023/components/page_title_bar.dart';
 import 'package:chaguaner2023/components/popupbox.dart';
 import 'package:chaguaner2023/components/upload/start_upload.dart';
 import 'package:chaguaner2023/components/upload/upload_resouce.dart';
@@ -97,9 +97,7 @@ class _VideoPublishState extends State<VideoPublish> {
               coins: int.parse(price.text),
               tagIds: selectTags,
               categoryIds: [itemType.value['id']],
-              video: _isEmpty
-                  ? []
-                  : value['videos'].map((e) => e['url']).toList()[0],
+              video: _isEmpty ? [] : value['videos'].map((e) => e['url']).toList()[0],
               cover: value['image_cover'].map((e) => e['url']).toList()[0])
           .then((res) {
         if (res!['status'] != 0) {
@@ -120,9 +118,7 @@ class _VideoPublishState extends State<VideoPublish> {
   _rowIitem(Widget left, {bool isRight = false}) {
     return Container(
       height: 56.5.w,
-      decoration: BoxDecoration(
-          border:
-              Border(bottom: BorderSide(width: 1.w, color: Color(0XFFeeeeee)))),
+      decoration: BoxDecoration(border: Border(bottom: BorderSide(width: 1.w, color: Color(0XFFeeeeee)))),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -130,12 +126,7 @@ class _VideoPublishState extends State<VideoPublish> {
           SizedBox(
             width: 15.w,
           ),
-          isRight
-              ? LocalPNG(
-                  width: 18.w,
-                  fit: BoxFit.fitWidth,
-                  url: 'assets/images/detail/right_.png')
-              : SizedBox()
+          isRight ? LocalPNG(width: 18.w, fit: BoxFit.fitWidth, url: 'assets/images/detail/right_.png') : SizedBox()
         ],
       ),
     );
@@ -152,8 +143,7 @@ class _VideoPublishState extends State<VideoPublish> {
               child: Stack(
                 children: [
                   Padding(
-                    padding:
-                        EdgeInsets.symmetric(horizontal: 9.5.w, vertical: 20.w),
+                    padding: EdgeInsets.symmetric(horizontal: 9.5.w, vertical: 20.w),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -162,18 +152,14 @@ class _VideoPublishState extends State<VideoPublish> {
                             Text(
                               '编辑标签',
                               style: TextStyle(
-                                  color: StyleTheme.cTitleColor,
-                                  fontSize: 18.sp,
-                                  fontWeight: FontWeight.w500),
+                                  color: StyleTheme.cTitleColor, fontSize: 18.sp, fontWeight: FontWeight.w500),
                             ),
                             SizedBox(
                               width: 6.w,
                             ),
                             Text(
                               '最多选择4个',
-                              style: TextStyle(
-                                  color: StyleTheme.cDangerColor,
-                                  fontSize: 11.sp),
+                              style: TextStyle(color: StyleTheme.cDangerColor, fontSize: 11.sp),
                             )
                           ],
                         ),
@@ -185,9 +171,7 @@ class _VideoPublishState extends State<VideoPublish> {
                                 ? Center(
                                     child: Text(
                                       '视频类型暂无标签',
-                                      style: TextStyle(
-                                          color: StyleTheme.cBioColor,
-                                          fontSize: 14.sp),
+                                      style: TextStyle(color: StyleTheme.cBioColor, fontSize: 14.sp),
                                     ),
                                   )
                                 : SingleChildScrollView(
@@ -195,29 +179,21 @@ class _VideoPublishState extends State<VideoPublish> {
                                       runSpacing: 10.w,
                                       spacing: 10.w,
                                       children: tags.asMap().keys.map((e) {
-                                        bool isSelect =
-                                            selectTags.indexOf(tags[e]['id']) >=
-                                                0;
+                                        bool isSelect = selectTags.indexOf(tags[e]['id']) >= 0;
                                         return GestureDetector(
                                           onTap: () {
                                             if (isSelect) {
-                                              selectTags.removeWhere((item) =>
-                                                  item == tags[e]['id']);
+                                              selectTags.removeWhere((item) => item == tags[e]['id']);
                                             } else {
                                               if (selectTags.length >= 4) {
-                                                CommonUtils.showText(
-                                                    '最多选择4个标签');
+                                                CommonUtils.showText('最多选择4个标签');
                                                 return;
                                               } else {
                                                 selectTags.add(tags[e]['id']);
                                               }
                                             }
-                                            List selectTagList = tags
-                                                .where((item) =>
-                                                    selectTags
-                                                        .indexOf(item['id']) >=
-                                                    0)
-                                                .toList();
+                                            List selectTagList =
+                                                tags.where((item) => selectTags.indexOf(item['id']) >= 0).toList();
                                             videoTag.value = selectTagList;
                                             setBottomSheetState(() {});
                                           },
@@ -226,25 +202,17 @@ class _VideoPublishState extends State<VideoPublish> {
                                             children: [
                                               Container(
                                                 decoration: BoxDecoration(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            3.w),
+                                                    borderRadius: BorderRadius.circular(3.w),
                                                     color: isSelect
-                                                        ? Color.fromRGBO(
-                                                            253, 240, 228, 1)
-                                                        : Color.fromRGBO(
-                                                            245, 245, 245, 1)),
-                                                padding: EdgeInsets.symmetric(
-                                                    horizontal: 11.5.w),
+                                                        ? Color.fromRGBO(253, 240, 228, 1)
+                                                        : Color.fromRGBO(245, 245, 245, 1)),
+                                                padding: EdgeInsets.symmetric(horizontal: 11.5.w),
                                                 alignment: Alignment.center,
                                                 child: Text(
                                                   tags[e]['title'].toString(),
                                                   style: TextStyle(
-                                                      color: isSelect
-                                                          ? StyleTheme
-                                                              .cDangerColor
-                                                          : StyleTheme
-                                                              .cTitleColor,
+                                                      color:
+                                                          isSelect ? StyleTheme.cDangerColor : StyleTheme.cTitleColor,
                                                       fontSize: 12.sp),
                                                 ),
                                                 height: 25.w,
@@ -263,8 +231,7 @@ class _VideoPublishState extends State<VideoPublish> {
                             child: Container(
                               width: 275.w,
                               height: 50.w,
-                              margin: EdgeInsets.only(
-                                  bottom: ScreenUtil().bottomBarHeight + 15.w),
+                              margin: EdgeInsets.only(bottom: ScreenUtil().bottomBarHeight + 15.w),
                               child: Stack(
                                 children: [
                                   LocalPNG(
@@ -272,11 +239,7 @@ class _VideoPublishState extends State<VideoPublish> {
                                     height: 50.w,
                                     url: "assets/images/mine/black_button.png",
                                   ),
-                                  Center(
-                                      child: Text("保存",
-                                          style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 15.sp))),
+                                  Center(child: Text("保存", style: TextStyle(color: Colors.white, fontSize: 15.sp))),
                                 ],
                               ),
                             ),
@@ -320,8 +283,7 @@ class _VideoPublishState extends State<VideoPublish> {
               child: Stack(
                 children: [
                   Padding(
-                    padding:
-                        EdgeInsets.symmetric(horizontal: 9.5.w, vertical: 20.w),
+                    padding: EdgeInsets.symmetric(horizontal: 9.5.w, vertical: 20.w),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -334,8 +296,7 @@ class _VideoPublishState extends State<VideoPublish> {
                             runSpacing: 10.w,
                             spacing: 10.w,
                             children: itemTypeList.asMap().keys.map((e) {
-                              bool isSelect =
-                                  itemType.value['id'] == itemTypeList[e]['id'];
+                              bool isSelect = itemType.value['id'] == itemTypeList[e]['id'];
                               return GestureDetector(
                                 onTap: () {
                                   itemType.value = itemTypeList[e];
@@ -346,21 +307,16 @@ class _VideoPublishState extends State<VideoPublish> {
                                   children: [
                                     Container(
                                       decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(3.w),
+                                          borderRadius: BorderRadius.circular(3.w),
                                           color: isSelect
                                               ? Color.fromRGBO(253, 240, 228, 1)
-                                              : Color.fromRGBO(
-                                                  245, 245, 245, 1)),
-                                      padding: EdgeInsets.symmetric(
-                                          horizontal: 11.5.w),
+                                              : Color.fromRGBO(245, 245, 245, 1)),
+                                      padding: EdgeInsets.symmetric(horizontal: 11.5.w),
                                       alignment: Alignment.center,
                                       child: Text(
                                         itemTypeList[e]['title'].toString(),
                                         style: TextStyle(
-                                            color: isSelect
-                                                ? StyleTheme.cDangerColor
-                                                : StyleTheme.cTitleColor,
+                                            color: isSelect ? StyleTheme.cDangerColor : StyleTheme.cTitleColor,
                                             fontSize: 12.sp),
                                       ),
                                       height: 25.w,
@@ -379,8 +335,7 @@ class _VideoPublishState extends State<VideoPublish> {
                             child: Container(
                               width: 275.w,
                               height: 50.w,
-                              margin: EdgeInsets.only(
-                                  bottom: ScreenUtil().bottomBarHeight + 15.w),
+                              margin: EdgeInsets.only(bottom: ScreenUtil().bottomBarHeight + 15.w),
                               child: Stack(
                                 children: [
                                   LocalPNG(
@@ -388,11 +343,7 @@ class _VideoPublishState extends State<VideoPublish> {
                                     height: 50.w,
                                     url: "assets/images/mine/black_button.png",
                                   ),
-                                  Center(
-                                      child: Text("保存",
-                                          style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 15.sp))),
+                                  Center(child: Text("保存", style: TextStyle(color: Colors.white, fontSize: 15.sp))),
                                 ],
                               ),
                             ),
@@ -439,15 +390,13 @@ class _VideoPublishState extends State<VideoPublish> {
                           onTap: () {
                             PopupBox.showText(BackButtonBehavior.none,
                                 title: '规则',
-                                text: (releseInfo['rules'] as String)
-                                    .replaceAll('\n', '\n'),
+                                text: (releseInfo['rules'] as String).replaceAll('\n', '\n'),
                                 confirmtext: '确认',
                                 tapMaskClose: true);
                           },
                           child: Text(
                             '发布规则',
-                            style: TextStyle(
-                                color: StyleTheme.cTitleColor, fontSize: 14.sp),
+                            style: TextStyle(color: StyleTheme.cTitleColor, fontSize: 14.sp),
                           ),
                         ),
                 ),
@@ -455,8 +404,7 @@ class _VideoPublishState extends State<VideoPublish> {
             body: loading
                 ? PageStatus.loading(true)
                 : ListView(
-                    padding: EdgeInsets.symmetric(
-                        horizontal: 14.5.w, vertical: 15.w),
+                    padding: EdgeInsets.symmetric(horizontal: 14.5.w, vertical: 15.w),
                     cacheExtent: 5.sh,
                     children: [
                       InkWell(
@@ -469,9 +417,7 @@ class _VideoPublishState extends State<VideoPublish> {
                               return _rowIitem(
                                   Text(
                                     value.isEmpty ? '选择类别' : value['title'],
-                                    style: TextStyle(
-                                        color: Color(0xff1e1e1e),
-                                        fontSize: 14.sp),
+                                    style: TextStyle(color: Color(0xff1e1e1e), fontSize: 14.sp),
                                   ),
                                   isRight: true);
                             }),
@@ -488,9 +434,7 @@ class _VideoPublishState extends State<VideoPublish> {
                               return _rowIitem(
                                   Text(
                                     value.isEmpty ? '#选择视频标签' : _title,
-                                    style: TextStyle(
-                                        color: Color(0xff1e1e1e),
-                                        fontSize: 14.sp),
+                                    style: TextStyle(color: Color(0xff1e1e1e), fontSize: 14.sp),
                                   ),
                                   isRight: true);
                             }),
@@ -498,20 +442,16 @@ class _VideoPublishState extends State<VideoPublish> {
                       _rowIitem(Expanded(
                           child: TextField(
                         textInputAction: TextInputAction.done,
-                        keyboardType:
-                            TextInputType.numberWithOptions(decimal: true),
+                        keyboardType: TextInputType.numberWithOptions(decimal: true),
                         inputFormatters: [
                           FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
                         ],
                         controller: price,
                         decoration: InputDecoration(
                           hintText: '请输入产品价格',
-                          hintStyle: TextStyle(
-                              color: Color(0xffb4b4b4), fontSize: 14.sp),
-                          labelStyle: TextStyle(
-                              color: Color(0xff1e1e1e), fontSize: 47.sp),
-                          border:
-                              InputBorder.none, // Removes the default border
+                          hintStyle: TextStyle(color: Color(0xffb4b4b4), fontSize: 14.sp),
+                          labelStyle: TextStyle(color: Color(0xff1e1e1e), fontSize: 47.sp),
+                          border: InputBorder.none, // Removes the default border
                         ),
                       ))),
                       SizedBox(
@@ -521,9 +461,7 @@ class _VideoPublishState extends State<VideoPublish> {
                         margin: EdgeInsets.only(bottom: 17.w),
                         height: 140.w,
                         padding: EdgeInsets.all(10.w),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(5.w),
-                            color: Color(0xfff5f5f5)),
+                        decoration: BoxDecoration(borderRadius: BorderRadius.circular(5.w), color: Color(0xfff5f5f5)),
                         child: TextField(
                           maxLines: 999,
                           maxLength: 50,
@@ -531,14 +469,10 @@ class _VideoPublishState extends State<VideoPublish> {
                           decoration: InputDecoration(
                             contentPadding: EdgeInsets.zero,
                             hintText: '请输入视频标题',
-                            counterStyle: TextStyle(
-                                color: Color(0xffb4b4b4), fontSize: 15.sp),
-                            hintStyle: TextStyle(
-                                color: Color(0xffb4b4b4), fontSize: 15.sp),
-                            labelStyle: TextStyle(
-                                color: Color(0xff1e1e1e), fontSize: 15.sp),
-                            border:
-                                InputBorder.none, // Removes the default border
+                            counterStyle: TextStyle(color: Color(0xffb4b4b4), fontSize: 15.sp),
+                            hintStyle: TextStyle(color: Color(0xffb4b4b4), fontSize: 15.sp),
+                            labelStyle: TextStyle(color: Color(0xff1e1e1e), fontSize: 15.sp),
+                            border: InputBorder.none, // Removes the default border
                           ),
                         ),
                       ),
@@ -548,13 +482,9 @@ class _VideoPublishState extends State<VideoPublish> {
                       Text.rich(
                         TextSpan(text: '上传封面', children: [
                           TextSpan(
-                              text: '（封面不得超过1M）',
-                              style: TextStyle(
-                                  color: StyleTheme.cDangerColor,
-                                  fontSize: 12.sp))
+                              text: '（封面不得超过1M）', style: TextStyle(color: StyleTheme.cDangerColor, fontSize: 12.sp))
                         ]),
-                        style: TextStyle(
-                            color: StyleTheme.cTitleColor, fontSize: 18.sp),
+                        style: TextStyle(color: StyleTheme.cTitleColor, fontSize: 18.sp),
                       ),
                       SizedBox(height: 15.w),
                       UploadResouceWidget(
@@ -569,13 +499,9 @@ class _VideoPublishState extends State<VideoPublish> {
                       Text.rich(
                         TextSpan(text: '上传视频', children: [
                           TextSpan(
-                              text: ' 最大不得超过500M',
-                              style: TextStyle(
-                                  color: StyleTheme.cDangerColor,
-                                  fontSize: 12.sp))
+                              text: ' 最大不得超过500M', style: TextStyle(color: StyleTheme.cDangerColor, fontSize: 12.sp))
                         ]),
-                        style: TextStyle(
-                            color: StyleTheme.cTitleColor, fontSize: 18.sp),
+                        style: TextStyle(color: StyleTheme.cTitleColor, fontSize: 18.sp),
                       ),
                       SizedBox(height: 15.w),
                       UploadResouceWidget(
@@ -593,18 +519,14 @@ class _VideoPublishState extends State<VideoPublish> {
                           onTap: _submit,
                           child: Stack(
                             children: [
-                              Positioned.fill(
-                                  child: LocalPNG(
-                                      url:
-                                          'assets/images/elegantroom/shuimo_btn.png')),
+                              Positioned.fill(child: LocalPNG(url: 'assets/images/elegantroom/shuimo_btn.png')),
                               Container(
                                 width: 275.w,
                                 height: 50.w,
                                 alignment: Alignment.center,
                                 child: Text(
                                   '发布',
-                                  style: TextStyle(
-                                      color: Colors.white, fontSize: 15.sp),
+                                  style: TextStyle(color: Colors.white, fontSize: 15.sp),
                                 ),
                               )
                             ],

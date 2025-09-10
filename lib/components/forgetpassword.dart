@@ -1,6 +1,6 @@
 import 'package:bot_toast/bot_toast.dart';
 import 'package:chaguaner2023/components/headerContainer.dart';
-import 'package:chaguaner2023/components/pagetitlebar.dart';
+import 'package:chaguaner2023/components/page_title_bar.dart';
 import 'package:chaguaner2023/input/countdown.dart';
 import 'package:chaguaner2023/store/global.dart';
 import 'package:chaguaner2023/theme/style_theme.dart';
@@ -62,8 +62,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
   }
 
   Future setCodeData(Function callBack) async {
-    var data = await getCaptcha(
-        _phoneNumController.text, phonePrefix, 3, UserInfo.imageCode!);
+    var data = await getCaptcha(_phoneNumController.text, phonePrefix, 3, UserInfo.imageCode!);
     if (data!['status'] == 1) {
       showText('发送成功');
       setState(() {
@@ -88,13 +87,8 @@ class _ForgetPasswordState extends State<ForgetPassword> {
   }
 
   void handleSubmit() async {
-    var data = await forgetPassword(
-        _usernameController.text,
-        _newpassword.text,
-        _repeatpassword.text,
-        _phoneNumController.text,
-        phonePrefix.replaceAll("+", ""),
-        _veriCodeController.text);
+    var data = await forgetPassword(_usernameController.text, _newpassword.text, _repeatpassword.text,
+        _phoneNumController.text, phonePrefix.replaceAll("+", ""), _veriCodeController.text);
     BotToast.closeAllLoading();
     if (data!['status'] == 0) {
       if (data['msg'] == null) {
@@ -114,8 +108,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
         showText("请输入需要找回的账号");
         return;
       }
-      if (RegExp(r"^[-_a-zA-Z0-9]+$").hasMatch(_usernameController.text) ==
-          false) {
+      if (RegExp(r"^[-_a-zA-Z0-9]+$").hasMatch(_usernameController.text) == false) {
         showText("账号只能输入英文、数字和下划线");
         return;
       }
@@ -166,26 +159,18 @@ class _ForgetPasswordState extends State<ForgetPassword> {
             children: <Widget>[
               currentStep == 1
                   ? Text("找回密码",
-                      style: TextStyle(
-                          color: StyleTheme.cTitleColor,
-                          fontSize: 24.sp,
-                          fontWeight: FontWeight.w500))
+                      style: TextStyle(color: StyleTheme.cTitleColor, fontSize: 24.sp, fontWeight: FontWeight.w500))
                   : SizedBox(),
               currentStep == 2
                   ? RichText(
                       text: TextSpan(
                           text: "找回密码",
-                          style: TextStyle(
-                              color: StyleTheme.cTitleColor,
-                              fontSize: 24.sp,
-                              fontWeight: FontWeight.w500),
+                          style: TextStyle(color: StyleTheme.cTitleColor, fontSize: 24.sp, fontWeight: FontWeight.w500),
                           children: <TextSpan>[
                             TextSpan(
                                 text: ' (您可以使用验证码直接登录)',
                                 style: TextStyle(
-                                    color: StyleTheme.cTitleColor,
-                                    fontSize: 14.sp,
-                                    fontWeight: FontWeight.w400))
+                                    color: StyleTheme.cTitleColor, fontSize: 14.sp, fontWeight: FontWeight.w400))
                           ]),
                     )
                   : SizedBox(),
@@ -215,8 +200,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                                   initialValue: 'CN',
                                   itemBuilder: _buildDropdownItem,
                                   dropdownColor: Colors.black87,
-                                  sortComparator: (Country a, Country b) =>
-                                      a.isoCode.compareTo(b.isoCode),
+                                  sortComparator: (Country a, Country b) => a.isoCode.compareTo(b.isoCode),
                                   onValuePicked: (Country country) {
                                     phonePrefix = country.phoneCode;
                                   },
@@ -243,26 +227,17 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                                       });
                                     }
                                   },
-                                  keyboardType:
-                                      TextInputType.numberWithOptions(),
+                                  keyboardType: TextInputType.numberWithOptions(),
                                   inputFormatters: <TextInputFormatter>[
                                     LengthLimitingTextInputFormatter(20),
                                     FilteringTextInputFormatter.digitsOnly
                                   ],
-                                  style: TextStyle(
-                                      color: StyleTheme.cTitleColor,
-                                      fontSize: 15.sp),
+                                  style: TextStyle(color: StyleTheme.cTitleColor, fontSize: 15.sp),
                                   decoration: InputDecoration(
                                       isDense: true,
-                                      contentPadding: EdgeInsets.only(
-                                          left: 10,
-                                          right: 10,
-                                          top: 5,
-                                          bottom: 5),
+                                      contentPadding: EdgeInsets.only(left: 10, right: 10, top: 5, bottom: 5),
                                       border: InputBorder.none,
-                                      hintStyle: TextStyle(
-                                          color: Color(0xFFB4B4B4),
-                                          fontSize: 15.sp),
+                                      hintStyle: TextStyle(color: Color(0xFFB4B4B4), fontSize: 15.sp),
                                       hintText: "输入手机号",
                                       hoverColor: Colors.white),
                                 ),
@@ -285,26 +260,17 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                               Expanded(
                                 child: TextField(
                                   controller: _veriCodeController,
-                                  keyboardType:
-                                      TextInputType.numberWithOptions(),
+                                  keyboardType: TextInputType.numberWithOptions(),
                                   inputFormatters: <TextInputFormatter>[
                                     LengthLimitingTextInputFormatter(6),
                                     FilteringTextInputFormatter.digitsOnly
                                   ],
-                                  style: TextStyle(
-                                      color: StyleTheme.cTitleColor,
-                                      fontSize: 15.sp),
+                                  style: TextStyle(color: StyleTheme.cTitleColor, fontSize: 15.sp),
                                   decoration: InputDecoration(
                                       isDense: true,
-                                      contentPadding: EdgeInsets.only(
-                                          left: 10,
-                                          right: 10,
-                                          top: 5,
-                                          bottom: 5),
+                                      contentPadding: EdgeInsets.only(left: 10, right: 10, top: 5, bottom: 5),
                                       border: InputBorder.none,
-                                      hintStyle: TextStyle(
-                                          color: Color(0xFFB4B4B4),
-                                          fontSize: 15.sp),
+                                      hintStyle: TextStyle(color: Color(0xFFB4B4B4), fontSize: 15.sp),
                                       hintText: "输入短信验证码",
                                       hoverColor: Colors.white),
                                 ),
@@ -313,9 +279,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                                 width: 80.w,
                                 height: 25.w,
                                 decoration: BoxDecoration(
-                                  color: codeSending
-                                      ? Color(0xFF969696)
-                                      : Colors.white,
+                                  color: codeSending ? Color(0xFF969696) : Colors.white,
                                   borderRadius: BorderRadius.circular(50),
                                 ),
                                 child: Center(
@@ -380,10 +344,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                           ),
                           Center(
                             child: Text(currentStep == 1 ? "下一步" : "重设密码",
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 15.sp,
-                                    fontWeight: FontWeight.w500)),
+                                style: TextStyle(color: Colors.white, fontSize: 15.sp, fontWeight: FontWeight.w500)),
                           ),
                         ],
                       )))
@@ -438,11 +399,9 @@ class EditTextField extends StatelessWidget {
               style: TextStyle(color: StyleTheme.cTitleColor, fontSize: 15.sp),
               decoration: InputDecoration(
                   isDense: true,
-                  contentPadding:
-                      EdgeInsets.only(left: 10, right: 10, top: 5, bottom: 5),
+                  contentPadding: EdgeInsets.only(left: 10, right: 10, top: 5, bottom: 5),
                   border: InputBorder.none,
-                  hintStyle:
-                      TextStyle(color: Color(0xFF969696), fontSize: 15.sp),
+                  hintStyle: TextStyle(color: Color(0xFF969696), fontSize: 15.sp),
                   hintText: hintText,
                   hoverColor: Colors.white),
             ),

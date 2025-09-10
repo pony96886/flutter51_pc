@@ -1,6 +1,6 @@
 import 'package:chaguaner2023/components/headerContainer.dart';
 import 'package:chaguaner2023/components/list/public_list.dart';
-import 'package:chaguaner2023/components/pagetitlebar.dart';
+import 'package:chaguaner2023/components/page_title_bar.dart';
 import 'package:chaguaner2023/theme/style_theme.dart';
 import 'package:chaguaner2023/utils/common.dart';
 import 'package:flutter/material.dart';
@@ -57,9 +57,7 @@ class SystemNoticeState extends State<SystemNoticePage> {
               ? Container(
                   margin: new EdgeInsets.only(bottom: 20.w),
                   child: Center(
-                    child: Text(
-                        CommonUtils.getCgTime(
-                            int.parse(item['created_at'].toString())),
+                    child: Text(CommonUtils.getCgTime(int.parse(item['created_at'].toString())),
                         style: TextStyle(
                           fontSize: 14.sp,
                           color: StyleTheme.cBioColor,
@@ -80,8 +78,7 @@ class SystemNoticeState extends State<SystemNoticePage> {
       width: double.infinity,
       decoration: BoxDecoration(boxShadow: [
         //阴影
-        BoxShadow(
-            color: Colors.black12, offset: Offset(0, 0.5.w), blurRadius: 2.5.w)
+        BoxShadow(color: Colors.black12, offset: Offset(0, 0.5.w), blurRadius: 2.5.w)
       ], color: Colors.white, borderRadius: BorderRadius.circular(10.w)),
       padding: new EdgeInsets.symmetric(horizontal: 15.w, vertical: 15.w),
       child: Column(
@@ -92,10 +89,7 @@ class SystemNoticeState extends State<SystemNoticePage> {
             margin: new EdgeInsets.only(bottom: 10.w),
             child: Text(
               title,
-              style: TextStyle(
-                  fontSize: 16.sp,
-                  fontWeight: FontWeight.w500,
-                  color: StyleTheme.cTitleColor),
+              style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w500, color: StyleTheme.cTitleColor),
             ),
           ),
           Container(

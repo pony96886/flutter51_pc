@@ -2,7 +2,7 @@ import 'package:chaguaner2023/components/card/V4CheckerCard.dart';
 import 'package:chaguaner2023/components/headerContainer.dart';
 import 'package:chaguaner2023/components/list/public_list.dart';
 import 'package:chaguaner2023/components/nodata.dart';
-import 'package:chaguaner2023/components/pagetitlebar.dart';
+import 'package:chaguaner2023/components/page_title_bar.dart';
 import 'package:chaguaner2023/theme/style_theme.dart';
 import 'package:chaguaner2023/utils/index.dart';
 import 'package:chaguaner2023/utils/local_png.dart';
@@ -18,10 +18,8 @@ class PostReviewPage extends StatefulWidget {
   _PostReviewPageState createState() => _PostReviewPageState();
 }
 
-class _PostReviewPageState extends State<PostReviewPage>
-    with TickerProviderStateMixin {
-  RefreshController _refreshController =
-      RefreshController(initialRefresh: false);
+class _PostReviewPageState extends State<PostReviewPage> with TickerProviderStateMixin {
+  RefreshController _refreshController = RefreshController(initialRefresh: false);
   TabController? _tabController;
   ScrollController? scrollController;
   int activeIndex = 0;
@@ -70,10 +68,7 @@ class _PostReviewPageState extends State<PostReviewPage>
                 .asMap()
                 .keys
                 .map(
-                  (e) => CustomTab(
-                      tabIndex: activeIndex,
-                      keyIndex: e,
-                      title: _tabs[e]['title']),
+                  (e) => CustomTab(tabIndex: activeIndex, keyIndex: e, title: _tabs[e]['title']),
                 )
                 .toList(),
           ),
@@ -97,8 +92,7 @@ class _PostReviewPageState extends State<PostReviewPage>
                         api: '/api/user/checkerList',
                         data: {'status': _tabs[e]['status']},
                         row: 1,
-                        itemBuild:
-                            (context, index, data, page, limit, getListData) {
+                        itemBuild: (context, index, data, page, limit, getListData) {
                           return V4CheckerCard(
                               type: _tabs[e]['status'],
                               zpInfo: data,
@@ -124,8 +118,7 @@ class CustomTab extends StatelessWidget {
   final int? tabIndex;
   final int? keyIndex;
   final String? title;
-  const CustomTab({Key? key, this.tabIndex, this.keyIndex, this.title})
-      : super(key: key);
+  const CustomTab({Key? key, this.tabIndex, this.keyIndex, this.title}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

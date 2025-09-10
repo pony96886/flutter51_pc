@@ -1,6 +1,6 @@
 import 'package:chaguaner2023/components/headerContainer.dart';
 import 'package:chaguaner2023/components/loading.dart';
-import 'package:chaguaner2023/components/pagetitlebar.dart';
+import 'package:chaguaner2023/components/page_title_bar.dart';
 import 'package:chaguaner2023/components/tab/nav_tab_bar_mixin.dart';
 import 'package:chaguaner2023/store/global.dart';
 import 'package:chaguaner2023/theme/style_theme.dart';

@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:async';
 import 'package:chaguaner2023/components/page_status.dart';
-import 'package:chaguaner2023/components/pagetitlebar.dart';
+import 'package:chaguaner2023/components/page_title_bar.dart';
 import 'package:chaguaner2023/utils/app_global.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -93,8 +93,7 @@ class _CityPickerState extends State<CityPicker> {
       allCityCodeList.add({
         "id": cityList[i].id,
         "name": cityList[i].name,
-        "letter":
-            PinyinHelper.getFirstWordPinyin(cityList[i].name!).substring(0, 1)
+        "letter": PinyinHelper.getFirstWordPinyin(cityList[i].name!).substring(0, 1)
       });
     }
     var baseAllCityCode = allCityCodeList.toList();
@@ -182,10 +181,7 @@ class _CityPickerState extends State<CityPicker> {
         shrinkWrap: true,
         padding: EdgeInsets.zero,
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            childAspectRatio: 2.27,
-            crossAxisCount: 4,
-            mainAxisSpacing: 5.w,
-            crossAxisSpacing: 5.w),
+            childAspectRatio: 2.27, crossAxisCount: 4, mainAxisSpacing: 5.w, crossAxisSpacing: 5.w),
         itemBuilder: (context, index) {
           return GestureDetector(
             behavior: HitTestBehavior.translucent,
@@ -197,9 +193,7 @@ class _CityPickerState extends State<CityPicker> {
               width: 82.w,
               height: 36.w,
               alignment: Alignment.center,
-              decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(5.w)),
+              decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(5.w)),
               child: Text(
                 hotCityData[index].name!,
                 textAlign: TextAlign.center,
@@ -251,10 +245,8 @@ class _CityPickerState extends State<CityPicker> {
                     int index2,
                   ) {
                     return Container(
-                      decoration: BoxDecoration(
-                          border: Border(
-                              bottom: BorderSide(
-                                  width: dividerH, color: Color(0xffebebeb)))),
+                      decoration:
+                          BoxDecoration(border: Border(bottom: BorderSide(width: dividerH, color: Color(0xffebebeb)))),
                       child: GestureDetector(
                         child: Container(
                           height: itemH,
@@ -271,15 +263,12 @@ class _CityPickerState extends State<CityPicker> {
                         behavior: HitTestBehavior.translucent,
                         onTap: () {
                           context.pop();
-                          AppGlobal.userCity.value =
-                              data[index].listData![index2].name!;
+                          AppGlobal.userCity.value = data[index].listData![index2].name!;
                         },
                       ),
                     );
                   },
-                  itemCount: data[index].listData!.isEmpty
-                      ? 0
-                      : data[index].listData!.length,
+                  itemCount: data[index].listData!.isEmpty ? 0 : data[index].listData!.length,
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
                 ),
@@ -507,16 +496,14 @@ class AlphaState extends State<Alpha> {
     return GestureDetector(
       behavior: HitTestBehavior.translucent,
       onVerticalDragDown: (DragDownDetails details) {
-        int touchOffset2Begin = ((details.localPosition.dy - pyPading) /
-                (widget.alphaItemSize! + (alphaPading * 2)))
-            .truncate();
+        int touchOffset2Begin =
+            ((details.localPosition.dy - pyPading) / (widget.alphaItemSize! + (alphaPading * 2))).truncate();
         String? tag = _getHitAlpha(touchOffset2Begin);
         _touchStartEvent(tag!);
       },
       onVerticalDragUpdate: (DragUpdateDetails details) {
-        int touchOffset2Begin = ((details.localPosition.dy - pyPading) /
-                (widget.alphaItemSize! + (alphaPading * 2)))
-            .truncate();
+        int touchOffset2Begin =
+            ((details.localPosition.dy - pyPading) / (widget.alphaItemSize! + (alphaPading * 2))).truncate();
         String? tag = _getHitAlpha(touchOffset2Begin);
         _touchMoveEvent(tag!);
       },
@@ -555,8 +542,7 @@ class CityIndexName extends StatelessWidget {
   }
 }
 
-CityListData cityListDataFromJson(String str) =>
-    CityListData.fromJson(json.decode(str));
+CityListData cityListDataFromJson(String str) => CityListData.fromJson(json.decode(str));
 
 String cityListDataToJson(CityListData data) => json.encode(data.toJson());
 

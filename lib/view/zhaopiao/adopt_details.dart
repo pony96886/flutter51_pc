@@ -6,7 +6,7 @@ import 'package:chaguaner2023/components/detail_ad.dart';
 import 'package:chaguaner2023/components/headerContainer.dart';
 import 'package:chaguaner2023/components/loading.dart';
 import 'package:chaguaner2023/components/networkErr.dart';
-import 'package:chaguaner2023/components/pagetitlebar.dart';
+import 'package:chaguaner2023/components/page_title_bar.dart';
 import 'package:chaguaner2023/store/homeConfig.dart';
 import 'package:chaguaner2023/store/sharedPreferences.dart';
 import 'package:chaguaner2023/theme/style_theme.dart';
@@ -643,11 +643,7 @@ class AdoptDetailPageState extends State<AdoptDetailPage> with TickerProviderSta
 
   Widget _detailHeader() {
     return Container(
-      padding: new EdgeInsets.only(
-        left: 15.5.w,
-        top: 15.w,
-        right: 15.5.w
-      ),
+      padding: new EdgeInsets.only(left: 15.5.w, top: 15.w, right: 15.5.w),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -669,7 +665,7 @@ class AdoptDetailPageState extends State<AdoptDetailPage> with TickerProviderSta
               // ),
               SizedBox(width: 5.w),
               Text(
-                verifyDetail!['fee'] !=0 ? '预约金${verifyDetail!['fee']}元宝' : '',
+                verifyDetail!['fee'] != 0 ? '预约金${verifyDetail!['fee']}元宝' : '',
                 style: TextStyle(fontSize: 12.sp, color: StyleTheme.cDangerColor),
               ),
             ],

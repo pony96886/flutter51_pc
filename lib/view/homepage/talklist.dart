@@ -5,7 +5,7 @@ import 'package:chaguaner2023/view/homepage/talk_list_page.dart';
 import 'package:extended_tabs/extended_tabs.dart';
 import 'package:chaguaner2023/components/headerContainer.dart';
 import 'package:chaguaner2023/components/loading.dart';
-import 'package:chaguaner2023/components/pagetitlebar.dart';
+import 'package:chaguaner2023/components/page_title_bar.dart';
 import 'package:chaguaner2023/theme/style_theme.dart';
 import 'package:chaguaner2023/utils/api.dart';
 import 'package:chaguaner2023/utils/common.dart';
@@ -17,8 +17,7 @@ class TalkListPage extends StatefulWidget {
   State<TalkListPage> createState() => _TalkListState();
 }
 
-class _TalkListState extends State<TalkListPage>
-    with SingleTickerProviderStateMixin {
+class _TalkListState extends State<TalkListPage> with SingleTickerProviderStateMixin {
   List<Map> tabs = [];
   ValueNotifier<List> categoryList = ValueNotifier([]);
   TabController? tabController;
@@ -57,9 +56,7 @@ class _TalkListState extends State<TalkListPage>
     return HeaderContainer(
         child: Scaffold(
       backgroundColor: Colors.transparent,
-      appBar: PreferredSize(
-          child: PageTitleBar(title: '茶老板日常尬谈'),
-          preferredSize: Size(double.infinity, 44.w)),
+      appBar: PreferredSize(child: PageTitleBar(title: '茶老板日常尬谈'), preferredSize: Size(double.infinity, 44.w)),
       body: loading
           ? Loading()
           : Column(
@@ -70,10 +67,8 @@ class _TalkListState extends State<TalkListPage>
                   tabs: tabs.map((e) => e['name'] as String).toList(),
                   textPadding: EdgeInsets.symmetric(horizontal: 12.5.w),
                   selectedIndex: tabController!.index,
-                  norTextStyle:
-                      TextStyle(color: StyleTheme.cTitleColor, fontSize: 15.sp),
-                  selTextStyle:
-                      TextStyle(color: StyleTheme.cTitleColor, fontSize: 16.sp),
+                  norTextStyle: TextStyle(color: StyleTheme.cTitleColor, fontSize: 15.sp),
+                  selTextStyle: TextStyle(color: StyleTheme.cTitleColor, fontSize: 16.sp),
                   indicatorStyle: NavIndicatorStyle.sys_fixed,
                 ),
                 Expanded(
@@ -88,8 +83,7 @@ class _TalkListState extends State<TalkListPage>
                             ),
                           ];
                         },
-                        body: TalkDataListPage(
-                            id: item['id']));
+                        body: TalkDataListPage(id: item['id']));
                   }).toList(),
                 ))
               ],

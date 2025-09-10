@@ -1,6 +1,6 @@
 import 'package:bot_toast/bot_toast.dart';
 import 'package:chaguaner2023/components/headerContainer.dart';
-import 'package:chaguaner2023/components/pagetitlebar.dart';
+import 'package:chaguaner2023/components/page_title_bar.dart';
 import 'package:chaguaner2023/theme/style_theme.dart';
 import 'package:chaguaner2023/utils/api.dart';
 import 'package:chaguaner2023/utils/common.dart';
@@ -17,8 +17,7 @@ class GirlWorkbenchPage extends StatefulWidget {
   _GirlWorkbenchPageState createState() => _GirlWorkbenchPageState();
 }
 
-class _GirlWorkbenchPageState extends State<GirlWorkbenchPage>
-    with TickerProviderStateMixin {
+class _GirlWorkbenchPageState extends State<GirlWorkbenchPage> with TickerProviderStateMixin {
   Function? callBack;
   int isWork = 0; //0 休息 1 工作
   int switchoff = 0; // 0 不开启  1 开启
@@ -56,13 +55,10 @@ class _GirlWorkbenchPageState extends State<GirlWorkbenchPage>
     }
     AppGlobal.girlParmas = {
       'editInfoData': pageData,
-      'editVideo':
-          pageData!['resources'].where((item) => item['type'] == 2).toList(),
-      'editImage':
-          pageData!['resources'].where((item) => item['type'] == 1).toList()
+      'editVideo': pageData!['resources'].where((item) => item['type'] == 2).toList(),
+      'editImage': pageData!['resources'].where((item) => item['type'] == 1).toList()
     };
-    AppGlobal.appRouter
-        ?.push(CommonUtils.getRealHash('chaGirlBaseInformation'));
+    AppGlobal.appRouter?.push(CommonUtils.getRealHash('chaGirlBaseInformation'));
   }
 
   @override
@@ -83,10 +79,7 @@ class _GirlWorkbenchPageState extends State<GirlWorkbenchPage>
                       margin: new EdgeInsets.only(right: 15.w),
                       child: Text(
                         '编辑资料',
-                        style: TextStyle(
-                            color: StyleTheme.cTitleColor,
-                            fontSize: 15.sp,
-                            fontWeight: FontWeight.w500),
+                        style: TextStyle(color: StyleTheme.cTitleColor, fontSize: 15.sp, fontWeight: FontWeight.w500),
                       ),
                     ),
                   )),
@@ -116,21 +109,16 @@ class _GirlWorkbenchPageState extends State<GirlWorkbenchPage>
                           // print(isWork);
                           setGirlWorkingStatus(isWork).then((res) {
                             if (res!['status'] != 0) {
-                              BotToast.showText(
-                                  text: '操作成功～', align: Alignment(0, 0));
+                              BotToast.showText(text: '操作成功～', align: Alignment(0, 0));
                             } else {
                               isWork = (isWork == 1) ? 0 : 1;
                               setState(() {});
-                              BotToast.showText(
-                                  text: res['msg'], align: Alignment(0, 0));
+                              BotToast.showText(text: res['msg'], align: Alignment(0, 0));
                             }
                           });
                         },
                         child: LocalPNG(
-                            url: 'assets/images/card/$workAssStr.png',
-                            width: 40.w,
-                            height: 20.w,
-                            fit: BoxFit.cover),
+                            url: 'assets/images/card/$workAssStr.png', width: 40.w, height: 20.w, fit: BoxFit.cover),
                       ))
                 ],
               ),
@@ -141,11 +129,7 @@ class _GirlWorkbenchPageState extends State<GirlWorkbenchPage>
               margin: EdgeInsets.only(top: 10.w),
               child: Stack(
                 children: [
-                  LocalPNG(
-                      width: 345.w,
-                      height: 70.w,
-                      url: 'assets/images/card/chatswitch.png',
-                      fit: BoxFit.cover),
+                  LocalPNG(width: 345.w, height: 70.w, url: 'assets/images/card/chatswitch.png', fit: BoxFit.cover),
                   Positioned(
                       top: 9.w,
                       right: 10.w,
@@ -165,10 +149,7 @@ class _GirlWorkbenchPageState extends State<GirlWorkbenchPage>
                           });
                         },
                         child: LocalPNG(
-                            url: 'assets/images/card/$switchStr.png',
-                            width: 40.w,
-                            height: 20.w,
-                            fit: BoxFit.cover),
+                            url: 'assets/images/card/$switchStr.png', width: 40.w, height: 20.w, fit: BoxFit.cover),
                       ))
                 ],
               ),

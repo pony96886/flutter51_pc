@@ -18,7 +18,7 @@ import 'package:chaguaner2023/utils/index.dart';
 import 'package:chaguaner2023/utils/local_png.dart';
 import 'package:chaguaner2023/utils/pageviewmixin.dart';
 import 'package:chaguaner2023/utils/sp_keys.dart';
-import 'package:chaguaner2023/view/homepage/minePages.dart';
+import 'package:chaguaner2023/view/mine/mine_page.dart';
 import 'package:chaguaner2023/view/homepage/squarePages.dart';
 import 'package:chaguaner2023/view/msg_list.dart';
 import 'package:chaguaner2023/view/yajian/elegantPages.dart';
@@ -1099,7 +1099,7 @@ class HomeState extends State<Home> {
                             child: MsgListPage(),
                           ),
                           PageViewMixin(
-                            child: MinePages(),
+                            child: MinePage(),
                           ),
                         ],
                       ),
