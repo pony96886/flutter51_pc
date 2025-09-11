@@ -8,7 +8,7 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter/widgets.dart' hide Key;
 import 'dart:ui' as ui;
 import 'package:chaguaner2023/utils/cache/image_load_async.dart'
-    if (dart.library.html) 'package:snsds/util/cache/image_load_async_web.dart';
+    if (dart.library.html) 'package:chaguaner2023/utils/cache/image_load_async_web.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:path_provider/path_provider.dart';
 part 'cache.g.dart';
