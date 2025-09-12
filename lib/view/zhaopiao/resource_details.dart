@@ -1197,23 +1197,19 @@ class ResourcesDetailState extends State<ResourcesDetailPage>
                                                 onTap: () {
                                                   if (verifyDetail?['status'] ==
                                                       4) {
-                                                    showBuy(
-                                                        '提示', '确定从解锁列表中删除该帖吗?',
-                                                        () {
-                                                      deleteUserBuy(widget.buyId
-                                                              .toString())
-                                                          .then((res) {
-                                                        if (res!['status'] !=
-                                                            0) {
-                                                          Navigator.of(context)
-                                                              .pop('delete');
-                                                          BotToast.showText(
-                                                              text:
-                                                                  '已成功从您的解锁列表中移除～',
-                                                              align: Alignment(
-                                                                  0, 0));
-                                                        }
-                                                      });
+                                                    CgDialog.cgShowDialog(
+                                                        context,
+                                                        '提示',
+                                                        '确定从解锁列表中删除该帖吗?',
+                                                        ['取消', '确定'],
+                                                        callBack: () {
+                                                      Navigator.of(context)
+                                                          .pop('delete');
+                                                      BotToast.showText(
+                                                          text:
+                                                              '已成功从您的解锁列表中移除～',
+                                                          align:
+                                                              Alignment(0, 0));
                                                     });
                                                   } else {
                                                     if (verifyDetail?[
@@ -1321,7 +1317,7 @@ class ResourcesDetailState extends State<ResourcesDetailPage>
     var exchange_ratio = Provider.of<HomeConfig>(context, listen: false)
             .data['exchange_ratio'] ??
         100;
-     var moneys = Provider.of<HomeConfig>(context, listen: false).member.money;
+    var moneys = Provider.of<HomeConfig>(context, listen: false).member.money;
     // print('0000000');
     // print(exchange_ratio);
     String yuanbaoStr = 'yuanbao';
@@ -1596,7 +1592,7 @@ class ResourcesDetailState extends State<ResourcesDetailPage>
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
                                   // money
-                                  Text( 
+                                  Text(
                                     '当前余额：${money}元宝',
                                     style: TextStyle(
                                         color: StyleTheme.cDangerColor,
@@ -2115,121 +2111,6 @@ class ResourcesDetailState extends State<ResourcesDetailPage>
     );
   }
 
-  // 购买茶帖弹框
-  Future<bool?> showBuy(String title, String content, Function callBack) {
-    return showDialog<bool>(
-      context: context,
-      barrierDismissible: true,
-      builder: (context) {
-        return Dialog(
-          backgroundColor: Colors.transparent,
-          child: Container(
-            width: 280.w,
-            padding: new EdgeInsets.symmetric(vertical: 15.w, horizontal: 25.w),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(20.0),
-            ),
-            child: Stack(
-              clipBehavior: Clip.none,
-              children: <Widget>[
-                Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[
-                    Center(
-                      child: Text(
-                        title,
-                        style: TextStyle(
-                            color: StyleTheme.cTitleColor,
-                            fontSize: 18.sp,
-                            fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                    Container(
-                        margin: new EdgeInsets.only(top: 20.w),
-                        child: Text(
-                          content,
-                          style: TextStyle(
-                              fontSize: 14.sp, color: StyleTheme.cTitleColor),
-                        )),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.of(context).pop();
-                          },
-                          child: Container(
-                            margin: new EdgeInsets.only(top: 30.w),
-                            height: 50.w,
-                            width: 110.w,
-                            child: Stack(
-                              children: [
-                                LocalPNG(
-                                  height: 50.w,
-                                  width: 110.w,
-                                  url: 'assets/images/mymony/money-img.png',
-                                ),
-                                Center(
-                                    child: Text(
-                                  '取消',
-                                  style: TextStyle(
-                                      fontSize: 15.sp, color: Colors.white),
-                                )),
-                              ],
-                            ),
-                          ),
-                        ),
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.of(context).pop();
-                            callBack();
-                          },
-                          child: Container(
-                            margin: new EdgeInsets.only(top: 30.w),
-                            height: 50.w,
-                            width: 110.w,
-                            child: Stack(
-                              children: [
-                                LocalPNG(
-                                  url: 'assets/images/mymony/money-img.png',
-                                  height: 50.w,
-                                  width: 110.w,
-                                ),
-                                Center(
-                                    child: Text(
-                                  '确定',
-                                  style: TextStyle(
-                                      fontSize: 15.sp, color: Colors.white),
-                                )),
-                              ],
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
-                  ],
-                ),
-                Positioned(
-                    right: 0,
-                    top: 0,
-                    child: GestureDetector(
-                        onTap: () {
-                          context.pop();
-                        },
-                        child: LocalPNG(
-                            url: 'assets/images/mymony/close.png',
-                            width: 30.w,
-                            height: 30.w,
-                            fit: BoxFit.cover)))
-              ],
-            ),
-          ),
-        );
-      },
-    );
-  }
-
   getState(int state) {
     String imgurl = '';
     if (state == 0) {
@@ -2412,40 +2293,46 @@ class ResourcesDetailState extends State<ResourcesDetailPage>
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Text(
-                      CommonUtils.getCgTime(
-                              int.parse(item['created_at'].toString())) +
-                          ' 发布',
-                      style: TextStyle(
-                        color: StyleTheme.cBioColor,
-                        fontSize: 12.sp,
-                      ),
-                    ),
-                    if (item['time_str'] != null && item['time_str'].trim().isNotEmpty)
-                        Padding(
-                          padding: EdgeInsets.only(left: 6.w),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Container(
-                                alignment: Alignment.center,
-                                height: 13.w,
-                                padding: EdgeInsets.symmetric(horizontal: 6.w),
-                                decoration: BoxDecoration(
-                                    gradient: LinearGradient(
-                                        colors: [Color.fromRGBO(255, 144, 0, 1), Color.fromRGBO(255, 194, 30, 1)]),
-                                    borderRadius: BorderRadius.only(
-                                      topLeft: Radius.circular(6.5.w),
-                                      bottomLeft: Radius.circular(6.5.w),
-                                      bottomRight: Radius.circular(6.5.w),
-                                    )),
-                                child: Text(
-                                  "${item['time_str']}",
-                                  style: TextStyle(color: Color.fromRGBO(248, 253, 255, 1), fontSize: 8.sp),
-                                ),
-                              )
-                            ],
+                          CommonUtils.getCgTime(
+                                  int.parse(item['created_at'].toString())) +
+                              ' 发布',
+                          style: TextStyle(
+                            color: StyleTheme.cBioColor,
+                            fontSize: 12.sp,
                           ),
                         ),
+                        if (item['time_str'] != null &&
+                            item['time_str'].trim().isNotEmpty)
+                          Padding(
+                            padding: EdgeInsets.only(left: 6.w),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Container(
+                                  alignment: Alignment.center,
+                                  height: 13.w,
+                                  padding:
+                                      EdgeInsets.symmetric(horizontal: 6.w),
+                                  decoration: BoxDecoration(
+                                      gradient: LinearGradient(colors: [
+                                        Color.fromRGBO(255, 144, 0, 1),
+                                        Color.fromRGBO(255, 194, 30, 1)
+                                      ]),
+                                      borderRadius: BorderRadius.only(
+                                        topLeft: Radius.circular(6.5.w),
+                                        bottomLeft: Radius.circular(6.5.w),
+                                        bottomRight: Radius.circular(6.5.w),
+                                      )),
+                                  child: Text(
+                                    "${item['time_str']}",
+                                    style: TextStyle(
+                                        color: Color.fromRGBO(248, 253, 255, 1),
+                                        fontSize: 8.sp),
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
                       ],
                     )
                   ],

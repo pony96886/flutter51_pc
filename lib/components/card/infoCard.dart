@@ -195,9 +195,23 @@ class _InfoCardState extends State<InfoCard> {
                         switch (widget.status) {
                           case 4:
                             showBuy('提示', '当前茶女郎已被经纪人删除,不能支付预约金哦～', 2);
+                            // 新的调用方式：
+                            // ShowBuyDialog.showWithType(
+                            //   context: context,
+                            //   title: '提示',
+                            //   content: '当前茶女郎已被经纪人删除,不能支付预约金哦～',
+                            //   type: 2,
+                            // );
                             break;
                           case 5:
                             showBuy('提示', '当前妹子不在线,不能支付预约金,请稍后再来吧～', 2);
+                            // 新的调用方式：
+                            // ShowBuyDialog.showWithType(
+                            //   context: context,
+                            //   title: '提示',
+                            //   content: '当前妹子不在线,不能支付预约金,请稍后再来吧～',
+                            //   type: 2,
+                            // );
                             break;
                           default:
                         }

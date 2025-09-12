@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:card_swiper/card_swiper.dart';
+import 'package:chaguaner2023/components/cgDialog.dart';
 import 'package:chaguaner2023/components/datetime/src/date_format.dart';
 import 'package:chaguaner2023/components/loading.dart';
 import 'package:chaguaner2023/model/getlotteryuserdetail.dart';
@@ -88,85 +89,6 @@ class _OneYuanSpringState extends State<OneYuanSpring> {
     }
   }
 
-  Future<bool?> showBuy(String title, String content, int type, [String? btnText]) {
-    return showDialog<bool>(
-      context: context,
-      barrierDismissible: true,
-      builder: (context) {
-        return Dialog(
-          backgroundColor: Colors.transparent,
-          child: Container(
-            width: CommonUtils.getWidth(560),
-            padding: new EdgeInsets.symmetric(vertical: CommonUtils.getWidth(30), horizontal: CommonUtils.getWidth(50)),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(20.0),
-            ),
-            child: Stack(
-              clipBehavior: Clip.none,
-              children: <Widget>[
-                Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[
-                    Center(
-                      child: Text(
-                        title,
-                        style: TextStyle(color: StyleTheme.cTitleColor, fontSize: 18.sp, fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                    Container(
-                        margin: new EdgeInsets.only(top: CommonUtils.getWidth(40)),
-                        child: Text(
-                          content,
-                          style: TextStyle(fontSize: 14.sp, color: StyleTheme.cTitleColor),
-                        )),
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.of(context).pop(true);
-                      },
-                      child: Container(
-                        margin: new EdgeInsets.only(top: CommonUtils.getWidth(60)),
-                        height: CommonUtils.getWidth(100),
-                        width: CommonUtils.getWidth(380),
-                        child: Stack(
-                          children: [
-                            LocalPNG(
-                              height: CommonUtils.getWidth(100),
-                              width: CommonUtils.getWidth(380),
-                              url: 'assets/images/mymony/money-img.png',
-                              fit: BoxFit.fill,
-                            ),
-                            Center(
-                                child: Text(
-                              btnText ?? '确定',
-                              style: TextStyle(fontSize: 15.sp, color: Colors.white),
-                            )),
-                          ],
-                        ),
-                      ),
-                    )
-                  ],
-                ),
-                Positioned(
-                  right: CommonUtils.getWidth(0),
-                  top: CommonUtils.getWidth(0),
-                  child: GestureDetector(
-                      onTap: () => Navigator.of(context).pop(),
-                      child: LocalPNG(
-                        width: CommonUtils.getWidth(60),
-                        height: CommonUtils.getWidth(60),
-                        fit: BoxFit.cover,
-                        url: 'assets/images/mymony/close.png',
-                      )),
-                ),
-              ],
-            ),
-          ),
-        );
-      },
-    );
-  }
-
   void freshData() {
     BotToast.showLoading();
     initData();
@@ -196,7 +118,8 @@ class _OneYuanSpringState extends State<OneYuanSpring> {
                                   width: 1.sw,
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
                                     children: [
                                       lotteryResultList.length > 0
                                           ? Container(
@@ -206,31 +129,54 @@ class _OneYuanSpringState extends State<OneYuanSpring> {
                                                 children: [
                                                   LocalPNG(
                                                     width: 1.sw,
-                                                    height: CommonUtils.getWidth(60),
-                                                    url: "assets/images/elegantroom/zhongjiang.png",
+                                                    height:
+                                                        CommonUtils.getWidth(
+                                                            60),
+                                                    url:
+                                                        "assets/images/elegantroom/zhongjiang.png",
                                                   ),
                                                   Swiper(
-                                                    itemCount: lotteryResultList.length,
-                                                    scrollDirection: Axis.vertical,
+                                                    itemCount: lotteryResultList
+                                                        .length,
+                                                    scrollDirection:
+                                                        Axis.vertical,
                                                     loop: true,
                                                     autoplay: true,
-                                                    itemBuilder: (BuildContext context, int index) {
-                                                      String nickname = lotteryResultList[index].nickname;
-                                                      String lotteryStr = lotteryResultList[index].title;
+                                                    itemBuilder:
+                                                        (BuildContext context,
+                                                            int index) {
+                                                      String nickname =
+                                                          lotteryResultList[
+                                                                  index]
+                                                              .nickname;
+                                                      String lotteryStr =
+                                                          lotteryResultList[
+                                                                  index]
+                                                              .title;
                                                       return Container(
                                                         width: 1.sw,
                                                         height: 30.w,
-                                                        alignment: Alignment.center,
+                                                        alignment:
+                                                            Alignment.center,
                                                         child: Text.rich(
                                                           TextSpan(
-                                                            style: TextStyle(fontSize: 12.sp, color: Colors.white),
+                                                            style: TextStyle(
+                                                                fontSize: 12.sp,
+                                                                color: Colors
+                                                                    .white),
                                                             children: [
                                                               TextSpan(
-                                                                text: '恭喜【' + nickname.toString() + '】抽中',
+                                                                text: '恭喜【' +
+                                                                    nickname
+                                                                        .toString() +
+                                                                    '】抽中',
                                                               ),
                                                               TextSpan(
-                                                                text: '$lotteryStr',
-                                                                style: TextStyle(color: Color(0xFFFFFF00)),
+                                                                text:
+                                                                    '$lotteryStr',
+                                                                style: TextStyle(
+                                                                    color: Color(
+                                                                        0xFFFFFF00)),
                                                               )
                                                             ],
                                                           ),
@@ -273,7 +219,8 @@ class _OneYuanSpringState extends State<OneYuanSpring> {
                   Positioned(
                     top: ScreenUtil().statusBarHeight,
                     child: Container(
-                      margin: EdgeInsets.only(top: ScreenUtil().statusBarHeight),
+                      margin:
+                          EdgeInsets.only(top: ScreenUtil().statusBarHeight),
                       width: 1.sw,
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -299,14 +246,17 @@ class _OneYuanSpringState extends State<OneYuanSpring> {
                             children: [
                               GestureDetector(
                                 onTap: () {
-                                  showBuy("玩法说明", note, 0, "我知道了");
+                                  CgDialog.cgShowDialog(
+                                      context, '玩法说明', note, ['我知道了'],
+                                      callBack: () {});
                                 },
                                 child: Container(
                                   width: CommonUtils.getWidth(196),
                                   height: CommonUtils.getWidth(65),
                                   margin: EdgeInsets.only(left: 20.0),
                                   child: LocalPNG(
-                                    url: "assets/images/elegantroom/right_menu.png",
+                                    url:
+                                        "assets/images/elegantroom/right_menu.png",
                                     width: CommonUtils.getWidth(196),
                                     height: CommonUtils.getWidth(65),
                                   ),
@@ -317,14 +267,17 @@ class _OneYuanSpringState extends State<OneYuanSpring> {
                               ),
                               GestureDetector(
                                 onTap: () {
-                                  AppGlobal.appRouter?.push(CommonUtils.getRealHash('selfWinningRecord'));
+                                  AppGlobal.appRouter?.push(
+                                      CommonUtils.getRealHash(
+                                          'selfWinningRecord'));
                                 },
                                 child: Container(
                                   width: CommonUtils.getWidth(196),
                                   height: CommonUtils.getWidth(65),
                                   margin: EdgeInsets.only(left: 20.0),
                                   child: LocalPNG(
-                                    url: "assets/images/elegantroom/icon_right_jilu.png",
+                                    url:
+                                        "assets/images/elegantroom/icon_right_jilu.png",
                                     width: CommonUtils.getWidth(196),
                                     height: CommonUtils.getWidth(65),
                                   ),
@@ -344,7 +297,9 @@ class CircletPlace extends StatefulWidget {
   final Datum? swiperitem;
   final Function? callback;
   final List<BetAmountItem> betAmountItem;
-  CircletPlace({Key? key, this.swiperitem, this.callback, required this.betAmountItem}) : super(key: key);
+  CircletPlace(
+      {Key? key, this.swiperitem, this.callback, required this.betAmountItem})
+      : super(key: key);
 
   @override
   _CircletPlaceState createState() => _CircletPlaceState();
@@ -479,7 +434,8 @@ class _CircletPlaceState extends State<CircletPlace> {
       );
       return;
     }
-    var result = await postLotteryAction(widget.swiperitem!.id!, yuanbao.text.toString());
+    var result = await postLotteryAction(
+        widget.swiperitem!.id!, yuanbao.text.toString());
     if (result!.status == 1) {
       CommonUtils.updateUserMoney(context, yuanbao.text.toString());
       BotToast.showText(text: "投入成功", align: Alignment.center);
@@ -502,7 +458,8 @@ class _CircletPlaceState extends State<CircletPlace> {
   }
 
   bool handleCurrentInvestment() {
-    return widget.swiperitem!.reward! - int.parse(widget.swiperitem!.currentInvestment.toString()) <
+    return widget.swiperitem!.reward! -
+            int.parse(widget.swiperitem!.currentInvestment.toString()) <
         widget.swiperitem!.minBetAmount!;
   }
 
@@ -539,23 +496,32 @@ class _CircletPlaceState extends State<CircletPlace> {
                           Padding(
                             padding: EdgeInsets.symmetric(vertical: 10.w),
                             child: Text(widget.swiperitem!.title!,
-                                style: TextStyle(fontSize: 23.sp, color: Colors.white, fontWeight: FontWeight.bold)),
+                                style: TextStyle(
+                                    fontSize: 23.sp,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold)),
                           ),
                           Text(
                             "当前目标",
-                            style: TextStyle(fontSize: 14.sp, color: Colors.white),
+                            style:
+                                TextStyle(fontSize: 14.sp, color: Colors.white),
                           ),
                           SizedBox(height: CommonUtils.getWidth(5)),
                           isFull
                               ? SizedBox(height: CommonUtils.getWidth(0))
                               : Text(
                                   "${widget.swiperitem!.currentInvestment}/${widget.swiperitem!.reward}",
-                                  style: TextStyle(fontSize: 24.sp, color: Colors.white),
+                                  style: TextStyle(
+                                      fontSize: 24.sp, color: Colors.white),
                                 ),
                           isFull
-                              ? Text("正在开奖", style: TextStyle(fontSize: 24.sp, color: Color(0xFFFFFF85)))
+                              ? Text("正在开奖",
+                                  style: TextStyle(
+                                      fontSize: 24.sp,
+                                      color: Color(0xFFFFFF85)))
                               : Container(
-                                  margin: EdgeInsets.only(top: CommonUtils.getWidth(10)),
+                                  margin: EdgeInsets.only(
+                                      top: CommonUtils.getWidth(10)),
                                   width: CommonUtils.getWidth(450),
                                   height: CommonUtils.getWidth(10),
                                   child: Stack(
@@ -565,15 +531,19 @@ class _CircletPlaceState extends State<CircletPlace> {
                                         height: CommonUtils.getWidth(10),
                                         decoration: BoxDecoration(
                                           color: Colors.white38,
-                                          borderRadius: BorderRadius.all(Radius.circular(8)),
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(8)),
                                         ),
                                       ),
                                       Container(
-                                        width: onprogress() / 100 * CommonUtils.getWidth(450),
+                                        width: onprogress() /
+                                            100 *
+                                            CommonUtils.getWidth(450),
                                         height: CommonUtils.getWidth(10),
                                         decoration: BoxDecoration(
                                           color: Color(0xFFFFFF85),
-                                          borderRadius: BorderRadius.all(Radius.circular(8)),
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(8)),
                                         ),
                                       ),
                                     ],
@@ -582,16 +552,19 @@ class _CircletPlaceState extends State<CircletPlace> {
                           SizedBox(height: CommonUtils.getWidth(10)),
                           Text(
                             widget.swiperitem!.desc!,
-                            style: TextStyle(fontSize: 11.sp, color: Colors.white70),
+                            style: TextStyle(
+                                fontSize: 11.sp, color: Colors.white70),
                           ),
                           SizedBox(height: CommonUtils.getWidth(20)),
                           GestureDetector(
                             onTap: () {
-                              AppGlobal.appRouter?.push(CommonUtils.getRealHash('winningRecord'));
+                              AppGlobal.appRouter?.push(
+                                  CommonUtils.getRealHash('winningRecord'));
                             },
                             child: Text(
                               "查看往期记录>",
-                              style: TextStyle(fontSize: 14.sp, color: Colors.white),
+                              style: TextStyle(
+                                  fontSize: 14.sp, color: Colors.white),
                             ),
                           )
                         ],
@@ -613,7 +586,8 @@ class _CircletPlaceState extends State<CircletPlace> {
                         ),
                         TextSpan(
                           text: '${widget.swiperitem!.myInvestment}',
-                          style: TextStyle(fontSize: 15.sp, fontWeight: FontWeight.bold),
+                          style: TextStyle(
+                              fontSize: 15.sp, fontWeight: FontWeight.bold),
                         ),
                         TextSpan(
                           text: ' 元宝',
@@ -641,12 +615,16 @@ class _CircletPlaceState extends State<CircletPlace> {
                   if (widget.swiperitem!.lastRewardUser!.thumb != null &&
                       widget.swiperitem!.lastRewardUser!.nickname != null)
                     Container(
-                      constraints: BoxConstraints(maxWidth: CommonUtils.getWidth(110)),
+                      constraints:
+                          BoxConstraints(maxWidth: CommonUtils.getWidth(110)),
                       height: CommonUtils.getWidth(40),
-                      padding: EdgeInsets.symmetric(horizontal: CommonUtils.getWidth(5)),
+                      padding: EdgeInsets.symmetric(
+                          horizontal: CommonUtils.getWidth(5)),
                       decoration: BoxDecoration(
                         color: Colors.white,
-                        borderRadius: BorderRadius.only(topRight: Radius.circular(5), bottomRight: Radius.circular(5)),
+                        borderRadius: BorderRadius.only(
+                            topRight: Radius.circular(5),
+                            bottomRight: Radius.circular(5)),
                       ),
                       alignment: Alignment.center,
                       child: Center(
@@ -655,14 +633,16 @@ class _CircletPlaceState extends State<CircletPlace> {
                           maxLines: 1,
                           softWrap: true,
                           overflow: TextOverflow.ellipsis,
-                          style: TextStyle(color: StyleTheme.cTitleColor, fontSize: 10.sp),
+                          style: TextStyle(
+                              color: StyleTheme.cTitleColor, fontSize: 10.sp),
                         ),
                       ),
                     ),
                 ],
               ),
               Container(
-                  margin: EdgeInsets.symmetric(vertical: CommonUtils.getWidth(20)),
+                  margin:
+                      EdgeInsets.symmetric(vertical: CommonUtils.getWidth(20)),
                   width: double.infinity,
                   height: 35.w,
                   decoration: BoxDecoration(
@@ -677,30 +657,42 @@ class _CircletPlaceState extends State<CircletPlace> {
                           flex: 1,
                           child: Container(
                               alignment: Alignment.center,
-                              padding: EdgeInsets.symmetric(horizontal: CommonUtils.getWidth(20)),
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: CommonUtils.getWidth(20)),
                               child: isFull
                                   ? Text(
                                       "开奖中，暂停投入",
-                                      style: TextStyle(color: StyleTheme.cBioColor, fontSize: 13.sp),
+                                      style: TextStyle(
+                                          color: StyleTheme.cBioColor,
+                                          fontSize: 13.sp),
                                     )
                                   : Row(
                                       children: [
                                         GestureDetector(
                                           onTap: () {
-                                            if (['', null, 0, "0"].contains(yuanbao.text)) {
+                                            if (['', null, 0, "0"]
+                                                .contains(yuanbao.text)) {
                                               setState(() {
-                                                yuanbao.text = widget.swiperitem!.minBetAmount!.toString();
+                                                yuanbao.text = widget
+                                                    .swiperitem!.minBetAmount!
+                                                    .toString();
                                               });
                                             } else {
-                                              if (int.parse(yuanbao.text) <= widget.swiperitem!.minBetAmount!) {
+                                              if (int.parse(yuanbao.text) <=
+                                                  widget.swiperitem!
+                                                      .minBetAmount!) {
                                                 setState(() {
-                                                  yuanbao.text = widget.swiperitem!.minBetAmount.toString();
+                                                  yuanbao.text = widget
+                                                      .swiperitem!.minBetAmount
+                                                      .toString();
                                                 });
                                               } else {
                                                 setState(() {
-                                                  yuanbao.text =
-                                                      (int.parse(yuanbao.text) - widget.swiperitem!.minBetAmount!)
-                                                          .toString();
+                                                  yuanbao.text = (int.parse(
+                                                              yuanbao.text) -
+                                                          widget.swiperitem!
+                                                              .minBetAmount!)
+                                                      .toString();
                                                 });
                                               }
                                             }
@@ -708,21 +700,28 @@ class _CircletPlaceState extends State<CircletPlace> {
                                           child: LocalPNG(
                                             width: CommonUtils.getWidth(40),
                                             height: CommonUtils.getWidth(40),
-                                            url: 'assets/images/elegantroom/reduce.png',
+                                            url:
+                                                'assets/images/elegantroom/reduce.png',
                                           ),
                                         ),
                                         Expanded(
                                             child: Container(
-                                                padding: EdgeInsets.symmetric(horizontal: CommonUtils.getWidth(10)),
+                                                padding: EdgeInsets.symmetric(
+                                                    horizontal:
+                                                        CommonUtils.getWidth(
+                                                            10)),
                                                 child: TextField(
-                                                  keyboardType: TextInputType.number,
+                                                  keyboardType:
+                                                      TextInputType.number,
                                                   textAlign: TextAlign.center,
                                                   controller: yuanbao,
                                                   decoration: InputDecoration(
                                                       isDense: true,
                                                       border: InputBorder.none,
-                                                      hintStyle:
-                                                          TextStyle(color: StyleTheme.cBioColor, fontSize: 14.sp),
+                                                      hintStyle: TextStyle(
+                                                          color: StyleTheme
+                                                              .cBioColor,
+                                                          fontSize: 14.sp),
                                                       hintText: "输入元宝"),
                                                 ))),
                                         GestureDetector(
@@ -730,12 +729,16 @@ class _CircletPlaceState extends State<CircletPlace> {
                                             // print(yuanbao.text);
                                             if (yuanbao.text == "") {
                                               setState(() {
-                                                yuanbao.text = widget.swiperitem!.minBetAmount.toString();
+                                                yuanbao.text = widget
+                                                    .swiperitem!.minBetAmount
+                                                    .toString();
                                               });
                                             } else {
                                               setState(() {
                                                 yuanbao.text =
-                                                    (int.parse(yuanbao.text) + widget.swiperitem!.minBetAmount!)
+                                                    (int.parse(yuanbao.text) +
+                                                            widget.swiperitem!
+                                                                .minBetAmount!)
                                                         .toString();
                                               });
                                             }
@@ -743,7 +746,8 @@ class _CircletPlaceState extends State<CircletPlace> {
                                           child: LocalPNG(
                                             width: CommonUtils.getWidth(40),
                                             height: CommonUtils.getWidth(40),
-                                            url: 'assets/images/elegantroom/add.png',
+                                            url:
+                                                'assets/images/elegantroom/add.png',
                                           ),
                                         ),
                                       ],
@@ -754,16 +758,20 @@ class _CircletPlaceState extends State<CircletPlace> {
                         },
                         child: Container(
                           alignment: Alignment.center,
-                          padding: EdgeInsets.symmetric(horizontal: CommonUtils.getWidth(50)),
+                          padding: EdgeInsets.symmetric(
+                              horizontal: CommonUtils.getWidth(50)),
                           height: double.infinity,
                           decoration: BoxDecoration(
                             color: Color(0xFFF83139),
-                            borderRadius:
-                                BorderRadius.only(topRight: Radius.circular(8), bottomRight: Radius.circular(8)),
+                            borderRadius: BorderRadius.only(
+                                topRight: Radius.circular(8),
+                                bottomRight: Radius.circular(8)),
                           ),
                           child: Center(
                               child: Text('投入元宝',
-                                  textAlign: TextAlign.center, style: TextStyle(color: Colors.white, fontSize: 12.sp))),
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 12.sp))),
                         ),
                       ),
                     ],
@@ -791,7 +799,8 @@ class _CircletPlaceState extends State<CircletPlace> {
                           itemBuilder: (context, index) {
                             return GestureDetector(
                               onTap: () {
-                                yuanbao.text = "${widget.betAmountItem[index].value ?? 0}";
+                                yuanbao.text =
+                                    "${widget.betAmountItem[index].value ?? 0}";
                               },
                               child: Row(
                                 mainAxisSize: MainAxisSize.min,
@@ -800,12 +809,16 @@ class _CircletPlaceState extends State<CircletPlace> {
                                     margin: EdgeInsets.only(right: 7.w),
                                     height: 21.w,
                                     alignment: Alignment.center,
-                                    padding: EdgeInsets.symmetric(horizontal: 12.w),
+                                    padding:
+                                        EdgeInsets.symmetric(horizontal: 12.w),
                                     decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(5.w), color: StyleTheme.cDangerColor),
+                                        borderRadius:
+                                            BorderRadius.circular(5.w),
+                                        color: StyleTheme.cDangerColor),
                                     child: Text(
                                       '${widget.betAmountItem[index].title}',
-                                      style: TextStyle(color: Colors.white, fontSize: 10.w),
+                                      style: TextStyle(
+                                          color: Colors.white, fontSize: 10.w),
                                     ),
                                   )
                                 ],
@@ -822,7 +835,9 @@ class _CircletPlaceState extends State<CircletPlace> {
                   Expanded(
                     child: Container(
                       child: Text('本期已有$userNumStr人参与',
-                          textAlign: TextAlign.left, style: TextStyle(color: Colors.white, fontSize: 12.sp)),
+                          textAlign: TextAlign.left,
+                          style:
+                              TextStyle(color: Colors.white, fontSize: 12.sp)),
                     ),
                   ),
                   GestureDetector(
@@ -830,7 +845,8 @@ class _CircletPlaceState extends State<CircletPlace> {
                       showCurrentInvestment(widget.swiperitem!.id!);
                     },
                     child: Text("投注记录>",
-                        textAlign: TextAlign.left, style: TextStyle(color: Colors.white, fontSize: 12.sp)),
+                        textAlign: TextAlign.left,
+                        style: TextStyle(color: Colors.white, fontSize: 12.sp)),
                   )
                 ],
               ),
@@ -892,15 +908,20 @@ class _LotteryRecordState extends State<LotteryRecord> {
               child: Text(
                 recordList[i].nickname!,
                 textDirection: TextDirection.ltr,
-                style: TextStyle(color: StyleTheme.cTitleColor, fontSize: 14.sp),
+                style:
+                    TextStyle(color: StyleTheme.cTitleColor, fontSize: 14.sp),
               ),
             ),
             Expanded(
               flex: 2,
               child: Text(
-                formatDate(recordList[i].createdAt, [yyyy, "-", mm, "-", dd, " ", HH, ":", nn], LocaleType.zhCN),
+                formatDate(
+                    recordList[i].createdAt,
+                    [yyyy, "-", mm, "-", dd, " ", HH, ":", nn],
+                    LocaleType.zhCN),
                 textAlign: TextAlign.right,
-                style: TextStyle(color: StyleTheme.cTitleColor, fontSize: 14.sp),
+                style:
+                    TextStyle(color: StyleTheme.cTitleColor, fontSize: 14.sp),
               ),
             ),
             Expanded(
@@ -908,7 +929,8 @@ class _LotteryRecordState extends State<LotteryRecord> {
               child: Text(
                 investmentStr + "元宝",
                 textDirection: TextDirection.rtl,
-                style: TextStyle(color: StyleTheme.cTitleColor, fontSize: 14.sp),
+                style:
+                    TextStyle(color: StyleTheme.cTitleColor, fontSize: 14.sp),
               ),
             ),
           ],
@@ -924,7 +946,8 @@ class _LotteryRecordState extends State<LotteryRecord> {
 
   void loaddingRecord() async {
     BotToast.showLoading();
-    var result = await getLotteryUserDetail(page: page, limit: limit, id: widget.lotteryId);
+    var result = await getLotteryUserDetail(
+        page: page, limit: limit, id: widget.lotteryId);
     BotToast.closeAllLoading();
     if (result!.status == 1) {
       setState(() {
@@ -938,7 +961,8 @@ class _LotteryRecordState extends State<LotteryRecord> {
 
   loaddingMoreData() async {
     BotToast.showLoading();
-    var result = await getLotteryUserDetail(page: page, limit: limit, id: widget.lotteryId);
+    var result = await getLotteryUserDetail(
+        page: page, limit: limit, id: widget.lotteryId);
     BotToast.closeAllLoading();
     if (result!.status == 1) {
       if (page == 1) {
@@ -982,7 +1006,8 @@ class _LotteryRecordState extends State<LotteryRecord> {
         alignment: Alignment.center,
         decoration: BoxDecoration(
             color: Colors.white,
-            borderRadius: BorderRadius.only(topLeft: Radius.circular(10), topRight: Radius.circular(10))),
+            borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(10), topRight: Radius.circular(10))),
         child: Stack(alignment: Alignment.center, children: <Widget>[
           Container(
               width: double.infinity,
@@ -997,7 +1022,8 @@ class _LotteryRecordState extends State<LotteryRecord> {
                     padding: EdgeInsets.only(bottom: CommonUtils.getWidth(25)),
                     child: Text(
                       "投注记录",
-                      style: TextStyle(color: StyleTheme.cTitleColor, fontSize: 18.sp),
+                      style: TextStyle(
+                          color: StyleTheme.cTitleColor, fontSize: 18.sp),
                     ),
                   ),
                   Expanded(
@@ -1008,22 +1034,30 @@ class _LotteryRecordState extends State<LotteryRecord> {
                           mainAxisSize: MainAxisSize.min,
                           children: <Widget>[
                             Container(
-                              padding: EdgeInsets.only(bottom: CommonUtils.getWidth(20)),
+                              padding: EdgeInsets.only(
+                                  bottom: CommonUtils.getWidth(20)),
                               child: Row(
                                 mainAxisSize: MainAxisSize.max,
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: <Widget>[
                                   Text(
                                     "投注用户",
-                                    style: TextStyle(color: StyleTheme.cBioColor, fontSize: 14.sp),
+                                    style: TextStyle(
+                                        color: StyleTheme.cBioColor,
+                                        fontSize: 14.sp),
                                   ),
                                   Text(
                                     "时间",
-                                    style: TextStyle(color: StyleTheme.cBioColor, fontSize: 14.sp),
+                                    style: TextStyle(
+                                        color: StyleTheme.cBioColor,
+                                        fontSize: 14.sp),
                                   ),
                                   Text(
                                     "金额",
-                                    style: TextStyle(color: StyleTheme.cBioColor, fontSize: 14.sp),
+                                    style: TextStyle(
+                                        color: StyleTheme.cBioColor,
+                                        fontSize: 14.sp),
                                   ),
                                 ],
                               ),
@@ -1033,25 +1067,32 @@ class _LotteryRecordState extends State<LotteryRecord> {
                                 ? Container(
                                     padding: EdgeInsets.only(
                                         top: CommonUtils.getWidth(20),
-                                        bottom: ScreenUtil().bottomBarHeight + CommonUtils.getWidth(20)),
+                                        bottom: ScreenUtil().bottomBarHeight +
+                                            CommonUtils.getWidth(20)),
                                     child: Text(
                                       "已经到底了",
-                                      style: TextStyle(fontSize: 14.sp, color: StyleTheme.cBioColor),
+                                      style: TextStyle(
+                                          fontSize: 14.sp,
+                                          color: StyleTheme.cBioColor),
                                     ),
                                   )
                                 : Container(
                                     padding: EdgeInsets.only(
                                         top: CommonUtils.getWidth(20),
-                                        bottom: ScreenUtil().bottomBarHeight + CommonUtils.getWidth(20)),
+                                        bottom: ScreenUtil().bottomBarHeight +
+                                            CommonUtils.getWidth(20)),
                                     child: Text(
                                       "加载中...",
-                                      style: TextStyle(fontSize: 14.sp, color: StyleTheme.cBioColor),
+                                      style: TextStyle(
+                                          fontSize: 14.sp,
+                                          color: StyleTheme.cBioColor),
                                     ),
                                   )
                           ],
                         ),
                       ),
-                      onNotification: (ScrollNotification scrollInfo) => _onScrollNotification(scrollInfo),
+                      onNotification: (ScrollNotification scrollInfo) =>
+                          _onScrollNotification(scrollInfo),
                     ),
                   ),
                 ],
@@ -1080,7 +1121,8 @@ class AvatarBox extends StatelessWidget {
   final double? commonValue;
   final double? circular;
   final dynamic type;
-  AvatarBox({Key? key, this.type, this.commonValue, this.circular}) : super(key: key);
+  AvatarBox({Key? key, this.type, this.commonValue, this.circular})
+      : super(key: key);
   @override
   Widget build(BuildContext context) {
     return ClipRRect(
@@ -1116,14 +1158,18 @@ class JoinUserItem extends StatelessWidget {
             Container(
               alignment: Alignment.center,
               height: CommonUtils.getWidth(60),
-              padding: EdgeInsets.symmetric(horizontal: CommonUtils.getWidth(10)),
+              padding:
+                  EdgeInsets.symmetric(horizontal: CommonUtils.getWidth(10)),
               decoration: BoxDecoration(
                 color: Colors.white,
-                borderRadius: BorderRadius.only(topRight: Radius.circular(8), bottomRight: Radius.circular(8)),
+                borderRadius: BorderRadius.only(
+                    topRight: Radius.circular(8),
+                    bottomRight: Radius.circular(8)),
               ),
               child: Text(
                 nickname!,
-                style: TextStyle(color: StyleTheme.cTitleColor, fontSize: 12.sp),
+                style:
+                    TextStyle(color: StyleTheme.cTitleColor, fontSize: 12.sp),
               ),
             )
           ],

@@ -330,6 +330,24 @@ class _ElegantCardState extends State<ElegantCard> {
                                                 })
                                               }
                                           });
+                                  // 新的调用方式：
+                                  // await ShowBuyDialog.showWithType(
+                                  //   context: context,
+                                  //   title: '删除茶女郎',
+                                  //   content: '确定要删除该茶女郎吗?',
+                                  //   type: 1,
+                                  // ).then((val) => {
+                                  //   if (val == true) {
+                                  //     deleteVipInfo(widget.cardInfo!['id'].toString()).then((res) {
+                                  //       if (res!['status'] != 0) {
+                                  //         widget.editCallBack!();
+                                  //         BotToast.showText(text: '茶女郎删除成功～', align: Alignment(0, 0));
+                                  //       } else {
+                                  //         BotToast.showText(text: res['msg'], align: Alignment(0, 0));
+                                  //       }
+                                  //     });
+                                  //   }
+                                  // });
                                 }
                               },
                               child: LocalPNG(
@@ -531,6 +549,24 @@ class _ElegantCardState extends State<ElegantCard> {
                                                     })
                                                   }
                                               });
+                                      // 新的调用方式：
+                                      // await ShowBuyDialog.showWithType(
+                                      //   context: context,
+                                      //   title: status + '架茶女郎',
+                                      //   content: '确定要' + status + '架该茶女郎吗?',
+                                      //   type: 1,
+                                      // ).then((val) => {
+                                      //   if (val == true) {
+                                      //     changeStatusVipInfo(widget.cardInfo!['id']).then((res) {
+                                      //       if (res!['status'] != 0) {
+                                      //         widget.editCallBack!();
+                                      //         BotToast.showText(text: '茶女郎' + status + '架成功～', align: Alignment(0, 0));
+                                      //       } else {
+                                      //         BotToast.showText(text: '操作失败,请稍后再试～', align: Alignment(0, 0));
+                                      //       }
+                                      //     });
+                                      //   }
+                                      // });
                                     },
                                     child: Container(
                                         margin: EdgeInsets.only(

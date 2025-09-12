@@ -82,11 +82,37 @@ class HomeState extends State<Home> {
   ];
 
   List navBarItem = [
-    {"title": "首页", "select": false, "activeIcon": "assets/images/nav/home.png", "tips": false},
-    {"title": "雅间", "select": false, "activeIcon": "assets/images/nav/elegent.png", "tips": false},
-    {"title": "消息", "select": false, "activeIcon": "assets/images/nav/megs.png", "tips": false, 'isMsg': 1},
-    {"title": "发布", "select": false, "activeIcon": "assets/images/nav/more.png", "tips": false},
-    {"title": "我的", "select": false, "activeIcon": "assets/images/nav/me.png", "tips": false}
+    {
+      "title": "首页",
+      "select": false,
+      "activeIcon": "assets/images/nav/home.png",
+      "tips": false
+    },
+    {
+      "title": "雅间",
+      "select": false,
+      "activeIcon": "assets/images/nav/elegent.png",
+      "tips": false
+    },
+    {
+      "title": "消息",
+      "select": false,
+      "activeIcon": "assets/images/nav/megs.png",
+      "tips": false,
+      'isMsg': 1
+    },
+    {
+      "title": "发布",
+      "select": false,
+      "activeIcon": "assets/images/nav/more.png",
+      "tips": false
+    },
+    {
+      "title": "我的",
+      "select": false,
+      "activeIcon": "assets/images/nav/me.png",
+      "tips": false
+    }
   ];
 
   getWebType(int h, int w, double r) {
@@ -114,8 +140,10 @@ class HomeState extends State<Home> {
         UserInfo.manageUuid = res['data']['agent_uuid_pos']['manage_uuid'];
         PersistentState.getState('vipkefu').then((value) {
           if (value == null || value == 'null') {
-            var vipkefu =
-                officaiCS.isNotEmpty ? officaiCS : UserInfo.kefuList![Random().nextInt(UserInfo.kefuList!.length)];
+            var vipkefu = officaiCS.isNotEmpty
+                ? officaiCS
+                : UserInfo
+                    .kefuList![Random().nextInt(UserInfo.kefuList!.length)];
             PersistentState.saveState('vipkefu', json.encode(vipkefu));
             UserInfo.officialUuid = vipkefu['uuid'];
             UserInfo.officialName = vipkefu['nickname'];
@@ -186,7 +214,9 @@ class HomeState extends State<Home> {
     _initPackageInfo();
     getMenuList().then((res) {
       if (res?['status'] != 0) {
-        curIndex = widget.page != null ? int.parse(widget.page!) : (res['data']['buttonTab'][0]['id'] == 1 ? 0 : 1);
+        curIndex = widget.page != null
+            ? int.parse(widget.page!)
+            : (res['data']['buttonTab'][0]['id'] == 1 ? 0 : 1);
         navBarItem[curIndex]['select'] = true;
         _selectedIndex = PageController(initialPage: curIndex);
         loading = false;
@@ -271,135 +301,6 @@ class HomeState extends State<Home> {
     }
   }
 
-  void showBuy(String title, String content, int type, {String? btnText, Function? onTap}) {
-    showDialog<bool>(
-      context: context,
-      barrierDismissible: true,
-      builder: (context) {
-        return Dialog(
-          backgroundColor: Colors.transparent,
-          child: Container(
-            width: 280.w,
-            padding: new EdgeInsets.symmetric(vertical: 15.w, horizontal: 25.w),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(20.0),
-            ),
-            child: Stack(
-              clipBehavior: Clip.none,
-              children: <Widget>[
-                Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[
-                    Center(
-                      child: Text(
-                        title,
-                        style: TextStyle(color: StyleTheme.cTitleColor, fontSize: 18.sp, fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                    Container(
-                        margin: new EdgeInsets.only(top: 20.w),
-                        child: Text(
-                          content,
-                          style: TextStyle(fontSize: 14.sp, color: StyleTheme.cTitleColor),
-                        )),
-                    type == 0
-                        ? GestureDetector(
-                            onTap: () => {
-                                  Navigator.of(context).pop(true),
-                                },
-                            child: GestureDetector(
-                              onTap: () {
-                                Navigator.of(context).pop();
-                                onTap!.call();
-                              },
-                              child: Container(
-                                margin: new EdgeInsets.only(top: 30.w),
-                                height: 50.w,
-                                width: 200.w,
-                                child: Stack(
-                                  children: [
-                                    LocalPNG(url: 'assets/images/mymony/money-img.png', fit: BoxFit.fill),
-                                    Center(
-                                        child: Text(
-                                      btnText ?? '去开通',
-                                      style: TextStyle(fontSize: 15.sp, color: Colors.white),
-                                    )),
-                                  ],
-                                ),
-                              ),
-                            ))
-                        : Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              GestureDetector(
-                                onTap: () {
-                                  Navigator.of(context).pop();
-                                },
-                                child: Container(
-                                  margin: new EdgeInsets.only(top: 30.w),
-                                  height: 50.w,
-                                  width: 110.w,
-                                  child: Stack(
-                                    children: [
-                                      LocalPNG(
-                                          height: 50.w,
-                                          width: 110.w,
-                                          url: 'assets/images/mymony/money-img.png',
-                                          fit: BoxFit.fill),
-                                      Center(
-                                          child: Text(
-                                        '取消',
-                                        style: TextStyle(fontSize: 15.w, color: Colors.white),
-                                      )),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                              GestureDetector(
-                                onTap: () {
-                                  Navigator.of(context).pop(true);
-                                },
-                                child: Container(
-                                  margin: new EdgeInsets.only(top: 30.w),
-                                  height: 50.w,
-                                  width: 110.w,
-                                  child: Stack(
-                                    children: [
-                                      LocalPNG(
-                                          height: 50.w,
-                                          width: 110.w,
-                                          url: 'assets/images/mymony/money-img.png',
-                                          fit: BoxFit.fill),
-                                      Center(
-                                          child: Text(
-                                        '确定',
-                                        style: TextStyle(fontSize: 15.sp, color: Colors.white),
-                                      )),
-                                    ],
-                                  ),
-                                ),
-                              )
-                            ],
-                          ),
-                  ],
-                ),
-                Positioned(
-                  right: 0,
-                  top: 0,
-                  child: GestureDetector(
-                      onTap: () => Navigator.of(context).pop(),
-                      child: LocalPNG(
-                          width: 30.w, height: 30.w, url: 'assets/images/mymony/close.png', fit: BoxFit.cover)),
-                )
-              ],
-            ),
-          ),
-        );
-      },
-    );
-  }
-
   void showPublish() {
     showModalBottomSheet(
         context: context,
@@ -408,8 +309,10 @@ class HomeState extends State<Home> {
             child: StatefulBuilder(builder: (context, state) {
               var profileDatas = Provider.of<GlobalState>(context).profileData;
               var agent = Provider.of<HomeConfig>(context).member.agent;
-              int tdFatieNum = (profileDatas?['max_store_post_num'] ?? 0) - (profileDatas?['now_store_post_num'] ?? 0);
-              int fatieNum = (profileDatas?['max_post_num'] ?? 0) - (profileDatas?['now_post_num'] ?? 0);
+              int tdFatieNum = (profileDatas?['max_store_post_num'] ?? 0) -
+                  (profileDatas?['now_store_post_num'] ?? 0);
+              int fatieNum = (profileDatas?['max_post_num'] ?? 0) -
+                  (profileDatas?['now_post_num'] ?? 0);
               return Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
@@ -425,25 +328,36 @@ class HomeState extends State<Home> {
                         children: <Widget>[
                           Container(
                             padding: EdgeInsets.only(
-                                top: 30.w, left: 25.w, right: 25.w, bottom: ScreenUtil().bottomBarHeight + 15.w),
+                                top: 30.w,
+                                left: 25.w,
+                                right: 25.w,
+                                bottom: ScreenUtil().bottomBarHeight + 15.w),
                             child: Column(
                               mainAxisSize: MainAxisSize.min,
                               children: <Widget>[
                                 GestureDetector(
                                   onTap: () {
                                     if (!CgPrivilege.getPrivilegeStatus(
-                                        PrivilegeType.infoStore, PrivilegeType.privilegeCreate)) {
+                                        PrivilegeType.infoStore,
+                                        PrivilegeType.privilegeCreate)) {
                                       return CommonUtils.showVipDialog(
-                                          context, PrivilegeType.infoStoreString + PrivilegeType.privilegeCreateString);
+                                          context,
+                                          PrivilegeType.infoStoreString +
+                                              PrivilegeType
+                                                  .privilegeCreateString);
                                     }
                                     AppGlobal.publishPostType = 0;
                                     if (showToolTip2) {
                                       Navigator.pop(context);
-                                      AppGlobal.appRouter?.push(CommonUtils.getRealHash('publishGuide'));
+                                      AppGlobal.appRouter?.push(
+                                          CommonUtils.getRealHash(
+                                              'publishGuide'));
                                       setToolTipState(2);
                                     } else {
                                       Navigator.pop(context);
-                                      AppGlobal.appRouter?.push(CommonUtils.getRealHash('publishPage/null'));
+                                      AppGlobal.appRouter?.push(
+                                          CommonUtils.getRealHash(
+                                              'publishPage/null'));
                                     }
                                     return;
                                   },
@@ -451,7 +365,9 @@ class HomeState extends State<Home> {
                                     width: double.infinity,
                                     height: 75.w,
                                     decoration: BoxDecoration(
-                                        color: Color(0xFFF5F5F5), borderRadius: BorderRadius.all(Radius.circular(5.w))),
+                                        color: Color(0xFFF5F5F5),
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(5.w))),
                                     child: Row(
                                       children: <Widget>[
                                         LocalPNG(
@@ -461,8 +377,10 @@ class HomeState extends State<Home> {
                                         ),
                                         SizedBox(width: 4.5.w),
                                         Column(
-                                          mainAxisAlignment: MainAxisAlignment.center,
-                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
                                           children: <Widget>[
                                             Text(
                                               "店家发布",
@@ -487,41 +405,61 @@ class HomeState extends State<Home> {
                                             width: 80.w,
                                             height: 75.w,
                                             decoration: BoxDecoration(
-                                                color: Color.fromRGBO(255, 225, 225, 1.0),
+                                                color: Color.fromRGBO(
+                                                    255, 225, 225, 1.0),
                                                 borderRadius: BorderRadius.all(
                                                   Radius.circular(5.w),
                                                 )),
                                             child: Stack(
                                               children: [
                                                 LocalPNG(
-                                                  url: "assets/images/v8/wenhao.png",
+                                                  url:
+                                                      "assets/images/v8/wenhao.png",
                                                   width: 25.w,
                                                   height: 25.w,
                                                 ),
                                                 Center(
-                                                  child: CgPrivilege.getPrivilegeStatus(
-                                                          PrivilegeType.infoStore, PrivilegeType.privilegeCreate)
+                                                  child: CgPrivilege
+                                                          .getPrivilegeStatus(
+                                                              PrivilegeType
+                                                                  .infoStore,
+                                                              PrivilegeType
+                                                                  .privilegeCreate)
                                                       ? Column(
-                                                          mainAxisAlignment: MainAxisAlignment.center,
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .center,
                                                           children: [
                                                             Text(
-                                                              (tdFatieNum < 0 ? 0 : tdFatieNum).toString(),
+                                                              (tdFatieNum < 0
+                                                                      ? 0
+                                                                      : tdFatieNum)
+                                                                  .toString(),
                                                               style: TextStyle(
-                                                                  color: StyleTheme.cTitleColor,
-                                                                  fontWeight: FontWeight.bold,
-                                                                  fontSize: 18.sp),
+                                                                  color: StyleTheme
+                                                                      .cTitleColor,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold,
+                                                                  fontSize:
+                                                                      18.sp),
                                                             ),
                                                             Text(
                                                               '剩余发帖次数',
                                                               style: TextStyle(
-                                                                  color: StyleTheme.cTextColor, fontSize: 10.sp),
+                                                                  color: StyleTheme
+                                                                      .cTextColor,
+                                                                  fontSize:
+                                                                      10.sp),
                                                             ),
                                                           ],
                                                         )
                                                       : Text(
                                                           '暂无发帖资格',
-                                                          style:
-                                                              TextStyle(color: StyleTheme.cTextColor, fontSize: 10.sp),
+                                                          style: TextStyle(
+                                                              color: StyleTheme
+                                                                  .cTextColor,
+                                                              fontSize: 10.sp),
                                                         ),
                                                 )
                                               ],
@@ -530,8 +468,9 @@ class HomeState extends State<Home> {
                                           onTap: () {
                                             Navigator.pop(context);
                                             AppGlobal.publishPostType = 0;
-                                            AppGlobal.appRouter
-                                                ?.push(CommonUtils.getRealHash('faTieCiShuShuoMingPage'));
+                                            AppGlobal.appRouter?.push(
+                                                CommonUtils.getRealHash(
+                                                    'faTieCiShuShuoMingPage'));
                                           },
                                         ),
                                       ],
@@ -542,25 +481,35 @@ class HomeState extends State<Home> {
                                 GestureDetector(
                                   onTap: () {
                                     if (!CgPrivilege.getPrivilegeStatus(
-                                        PrivilegeType.infoPersonal, PrivilegeType.privilegeCreate)) {
-                                      return CommonUtils.showVipDialog(context,
-                                          PrivilegeType.infoPersonalString + PrivilegeType.privilegeCreateString);
+                                        PrivilegeType.infoPersonal,
+                                        PrivilegeType.privilegeCreate)) {
+                                      return CommonUtils.showVipDialog(
+                                          context,
+                                          PrivilegeType.infoPersonalString +
+                                              PrivilegeType
+                                                  .privilegeCreateString);
                                     }
                                     AppGlobal.publishPostType = 1;
                                     if (showToolTip2) {
                                       Navigator.pop(context);
-                                      AppGlobal.appRouter?.push(CommonUtils.getRealHash('publishGuide'));
+                                      AppGlobal.appRouter?.push(
+                                          CommonUtils.getRealHash(
+                                              'publishGuide'));
                                       setToolTipState(2);
                                     } else {
                                       Navigator.pop(context);
-                                      AppGlobal.appRouter?.push(CommonUtils.getRealHash('publishPage/null'));
+                                      AppGlobal.appRouter?.push(
+                                          CommonUtils.getRealHash(
+                                              'publishPage/null'));
                                     }
                                   },
                                   child: Container(
                                     width: double.infinity,
                                     height: 75.w,
                                     decoration: BoxDecoration(
-                                        color: Color(0xFFF5F5F5), borderRadius: BorderRadius.all(Radius.circular(5.w))),
+                                        color: Color(0xFFF5F5F5),
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(5.w))),
                                     child: Row(
                                       children: <Widget>[
                                         LocalPNG(
@@ -570,8 +519,10 @@ class HomeState extends State<Home> {
                                         ),
                                         SizedBox(width: 4.5.w),
                                         Column(
-                                          mainAxisAlignment: MainAxisAlignment.center,
-                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
                                           children: <Widget>[
                                             Text(
                                               "个人分享",
@@ -596,41 +547,61 @@ class HomeState extends State<Home> {
                                             width: 80.w,
                                             height: 75.w,
                                             decoration: BoxDecoration(
-                                                color: Color.fromRGBO(255, 225, 225, 1.0),
+                                                color: Color.fromRGBO(
+                                                    255, 225, 225, 1.0),
                                                 borderRadius: BorderRadius.all(
                                                   Radius.circular(5.w),
                                                 )),
                                             child: Stack(
                                               children: [
                                                 LocalPNG(
-                                                  url: "assets/images/v8/wenhao.png",
+                                                  url:
+                                                      "assets/images/v8/wenhao.png",
                                                   width: 25.w,
                                                   height: 25.w,
                                                 ),
                                                 Center(
-                                                  child: CgPrivilege.getPrivilegeStatus(
-                                                          PrivilegeType.infoPersonal, PrivilegeType.privilegeCreate)
+                                                  child: CgPrivilege
+                                                          .getPrivilegeStatus(
+                                                              PrivilegeType
+                                                                  .infoPersonal,
+                                                              PrivilegeType
+                                                                  .privilegeCreate)
                                                       ? Column(
-                                                          mainAxisAlignment: MainAxisAlignment.center,
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .center,
                                                           children: [
                                                             Text(
-                                                              (fatieNum < 0 ? 0 : fatieNum).toString(),
+                                                              (fatieNum < 0
+                                                                      ? 0
+                                                                      : fatieNum)
+                                                                  .toString(),
                                                               style: TextStyle(
-                                                                  color: StyleTheme.cTitleColor,
-                                                                  fontWeight: FontWeight.bold,
-                                                                  fontSize: 18.sp),
+                                                                  color: StyleTheme
+                                                                      .cTitleColor,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold,
+                                                                  fontSize:
+                                                                      18.sp),
                                                             ),
                                                             Text(
                                                               '剩余发帖次数',
                                                               style: TextStyle(
-                                                                  color: StyleTheme.cTextColor, fontSize: 10.sp),
+                                                                  color: StyleTheme
+                                                                      .cTextColor,
+                                                                  fontSize:
+                                                                      10.sp),
                                                             ),
                                                           ],
                                                         )
                                                       : Text(
                                                           '暂无发帖资格',
-                                                          style:
-                                                              TextStyle(color: StyleTheme.cTextColor, fontSize: 10.sp),
+                                                          style: TextStyle(
+                                                              color: StyleTheme
+                                                                  .cTextColor,
+                                                              fontSize: 10.sp),
                                                         ),
                                                 )
                                               ],
@@ -639,8 +610,9 @@ class HomeState extends State<Home> {
                                           onTap: () {
                                             Navigator.pop(context);
                                             AppGlobal.publishPostType = 1;
-                                            AppGlobal.appRouter
-                                                ?.push(CommonUtils.getRealHash('faTieCiShuShuoMingPage'));
+                                            AppGlobal.appRouter?.push(
+                                                CommonUtils.getRealHash(
+                                                    'faTieCiShuShuoMingPage'));
                                           },
                                         ),
                                       ],
@@ -649,19 +621,28 @@ class HomeState extends State<Home> {
                                 ),
                                 SizedBox(height: 15.w),
                                 Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   children: <Widget>[
                                     Expanded(
                                       child: PublishMenuItem(
-                                        title: agent == 1 ? toWorkBroStr : clbrzStr,
-                                        image: agent == 1 ? toWorkAsseStr : bossruzhuStr,
+                                        title: agent == 1
+                                            ? toWorkBroStr
+                                            : clbrzStr,
+                                        image: agent == 1
+                                            ? toWorkAsseStr
+                                            : bossruzhuStr,
                                         onTap: () {
                                           if (agent == 1) {
                                             Navigator.pop(context);
-                                            AppGlobal.appRouter?.push(CommonUtils.getRealHash('workbenchPage'));
+                                            AppGlobal.appRouter?.push(
+                                                CommonUtils.getRealHash(
+                                                    'workbenchPage'));
                                           } else {
                                             Navigator.pop(context);
-                                            AppGlobal.appRouter?.push(CommonUtils.getRealHash('employmentIntroduce/1'));
+                                            AppGlobal.appRouter?.push(
+                                                CommonUtils.getRealHash(
+                                                    'employmentIntroduce/1'));
                                           }
                                         },
                                       ),
@@ -670,31 +651,42 @@ class HomeState extends State<Home> {
                                     Expanded(
                                         child: PublishMenuItem(
                                       title: agent == 2 ? teaTwStr : cxrrzStr,
-                                      image: agent == 2 ? teaTwAsseStr : cxrrzassS,
+                                      image:
+                                          agent == 2 ? teaTwAsseStr : cxrrzassS,
                                       onTap: () {
                                         Navigator.pop(context);
                                         agent == 2
-                                            ? AppGlobal.appRouter?.push(CommonUtils.getRealHash('xiaoerOser'))
-                                            : AppGlobal.appRouter
-                                                ?.push(CommonUtils.getRealHash('employmentIntroduce/2'));
+                                            ? AppGlobal.appRouter?.push(
+                                                CommonUtils.getRealHash(
+                                                    'xiaoerOser'))
+                                            : AppGlobal.appRouter?.push(
+                                                CommonUtils.getRealHash(
+                                                    'employmentIntroduce/2'));
                                       },
                                     ))
                                   ],
                                 ),
                                 SizedBox(height: 15.w),
                                 Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   children: <Widget>[
                                     Expanded(
                                         child: PublishMenuItem(
                                       title: agent == 5 ? teaGirlStr : cnlzmStr,
-                                      image: agent == 5 ? teaGirlAssetr : chagilrStra,
+                                      image: agent == 5
+                                          ? teaGirlAssetr
+                                          : chagilrStra,
                                       onTap: () {
                                         Navigator.pop(context, true);
                                         if (agent == 5) {
-                                          AppGlobal.appRouter?.push(CommonUtils.getRealHash('girlWorkbenchPage'));
+                                          AppGlobal.appRouter?.push(
+                                              CommonUtils.getRealHash(
+                                                  'girlWorkbenchPage'));
                                         } else {
-                                          AppGlobal.appRouter?.push(CommonUtils.getRealHash('employmentIntroduce/3'));
+                                          AppGlobal.appRouter?.push(
+                                              CommonUtils.getRealHash(
+                                                  'employmentIntroduce/3'));
                                         }
                                       },
                                     )),
@@ -710,12 +702,16 @@ class HomeState extends State<Home> {
                                         onTap: () {
                                           Navigator.pop(context);
                                           if (agent == 3 || agent == 4) {
-                                            context.push(CommonUtils.getRealHash('myTeaPost/2'));
+                                            context.push(
+                                                CommonUtils.getRealHash(
+                                                    'myTeaPost/2'));
                                             // AppGlobal.appRouter.push(
                                             //     CommonUtils.getRealHash(
                                             //         'postReviewPage'));
                                           } else {
-                                            AppGlobal.appRouter?.push(CommonUtils.getRealHash('employmentIntroduce/4'));
+                                            AppGlobal.appRouter?.push(
+                                                CommonUtils.getRealHash(
+                                                    'employmentIntroduce/4'));
                                           }
                                         },
                                       ),
@@ -763,7 +759,9 @@ class HomeState extends State<Home> {
     if (Provider.of<SignInConfig>(context, listen: false).show == false) return;
     if (version.must == 1 && needUpdate) {
       showUpdate(version.version!, version.tips!, version.apk!,
-          must: version.must!, showAnnouncementDialog: false, official: config.officeSite!);
+          must: version.must!,
+          showAnnouncementDialog: false,
+          official: config.officeSite!);
       return;
     }
     // 非强制更新 无公告 (关闭更新后弹出公告)
@@ -807,7 +805,10 @@ class HomeState extends State<Home> {
 
   // 更新提示
   void showUpdate(String version, String tips, String apkurl,
-      {int? must, String? message, bool? showAnnouncementDialog, String? official}) {
+      {int? must,
+      String? message,
+      bool? showAnnouncementDialog,
+      String? official}) {
     if (showUpdateStatus == true) return;
     UpdateModel.showUpdateDialog(backButtonBehavior, gowebsite: () {
       CommonUtils.launchURL(official!);
@@ -826,9 +827,11 @@ class HomeState extends State<Home> {
     }, confirm: () {
       Provider.of<SignInConfig>(context, listen: false).setShow(false);
       if (kIsWeb) {
-        CommonUtils.launchURL(Provider.of<HomeConfig>(context, listen: false).config.officeSite);
+        CommonUtils.launchURL(
+            Provider.of<HomeConfig>(context, listen: false).config.officeSite);
       } else {
-        UpdateModel.androidUpdate(backButtonBehavior, version: version, url: apkurl);
+        UpdateModel.androidUpdate(backButtonBehavior,
+            version: version, url: apkurl);
       }
     }, version: "茶馆儿v.$version", mustupdate: must == 1, text: '$tips');
     setState(() {
@@ -842,7 +845,9 @@ class HomeState extends State<Home> {
     bool isSelf = false;
     String oneStr = "1";
     String twoStr = "2";
-    isSelf = Provider.of<HomeConfig>(context, listen: false).data['all_agent_white'] == 0;
+    isSelf = Provider.of<HomeConfig>(context, listen: false)
+            .data['all_agent_white'] ==
+        0;
     UpdateModel.showAnnouncementDialog(
       backButtonBehavior,
       cancel: () {
@@ -873,28 +878,37 @@ class HomeState extends State<Home> {
         List keys = (res['data'] as Map).keys.toList();
         showExpired(int n) {
           if (_index > showLength - 1) return;
-          CgDialog.cgShowDialog(context, '温馨提示', res['data'][keys[_index]]['msg'], ['取消', '前往续费'], callBack: () {
+          CgDialog.cgShowDialog(
+              context, '温馨提示', res['data'][keys[_index]]['msg'], ['取消', '前往续费'],
+              callBack: () {
             switch (keys[_index]) {
               case '1': //会员到期提示
-                AppGlobal.appRouter?.push(CommonUtils.getRealHash('memberCardsPage'));
+                AppGlobal.appRouter
+                    ?.push(CommonUtils.getRealHash('memberCardsPage'));
                 break;
               case '2': //实习验茶师到期
-                AppGlobal.appRouter?.push(CommonUtils.getRealHash('employmentIntroduce/4'));
+                AppGlobal.appRouter
+                    ?.push(CommonUtils.getRealHash('employmentIntroduce/4'));
                 break;
               case '3': //商家认证到期
-                AppGlobal.appRouter?.push(CommonUtils.getRealHash('onlineServicePage'));
+                AppGlobal.appRouter
+                    ?.push(CommonUtils.getRealHash('onlineServicePage'));
                 break;
               case '4': //大厅经纪人到期提示
-                AppGlobal.appRouter?.push(CommonUtils.getRealHash('employmentIntroduce/2'));
+                AppGlobal.appRouter
+                    ?.push(CommonUtils.getRealHash('employmentIntroduce/2'));
                 break;
               case '5': //验茶师到期提示
-                AppGlobal.appRouter?.push(CommonUtils.getRealHash('employmentIntroduce/4'));
+                AppGlobal.appRouter
+                    ?.push(CommonUtils.getRealHash('employmentIntroduce/4'));
                 break;
               case '6': //雅间经纪人到期提示
-                AppGlobal.appRouter?.push(CommonUtils.getRealHash('employmentIntroduce/1'));
+                AppGlobal.appRouter
+                    ?.push(CommonUtils.getRealHash('employmentIntroduce/1'));
                 break;
               case '7': //茶女郎到期提示
-                AppGlobal.appRouter?.push(CommonUtils.getRealHash('employmentIntroduce/3'));
+                AppGlobal.appRouter
+                    ?.push(CommonUtils.getRealHash('employmentIntroduce/3'));
                 break;
               default:
             }
@@ -914,7 +928,8 @@ class HomeState extends State<Home> {
     showVerifyIdentityExpired();
     return;
     if (!kIsWeb) return;
-    final bool isInstall = (js.context.callMethod("getInstallValue") as String) == "1";
+    final bool isInstall =
+        (js.context.callMethod("getInstallValue") as String) == "1";
     final bool isSafari = js.context.callMethod("checkSafari") as bool;
     if (!isSafari && !isInstall) {
       showModalBottomSheet(
@@ -927,7 +942,9 @@ class HomeState extends State<Home> {
                 padding: EdgeInsets.symmetric(horizontal: StyleTheme.margin),
                 decoration: BoxDecoration(
                   color: Colors.white,
-                  borderRadius: BorderRadius.only(topRight: Radius.circular(5.w), topLeft: Radius.circular(5.w)),
+                  borderRadius: BorderRadius.only(
+                      topRight: Radius.circular(5.w),
+                      topLeft: Radius.circular(5.w)),
                 ),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
@@ -939,7 +956,9 @@ class HomeState extends State<Home> {
                         SizedBox(width: 20.w, height: 20.w),
                         Text(
                           "添加51品茶到主屏幕？[如已添加请忽略]",
-                          style: TextStyle(color: Color.fromRGBO(30, 30, 30, 1), fontSize: 14.sp),
+                          style: TextStyle(
+                              color: Color.fromRGBO(30, 30, 30, 1),
+                              fontSize: 14.sp),
                         ),
                         GestureDetector(
                           behavior: HitTestBehavior.translucent,
@@ -958,27 +977,39 @@ class HomeState extends State<Home> {
                     CommonUtils.getContentSpan(
                       "如无法正常添加到主屏幕，请下载最新版本的Google浏览器https://www.google.cn/intl/zh-CN/chrome，打开Google浏览器，输入本站网址000，点击右上角的【菜单】然后选择【添加到主屏幕】即可完成WEB版APP"
                           .replaceAll("000", html.window.location.href),
-                      style: TextStyle(fontSize: 12.sp, color: const Color.fromRGBO(255, 65, 73, 1)),
-                      lightStyle: TextStyle(fontSize: 12.sp, color: const Color.fromRGBO(25, 103, 210, 1)),
+                      style: TextStyle(
+                          fontSize: 12.sp,
+                          color: const Color.fromRGBO(255, 65, 73, 1)),
+                      lightStyle: TextStyle(
+                          fontSize: 12.sp,
+                          color: const Color.fromRGBO(25, 103, 210, 1)),
                     ),
                     SizedBox(height: 20.w),
                     GestureDetector(
                       behavior: HitTestBehavior.translucent,
                       onTap: () {
-                        final bool isDeferredNotNull = js.context.callMethod("isDeferredNotNull") as bool;
+                        final bool isDeferredNotNull =
+                            js.context.callMethod("isDeferredNotNull") as bool;
                         if (isDeferredNotNull) {
                           js.context.callMethod("presentAddToHome");
                         } else {
-                          CommonUtils.showText("当前浏览器不支持该功能，请使用Google浏览器添加到主屏幕或24小时后再操作", time: 2);
+                          CommonUtils.showText(
+                              "当前浏览器不支持该功能，请使用Google浏览器添加到主屏幕或24小时后再操作",
+                              time: 2);
                         }
                       },
                       child: Container(
                         decoration: BoxDecoration(
-                            color: StyleTheme.cDangerColor, borderRadius: BorderRadius.all(Radius.circular(3.w))),
-                        padding: EdgeInsets.symmetric(horizontal: StyleTheme.margin),
+                            color: StyleTheme.cDangerColor,
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(3.w))),
+                        padding:
+                            EdgeInsets.symmetric(horizontal: StyleTheme.margin),
                         height: 32.w,
                         alignment: Alignment.center,
-                        child: Text("添加到主屏幕", style: TextStyle(color: Colors.white, fontSize: 14.sp)),
+                        child: Text("添加到主屏幕",
+                            style: TextStyle(
+                                color: Colors.white, fontSize: 14.sp)),
                       ),
                     ),
                     SizedBox(height: 30.w),
@@ -995,7 +1026,8 @@ class HomeState extends State<Home> {
     int activeLength = AppGlobal.popAds.length - 1;
     int activeIndex = 0;
     showIndexActive(int index) {
-      UpdateModel.showAvtivetysDialog(backButtonBehavior, url: AppGlobal.popAds[index]['title'], cancel: () {
+      UpdateModel.showAvtivetysDialog(backButtonBehavior,
+          url: AppGlobal.popAds[index]['title'], cancel: () {
         activeIndex++;
         if (activeIndex <= activeLength) {
           showIndexActive(activeIndex);
@@ -1003,7 +1035,8 @@ class HomeState extends State<Home> {
           checkUpdateAnnouncement(version, config);
         }
       }, confirm: () {
-        _onTapSwiper(AppGlobal.popAds[index]['type'], AppGlobal.popAds[index]['content']);
+        _onTapSwiper(AppGlobal.popAds[index]['type'],
+            AppGlobal.popAds[index]['content']);
         popAdsChick(AppGlobal.popAds[index]['id'].toString());
         activeIndex++;
         if (activeIndex <= activeLength) {
@@ -1032,7 +1065,8 @@ class HomeState extends State<Home> {
       AppGlobal.appRouter?.push(CommonUtils.getRealHash('$_adsUrl'));
     } else if (types == "2") {
       // WebViewPage
-      AppGlobal.appRouter?.push(CommonUtils.getRealHash('activityPage/${Uri.encodeComponent(urls)}'));
+      AppGlobal.appRouter?.push(
+          CommonUtils.getRealHash('activityPage/${Uri.encodeComponent(urls)}'));
     } else if (types == "3") {
       // 外部浏览器
       CommonUtils.launchURL(urls);
@@ -1041,7 +1075,8 @@ class HomeState extends State<Home> {
       CommonUtils.launchURL("$_adsUrl");
     } else if (types == "5") {
       // WebViewPage
-      AppGlobal.appRouter?.push(CommonUtils.getRealHash('activityPage/${Uri.encodeComponent(_adsUrl)}'));
+      AppGlobal.appRouter?.push(CommonUtils.getRealHash(
+          'activityPage/${Uri.encodeComponent(_adsUrl)}'));
     }
   }
 
@@ -1077,7 +1112,8 @@ class HomeState extends State<Home> {
               : Stack(
                   children: <Widget>[
                     Container(
-                      padding: EdgeInsets.only(bottom: ScreenUtil().bottomBarHeight),
+                      padding:
+                          EdgeInsets.only(bottom: ScreenUtil().bottomBarHeight),
                       height: double.infinity,
                       child: PageView(
                         physics: NeverScrollableScrollPhysics(),
@@ -1111,7 +1147,9 @@ class HomeState extends State<Home> {
                         bottom: 0,
                         child: Container(
                           width: 1.sw,
-                          height: 64.w + ScreenUtil().bottomBarHeight / 2 + AppGlobal.webBottomHeight,
+                          height: 64.w +
+                              ScreenUtil().bottomBarHeight / 2 +
+                              AppGlobal.webBottomHeight,
                           child: Stack(
                             children: [
                               Positioned(
@@ -1120,7 +1158,9 @@ class HomeState extends State<Home> {
                                   bottom: 0,
                                   child: LocalPNG(
                                       width: double.infinity,
-                                      height: 64.w + ScreenUtil().bottomBarHeight / 2 + AppGlobal.webBottomHeight,
+                                      height: 64.w +
+                                          ScreenUtil().bottomBarHeight / 2 +
+                                          AppGlobal.webBottomHeight,
                                       url: "assets/images/nav/navbg2.png",
                                       fit: BoxFit.cover)),
                               Column(
@@ -1130,21 +1170,31 @@ class HomeState extends State<Home> {
                                   Expanded(child: SizedBox()),
                                   Container(
                                     padding: EdgeInsets.only(
-                                        bottom: ScreenUtil().bottomBarHeight / 2 + 5.5.w + AppGlobal.webBottomHeight),
+                                        bottom:
+                                            ScreenUtil().bottomBarHeight / 2 +
+                                                5.5.w +
+                                                AppGlobal.webBottomHeight),
                                     child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceAround,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
                                       children: navBarItem
                                           .asMap()
                                           .keys
                                           .map((key) => NavBarItem(
-                                                isMsg: navBarItem[key]['isMsg'] != null,
+                                                isMsg: navBarItem[key]
+                                                        ['isMsg'] !=
+                                                    null,
                                                 title: navBarItem[key]['title'],
-                                                image: navBarItem[key]['activeIcon'],
-                                                select: navBarItem[key]['select'],
+                                                image: navBarItem[key]
+                                                    ['activeIcon'],
+                                                select: navBarItem[key]
+                                                    ['select'],
                                                 tips: navBarItem[key]['tips'],
                                                 onTap: () {
-                                                  if (!navBarItem[key]['select']) {
+                                                  if (!navBarItem[key]
+                                                      ['select']) {
                                                     _onItemTapped(key);
                                                   }
                                                 },
@@ -1216,7 +1266,14 @@ class NavBarItem extends StatelessWidget {
   final bool? isMsg;
   final GestureTapCallback? onTap;
 
-  const NavBarItem({Key? key, this.image, this.title, this.onTap, this.select, this.tips, this.isMsg = false})
+  const NavBarItem(
+      {Key? key,
+      this.image,
+      this.title,
+      this.onTap,
+      this.select,
+      this.tips,
+      this.isMsg = false})
       : super(key: key);
 
   @override
@@ -1258,8 +1315,9 @@ class NavBarItem extends StatelessWidget {
                             : Container(
                                 width: 6.w,
                                 height: 6.w,
-                                decoration:
-                                    BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(3.w)),
+                                decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(3.w)),
                                 // child: Text(
                                 //   value.toString(),
                                 //   style: TextStyle(
@@ -1279,7 +1337,8 @@ class PublishMenuItem extends StatelessWidget {
   final String? title;
   final GestureTapCallback? onTap;
 
-  const PublishMenuItem({Key? key, this.image, this.title, this.onTap}) : super(key: key);
+  const PublishMenuItem({Key? key, this.image, this.title, this.onTap})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -1288,7 +1347,9 @@ class PublishMenuItem extends StatelessWidget {
       onTap: onTap,
       child: Container(
         padding: EdgeInsets.symmetric(vertical: 2.5.w, horizontal: 10.w),
-        decoration: BoxDecoration(color: Color(0xFFF5F5F5), borderRadius: BorderRadius.all(Radius.circular(5.w))),
+        decoration: BoxDecoration(
+            color: Color(0xFFF5F5F5),
+            borderRadius: BorderRadius.all(Radius.circular(5.w))),
         child: Row(
           children: <Widget>[
             LocalPNG(
@@ -1301,7 +1362,10 @@ class PublishMenuItem extends StatelessWidget {
             ),
             Text(
               title!,
-              style: TextStyle(fontSize: 14.sp, color: StyleTheme.cTitleColor, fontWeight: FontWeight.bold),
+              style: TextStyle(
+                  fontSize: 14.sp,
+                  color: StyleTheme.cTitleColor,
+                  fontWeight: FontWeight.bold),
             )
           ],
         ),

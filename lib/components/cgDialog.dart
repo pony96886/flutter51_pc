@@ -4,12 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CgDialog {
-  static Future<dynamic> cgShowDialog(
-      BuildContext context, String title, String content, List btnText,
-      {Function? callBack,
-      num width = 280,
-      Widget? contentWidget,
-      Function? onClose}) {
+  static Future<dynamic> cgShowDialog(BuildContext context, String title, String content, List btnText,
+      {Function? callBack, num width = 280, Widget? contentWidget, Function? onClose}) {
     return showDialog<dynamic>(
       context: context,
       barrierDismissible: true,
@@ -29,118 +25,107 @@ class CgDialog {
                 Column(
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
-                    Center(
-                      child: Text(
-                        title,
-                        style: TextStyle(
-                            color: StyleTheme.cTitleColor,
-                            fontSize: 18.sp,
-                            fontWeight: FontWeight.bold),
+                    if (title.isNotEmpty)
+                      Center(
+                        child: Text(
+                          title,
+                          style: TextStyle(color: StyleTheme.cTitleColor, fontSize: 18.sp, fontWeight: FontWeight.bold),
+                        ),
                       ),
-                    ),
                     contentWidget != null
                         ? contentWidget
                         : Container(
                             margin: new EdgeInsets.only(top: 20.w),
                             child: Text(
                               content,
-                              style: TextStyle(
-                                  fontSize: 14.sp,
-                                  color: StyleTheme.cTitleColor),
+                              style: TextStyle(fontSize: 14.sp, color: StyleTheme.cTitleColor),
                             )),
-                    btnText.length == 1
-                        ? Center(
-                            child: GestureDetector(
-                              onTap: () {
-                                if (callBack == null) {
-                                  Navigator.of(context).pop();
-                                } else {
-                                  Navigator.of(context).pop();
-                                  callBack();
-                                }
-                              },
-                              child: Container(
-                                  margin: EdgeInsets.only(top: 20.w),
-                                  width: 200.w,
-                                  height: 50.w,
-                                  child: Stack(
-                                    children: [
-                                      LocalPNG(
-                                          width: 200.w,
-                                          height: 50.w,
-                                          url:
-                                              'assets/images/mymony/money-img.png',
-                                          fit: BoxFit.fill),
-                                      Center(
-                                        child: Text(
-                                          btnText[0],
-                                          style: TextStyle(
-                                              fontSize: 15.sp,
-                                              color: Colors.white),
-                                        ),
-                                      ),
-                                    ],
-                                  )),
-                            ),
-                          )
-                        : Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              GestureDetector(
-                                onTap: () {
-                                  Navigator.of(context).pop();
-                                },
-                                child: Container(
-                                    margin: new EdgeInsets.only(top: 30.w),
-                                    height: 50.w,
-                                    width: 110.w,
-                                    child: Stack(
-                                      children: [
-                                        LocalPNG(
-                                            height: 50.w,
-                                            width: 110.w,
-                                            url:
-                                                'assets/images/mymony/money-img.png',
-                                            fit: BoxFit.fill),
-                                        Center(
+                    btnText.length == 0
+                        ? Container()
+                        : btnText.length == 1
+                            ? Center(
+                                child: GestureDetector(
+                                  onTap: () {
+                                    if (callBack == null) {
+                                      Navigator.of(context).pop();
+                                    } else {
+                                      Navigator.of(context).pop();
+                                      callBack();
+                                    }
+                                  },
+                                  child: Container(
+                                      margin: EdgeInsets.only(top: 20.w),
+                                      width: 200.w,
+                                      height: 50.w,
+                                      child: Stack(
+                                        children: [
+                                          LocalPNG(
+                                              width: 200.w,
+                                              height: 50.w,
+                                              url: 'assets/images/mymony/money-img.png',
+                                              fit: BoxFit.fill),
+                                          Center(
                                             child: Text(
-                                          btnText[0],
-                                          style: TextStyle(
-                                              fontSize: 15.sp,
-                                              color: Colors.white),
-                                        )),
-                                      ],
-                                    )),
-                              ),
-                              GestureDetector(
-                                onTap: () {
-                                  Navigator.of(context).pop();
-                                  callBack!();
-                                },
-                                child: Container(
-                                    margin: new EdgeInsets.only(top: 30.w),
-                                    height: 50.w,
-                                    width: 110.w,
-                                    child: Stack(
-                                      children: [
-                                        LocalPNG(
-                                            height: 50.w,
-                                            width: 110.w,
-                                            url:
-                                                'assets/images/mymony/money-img.png',
-                                            fit: BoxFit.fill),
-                                        Center(
-                                            child: Text(
-                                          btnText[1],
-                                          style: TextStyle(
-                                              fontSize: 15.sp,
-                                              color: Colors.white),
-                                        )),
-                                      ],
-                                    )),
+                                              btnText[0],
+                                              style: TextStyle(fontSize: 15.sp, color: Colors.white),
+                                            ),
+                                          ),
+                                        ],
+                                      )),
+                                ),
                               )
-                            ],
-                          ),
+                            : Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: <Widget>[
+                                  GestureDetector(
+                                    onTap: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                    child: Container(
+                                        margin: new EdgeInsets.only(top: 30.w),
+                                        height: 50.w,
+                                        width: 110.w,
+                                        child: Stack(
+                                          children: [
+                                            LocalPNG(
+                                                height: 50.w,
+                                                width: 110.w,
+                                                url: 'assets/images/mymony/money-img.png',
+                                                fit: BoxFit.fill),
+                                            Center(
+                                                child: Text(
+                                              btnText[0],
+                                              style: TextStyle(fontSize: 15.sp, color: Colors.white),
+                                            )),
+                                          ],
+                                        )),
+                                  ),
+                                  GestureDetector(
+                                    onTap: () {
+                                      Navigator.of(context).pop();
+                                      callBack!();
+                                    },
+                                    child: Container(
+                                        margin: new EdgeInsets.only(top: 30.w),
+                                        height: 50.w,
+                                        width: 110.w,
+                                        child: Stack(
+                                          children: [
+                                            LocalPNG(
+                                                height: 50.w,
+                                                width: 110.w,
+                                                url: 'assets/images/mymony/money-img.png',
+                                                fit: BoxFit.fill),
+                                            Center(
+                                                child: Text(
+                                              btnText[1],
+                                              style: TextStyle(fontSize: 15.sp, color: Colors.white),
+                                            )),
+                                          ],
+                                        )),
+                                  )
+                                ],
+                              ),
                   ],
                 ),
                 Positioned(
@@ -149,10 +134,7 @@ class CgDialog {
                   child: GestureDetector(
                       onTap: () => Navigator.of(context).pop(),
                       child: LocalPNG(
-                          width: 30.w,
-                          height: 30.w,
-                          url: 'assets/images/mymony/close.png',
-                          fit: BoxFit.cover)),
+                          width: 30.w, height: 30.w, url: 'assets/images/mymony/close.png', fit: BoxFit.cover)),
                 )
               ],
             ),

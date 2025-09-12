@@ -1,6 +1,7 @@
 import 'package:bot_toast/bot_toast.dart';
 import 'package:card_swiper/card_swiper.dart';
 import 'package:chaguaner2023/components/avatar_widget.dart';
+import 'package:chaguaner2023/components/cgDialog.dart';
 import 'package:chaguaner2023/components/headerContainer.dart';
 import 'package:chaguaner2023/components/loading.dart';
 import 'package:chaguaner2023/components/page_title_bar.dart';
@@ -20,12 +21,16 @@ import 'package:provider/provider.dart';
 
 import '../utils/cache/image_net_tool.dart';
 
+// class ReportDetails extends StatefulWidget {
+
 class ReportDetailPage extends StatefulWidget {
   final int? id;
   final String? infoId;
   final bool? isDetail;
+
   ReportDetailPage({Key? key, this.id, this.infoId, this.isDetail = false})
       : super(key: key);
+
   @override
   State<StatefulWidget> createState() => ReportDetailPageState();
 }
@@ -128,7 +133,10 @@ class ReportDetailPageState extends State<ReportDetailPage> {
   //购买
   _buy() {
     if (money < priceNum) {
-      showBuy('提示', '您的元宝余额不足,是否去充值?', 1);
+      CgDialog.cgShowDialog(context, '提示', '您的元宝余额不足,是否去充值?', ["去充值"],
+          callBack: () {
+        AppGlobal.appRouter?.push(CommonUtils.getRealHash('memberCardsPage'));
+      });
     } else {
       _payment();
     }
@@ -308,9 +316,15 @@ class ReportDetailPageState extends State<ReportDetailPage> {
                                 GestureDetector(
                                   onTap: () {
                                     if (freeUnlockNum > 0) {
-                                      showBuy(
+                                      CgDialog.cgShowDialog(
+                                          context,
                                           '免费解锁',
-                                          Text.rich(
+                                          '',
+                                          [
+                                            "取消",
+                                            freeUnlockNum > 0 ? '免费解锁' : '确认支付'
+                                          ],
+                                          contentWidget: Text.rich(
                                             TextSpan(
                                               text: '剩余',
                                               children: [
@@ -328,14 +342,23 @@ class ReportDetailPageState extends State<ReportDetailPage> {
                                             style: TextStyle(
                                                 fontSize: 14.sp,
                                                 color: StyleTheme.cTitleColor),
-                                          ),
-                                          0);
+                                          ), callBack: () {
+                                        Navigator.of(context).pop();
+                                        _payment();
+                                      });
+
                                       return;
                                     }
-                                    ;
-                                    showBuy(
+
+                                    CgDialog.cgShowDialog(
+                                        context,
                                         '确认打赏',
-                                        Column(
+                                        '',
+                                        [
+                                          "取消",
+                                          freeUnlockNum > 0 ? '免费解锁' : '确认支付'
+                                        ],
+                                        contentWidget: Column(
                                           children: [
                                             Text.rich(TextSpan(
                                               text: '支持茶友需要支付',
@@ -398,9 +421,11 @@ class ReportDetailPageState extends State<ReportDetailPage> {
                                                       )));
                                                 }))
                                           ],
-                                        ),
-                                        // '预约妹子需要支付${verifyDetail.fee}元宝，未确认前可全额退款支付前请联系经纪人确认见面细节',
-                                        0);
+                                        ), callBack: () {
+                                      Navigator.of(context).pop();
+                                      _payment();
+                                    });
+
                                     return;
                                   },
                                   child: Container(
@@ -551,150 +576,6 @@ class ReportDetailPageState extends State<ReportDetailPage> {
             ),
           )
         : Container();
-  }
-
-  // 购买茶帖弹框
-  Future<bool?> showBuy(String title, dynamic content, int type) {
-    String toPayStr = '确认支付';
-    String toChargess = '去充值';
-    String ikonwss = '朕知道了';
-    String tipss = type == 1 ? toChargess : toPayStr;
-    if (freeUnlockNum > 0) {
-      tipss = '免费解锁';
-    }
-    return showDialog<bool>(
-      context: context,
-      barrierDismissible: false,
-      builder: (context) {
-        return Dialog(
-          backgroundColor: Colors.transparent,
-          child: Container(
-            width: 300.w,
-            padding: new EdgeInsets.symmetric(vertical: 15.w, horizontal: 25.w),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(20.0),
-            ),
-            child: Stack(
-              clipBehavior: Clip.none,
-              children: <Widget>[
-                Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[
-                    Center(
-                      child: Text(
-                        title,
-                        style: TextStyle(
-                            color: StyleTheme.cTitleColor,
-                            fontSize: 18.sp,
-                            fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                    Container(
-                        margin: new EdgeInsets.only(top: 20.w),
-                        child: (content is String)
-                            ? Text(
-                                content,
-                                style: TextStyle(
-                                    fontSize: 14.sp,
-                                    color: StyleTheme.cTitleColor),
-                              )
-                            : content),
-                    GestureDetector(
-                      onTap: () => {
-                        Navigator.of(context).pop(true),
-                      },
-                      child: Container(
-                          child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          GestureDetector(
-                            onTap: () {
-                              Navigator.of(context).pop();
-                            },
-                            child: Container(
-                              margin: new EdgeInsets.only(top: 30.w),
-                              height: 50.w,
-                              width: 110.w,
-                              child: Stack(
-                                children: [
-                                  LocalPNG(
-                                      url: 'assets/images/mymony/money-img.png',
-                                      height: 50.w,
-                                      width: 110.w,
-                                      fit: BoxFit.fill),
-                                  Center(
-                                      child: Text(
-                                    '取消',
-                                    style: TextStyle(
-                                        fontSize: 15.sp, color: Colors.white),
-                                  )),
-                                ],
-                              ),
-                            ),
-                          ),
-                          GestureDetector(
-                            // ignore: missing_return
-                            onTap: () {
-                              switch (type) {
-                                case 0:
-                                  Navigator.of(context).pop();
-                                  _payment();
-                                  break;
-                                case 1:
-                                  Navigator.of(context).pop();
-                                  AppGlobal.appRouter?.push(
-                                      CommonUtils.getRealHash('ingotWallet'));
-                                  break;
-                                case 2:
-                                  Navigator.of(context).pop();
-                                  break;
-                                default:
-                              }
-                            },
-                            child: Container(
-                              margin: new EdgeInsets.only(top: 30.w),
-                              height: 50.w,
-                              width: 110.w,
-                              child: Stack(
-                                children: [
-                                  LocalPNG(
-                                      height: 50.w,
-                                      width: 110.w,
-                                      url: 'assets/images/mymony/money-img.png',
-                                      fit: BoxFit.fill),
-                                  Center(
-                                      child: Text(
-                                    type != 2 ? tipss : ikonwss,
-                                    style: TextStyle(
-                                        fontSize: 15.sp, color: Colors.white),
-                                  )),
-                                ],
-                              ),
-                            ),
-                          )
-                        ],
-                      )),
-                    )
-                  ],
-                ),
-                Positioned(
-                  right: 0,
-                  top: 0,
-                  child: GestureDetector(
-                      onTap: () => Navigator.of(context).pop(),
-                      child: LocalPNG(
-                          url: 'assets/images/mymony/close.png',
-                          width: 30.w,
-                          height: 30.w,
-                          fit: BoxFit.cover)),
-                )
-              ],
-            ),
-          ),
-        );
-      },
-    );
   }
 
   _header() {

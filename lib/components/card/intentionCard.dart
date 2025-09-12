@@ -62,6 +62,16 @@ class _IntentionCardState extends State<IntentionCard> {
                     : cancles) //正常的意向单
                 : tipsS) //确认预约
         .then((val) {
+      // 新的调用方式：
+      // 注意：此处的showBuy返回int?类型，需要使用特殊的对话框处理
+      // ShowBuyDialog.show(
+      //   context: context,
+      //   title: '提示',
+      //   content: status == 1
+      //       ? (isExpired ? yixiangdan : cancles)
+      //       : tipsS,
+      //   dialogType: DialogType.confirm,
+      // ).then((val) {
       if (val == 1) {
         //用户更改意向单状态  1取消 3预约
         setOder(carInfo!['id'], status).then((res) {

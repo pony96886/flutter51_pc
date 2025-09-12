@@ -15,6 +15,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
+import '../../../components/cgDialog.dart';
+
 class RechargePage extends StatefulWidget {
   RechargePage({Key? key}) : super(key: key);
 
@@ -37,6 +39,7 @@ class _RechargePageState extends State<RechargePage> {
     {'name': '在线充值', 'agent': 1},
     {'name': '代理充值', 'agent': 2}
   ];
+
   intpage() {
     rechargeValue().then((res) {
       if (res == null) {
@@ -313,28 +316,19 @@ class _RechargePageState extends State<RechargePage> {
           }
         });
         setState(() {});
-        showBuy(
-            child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(
-              '选择支付方式',
-              style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 18.sp,
-                  fontWeight: FontWeight.w600),
+        CgDialog.cgShowDialog(context, '选择支付方式', '', [],
+            contentWidget: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                for (var item in payType)
+                  payItem(
+                      value: value!,
+                      icon: item['type'],
+                      title: item['name'],
+                      tips: item['discount'])
+              ],
             ),
-            SizedBox(
-              height: 10.w,
-            ),
-            for (var item in payType)
-              payItem(
-                  value: value!,
-                  icon: item['type'],
-                  title: item['name'],
-                  tips: item['discount'])
-          ],
-        ));
+            callBack: () {});
       },
       child: Container(
         padding: EdgeInsets.only(top: 2.5.w),
@@ -725,6 +719,7 @@ class _RechargePageState extends State<RechargePage> {
   }
 
   TextEditingController numController = TextEditingController();
+
   changeWidget(Function changeState,
       {bool? isNumber, String? title, String? value}) {
     return Container(
@@ -833,107 +828,110 @@ class _RechargePageState extends State<RechargePage> {
   }
 
   showPaySuccess() {
-    return showBuy(
-        child: Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        LocalPNG(
-          url: 'assets/images/games/pay_success.png',
-          width: 166.w,
-          fit: BoxFit.fitWidth,
-        ),
-        SizedBox(
-          height: 11.w,
-        ),
-        Text(
-          '支付确认中...',
-          style: TextStyle(
-              color: Colors.black,
-              fontSize: 18.sp,
-              fontWeight: FontWeight.w600),
-        ),
-        SizedBox(
-          height: 21.w,
-        ),
-        Text(
-          '付款后1-5分钟内到账,请稍后确认,',
-          style: TextStyle(color: Color(0xff808080), fontSize: 14.sp),
-        ),
-        Text(
-          '超时未到账，请联系客服。',
-          style: TextStyle(color: Color(0xff808080), fontSize: 14.sp),
-        ),
-        isShowWechat == 0
-            ? Container()
-            : Text.rich(
-                TextSpan(text: "或者添加微信 ", children: [
-                  TextSpan(
-                      text: vipWechat,
-                      style: TextStyle(color: StyleTheme.cDangerColor)),
-                  TextSpan(
-                    text: ' 专属客服',
-                  )
-                ]),
-                style: TextStyle(color: Color(0xff808080), fontSize: 14.sp),
-              ),
-        SizedBox(
-          height: 20.w,
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+    return CgDialog.cgShowDialog(context, '', '', [],
+        contentWidget: Column(
+          mainAxisSize: MainAxisSize.min,
           children: [
-            GestureDetector(
-              onTap: () {
-                Navigator.pop(context);
-              },
-              child: Container(
-                width: 130.w,
-                height: 40.w,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20.w),
-                    gradient: LinearGradient(
-                      colors: [Color(0xffcccccc), Color(0xffe6e6e6)],
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                    )),
-                child: Center(
-                  child: Text(
-                    '知道了',
+            LocalPNG(
+              url: 'assets/images/games/pay_success.png',
+              width: 166.w,
+              fit: BoxFit.fitWidth,
+            ),
+            SizedBox(
+              height: 11.w,
+            ),
+            Text(
+              '支付确认中...',
+              style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 18.sp,
+                  fontWeight: FontWeight.w600),
+            ),
+            SizedBox(
+              height: 21.w,
+            ),
+            Text(
+              '付款后1-5分钟内到账,请稍后确认,',
+              style: TextStyle(color: Color(0xff808080), fontSize: 14.sp),
+            ),
+            Text(
+              '超时未到账，请联系客服。',
+              style: TextStyle(color: Color(0xff808080), fontSize: 14.sp),
+            ),
+            isShowWechat == 0
+                ? Container()
+                : Text.rich(
+                    TextSpan(text: "或者添加微信 ", children: [
+                      TextSpan(
+                          text: vipWechat,
+                          style: TextStyle(color: StyleTheme.cDangerColor)),
+                      TextSpan(
+                        text: ' 专属客服',
+                      )
+                    ]),
                     style: TextStyle(color: Color(0xff808080), fontSize: 14.sp),
                   ),
-                ),
-              ),
+            SizedBox(
+              height: 20.w,
             ),
-            GestureDetector(
-              onTap: () {
-                context.pop();
-                ServiceParmas.type = 'game';
-                AppGlobal.appRouter
-                    ?.push(CommonUtils.getRealHash('onlineServicePage'));
-                ;
-              },
-              child: Container(
-                width: 130.w,
-                height: 40.w,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20.w),
-                    gradient: LinearGradient(
-                      colors: [Color(0xfffbad3e), Color(0xffffedb5)],
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                    )),
-                child: Center(
-                  child: Text(
-                    '联系客服',
-                    style: TextStyle(color: Color(0xff903600), fontSize: 14.sp),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                GestureDetector(
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                  child: Container(
+                    width: 130.w,
+                    height: 40.w,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20.w),
+                        gradient: LinearGradient(
+                          colors: [Color(0xffcccccc), Color(0xffe6e6e6)],
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                        )),
+                    child: Center(
+                      child: Text(
+                        '知道了',
+                        style: TextStyle(
+                            color: Color(0xff808080), fontSize: 14.sp),
+                      ),
+                    ),
                   ),
                 ),
-              ),
+                GestureDetector(
+                  onTap: () {
+                    context.pop();
+                    ServiceParmas.type = 'game';
+                    AppGlobal.appRouter
+                        ?.push(CommonUtils.getRealHash('onlineServicePage'));
+                    ;
+                  },
+                  child: Container(
+                    width: 130.w,
+                    height: 40.w,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20.w),
+                        gradient: LinearGradient(
+                          colors: [Color(0xfffbad3e), Color(0xffffedb5)],
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                        )),
+                    child: Center(
+                      child: Text(
+                        '联系客服',
+                        style: TextStyle(
+                            color: Color(0xff903600), fontSize: 14.sp),
+                      ),
+                    ),
+                  ),
+                )
+              ],
             )
           ],
-        )
-      ],
-    ));
+        ),
+        callBack: () {});
   }
 
   btnWidget({Function()? onTap, String? text}) {
@@ -956,28 +954,6 @@ class _RechargePageState extends State<RechargePage> {
           ),
         ),
       ),
-    );
-  }
-
-  Future<bool?> showBuy({Widget? child}) {
-    return showDialog<bool>(
-      context: context,
-      barrierDismissible: true,
-      builder: (context) {
-        return StatefulBuilder(builder: (context, setDialogState) {
-          return Dialog(
-            backgroundColor: Colors.transparent,
-            child: Container(
-                width: 300.w,
-                padding: new EdgeInsets.symmetric(vertical: 25.w),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(20.0),
-                ),
-                child: child),
-          );
-        });
-      },
     );
   }
 }

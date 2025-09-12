@@ -39,8 +39,10 @@ class ElegantRoomPages extends StatefulWidget {
   _ElegantRoomPagesState createState() => _ElegantRoomPagesState();
 }
 
-class _ElegantRoomPagesState extends State<ElegantRoomPages> with TickerProviderStateMixin {
-  final GlobalKey<PullToRefreshNotificationState> key = GlobalKey<PullToRefreshNotificationState>();
+class _ElegantRoomPagesState extends State<ElegantRoomPages>
+    with TickerProviderStateMixin {
+  final GlobalKey<PullToRefreshNotificationState> key =
+      GlobalKey<PullToRefreshNotificationState>();
   AnimationController? _animoteLottie;
   ScrollController _elegantController = ScrollController();
   int _selectedTabIndex = 0;
@@ -60,13 +62,28 @@ class _ElegantRoomPagesState extends State<ElegantRoomPages> with TickerProvider
   List _banner = [];
   List _tagsList = [];
   List resourcesDataList = [
-    {'data': null, 'page': 1, 'code': e, 'loading': true, 'isAll': false, 'pageLoading': false}
+    {
+      'data': null,
+      'page': 1,
+      'code': e,
+      'loading': true,
+      'isAll': false,
+      'pageLoading': false
+    }
   ];
   List _tabs = [];
   List<String> _selectTags = [];
   List<int> _selectIndex = [];
   Map? _filterOption;
-  Map _options = {'age': 0, 'height': 0, 'cup': 0, 'price': 0, 'video_valid': 0, 'rule': 1, 'postType': 1};
+  Map _options = {
+    'age': 0,
+    'height': 0,
+    'cup': 0,
+    'price': 0,
+    'video_valid': 0,
+    'rule': 1,
+    'postType': 1
+  };
   int unConfirm = 0;
   int unComment = 0;
   int _typeListValue = 0;
@@ -91,7 +108,8 @@ class _ElegantRoomPagesState extends State<ElegantRoomPages> with TickerProvider
   ];
 
   getTagsList() async {
-    if (['', null, false].contains(_tagsList) || ['', null, false].contains(_filterOption)) {
+    if (['', null, false].contains(_tagsList) ||
+        ['', null, false].contains(_filterOption)) {
       BotToast.showLoading();
       Map? result2 = await getFilterOption();
       Map? result = await getTags();
@@ -109,9 +127,15 @@ class _ElegantRoomPagesState extends State<ElegantRoomPages> with TickerProvider
         _tagsList = result['data'];
         setState(() {});
       }
-      VerticalModalSheet.show(context: context, child: tabsContainer(), direction: VerticalModalSheetDirection.TOP);
+      VerticalModalSheet.show(
+          context: context,
+          child: tabsContainer(),
+          direction: VerticalModalSheetDirection.TOP);
     } else {
-      VerticalModalSheet.show(context: context, child: tabsContainer(), direction: VerticalModalSheetDirection.TOP);
+      VerticalModalSheet.show(
+          context: context,
+          child: tabsContainer(),
+          direction: VerticalModalSheetDirection.TOP);
     }
   }
 
@@ -133,8 +157,14 @@ class _ElegantRoomPagesState extends State<ElegantRoomPages> with TickerProvider
         var _set = new Set();
         var _dataList = new Set();
         citylist['data'].forEach((e) => {
-              _dataList
-                  .add({'data': null, 'page': 1, 'code': e, 'loading': true, 'isAll': false, 'pageLoading': false}),
+              _dataList.add({
+                'data': null,
+                'page': 1,
+                'code': e,
+                'loading': true,
+                'isAll': false,
+                'pageLoading': false
+              }),
               _set.add({
                 'code': e,
               }),
@@ -217,33 +247,44 @@ class _ElegantRoomPagesState extends State<ElegantRoomPages> with TickerProvider
 
   intPageData() async {
     var vipInfo;
-    String? cityCode = Provider.of<GlobalState>(context, listen: false).cityCode;
+    String? cityCode =
+        Provider.of<GlobalState>(context, listen: false).cityCode;
 
     if (_options['rule'] == 5) {
       vipInfo = await filterVipInfo(
-        page: resourcesDataList.length > 0 ? resourcesDataList[_selectedTabIndex]['page'] : 1,
+        page: resourcesDataList.length > 0
+            ? resourcesDataList[_selectedTabIndex]['page']
+            : 1,
         limit: limit,
         postType: _options['postType'],
         cityCode: cityCode != null ? cityCode.toString() : '110100',
         age: _options['age'] == null ? "0" : _options['age'].toString(),
-        height: _options['height'] == null ? "0" : _options['height'].toString(),
+        height:
+            _options['height'] == null ? "0" : _options['height'].toString(),
         cup: _options['cup'] == null ? "0" : _options['cup'].toString(),
         price: _options['price'] == null ? "0" : _options['price'].toString(),
         tags: _selectIndex,
-        videoValid: _options['video_valid'] == null ? "0" : _options['video_valid'].toString(),
+        videoValid: _options['video_valid'] == null
+            ? "0"
+            : _options['video_valid'].toString(),
       );
     } else {
       vipInfo = await filterVipInfoByRule(
-        page: resourcesDataList.length > 0 ? resourcesDataList[_selectedTabIndex]['page'] : 1,
+        page: resourcesDataList.length > 0
+            ? resourcesDataList[_selectedTabIndex]['page']
+            : 1,
         limit: limit,
         postType: _options['postType'],
         cityCode: cityCode != null ? cityCode.toString() : '110100',
         age: _options['age'] == null ? "0" : _options['age'].toString(),
-        height: _options['height'] == null ? "0" : _options['height'].toString(),
+        height:
+            _options['height'] == null ? "0" : _options['height'].toString(),
         cup: _options['cup'] == null ? "0" : _options['cup'].toString(),
         price: _options['price'] == null ? "0" : _options['price'].toString(),
         tags: _selectIndex,
-        videoValid: _options['video_valid'] == null ? "0" : _options['video_valid'].toString(),
+        videoValid: _options['video_valid'] == null
+            ? "0"
+            : _options['video_valid'].toString(),
         rule: _options['rule'] == null ? "1" : _options['rule'].toString(),
       );
     }
@@ -255,7 +296,8 @@ class _ElegantRoomPagesState extends State<ElegantRoomPages> with TickerProvider
     }
     if (resourcesDataList[_selectedTabIndex]['page'] == 1) {
       List topCityList = [];
-      var topVipResult = await getVipTopList(citycode: cityCode!, postType: _options['postType']);
+      var topVipResult = await getVipTopList(
+          citycode: cityCode!, postType: _options['postType']);
       if (topVipResult!['status'] != 0) {
         if (topVipResult['data'] != null && topVipResult['data'] is List) {
           topCityList.addAll(topVipResult["data"]);
@@ -284,7 +326,9 @@ class _ElegantRoomPagesState extends State<ElegantRoomPages> with TickerProvider
           });
         } else {
           BotToast.showText(
-              text: vipInfo['msg'] == null || vipInfo['msg'] == "" ? "服务器异常，请稍后重试" : vipInfo['msg'],
+              text: vipInfo['msg'] == null || vipInfo['msg'] == ""
+                  ? "服务器异常，请稍后重试"
+                  : vipInfo['msg'],
               align: Alignment(0, 0));
         }
       }
@@ -297,7 +341,9 @@ class _ElegantRoomPagesState extends State<ElegantRoomPages> with TickerProvider
         });
       }
     } else {
-      if (vipInfo['status'] != 0 && vipInfo['data'] != null && vipInfo['data'].length > 0) {
+      if (vipInfo['status'] != 0 &&
+          vipInfo['data'] != null &&
+          vipInfo['data'].length > 0) {
         setState(() {
           resourcesDataList[_selectedTabIndex]['data'].addAll(vipInfo['data']);
           loadmore = true;
@@ -314,7 +360,8 @@ class _ElegantRoomPagesState extends State<ElegantRoomPages> with TickerProvider
   }
 
   _onScrollNotification(ScrollNotification scrollInfo) {
-    if (resourcesDataList[_selectedTabIndex] == [] || resourcesDataList[_selectedTabIndex] == null) return;
+    if (resourcesDataList[_selectedTabIndex] == [] ||
+        resourcesDataList[_selectedTabIndex] == null) return;
     if (scrollInfo.metrics.pixels == scrollInfo.metrics.maxScrollExtent) {
       //滑到了底部
       if (loadmore) {
@@ -341,13 +388,18 @@ class _ElegantRoomPagesState extends State<ElegantRoomPages> with TickerProvider
     if (WebSocketUtility.imToken == null) {
       CommonUtils.getImPath(context, callBack: () {
         //跳转IM
-        AppGlobal.chatUser =
-            FormUserMsg(uuid: uuid.toString(), nickname: nickname.toString(), avatar: thumb.toString());
+        AppGlobal.chatUser = FormUserMsg(
+            uuid: uuid.toString(),
+            nickname: nickname.toString(),
+            avatar: thumb.toString());
         AppGlobal.appRouter?.push(CommonUtils.getRealHash('llchat'));
       });
     } else {
       //跳转IM
-      AppGlobal.chatUser = FormUserMsg(uuid: uuid.toString(), nickname: nickname.toString(), avatar: thumb.toString());
+      AppGlobal.chatUser = FormUserMsg(
+          uuid: uuid.toString(),
+          nickname: nickname.toString(),
+          avatar: thumb.toString());
       AppGlobal.appRouter?.push(CommonUtils.getRealHash('llchat'));
     }
   }
@@ -359,7 +411,8 @@ class _ElegantRoomPagesState extends State<ElegantRoomPages> with TickerProvider
       if (curStatus == 1) {
         //意向单
         oderId = res['data']['id'];
-        AppGlobal.appRouter?.push(CommonUtils.getRealHash('teaTastingIntention/' + oderId.toString()));
+        AppGlobal.appRouter?.push(CommonUtils.getRealHash(
+            'teaTastingIntention/' + oderId.toString()));
       } else if (curStatus == 2 || curStatus == 3) {
         AppGlobal.chatUser = FormUserMsg(
             uuid: res['data']['uuid'].toString(),
@@ -368,7 +421,8 @@ class _ElegantRoomPagesState extends State<ElegantRoomPages> with TickerProvider
         AppGlobal.appRouter?.push(CommonUtils.getRealHash('llchat'));
         //跳转Im
       } else {
-        AppGlobal.appRouter?.push(CommonUtils.getRealHash('teaTastingIntention/null'));
+        AppGlobal.appRouter
+            ?.push(CommonUtils.getRealHash('teaTastingIntention/null'));
       }
       isClick = false;
     } else {
@@ -378,16 +432,24 @@ class _ElegantRoomPagesState extends State<ElegantRoomPages> with TickerProvider
 
   _onChangeTabs(dynamic value) {
     var tabIndex = 0;
-    var element = _tabs.firstWhere((i) => i['code'] == value['code'], orElse: () => null);
+    var element =
+        _tabs.firstWhere((i) => i['code'] == value['code'], orElse: () => null);
     if (element == null) {
       _tabs.add({
         'code': value['code'],
       });
-      resourcesDataList
-          .add({'data': null, 'page': 1, 'code': value['code'], 'loading': true, 'isAll': false, 'pageLoading': false});
+      resourcesDataList.add({
+        'data': null,
+        'page': 1,
+        'code': value['code'],
+        'loading': true,
+        'isAll': false,
+        'pageLoading': false
+      });
       _tabs.toList();
       resourcesDataList.toList();
-      var elementSec = _tabs.firstWhere((i) => i['code'] == value['code'], orElse: () => null);
+      var elementSec = _tabs.firstWhere((i) => i['code'] == value['code'],
+          orElse: () => null);
       tabIndex = _tabs.indexOf(elementSec);
       // print(tabIndex);
     } else {
@@ -397,7 +459,15 @@ class _ElegantRoomPagesState extends State<ElegantRoomPages> with TickerProvider
       _selectedTabIndex = tabIndex < 0 ? 0 : tabIndex;
       resourcesDataList[tabIndex]['loading'] = true; //_selectedTabIndex
       loadmore = true;
-      _options = {'age': 0, 'height': 0, 'cup': 0, 'price': 0, 'video_valid': 0, 'rule': 1, 'postType': 1};
+      _options = {
+        'age': 0,
+        'height': 0,
+        'cup': 0,
+        'price': 0,
+        'video_valid': 0,
+        'rule': 1,
+        'postType': 1
+      };
       _selectIndex = [];
       _selectTags = [];
       _typeListValue = 0;
@@ -408,7 +478,8 @@ class _ElegantRoomPagesState extends State<ElegantRoomPages> with TickerProvider
       _videoValidValue = 0;
       _ruleListValue = 0;
     });
-    if (resourcesDataList[tabIndex]['data'] == null || resourcesDataList[tabIndex]['data'] == []) {
+    if (resourcesDataList[tabIndex]['data'] == null ||
+        resourcesDataList[tabIndex]['data'] == []) {
       intPageData();
     } else {
       Future.delayed(Duration(seconds: 1), () {
@@ -427,7 +498,8 @@ class _ElegantRoomPagesState extends State<ElegantRoomPages> with TickerProvider
     _options[key] = e;
     if (resourcesDataList[_selectedTabIndex]['data'].isEmpty ||
         resourcesDataList[_selectedTabIndex]['data'].length > 3) {
-      _elegantController.animateTo(250.w, duration: Duration(milliseconds: 400), curve: Curves.linear);
+      _elegantController.animateTo(250.w,
+          duration: Duration(milliseconds: 400), curve: Curves.linear);
     }
     loading = true;
     loadmore = true;
@@ -447,7 +519,8 @@ class _ElegantRoomPagesState extends State<ElegantRoomPages> with TickerProvider
     _selectIndex = [];
     if (_selectTags.length > 0) {
       for (var i = 0; i < _selectTags.length; i++) {
-        var element = _tagsList.firstWhere((l) => l['name'] == _selectTags[i], orElse: () => null);
+        var element = _tagsList.firstWhere((l) => l['name'] == _selectTags[i],
+            orElse: () => null);
         if (element != null) {
           var index = _tagsList.indexOf(element);
           _selectIndex.add(_tagsList[index]['id']);
@@ -468,148 +541,9 @@ class _ElegantRoomPagesState extends State<ElegantRoomPages> with TickerProvider
     intPageData();
   }
 
-  showBuy(String title, String content, int type, [String? btnText]) {
-    showDialog<bool>(
-      context: context,
-      barrierDismissible: true,
-      builder: (context) {
-        return Dialog(
-          backgroundColor: Colors.transparent,
-          child: Container(
-            width: 280.w,
-            padding: new EdgeInsets.symmetric(vertical: 15.w, horizontal: 25.w),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(20.0),
-            ),
-            child: Stack(
-              clipBehavior: Clip.none,
-              children: <Widget>[
-                Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[
-                    Center(
-                      child: Text(
-                        title,
-                        style: TextStyle(color: StyleTheme.cTitleColor, fontSize: 18.sp, fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                    Container(
-                        margin: new EdgeInsets.only(top: 20.w),
-                        child: Text(
-                          content,
-                          style: TextStyle(fontSize: 14.w, color: StyleTheme.cTitleColor),
-                        )),
-                    type == 0
-                        ? GestureDetector(
-                            onTap: () => {
-                                  context.pop(),
-                                },
-                            child: GestureDetector(
-                              onTap: () {
-                                /**[去充值会员]**/
-                                Navigator.pop(context);
-                                if (btnText != '知道了') {
-                                  AppGlobal.appRouter?.push(CommonUtils.getRealHash('memberCardsPage'));
-                                }
-                              },
-                              child: Container(
-                                margin: new EdgeInsets.only(top: 30.w),
-                                height: 50.w,
-                                width: 200.w,
-                                child: Stack(
-                                  children: [
-                                    LocalPNG(
-                                      height: 50.w,
-                                      width: 200.w,
-                                      url: 'assets/images/mymony/money-img.png',
-                                    ),
-                                    Center(
-                                        child: Text(
-                                      btnText ?? '去开通',
-                                      style: TextStyle(fontSize: 15.sp, color: Colors.white),
-                                    )),
-                                  ],
-                                ),
-                              ),
-                            ))
-                        : Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              GestureDetector(
-                                onTap: () {
-                                  Navigator.of(context).pop();
-                                },
-                                child: Container(
-                                  margin: new EdgeInsets.only(top: 30.w),
-                                  height: 50.w,
-                                  width: 110.w,
-                                  child: Stack(
-                                    children: [
-                                      LocalPNG(
-                                        url: 'assets/images/mymony/money-img.png',
-                                        height: 50.w,
-                                        width: 110.w,
-                                      ),
-                                      Center(
-                                          child: Text(
-                                        '取消',
-                                        style: TextStyle(fontSize: 15.w, color: Colors.white),
-                                      )),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                              GestureDetector(
-                                onTap: () {
-                                  Navigator.of(context).pop(true);
-                                },
-                                child: Container(
-                                  margin: new EdgeInsets.only(top: 30.w),
-                                  height: 50.w,
-                                  width: 110.w,
-                                  child: Stack(
-                                    children: [
-                                      LocalPNG(
-                                        height: 50.w,
-                                        width: 110.w,
-                                        url: 'assets/images/mymony/money-img.png',
-                                      ),
-                                      Center(
-                                          child: Text(
-                                        '确定',
-                                        style: TextStyle(fontSize: 15.sp, color: Colors.white),
-                                      )),
-                                    ],
-                                  ),
-                                ),
-                              )
-                            ],
-                          ),
-                  ],
-                ),
-                Positioned(
-                  right: 0,
-                  top: 0,
-                  child: GestureDetector(
-                      onTap: () => Navigator.of(context).pop(),
-                      child: LocalPNG(
-                        width: 30.w,
-                        height: 30.w,
-                        url: 'assets/images/mymony/close.png',
-                        fit: BoxFit.cover,
-                      )),
-                )
-              ],
-            ),
-          ),
-        );
-      },
-    );
-  }
-
   _onTapHeaderTitle() {
-    _elegantController.animateTo(1.0, duration: Duration(milliseconds: 400), curve: Curves.linear);
+    _elegantController.animateTo(1.0,
+        duration: Duration(milliseconds: 400), curve: Curves.linear);
   }
 
   Widget buildPulltoRefreshHeader(PullToRefreshScrollNotificationInfo? info) {
@@ -626,7 +560,8 @@ class _ElegantRoomPagesState extends State<ElegantRoomPages> with TickerProvider
               height: double.infinity,
               url: "assets/images/appbg2.png",
               fit: BoxFit.fitWidth,
-              alignment: Alignment(-offset / maxDragOffset, -offset / maxDragOffset),
+              alignment:
+                  Alignment(-offset / maxDragOffset, -offset / maxDragOffset),
             ),
             kIsWeb
                 ? Container(
@@ -664,12 +599,14 @@ class _ElegantRoomPagesState extends State<ElegantRoomPages> with TickerProvider
 
   @override
   Widget build(BuildContext context) {
-    var vipClub = Provider.of<GlobalState>(context).profileData?['vip_club'] ?? 0;
+    var vipClub =
+        Provider.of<GlobalState>(context).profileData?['vip_club'] ?? 0;
     return Stack(
       children: [
         Scaffold(
           floatingActionButton: Padding(
-            padding: EdgeInsets.only(bottom: kIsWeb ? AppGlobal.webBottomHeight + 20.w : 0),
+            padding: EdgeInsets.only(
+                bottom: kIsWeb ? AppGlobal.webBottomHeight + 20.w : 0),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -689,7 +626,8 @@ class _ElegantRoomPagesState extends State<ElegantRoomPages> with TickerProvider
                       tapTitle: _onTapHeaderTitle,
                     )
                   : SizedBox(),
-              preferredSize: Size.fromHeight(ScreenUtil().statusBarHeight + 50.w)),
+              preferredSize:
+                  Size.fromHeight(ScreenUtil().statusBarHeight + 50.w)),
           backgroundColor: Colors.white,
           body: NotificationListener<ScrollNotification>(
             child: PullToRefreshNotification(
@@ -709,7 +647,8 @@ class _ElegantRoomPagesState extends State<ElegantRoomPages> with TickerProvider
                   _banner.length > 0
                       ? SliverToBoxAdapter(
                           child: Container(
-                            margin: EdgeInsets.only(top: 5.w, left: 15.w, right: 15.w),
+                            margin: EdgeInsets.only(
+                                top: 5.w, left: 15.w, right: 15.w),
                             height: 175.w,
                             child: Detail_ad(
                               radius: 18.w,
@@ -736,11 +675,23 @@ class _ElegantRoomPagesState extends State<ElegantRoomPages> with TickerProvider
                             title: "品茶意向",
                             subtitle: "定制预约",
                             onTap: () {
-                              var profileDatas = Provider.of<GlobalState>(context, listen: false).profileData;
-                              var vipLevel = profileDatas != null ? profileDatas['vip_level'] : 0;
-                              var agent = profileDatas != null ? profileDatas['agent'] : 0;
+                              var profileDatas = Provider.of<GlobalState>(
+                                      context,
+                                      listen: false)
+                                  .profileData;
+                              var vipLevel = profileDatas != null
+                                  ? profileDatas['vip_level']
+                                  : 0;
+                              var agent = profileDatas != null
+                                  ? profileDatas['agent']
+                                  : 0;
                               if (agent == 1 || agent == 2) {
-                                showBuy('温馨提示', '经纪人目前暂未开放意向单发布', 0, '知道了');
+                                CgDialog.cgShowDialog(
+                                  context,
+                                  '温馨提示',
+                                  '经纪人目前暂未开放意向单发布',
+                                  ['知道了'],
+                                );
                                 return;
                               }
                               if (vipLevel >= 3) {
@@ -749,8 +700,17 @@ class _ElegantRoomPagesState extends State<ElegantRoomPages> with TickerProvider
                                   getCurrentStatus();
                                 }
                               } else {
-                                showBuy('开通会员',
-                                    '因为部分妹子不愿意公开自己的信息，您可以使用该功能快捷发布预约意向单，入驻平台的茶老板皆可抢单，按你的要求推荐适合的妹子们，该功能只对会员及以上开放', 0);
+                                // 新的调用方式：
+
+                                CgDialog.cgShowDialog(
+                                    context,
+                                    '开通会员',
+                                    '因为部分妹子不愿意公开自己的信息，您可以使用该功能快捷发布预约意向单，入驻平台的茶老板皆可抢单，按你的要求推荐适合的妹子们，该功能只对会员及以上开放',
+                                    ['去开通'], callBack: () {
+                                  AppGlobal.appRouter?.push(
+                                      CommonUtils.getRealHash(
+                                          'memberCardsPage'));
+                                });
                               }
                             },
                           ),
@@ -760,15 +720,19 @@ class _ElegantRoomPagesState extends State<ElegantRoomPages> with TickerProvider
                             subtitle: "顶级会员精选",
                             onTap: () {
                               if (CgPrivilege.getPrivilegeStatus(
-                                  PrivilegeType.infoVip, PrivilegeType.privilegeAppointment)) {
-                                AppGlobal.appRouter?.push(CommonUtils.getRealHash('huakuiGelou'));
+                                  PrivilegeType.infoVip,
+                                  PrivilegeType.privilegeAppointment)) {
+                                AppGlobal.appRouter?.push(
+                                    CommonUtils.getRealHash('huakuiGelou'));
                               } else {
                                 CgDialog.cgShowDialog(
                                     context,
                                     '花魁阁楼',
                                     '花魁阁楼专为顶级会员打造，每一位花魁都是茶老板精心挑选，经由平台验证把关，身材颜值气质俱佳！成为顶级会员，开启阁楼风月之旅！',
                                     ['开通顶级会员'], callBack: () {
-                                  AppGlobal.appRouter?.push(CommonUtils.getRealHash('memberCardsPage'));
+                                  AppGlobal.appRouter?.push(
+                                      CommonUtils.getRealHash(
+                                          'memberCardsPage'));
                                 });
                               }
                             },
@@ -778,7 +742,8 @@ class _ElegantRoomPagesState extends State<ElegantRoomPages> with TickerProvider
                             title: "探花好片",
                             subtitle: "一探究竟",
                             onTap: () {
-                              context.push(CommonUtils.getRealHash('tanhuaPage'));
+                              context
+                                  .push(CommonUtils.getRealHash('tanhuaPage'));
                             },
                           ),
                           NavTileCell(
@@ -786,7 +751,8 @@ class _ElegantRoomPagesState extends State<ElegantRoomPages> with TickerProvider
                             title: "一元春宵",
                             subtitle: "春宵一刻仅一元",
                             onTap: () {
-                              AppGlobal.appRouter?.push(CommonUtils.getRealHash('oneYuanSpring'));
+                              AppGlobal.appRouter?.push(
+                                  CommonUtils.getRealHash('oneYuanSpring'));
                             },
                           ),
                         ],
@@ -795,13 +761,16 @@ class _ElegantRoomPagesState extends State<ElegantRoomPages> with TickerProvider
                   ),
                   SliverToBoxAdapter(
                     child: Padding(
-                      padding: EdgeInsets.only(left: 15.w, right: 15.w, top: 20.w),
+                      padding:
+                          EdgeInsets.only(left: 15.w, right: 15.w, top: 20.w),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           GestureDetector(
                               onTap: () {
-                                AppGlobal.appRouter?.push(CommonUtils.getRealHash('tianZiYiHaoPage/$vipClub}'));
+                                AppGlobal.appRouter?.push(
+                                    CommonUtils.getRealHash(
+                                        'tianZiYiHaoPage/$vipClub}'));
                               },
                               child: Image.asset(
                                 'assets/images/cg_320/tianziyihao.png',
@@ -810,7 +779,8 @@ class _ElegantRoomPagesState extends State<ElegantRoomPages> with TickerProvider
                               )),
                           GestureDetector(
                             onTap: () {
-                              AppGlobal.appRouter?.push(CommonUtils.getRealHash('authBeautyPage'));
+                              AppGlobal.appRouter?.push(
+                                  CommonUtils.getRealHash('authBeautyPage'));
                             },
                             child: Image.asset(
                               'assets/images/cg_320/yanzhengmeinv.png',
@@ -824,7 +794,8 @@ class _ElegantRoomPagesState extends State<ElegantRoomPages> with TickerProvider
                   ),
                   SliverToBoxAdapter(
                       child: Container(
-                          padding: EdgeInsets.symmetric(vertical: 12.w, horizontal: 15.w),
+                          padding: EdgeInsets.symmetric(
+                              vertical: 12.w, horizontal: 15.w),
                           margin: EdgeInsets.only(
                             top: 15.w,
                             left: 15.w,
@@ -841,7 +812,8 @@ class _ElegantRoomPagesState extends State<ElegantRoomPages> with TickerProvider
                                   selectTabIndex: _typeListValue,
                                   onTabs: (e) {
                                     if (typeList.isNotEmpty) {
-                                      _onFilterRule(typeList[e]['value'], 'postType');
+                                      _onFilterRule(
+                                          typeList[e]['value'], 'postType');
                                     }
                                     _typeListValue = e;
                                   },
@@ -866,7 +838,8 @@ class _ElegantRoomPagesState extends State<ElegantRoomPages> with TickerProvider
                                   tabs: videoValid,
                                   selectTabIndex: _videoValidValue,
                                   onTabs: (e) {
-                                    _onFilterRule(videoValid[e]['value'], 'video_valid');
+                                    _onFilterRule(
+                                        videoValid[e]['value'], 'video_valid');
                                     _videoValidValue = e;
                                   },
                                 ),
@@ -888,16 +861,22 @@ class _ElegantRoomPagesState extends State<ElegantRoomPages> with TickerProvider
                                     Container(
                                       width: 150.w,
                                       height: 150.w,
-                                      child: LocalPNG(url: 'assets/images/default_netword.png'),
+                                      child: LocalPNG(
+                                          url:
+                                              'assets/images/default_netword.png'),
                                     ),
                                     Text(
                                       "网络出现问题",
-                                      style: TextStyle(color: StyleTheme.cBioColor, fontSize: 14.w),
+                                      style: TextStyle(
+                                          color: StyleTheme.cBioColor,
+                                          fontSize: 14.w),
                                     ),
                                     SizedBox(height: 20.w),
                                     Text(
                                       '点击重试',
-                                      style: TextStyle(color: StyleTheme.cDangerColor, fontSize: 12.sp),
+                                      style: TextStyle(
+                                          color: StyleTheme.cDangerColor,
+                                          fontSize: 12.sp),
                                     )
                                   ],
                                 ),
@@ -910,8 +889,10 @@ class _ElegantRoomPagesState extends State<ElegantRoomPages> with TickerProvider
                                 child: Loading(),
                               ),
                             )
-                          : resourcesDataList[_selectedTabIndex]['data'] == null || //数据为空
-                                  resourcesDataList[_selectedTabIndex]['data'].isEmpty
+                          : resourcesDataList[_selectedTabIndex]['data'] ==
+                                      null || //数据为空
+                                  resourcesDataList[_selectedTabIndex]['data']
+                                      .isEmpty
                               ? SliverToBoxAdapter(
                                   child: Container(
                                       alignment: Alignment.topCenter,
@@ -930,7 +911,8 @@ class _ElegantRoomPagesState extends State<ElegantRoomPages> with TickerProvider
                                     bottom: 30.w,
                                   ),
                                   sliver: SliverWaterfallFlow(
-                                    gridDelegate: SliverWaterfallFlowDelegateWithFixedCrossAxisCount(
+                                    gridDelegate:
+                                        SliverWaterfallFlowDelegateWithFixedCrossAxisCount(
                                       crossAxisCount: 2,
                                       mainAxisSpacing: 5.w,
                                       crossAxisSpacing: 5.w,
@@ -938,19 +920,25 @@ class _ElegantRoomPagesState extends State<ElegantRoomPages> with TickerProvider
                                     delegate: SliverChildBuilderDelegate(
                                       (BuildContext c, int index) {
                                         return ElegantCard(
-                                          cardInfo: resourcesDataList[_selectedTabIndex]['data'][index],
+                                          cardInfo: resourcesDataList[
+                                              _selectedTabIndex]['data'][index],
                                           key: Key('keys_$index'),
                                           keys: index,
                                         );
                                       },
-                                      childCount: resourcesDataList[_selectedTabIndex]['data'] == null
+                                      childCount: resourcesDataList[
+                                                  _selectedTabIndex]['data'] ==
+                                              null
                                           ? 0
-                                          : resourcesDataList[_selectedTabIndex]['data'].length,
+                                          : resourcesDataList[_selectedTabIndex]
+                                                  ['data']
+                                              .length,
                                     ),
                                   )))),
                   resourcesDataList[_selectedTabIndex]['data'] != null &&
                           !resourcesDataList[_selectedTabIndex]['loading'] &&
-                          resourcesDataList[_selectedTabIndex]['data'].length > 0 &&
+                          resourcesDataList[_selectedTabIndex]['data'].length >
+                              0 &&
                           resourcesDataList[_selectedTabIndex]['isAll'] &&
                           loadmore == false
                       ? SliverToBoxAdapter(child: renderMore(false))
@@ -958,7 +946,8 @@ class _ElegantRoomPagesState extends State<ElegantRoomPages> with TickerProvider
                 ],
               ),
             ),
-            onNotification: (ScrollNotification scrollInfo) => _onScrollNotification(scrollInfo),
+            onNotification: (ScrollNotification scrollInfo) =>
+                _onScrollNotification(scrollInfo),
           ),
           bottomNavigationBar: BottomAppBar(
             child: Container(
@@ -997,6 +986,7 @@ class _ElegantRoomPagesState extends State<ElegantRoomPages> with TickerProvider
 
   String loadData = '数据加载中...';
   String noData = '没有更多数据';
+
   Widget renderMore(bool _loading) {
     return Container(
       height: 60.w,
@@ -1022,11 +1012,13 @@ class _ElegantRoomPagesState extends State<ElegantRoomPages> with TickerProvider
                 children: <Widget>[
                   Text(
                     "确认",
-                    style: TextStyle(color: Colors.transparent, fontSize: 15.sp),
+                    style:
+                        TextStyle(color: Colors.transparent, fontSize: 15.sp),
                   ),
                   Text(
                     '筛选类型',
-                    style: TextStyle(color: StyleTheme.cTitleColor, fontSize: 18.sp),
+                    style: TextStyle(
+                        color: StyleTheme.cTitleColor, fontSize: 18.sp),
                   ),
                   GestureDetector(
                     onTap: () {
@@ -1035,7 +1027,8 @@ class _ElegantRoomPagesState extends State<ElegantRoomPages> with TickerProvider
                     },
                     child: Text(
                       "确认",
-                      style: TextStyle(color: StyleTheme.cTitleColor, fontSize: 15.sp),
+                      style: TextStyle(
+                          color: StyleTheme.cTitleColor, fontSize: 15.sp),
                     ),
                   ),
                 ],
@@ -1059,10 +1052,12 @@ class _ElegantRoomPagesState extends State<ElegantRoomPages> with TickerProvider
                     ),
                   )
                 : SizedBox(height: 0),
-            _filterOption!['height'] != null && _filterOption!['height'].length > 0
+            _filterOption!['height'] != null &&
+                    _filterOption!['height'].length > 0
                 ? Container(
                     alignment: Alignment.centerLeft,
-                    padding: EdgeInsets.symmetric(vertical: 0, horizontal: 15.w),
+                    padding:
+                        EdgeInsets.symmetric(vertical: 0, horizontal: 15.w),
                     height: 50.w,
                     child: SingleChildScrollView(
                       scrollDirection: Axis.horizontal,
@@ -1070,7 +1065,8 @@ class _ElegantRoomPagesState extends State<ElegantRoomPages> with TickerProvider
                         tabs: _filterOption!['height'],
                         selectTabIndex: _heightTabIndex,
                         onTabs: (e) {
-                          _onFilterOption(_filterOption!['height'], e, 'height');
+                          _onFilterOption(
+                              _filterOption!['height'], e, 'height');
                           _heightTabIndex = e;
                         },
                       ),
@@ -1080,7 +1076,8 @@ class _ElegantRoomPagesState extends State<ElegantRoomPages> with TickerProvider
             _filterOption!['cup'] != null && _filterOption!['cup'].length > 0
                 ? Container(
                     alignment: Alignment.centerLeft,
-                    padding: EdgeInsets.symmetric(vertical: 0, horizontal: 15.w),
+                    padding:
+                        EdgeInsets.symmetric(vertical: 0, horizontal: 15.w),
                     height: 50.w,
                     child: SingleChildScrollView(
                       scrollDirection: Axis.horizontal,
@@ -1095,10 +1092,12 @@ class _ElegantRoomPagesState extends State<ElegantRoomPages> with TickerProvider
                     ),
                   )
                 : SizedBox(height: 0),
-            _filterOption!['price'] != null && _filterOption!['price'].length > 0
+            _filterOption!['price'] != null &&
+                    _filterOption!['price'].length > 0
                 ? Container(
                     alignment: Alignment.centerLeft,
-                    padding: EdgeInsets.symmetric(vertical: 0, horizontal: 15.w),
+                    padding:
+                        EdgeInsets.symmetric(vertical: 0, horizontal: 15.w),
                     height: 50.w,
                     child: SingleChildScrollView(
                       scrollDirection: Axis.horizontal,
@@ -1127,12 +1126,16 @@ class _ElegantRoomPagesState extends State<ElegantRoomPages> with TickerProvider
                             text: TextSpan(
                                 text: "服务项目 ",
                                 style: TextStyle(
-                                    color: StyleTheme.cTitleColor, fontWeight: FontWeight.bold, fontSize: 14.w),
+                                    color: StyleTheme.cTitleColor,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 14.w),
                                 children: <TextSpan>[
                               TextSpan(
                                   text: " (可多选)",
                                   style: TextStyle(
-                                      color: StyleTheme.cBioColor, fontWeight: FontWeight.w400, fontSize: 12.sp)),
+                                      color: StyleTheme.cBioColor,
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: 12.sp)),
                             ])),
                         SizedBox(
                           height: 5.w,
@@ -1161,7 +1164,9 @@ class FilterTabsContainer extends StatefulWidget {
   final List? tabs;
   final int? selectTabIndex;
   final Function? onTabs;
-  FilterTabsContainer({Key? key, this.tabs, this.selectTabIndex, this.onTabs}) : super(key: key);
+
+  FilterTabsContainer({Key? key, this.tabs, this.selectTabIndex, this.onTabs})
+      : super(key: key);
 
   @override
   _FilterTabsContainerState createState() => _FilterTabsContainerState();
@@ -1208,7 +1213,9 @@ class TabsItem extends StatelessWidget {
   final int? index;
   final int? keys;
   final GestureTapCallback? onTap;
-  TabsItem({Key? key, this.title, this.index = 0, this.onTap, this.keys}) : super(key: key);
+
+  TabsItem({Key? key, this.title, this.index = 0, this.onTap, this.keys})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -1229,14 +1236,18 @@ class TabsItem extends StatelessWidget {
                         child: Container(
                           width: 12.w,
                           height: 12.w,
-                          decoration:
-                              BoxDecoration(color: StyleTheme.cDangerColor, borderRadius: BorderRadius.circular(10)),
+                          decoration: BoxDecoration(
+                              color: StyleTheme.cDangerColor,
+                              borderRadius: BorderRadius.circular(10)),
                         ),
                       )
                     : SizedBox()),
             Text("$title",
                 style: index == keys
-                    ? TextStyle(color: StyleTheme.cTitleColor, fontSize: 18.sp, fontWeight: FontWeight.w700)
+                    ? TextStyle(
+                        color: StyleTheme.cTitleColor,
+                        fontSize: 18.sp,
+                        fontWeight: FontWeight.w700)
                     : TextStyle(color: StyleTheme.cTitleColor, fontSize: 14.w)),
           ],
         ),
@@ -1250,7 +1261,10 @@ class MultipleChoiceeChipWidget extends StatefulWidget {
   final List<String>? selectList;
   final void Function(List<String>)? onChanged;
   final GestureTapCallback? addItem;
-  MultipleChoiceeChipWidget({this.strings, this.selectList, this.onChanged, this.addItem, Key? key}) : super(key: key);
+
+  MultipleChoiceeChipWidget(
+      {this.strings, this.selectList, this.onChanged, this.addItem, Key? key})
+      : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -1276,7 +1290,9 @@ class MultipleChoiceeChipWidgetState extends State<MultipleChoiceeChipWidget> {
             text: stringItem,
             selected: selectList.contains(stringItem),
             onSelected: (selected) {
-              selectList.contains(stringItem) ? selectList.remove(stringItem) : selectList.add(stringItem);
+              selectList.contains(stringItem)
+                  ? selectList.remove(stringItem)
+                  : selectList.add(stringItem);
               this.widget.onChanged!(selectList);
             },
           ),
@@ -1300,7 +1316,9 @@ class TagsItem extends StatefulWidget {
   final String? text;
   final ValueChanged<bool>? onSelected;
   final bool? selected;
-  TagsItem({Key? key, this.text, this.onSelected, this.selected}) : super(key: key);
+
+  TagsItem({Key? key, this.text, this.onSelected, this.selected})
+      : super(key: key);
 
   @override
   _TagsItemState createState() => _TagsItemState();
@@ -1308,6 +1326,7 @@ class TagsItem extends StatefulWidget {
 
 class _TagsItemState extends State<TagsItem> {
   bool? _select;
+
   @override
   void initState() {
     super.initState();
@@ -1326,10 +1345,14 @@ class _TagsItemState extends State<TagsItem> {
       child: Container(
         padding: EdgeInsets.symmetric(vertical: 5.w, horizontal: 10.5.w),
         decoration: BoxDecoration(
-            color: _select! ? Color(0xFFFDF0E4) : Color(0xFFF5F5F5), borderRadius: BorderRadius.circular(5)),
+            color: _select! ? Color(0xFFFDF0E4) : Color(0xFFF5F5F5),
+            borderRadius: BorderRadius.circular(5)),
         child: Text(
           widget.text!,
-          style: TextStyle(height: 1.5, color: _select! ? Color(0xFFFF4149) : StyleTheme.cTitleColor, fontSize: 12.sp),
+          style: TextStyle(
+              height: 1.5,
+              color: _select! ? Color(0xFFFF4149) : StyleTheme.cTitleColor,
+              fontSize: 12.sp),
         ),
       ),
     );
@@ -1341,7 +1364,10 @@ class NavTileCell extends StatelessWidget {
   final String? title;
   final String? subtitle;
   final GestureTapCallback? onTap;
-  const NavTileCell({Key? key, this.image, this.title, this.subtitle, this.onTap}) : super(key: key);
+
+  const NavTileCell(
+      {Key? key, this.image, this.title, this.subtitle, this.onTap})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -1362,7 +1388,9 @@ class NavTileCell extends StatelessWidget {
               ),
               SizedBox(height: 7.5.w),
               Text(title!,
-                  textAlign: TextAlign.center, style: TextStyle(color: Color(0xFF323232), fontSize: 14.w), maxLines: 1),
+                  textAlign: TextAlign.center,
+                  style: TextStyle(color: Color(0xFF323232), fontSize: 14.w),
+                  maxLines: 1),
               SizedBox(height: 5.w),
               Text(subtitle!,
                   textAlign: TextAlign.center,
@@ -1381,7 +1409,10 @@ class ListTileCell extends StatelessWidget {
   final String? title;
   final String? subtitle;
   final GestureTapCallback? onTap;
-  const ListTileCell({Key? key, this.image, this.title, this.subtitle, this.onTap}) : super(key: key);
+
+  const ListTileCell(
+      {Key? key, this.image, this.title, this.subtitle, this.onTap})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -1391,7 +1422,8 @@ class ListTileCell extends StatelessWidget {
         width: 169.w,
         height: 70.w,
         padding: EdgeInsets.all(20.w),
-        decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(5.w)),
+        decoration: BoxDecoration(
+            color: Colors.white, borderRadius: BorderRadius.circular(5.w)),
         // child: Row(
         //   children: <Widget>[
         //     Column(
@@ -1428,7 +1460,9 @@ class RuleFilterTabs extends StatefulWidget {
   final List? tabs;
   final int? selectTabIndex;
   final Function? onTabs;
-  RuleFilterTabs({Key? key, this.tabs, this.selectTabIndex, this.onTabs}) : super(key: key);
+
+  RuleFilterTabs({Key? key, this.tabs, this.selectTabIndex, this.onTabs})
+      : super(key: key);
 
   @override
   _RuleFilterTabsState createState() => _RuleFilterTabsState();
@@ -1476,7 +1510,9 @@ class RuleTabsItem extends StatelessWidget {
   final int? index;
   final int? keys;
   final GestureTapCallback? onTap;
-  RuleTabsItem({Key? key, this.title, this.index = 0, this.onTap, this.keys}) : super(key: key);
+
+  RuleTabsItem({Key? key, this.title, this.index = 0, this.onTap, this.keys})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -1497,13 +1533,18 @@ class RuleTabsItem extends StatelessWidget {
                         child: Container(
                           width: 10.w,
                           height: 10.w,
-                          decoration: BoxDecoration(color: Color(0xFFff4149), borderRadius: BorderRadius.circular(10)),
+                          decoration: BoxDecoration(
+                              color: Color(0xFFff4149),
+                              borderRadius: BorderRadius.circular(10)),
                         ),
                       )
                     : SizedBox()),
             Text("$title",
                 style: index == keys
-                    ? TextStyle(color: Color(0xFF646464), fontSize: 12.sp, fontWeight: FontWeight.w600)
+                    ? TextStyle(
+                        color: Color(0xFF646464),
+                        fontSize: 12.sp,
+                        fontWeight: FontWeight.w600)
                     : TextStyle(color: Color(0xFF646464), fontSize: 12.sp)),
           ],
         ),
