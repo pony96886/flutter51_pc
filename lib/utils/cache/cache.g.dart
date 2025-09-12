@@ -44,8 +44,7 @@ class _ImageCacheManager implements ImageCacheManager {
     _isInitialized = true;
 
     this.boxKey = boxKey;
-    // 确保Flutter绑定已初始化，但不创建新的绑定实例
-    WidgetsFlutterBinding.ensureInitialized();
+    _ImageCacheHooker();
 
     if (!kIsWeb) {
       _hivePath = (await getApplicationDocumentsDirectory()).path;

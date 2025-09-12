@@ -13,6 +13,7 @@
 #include <screen_brightness_windows/screen_brightness_windows_plugin.h>
 #include <sqlite3_flutter_libs/sqlite3_flutter_libs_plugin.h>
 #include <url_launcher_windows/url_launcher_windows.h>
+#include <webcrypto/webcrypto_plugin.h>
 
 void RegisterPlugins(flutter::PluginRegistry* registry) {
   ConnectivityPlusWindowsPluginRegisterWithRegistrar(
@@ -29,4 +30,6 @@ void RegisterPlugins(flutter::PluginRegistry* registry) {
       registry->GetRegistrarForPlugin("Sqlite3FlutterLibsPlugin"));
   UrlLauncherWindowsRegisterWithRegistrar(
       registry->GetRegistrarForPlugin("UrlLauncherWindows"));
+  WebcryptoPluginRegisterWithRegistrar(
+      registry->GetRegistrarForPlugin("WebcryptoPlugin"));
 }

@@ -42,7 +42,7 @@ class CacheManager {
   String get _defaultKey => "viiDw6axfsvec0nDfNjXow9nRSZkd+RDCsAcrJ7n+2lOrwchr6QKAmsVlmAxaGbU";
 
   late GoRouter appRouter;
-  late Map appinfo = {};
+  late Map<String, dynamic> appinfo = {};
   late String apiBaseURL = "";
   late String uploadImgUrl = "";
   late String uploadImgKey = "";

@@ -1,7 +1,7 @@
 import 'dart:ui' as ui;
 import 'dart:js_interop';
-import 'package:chaguaner2023/utils/cache/cache_manager.dart';
 import 'package:chaguaner2023/utils/cache/image_decrypt.dart';
+import 'package:chaguaner2023/utils/cache/cache_manager.dart';
 import 'package:web/web.dart' as web;
 import 'dart:async';
 import 'package:flutter/painting.dart';
@@ -18,8 +18,7 @@ Future<ui.Codec> imageLoadAsync(
   try {
     final Uri resolved = Uri.base.resolve(key.url);
 
-    final Completer<web.XMLHttpRequest> completer =
-        Completer<web.XMLHttpRequest>();
+    final Completer<web.XMLHttpRequest> completer = Completer<web.XMLHttpRequest>();
     final web.XMLHttpRequest request = web.XMLHttpRequest();
 
     request.open('GET', key.url, true);
@@ -33,8 +32,7 @@ Future<ui.Codec> imageLoadAsync(
           final bool fileUri = status == 0;
           final bool notModified = status == 304;
           final bool unknownRedirect = status > 307 && status < 400;
-          final bool success =
-              accepted || fileUri || notModified || unknownRedirect;
+          final bool success = accepted || fileUri || notModified || unknownRedirect;
 
           if (success) {
             completer.complete(request);
@@ -44,19 +42,16 @@ Future<ui.Codec> imageLoadAsync(
           }
         }.toJS);
 
-    request.addEventListener(
-        'error', ((JSObject e) => completer.completeError(e)).toJS);
+    request.addEventListener('error', ((JSObject e) => completer.completeError(e)).toJS);
 
     request.send();
 
     await completer.future;
 
-    final Uint8List bytes =
-        (request.response! as JSArrayBuffer).toDart.asUint8List();
+    final Uint8List bytes = (request.response! as JSArrayBuffer).toDart.asUint8List();
 
     if (bytes.lengthInBytes == 0) {
-      throw NetworkImageLoadException(
-          statusCode: request.status, uri: resolved);
+      throw NetworkImageLoadException(statusCode: request.status, uri: resolved);
     }
     final decrypted = await imageDecrypt(bytes);
     await CacheManager.image.cache.upsert(cacheKey, decrypted);
@@ -76,8 +71,7 @@ Future<Uint8List> downImageLoadAsync(String url, String cacheKey) async {
   try {
     final Uri resolved = Uri.base.resolve(url);
 
-    final Completer<web.XMLHttpRequest> completer =
-        Completer<web.XMLHttpRequest>();
+    final Completer<web.XMLHttpRequest> completer = Completer<web.XMLHttpRequest>();
     final web.XMLHttpRequest request = web.XMLHttpRequest();
 
     request.open('GET', url, true);
@@ -91,8 +85,7 @@ Future<Uint8List> downImageLoadAsync(String url, String cacheKey) async {
           final bool fileUri = status == 0;
           final bool notModified = status == 304;
           final bool unknownRedirect = status > 307 && status < 400;
-          final bool success =
-              accepted || fileUri || notModified || unknownRedirect;
+          final bool success = accepted || fileUri || notModified || unknownRedirect;
 
           if (success) {
             completer.complete(request);
@@ -102,19 +95,16 @@ Future<Uint8List> downImageLoadAsync(String url, String cacheKey) async {
           }
         }.toJS);
 
-    request.addEventListener(
-        'error', ((JSObject e) => completer.completeError(e)).toJS);
+    request.addEventListener('error', ((JSObject e) => completer.completeError(e)).toJS);
 
     request.send();
 
     await completer.future;
 
-    final Uint8List bytes =
-        (request.response! as JSArrayBuffer).toDart.asUint8List();
+    final Uint8List bytes = (request.response! as JSArrayBuffer).toDart.asUint8List();
 
     if (bytes.lengthInBytes == 0) {
-      throw NetworkImageLoadException(
-          statusCode: request.status, uri: resolved);
+      throw NetworkImageLoadException(statusCode: request.status, uri: resolved);
     }
     final decrypted = await imageDecrypt(bytes);
     return decrypted;

@@ -71,8 +71,7 @@ Future<ui.Codec> imageLoadAsync(
   }
 
   try {
-    final data = await _worker!
-        .fetchImage(key.url, cacheKey, hivePath, boxKey, chunkEvents);
+    final data = await _worker!.fetchImage(key.url, cacheKey, hivePath, boxKey, chunkEvents);
     return decode(data);
   } catch (e) {
     scheduleMicrotask(() {
@@ -95,8 +94,7 @@ Future<Uint8List> downImageLoadAsync(String url, String cacheKey) async {
     final HttpClientResponse response = await request.close();
     if (response.statusCode != HttpStatus.ok) {
       await response.drain<List<int>>(<int>[]);
-      throw NetworkImageLoadException(
-          statusCode: response.statusCode, uri: resolved);
+      throw NetworkImageLoadException(statusCode: response.statusCode, uri: resolved);
     }
     final Uint8List bytes = await consolidateHttpClientResponseBytes(response);
     if (bytes.lengthInBytes == 0) {
@@ -118,8 +116,8 @@ class _Worker {
   int _idCounter = 0;
   bool _closed = false;
 
-  Future<Uint8List> fetchImage(String url, String cacheKey, String hivePath,
-      String boxKey, StreamController<ImageChunkEvent> chunkEventsStream) {
+  Future<Uint8List> fetchImage(String url, String cacheKey, String hivePath, String boxKey,
+      StreamController<ImageChunkEvent> chunkEventsStream) {
     if (_closed) throw StateError('Closed');
     final completer = Completer<Uint8List>.sync();
     final id = _idCounter++;
@@ -205,8 +203,7 @@ class _Worker {
         final HttpClientResponse response = await request.close();
         if (response.statusCode != HttpStatus.ok) {
           await response.drain<List<int>>(<int>[]);
-          throw NetworkImageLoadException(
-              statusCode: response.statusCode, uri: resolved);
+          throw NetworkImageLoadException(statusCode: response.statusCode, uri: resolved);
         }
 
         final Uint8List bytes = await consolidateHttpClientResponseBytes(

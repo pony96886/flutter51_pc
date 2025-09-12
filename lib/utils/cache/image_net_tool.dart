@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 
+import 'package:chaguaner2023/theme/style_theme.dart';
 import 'package:chaguaner2023/utils/cache/cache_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';

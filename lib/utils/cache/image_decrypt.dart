@@ -1,6 +1,8 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:typed_data';
 import 'package:encrypt/encrypt.dart';
+import 'package:webcrypto/webcrypto.dart';
 
 const List<int> enviedkeymediaKey = [
   462343192,
@@ -85,18 +87,14 @@ final mediaIv =
         .toList(growable: false);
 
 FutureOr<Uint8List> imageDecrypt(Uint8List data) async {
-  try {
-    // 使用 encrypt 包进行 AES-CBC 解密
-    final key = Key(Uint8List.fromList(mediaKey.take(32).toList()));
-    final iv = IV(Uint8List.fromList(mediaIv.take(16).toList()));
-    final encrypter = Encrypter(AES(key, mode: AESMode.cbc));
+  final key = await AesCbcSecretKey.importRawKey(mediaKey);
+  final decrypted = await key.decryptBytes(data, mediaIv);
 
-    final encrypted = Encrypted(data);
-    final decrypted = encrypter.decryptBytes(encrypted, iv: iv);
-
-    return Uint8List.fromList(decrypted);
-  } catch (e) {
-    // 如果解密失败，返回原始数据
-    return data;
-  }
+  return decrypted;
+  // Encrypter encrypter =
+  //     Encrypter(AES(Key.fromUtf8("f5d965df75336270"), mode: AESMode.cbc));
+  // Encrypted encrypted = Encrypted.fromBase64(base64Encode(data));
+  // List<int> decrypted =
+  //     encrypter.decryptBytes(encrypted, iv: IV.fromUtf8("97b60394abc2fbe1"));
+  // return Uint8List.fromList(decrypted);
 }
