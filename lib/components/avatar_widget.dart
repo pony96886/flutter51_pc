@@ -32,22 +32,20 @@ class Avatar extends StatelessWidget {
           child: Stack(
             children: <Widget>[
               Container(
-                  padding:
-                      viplevel == "4" ? EdgeInsets.all(5.w) : EdgeInsets.zero,
+                  padding: viplevel == "4" ? EdgeInsets.all(5.w) : EdgeInsets.zero,
                   child: LocalPNG(
                     url: 'assets/images/common/$path.png',
                     fit: BoxFit.cover,
                     width: double.infinity,
                     height: double.infinity,
                   )),
-              viplevel == "4"
-                  ? LocalPNG(
-                      url: 'assets/images/common/vip5.png',
-                      fit: BoxFit.cover,
-                      width: double.infinity,
-                      height: double.infinity,
-                    )
-                  : SizedBox()
+              if (viplevel == "4")
+                LocalPNG(
+                  url: 'assets/images/common/vip5.png',
+                  fit: BoxFit.cover,
+                  width: double.infinity,
+                  height: double.infinity,
+                )
             ],
           ),
         ),
