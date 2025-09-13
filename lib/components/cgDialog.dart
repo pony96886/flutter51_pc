@@ -32,100 +32,14 @@ class CgDialog {
                           style: TextStyle(color: StyleTheme.cTitleColor, fontSize: 18.sp, fontWeight: FontWeight.bold),
                         ),
                       ),
-                    contentWidget != null
-                        ? contentWidget
-                        : Container(
+                    contentWidget ??
+                        Container(
                             margin: new EdgeInsets.only(top: 20.w),
                             child: Text(
                               content,
                               style: TextStyle(fontSize: 14.sp, color: StyleTheme.cTitleColor),
                             )),
-                    btnText.length == 0
-                        ? Container()
-                        : btnText.length == 1
-                            ? Center(
-                                child: GestureDetector(
-                                  onTap: () {
-                                    if (callBack == null) {
-                                      Navigator.of(context).pop();
-                                    } else {
-                                      Navigator.of(context).pop();
-                                      callBack();
-                                    }
-                                  },
-                                  child: Container(
-                                      margin: EdgeInsets.only(top: 20.w),
-                                      width: 200.w,
-                                      height: 50.w,
-                                      child: Stack(
-                                        children: [
-                                          LocalPNG(
-                                              width: 200.w,
-                                              height: 50.w,
-                                              url: 'assets/images/mymony/money-img.png',
-                                              fit: BoxFit.fill),
-                                          Center(
-                                            child: Text(
-                                              btnText[0],
-                                              style: TextStyle(fontSize: 15.sp, color: Colors.white),
-                                            ),
-                                          ),
-                                        ],
-                                      )),
-                                ),
-                              )
-                            : Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: <Widget>[
-                                  GestureDetector(
-                                    onTap: () {
-                                      Navigator.of(context).pop();
-                                    },
-                                    child: Container(
-                                        margin: new EdgeInsets.only(top: 30.w),
-                                        height: 50.w,
-                                        width: 110.w,
-                                        child: Stack(
-                                          children: [
-                                            LocalPNG(
-                                                height: 50.w,
-                                                width: 110.w,
-                                                url: 'assets/images/mymony/money-img.png',
-                                                fit: BoxFit.fill),
-                                            Center(
-                                                child: Text(
-                                              btnText[0],
-                                              style: TextStyle(fontSize: 15.sp, color: Colors.white),
-                                            )),
-                                          ],
-                                        )),
-                                  ),
-                                  GestureDetector(
-                                    onTap: () {
-                                      Navigator.of(context).pop();
-                                      callBack!();
-                                    },
-                                    child: Container(
-                                        margin: new EdgeInsets.only(top: 30.w),
-                                        height: 50.w,
-                                        width: 110.w,
-                                        child: Stack(
-                                          children: [
-                                            LocalPNG(
-                                                height: 50.w,
-                                                width: 110.w,
-                                                url: 'assets/images/mymony/money-img.png',
-                                                fit: BoxFit.fill),
-                                            Center(
-                                                child: Text(
-                                              btnText[1],
-                                              style: TextStyle(fontSize: 15.sp, color: Colors.white),
-                                            )),
-                                          ],
-                                        )),
-                                  )
-                                ],
-                              ),
+                    _buildButtonArea(context, btnText, callBack: callBack, width: width),
                   ],
                 ),
                 Positioned(
@@ -144,6 +58,72 @@ class CgDialog {
     ).then((value) {
       onClose?.call();
     });
+  }
+
+  static Widget _buildButton(String text, double width, double topMargin, VoidCallback onTap) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        margin: EdgeInsets.only(top: topMargin),
+        width: width,
+        height: 50.w,
+        child: Stack(
+          children: [
+            LocalPNG(
+              width: width,
+              height: 50.w,
+              url: 'assets/images/mymony/money-img.png',
+              fit: BoxFit.fill,
+            ),
+            Center(
+              child: Text(
+                text,
+                style: TextStyle(fontSize: 15.sp, color: Colors.white),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  static Widget _buildButtonArea(BuildContext context, List btnText, {Function? callBack, num width = 280}) {
+    if (btnText.isEmpty) return Container();
+
+    if (btnText.length == 1) {
+      return Center(
+        child: _buildButton(
+          btnText[0],
+          200.w,
+          20.w,
+          () {
+            Navigator.of(context).pop();
+            callBack?.call();
+          },
+        ),
+      );
+    }
+
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        _buildButton(
+          btnText[0],
+          110.w,
+          30.w,
+          () => Navigator.of(context).pop(),
+        ),
+        _buildButton(
+          btnText[1],
+          110.w,
+          30.w,
+          () {
+            Navigator.of(context).pop();
+            callBack?.call();
+          },
+        ),
+      ],
+    );
   }
 }
 
