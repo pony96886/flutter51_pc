@@ -49,16 +49,10 @@ class _CgTabViewState extends State<CgTabView> {
   @override
   void initState() {
     super.initState();
-    defaultStyle = widget.defaultStyle ??
-        TextStyle(
-            fontSize: 14.sp,
-            color: Color(0xff1e1e1e),
-            fontWeight: FontWeight.w700);
-    activeStyle = widget.activeStyle ??
-        TextStyle(
-            fontSize: 18.sp,
-            color: Color(0xff1e1e1e),
-            fontWeight: FontWeight.w700);
+    defaultStyle =
+        widget.defaultStyle ?? TextStyle(fontSize: 14.sp, color: Color(0xff1e1e1e), fontWeight: FontWeight.w700);
+    activeStyle =
+        widget.activeStyle ?? TextStyle(fontSize: 18.sp, color: Color(0xff1e1e1e), fontWeight: FontWeight.w700);
     _controller = PageController(initialPage: 0);
     _controller!.addListener(_setPageVeiw);
   }
@@ -73,128 +67,9 @@ class _CgTabViewState extends State<CgTabView> {
               valueListenable: currentIndex,
               builder: (context, value, child) {
                 return Row(
-                  mainAxisAlignment: widget.isCenter
-                      ? MainAxisAlignment.center
-                      : MainAxisAlignment.start,
+                  mainAxisAlignment: widget.isCenter ? MainAxisAlignment.center : MainAxisAlignment.start,
                   children: widget.tabs!.asMap().keys.map((e) {
-                    if (widget.type == CgTabType.shuimo) {
-                      return widget.isFlex
-                          ? Expanded(
-                              child: InkWell(
-                              onTap: () {
-                                _changeTap(e);
-                              },
-                              child: Center(
-                                child: Stack(
-                                  clipBehavior: Clip.none,
-                                  children: [
-                                    Positioned(
-                                        bottom: 0,
-                                        left: -5.w,
-                                        child: LocalPNG(
-                                          url: 'assets/images/tabsitem.png',
-                                          alignment: Alignment.center,
-                                          fit: BoxFit.fitWidth,
-                                          width: 90.w,
-                                          height: value == e ? 9.w : 0,
-                                        )),
-                                    Text(
-                                      widget.tabs![e],
-                                      style: value == e
-                                          ? activeStyle
-                                          : defaultStyle,
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ))
-                          : Padding(
-                              padding: EdgeInsets.only(
-                                  right: e == widget.tabs!.length - 1
-                                      ? 0
-                                      : widget.spacing ?? 20.w),
-                              child: InkWell(
-                                  onTap: () {
-                                    _changeTap(e);
-                                  },
-                                  child: Stack(
-                                    clipBehavior: Clip.none,
-                                    children: [
-                                      Positioned(
-                                          bottom: 0,
-                                          left: -5.w,
-                                          child: LocalPNG(
-                                            url: 'assets/images/tabsitem.png',
-                                            alignment: Alignment.center,
-                                            fit: BoxFit.fitWidth,
-                                            width: 90.w,
-                                            height: value == e ? 9.w : 0,
-                                          )),
-                                      Text(
-                                        widget.tabs![e],
-                                        style: value == e
-                                            ? activeStyle
-                                            : defaultStyle,
-                                      )
-                                    ],
-                                  )),
-                            );
-                    } else {
-                      return widget.isFlex
-                          ? Expanded(
-                              child: InkWell(
-                                  onTap: () {
-                                    _changeTap(e);
-                                  },
-                                  child: Center(
-                                    child: Container(
-                                      alignment: Alignment.center,
-                                      height: 25.w,
-                                      padding: EdgeInsets.symmetric(
-                                          horizontal: widget.spacing ?? 15.w),
-                                      decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(12.5.w),
-                                          color: e == value
-                                              ? Color(0xffff4149)
-                                              : Colors.transparent),
-                                      child: Text(
-                                        widget.tabs![e],
-                                        style: value == e
-                                            ? activeStyle
-                                            : defaultStyle,
-                                      ),
-                                    ),
-                                  )))
-                          : Padding(
-                              padding: EdgeInsets.only(
-                                  right: e == widget.tabs!.length - 1
-                                      ? 0
-                                      : widget.spacing ?? 20.w),
-                              child: InkWell(
-                                  onTap: () {
-                                    _changeTap(e);
-                                  },
-                                  child: Container(
-                                    alignment: Alignment.center,
-                                    height: 25.w,
-                                    padding:
-                                        EdgeInsets.symmetric(horizontal: 15.w),
-                                    decoration: BoxDecoration(
-                                        borderRadius:
-                                            BorderRadius.circular(12.5.w),
-                                        color: e == value
-                                            ? Color(0xffff4149)
-                                            : Colors.transparent),
-                                    child: Text(
-                                      widget.tabs![e],
-                                      style: value == e
-                                          ? activeStyle
-                                          : defaultStyle,
-                                    ),
-                                  )),
-                            );
-                    }
+                    return _buildTabItem(e, value as int);
                   }).toList(),
                 );
               }),
@@ -207,5 +82,68 @@ class _CgTabViewState extends State<CgTabView> {
         ))
       ],
     );
+  }
+
+  Widget _buildTabContent(int index, int currentValue) {
+    if (widget.type == CgTabType.shuimo) {
+      return Stack(
+        clipBehavior: Clip.none,
+        children: [
+          Positioned(
+            bottom: 0,
+            left: -5.w,
+            child: LocalPNG(
+              url: 'assets/images/tabsitem.png',
+              alignment: Alignment.center,
+              fit: BoxFit.fitWidth,
+              width: 90.w,
+              height: currentValue == index ? 9.w : 0,
+            ),
+          ),
+          Text(
+            widget.tabs![index],
+            style: currentValue == index ? activeStyle : defaultStyle,
+          )
+        ],
+      );
+    } else {
+      return Container(
+        alignment: Alignment.center,
+        height: 25.w,
+        padding: EdgeInsets.symmetric(
+          horizontal: widget.isFlex ? (widget.spacing ?? 15.w) : 15.w,
+        ),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(12.5.w),
+          color: index == currentValue ? Color(0xffff4149) : Colors.transparent,
+        ),
+        child: Text(
+          widget.tabs![index],
+          style: currentValue == index ? activeStyle : defaultStyle,
+        ),
+      );
+    }
+  }
+
+  Widget _buildTabItem(int index, int currentValue) {
+    final tabContent = widget.type == CgTabType.shuimo
+        ? Center(child: _buildTabContent(index, currentValue))
+        : _buildTabContent(index, currentValue);
+
+    final inkWell = InkWell(
+      onTap: () => _changeTap(index),
+      child: tabContent,
+    );
+
+    if (widget.isFlex) {
+      return Expanded(child: inkWell);
+    } else {
+      return Padding(
+        padding: EdgeInsets.only(
+          right: index == widget.tabs!.length - 1 ? 0 : widget.spacing ?? 20.w,
+        ),
+        child: inkWell,
+      );
+    }
   }
 }
