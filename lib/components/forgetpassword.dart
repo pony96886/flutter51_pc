@@ -157,173 +157,169 @@ class _ForgetPasswordState extends State<ForgetPassword> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              currentStep == 1
-                  ? Text("找回密码",
-                      style: TextStyle(color: StyleTheme.cTitleColor, fontSize: 24.sp, fontWeight: FontWeight.w500))
-                  : SizedBox(),
-              currentStep == 2
-                  ? RichText(
-                      text: TextSpan(
-                          text: "找回密码",
-                          style: TextStyle(color: StyleTheme.cTitleColor, fontSize: 24.sp, fontWeight: FontWeight.w500),
-                          children: <TextSpan>[
-                            TextSpan(
-                                text: ' (您可以使用验证码直接登录)',
-                                style: TextStyle(
-                                    color: StyleTheme.cTitleColor, fontSize: 14.sp, fontWeight: FontWeight.w400))
-                          ]),
-                    )
-                  : SizedBox(),
+              if (currentStep == 1)
+                Text("找回密码",
+                    style: TextStyle(color: StyleTheme.cTitleColor, fontSize: 24.sp, fontWeight: FontWeight.w500)),
+              if (currentStep == 2)
+                RichText(
+                  text: TextSpan(
+                      text: "找回密码",
+                      style: TextStyle(color: StyleTheme.cTitleColor, fontSize: 24.sp, fontWeight: FontWeight.w500),
+                      children: <TextSpan>[
+                        TextSpan(
+                            text: ' (您可以使用验证码直接登录)',
+                            style:
+                                TextStyle(color: StyleTheme.cTitleColor, fontSize: 14.sp, fontWeight: FontWeight.w400))
+                      ]),
+                ),
               SizedBox(height: 30.w),
-              currentStep == 1
-                  ? EditTextField(
-                      editingController: _usernameController,
-                      hintText: "请输入需要找回的账号",
-                    )
-                  : SizedBox(),
-              currentStep == 2
-                  ? Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[
-                        Container(
-                          width: double.infinity,
-                          height: 45.w,
-                          padding: EdgeInsets.only(right: 20.w),
-                          decoration: BoxDecoration(
-                            color: Color(0xFFEEEEEE),
-                            borderRadius: BorderRadius.circular(50),
+              if (currentStep == 1)
+                EditTextField(
+                  editingController: _usernameController,
+                  hintText: "请输入需要找回的账号",
+                ),
+              if (currentStep == 2)
+                Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    Container(
+                      width: double.infinity,
+                      height: 45.w,
+                      padding: EdgeInsets.only(right: 20.w),
+                      decoration: BoxDecoration(
+                        color: Color(0xFFEEEEEE),
+                        borderRadius: BorderRadius.circular(50),
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: <Widget>[
+                          CountryPickerDropdown(
+                              initialValue: 'CN',
+                              itemBuilder: _buildDropdownItem,
+                              dropdownColor: Colors.black87,
+                              sortComparator: (Country a, Country b) => a.isoCode.compareTo(b.isoCode),
+                              onValuePicked: (Country country) {
+                                phonePrefix = country.phoneCode;
+                              },
+                              iconSize: 20.w,
+                              iconDisabledColor: Colors.white,
+                              iconEnabledColor: Colors.white),
+                          LocalPNG(
+                            width: 7.5.w,
+                            height: 7.5.w,
+                            url: "assets/images/login/down_arrow_black.png",
+                            alignment: Alignment.centerLeft,
                           ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: <Widget>[
-                              CountryPickerDropdown(
-                                  initialValue: 'CN',
-                                  itemBuilder: _buildDropdownItem,
-                                  dropdownColor: Colors.black87,
-                                  sortComparator: (Country a, Country b) => a.isoCode.compareTo(b.isoCode),
-                                  onValuePicked: (Country country) {
-                                    phonePrefix = country.phoneCode;
-                                  },
-                                  iconSize: 20.w,
-                                  iconDisabledColor: Colors.white,
-                                  iconEnabledColor: Colors.white),
-                              LocalPNG(
-                                width: 7.5.w,
-                                height: 7.5.w,
-                                url: "assets/images/login/down_arrow_black.png",
-                                alignment: Alignment.centerLeft,
+                          Expanded(
+                            child: TextField(
+                              controller: _phoneNumController,
+                              onChanged: (value) {
+                                if (value.length < 5) {
+                                  setState(() {
+                                    codeAvailable = false;
+                                  });
+                                } else {
+                                  setState(() {
+                                    codeAvailable = true;
+                                  });
+                                }
+                              },
+                              keyboardType: TextInputType.numberWithOptions(),
+                              inputFormatters: <TextInputFormatter>[
+                                LengthLimitingTextInputFormatter(20),
+                                FilteringTextInputFormatter.digitsOnly
+                              ],
+                              style: TextStyle(color: StyleTheme.cTitleColor, fontSize: 15.sp),
+                              decoration: InputDecoration(
+                                  isDense: true,
+                                  contentPadding: EdgeInsets.only(left: 10, right: 10, top: 5, bottom: 5),
+                                  border: InputBorder.none,
+                                  hintStyle: TextStyle(color: Color(0xFFB4B4B4), fontSize: 15.sp),
+                                  hintText: "输入手机号",
+                                  hoverColor: Colors.white),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(height: 20.w),
+                    Container(
+                      width: double.infinity,
+                      height: 45.w,
+                      padding: EdgeInsets.only(left: 20.w, right: 10.w),
+                      decoration: BoxDecoration(
+                        color: Color(0xFFEEEEEE),
+                        borderRadius: BorderRadius.circular(50),
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: <Widget>[
+                          Expanded(
+                            child: TextField(
+                              controller: _veriCodeController,
+                              keyboardType: TextInputType.numberWithOptions(),
+                              inputFormatters: <TextInputFormatter>[
+                                LengthLimitingTextInputFormatter(6),
+                                FilteringTextInputFormatter.digitsOnly
+                              ],
+                              style: TextStyle(color: StyleTheme.cTitleColor, fontSize: 15.sp),
+                              decoration: InputDecoration(
+                                  isDense: true,
+                                  contentPadding: EdgeInsets.only(left: 10, right: 10, top: 5, bottom: 5),
+                                  border: InputBorder.none,
+                                  hintStyle: TextStyle(color: Color(0xFFB4B4B4), fontSize: 15.sp),
+                                  hintText: "输入短信验证码",
+                                  hoverColor: Colors.white),
+                            ),
+                          ),
+                          Container(
+                            width: 80.w,
+                            height: 25.w,
+                            decoration: BoxDecoration(
+                              color: codeSending ? Color(0xFF969696) : Colors.white,
+                              borderRadius: BorderRadius.circular(50),
+                            ),
+                            child: Center(
+                              child: CountDown(
+                                available: codeAvailable,
+                                unAvailable: () {
+                                  if (_phoneNumController.text.isEmpty) {
+                                    showText("请输入手机号码");
+                                    return;
+                                  }
+                                  if (_phoneNumController.text.length < 5) {
+                                    showText("请输入正确的手机号码");
+                                    return;
+                                  }
+                                },
+                                onTapCallback: (callBack) {
+                                  sendVeriCode(callBack);
+                                },
+                                onCountdownEnd: () {
+                                  setState(() {
+                                    codeSending = false;
+                                  });
+                                },
                               ),
-                              Expanded(
-                                child: TextField(
-                                  controller: _phoneNumController,
-                                  onChanged: (value) {
-                                    if (value.length < 5) {
-                                      setState(() {
-                                        codeAvailable = false;
-                                      });
-                                    } else {
-                                      setState(() {
-                                        codeAvailable = true;
-                                      });
-                                    }
-                                  },
-                                  keyboardType: TextInputType.numberWithOptions(),
-                                  inputFormatters: <TextInputFormatter>[
-                                    LengthLimitingTextInputFormatter(20),
-                                    FilteringTextInputFormatter.digitsOnly
-                                  ],
-                                  style: TextStyle(color: StyleTheme.cTitleColor, fontSize: 15.sp),
-                                  decoration: InputDecoration(
-                                      isDense: true,
-                                      contentPadding: EdgeInsets.only(left: 10, right: 10, top: 5, bottom: 5),
-                                      border: InputBorder.none,
-                                      hintStyle: TextStyle(color: Color(0xFFB4B4B4), fontSize: 15.sp),
-                                      hintText: "输入手机号",
-                                      hoverColor: Colors.white),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        SizedBox(height: 20.w),
-                        Container(
-                          width: double.infinity,
-                          height: 45.w,
-                          padding: EdgeInsets.only(left: 20.w, right: 10.w),
-                          decoration: BoxDecoration(
-                            color: Color(0xFFEEEEEE),
-                            borderRadius: BorderRadius.circular(50),
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: <Widget>[
-                              Expanded(
-                                child: TextField(
-                                  controller: _veriCodeController,
-                                  keyboardType: TextInputType.numberWithOptions(),
-                                  inputFormatters: <TextInputFormatter>[
-                                    LengthLimitingTextInputFormatter(6),
-                                    FilteringTextInputFormatter.digitsOnly
-                                  ],
-                                  style: TextStyle(color: StyleTheme.cTitleColor, fontSize: 15.sp),
-                                  decoration: InputDecoration(
-                                      isDense: true,
-                                      contentPadding: EdgeInsets.only(left: 10, right: 10, top: 5, bottom: 5),
-                                      border: InputBorder.none,
-                                      hintStyle: TextStyle(color: Color(0xFFB4B4B4), fontSize: 15.sp),
-                                      hintText: "输入短信验证码",
-                                      hoverColor: Colors.white),
-                                ),
-                              ),
-                              Container(
-                                width: 80.w,
-                                height: 25.w,
-                                decoration: BoxDecoration(
-                                  color: codeSending ? Color(0xFF969696) : Colors.white,
-                                  borderRadius: BorderRadius.circular(50),
-                                ),
-                                child: Center(
-                                  child: CountDown(
-                                    available: codeAvailable,
-                                    unAvailable: () {
-                                      if (_phoneNumController.text.isEmpty) {
-                                        showText("请输入手机号码");
-                                        return;
-                                      }
-                                      if (_phoneNumController.text.length < 5) {
-                                        showText("请输入正确的手机号码");
-                                        return;
-                                      }
-                                    },
-                                    onTapCallback: (callBack) {
-                                      sendVeriCode(callBack);
-                                    },
-                                    onCountdownEnd: () {
-                                      setState(() {
-                                        codeSending = false;
-                                      });
-                                    },
-                                  ),
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                        SizedBox(height: 20.w),
-                        EditTextField(
-                            editingController: _newpassword,
-                            hintText: "请输入新密码 (至少6位)",
-                            obscureText: true,
-                            enableSuggestions: true),
-                        SizedBox(height: 20.w),
-                        EditTextField(
-                            editingController: _repeatpassword,
-                            hintText: "请再次输入新密码 (至少6位)",
-                            obscureText: true,
-                            enableSuggestions: true),
-                      ],
-                    )
-                  : SizedBox(),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                    SizedBox(height: 20.w),
+                    EditTextField(
+                        editingController: _newpassword,
+                        hintText: "请输入新密码 (至少6位)",
+                        obscureText: true,
+                        enableSuggestions: true),
+                    SizedBox(height: 20.w),
+                    EditTextField(
+                        editingController: _repeatpassword,
+                        hintText: "请再次输入新密码 (至少6位)",
+                        obscureText: true,
+                        enableSuggestions: true),
+                  ],
+                ),
               SizedBox(height: 60.w),
               GestureDetector(
                   onTap: submitData,
