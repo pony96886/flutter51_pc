@@ -40,12 +40,14 @@ class PageTitleBar extends StatefulWidget {
   final Color? color;
   final Function? onback;
   final String? onlineText;
+
   @override
   _PageTitleBarState createState() => _PageTitleBarState();
 }
 
 class _PageTitleBarState extends State<PageTitleBar> {
   bool inOnline = false;
+
   @override
   void initState() {
     super.initState();
@@ -71,41 +73,7 @@ class _PageTitleBarState extends State<PageTitleBar> {
               alignment: Alignment.center,
               width: ScreenUtil().screenWidth * 0.8,
               child: widget.isIm
-                  ? Column(children: [
-                      Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Flexible(
-                              child: Text(
-                            widget.title ?? '标题',
-                            overflow: TextOverflow.ellipsis,
-                            maxLines: 1,
-                            style: TextStyle(color: widget.color ?? Color(0xff282828), fontSize: 18.sp),
-                          ).toEmoji()),
-                          SizedBox(
-                            width: 5.w,
-                          ),
-                          widget.isIm
-                              ? ClipRRect(
-                                  borderRadius: BorderRadius.circular(4.w),
-                                  child: Container(
-                                    color: widget.onlineText == '对方在线' ? Color(0xff35c435) : Color(0xff999999),
-                                    width: 8.w,
-                                    height: 8.w,
-                                  ),
-                                )
-                              : Container()
-                        ],
-                      ),
-                      widget.isIm
-                          ? Text(
-                              widget.onlineText!,
-                              style: TextStyle(
-                                  color: widget.onlineText == '对方在线' ? Colors.red : Colors.black.withOpacity(0.6),
-                                  fontSize: 11.sp),
-                            )
-                          : Container()
-                    ])
+                  ? _imWidget()
                   : (widget.centerWidget ??
                       Text(
                         widget.title ?? '标题',
@@ -122,45 +90,44 @@ class _PageTitleBarState extends State<PageTitleBar> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                widget.isNoback
-                    ? Container()
-                    : Padding(
-                        padding: EdgeInsets.only(right: 10.w, top: 5.w, bottom: 5.w),
-                        child: GestureDetector(
-                          onTap: () {
-                            if (widget.onback == null) {
-                              context.pop();
-                            } else {
-                              widget.onback?.call();
-                            }
-                            return;
-                            // if (AppGlobal.isFull) {
-                            //   AppGlobal.isFull = false;
-                            //   SystemChrome.setPreferredOrientations([
-                            //     DeviceOrientation.portraitUp,
-                            //   ]);
-                            // } else {
-                            //   Navigator.pop(context);
-                            // }
-                          },
-                          behavior: HitTestBehavior.translucent,
-                          child: Container(
-                            alignment: Alignment.center,
-                            height: double.infinity,
-                            padding: EdgeInsets.symmetric(horizontal: 10.w),
-                            child: IgnorePointer(
-                              child: Padding(
-                                padding: EdgeInsets.only(right: 20.0),
-                                child: Icon(
-                                  Icons.arrow_back_ios,
-                                  size: 25.w,
-                                  color: widget.color ?? widget.backColor ?? Colors.black,
-                                ),
-                              ),
+                if (!widget.isNoback)
+                  Padding(
+                    padding: EdgeInsets.only(right: 10.w, top: 5.w, bottom: 5.w),
+                    child: GestureDetector(
+                      onTap: () {
+                        if (widget.onback == null) {
+                          context.pop();
+                        } else {
+                          widget.onback?.call();
+                        }
+                        return;
+                        // if (AppGlobal.isFull) {
+                        //   AppGlobal.isFull = false;
+                        //   SystemChrome.setPreferredOrientations([
+                        //     DeviceOrientation.portraitUp,
+                        //   ]);
+                        // } else {
+                        //   Navigator.pop(context);
+                        // }
+                      },
+                      behavior: HitTestBehavior.translucent,
+                      child: Container(
+                        alignment: Alignment.center,
+                        height: double.infinity,
+                        padding: EdgeInsets.symmetric(horizontal: 10.w),
+                        child: IgnorePointer(
+                          child: Padding(
+                            padding: EdgeInsets.only(right: 20.0),
+                            child: Icon(
+                              Icons.arrow_back_ios,
+                              size: 25.w,
+                              color: widget.color ?? widget.backColor ?? Colors.black,
                             ),
                           ),
                         ),
                       ),
+                    ),
+                  ),
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 10.w),
                   child: widget.rightWidget ?? Container(),
@@ -169,5 +136,42 @@ class _PageTitleBarState extends State<PageTitleBar> {
             ))
       ],
     );
+  }
+
+  Widget _imWidget() {
+    return Column(children: [
+      Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Flexible(
+              child: Text(
+            widget.title ?? '标题',
+            overflow: TextOverflow.ellipsis,
+            maxLines: 1,
+            style: TextStyle(color: widget.color ?? Color(0xff282828), fontSize: 18.sp),
+          ).toEmoji()),
+          SizedBox(
+            width: 5.w,
+          ),
+          widget.isIm
+              ? ClipRRect(
+                  borderRadius: BorderRadius.circular(4.w),
+                  child: Container(
+                    color: widget.onlineText == '对方在线' ? Color(0xff35c435) : Color(0xff999999),
+                    width: 8.w,
+                    height: 8.w,
+                  ),
+                )
+              : Container()
+        ],
+      ),
+      widget.isIm
+          ? Text(
+              widget.onlineText!,
+              style: TextStyle(
+                  color: widget.onlineText == '对方在线' ? Colors.red : Colors.black.withOpacity(0.6), fontSize: 11.sp),
+            )
+          : Container()
+    ]);
   }
 }
