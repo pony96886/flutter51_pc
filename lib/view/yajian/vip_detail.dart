@@ -286,64 +286,47 @@ class VipDetailState extends State<VipDetailPage> with TickerProviderStateMixin 
         ? Container(
             color: Color(0xFFE5E5E5),
             height: 240.w,
-            child: verifyDetail!['resources'] != null && verifyDetail!['resources'].length > 0
-                ? Swiper(
-                    itemBuilder: (BuildContext context, int index) {
-                      return verifyDetail!['resources'][index]['type'] == 2
-                          ? ShortVPlayer(
-                              url: verifyDetail!['resources'][index]['url'],
-                              cover_url: image[0]['url'],
-                            )
-                          : GestureDetector(
-                              onTap: () {
-                                AppGlobal.picMap = {'resources': verifyDetail!['resources'], 'index': index};
-                                context.push('/teaViewPicPage');
-                                // CommonUtils.setStatusBar(isLight: true);
-                                // showImageViewer(
-                                //   context,
-                                //   NetworkImageCRP(
-                                //       verifyDetail['resources'][index]['url']),
-                                //   useSafeArea: true,
-                                //   swipeDismissible: true,
-                                //   doubleTapZoomable: true,
-                                //   immersive: false,
-                                //   onViewerDismissed: () {
-                                //     CommonUtils.setStatusBar();
-                                //   },
-                                // );
-                              },
-                              child: ImageNetTool(
-                                url: verifyDetail!['resources'][index]['url'],
-                                fit: BoxFit.fitHeight,
-                              ),
-                            );
-                    },
-                    itemCount: verifyDetail!['resources'].length,
-                    layout: SwiperLayout.DEFAULT,
-                    duration: 300,
-                    itemWidth: CommonUtils.getWidth(750),
-                    itemHeight: CommonUtils.getWidth(480),
-                    pagination: SwiperPagination(
-                      alignment: Alignment.bottomRight,
-                      builder: new SwiperCustomPagination(builder: (BuildContext context, SwiperPluginConfig config) {
-                        return IgnorePointer(
-                          child: Container(
-                              padding: new EdgeInsets.symmetric(
-                                horizontal: CommonUtils.getWidth(26),
-                                vertical: CommonUtils.getWidth(7),
-                              ),
-                              decoration:
-                                  BoxDecoration(color: Colors.black45, borderRadius: BorderRadius.circular(10.0)),
-                              child: Text(
-                                (config.activeIndex + 1).toString() + '/' + config.itemCount.toString(),
-                                style: TextStyle(fontSize: 14.sp, color: Colors.white),
-                              )),
-                        );
-                      }),
-                    ),
-                  )
-                : Container(),
-          )
+            child: Swiper(
+              itemBuilder: (BuildContext context, int index) {
+                return verifyDetail!['resources'][index]['type'] == 2
+                    ? ShortVPlayer(
+                        url: verifyDetail!['resources'][index]['url'],
+                        cover_url: image[0]['url'],
+                      )
+                    : GestureDetector(
+                        onTap: () {
+                          AppGlobal.picMap = {'resources': verifyDetail!['resources'], 'index': index};
+                          context.push('/teaViewPicPage');
+                        },
+                        child: ImageNetTool(
+                          url: verifyDetail!['resources'][index]['url'],
+                          fit: BoxFit.fitHeight,
+                        ),
+                      );
+              },
+              itemCount: verifyDetail!['resources'].length,
+              layout: SwiperLayout.DEFAULT,
+              duration: 300,
+              itemWidth: CommonUtils.getWidth(750),
+              itemHeight: CommonUtils.getWidth(480),
+              pagination: SwiperPagination(
+                alignment: Alignment.bottomRight,
+                builder: new SwiperCustomPagination(builder: (BuildContext context, SwiperPluginConfig config) {
+                  return IgnorePointer(
+                    child: Container(
+                        padding: new EdgeInsets.symmetric(
+                          horizontal: CommonUtils.getWidth(26),
+                          vertical: CommonUtils.getWidth(7),
+                        ),
+                        decoration: BoxDecoration(color: Colors.black45, borderRadius: BorderRadius.circular(10.0)),
+                        child: Text(
+                          (config.activeIndex + 1).toString() + '/' + config.itemCount.toString(),
+                          style: TextStyle(fontSize: 14.sp, color: Colors.white),
+                        )),
+                  );
+                }),
+              ),
+            ))
         : Container();
   }
 
