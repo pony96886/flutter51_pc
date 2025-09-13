@@ -26,12 +26,20 @@ class _ImageCodeState extends State<ImageCode> {
     });
     getImgCaptcha().then((res) {
       if (res!['status'] != 0) {
-        imageCode =
-            Base64Decoder().convert(res['data']['captcha_pic'].split(',')[1]);
+        imageCode = Base64Decoder().convert(res['data']['captcha_pic'].split(',')[1]);
         isLoading = false;
         setState(() {});
       }
     });
+  }
+
+  Widget _loadingWidget() {
+    return Center(
+      child: Text(
+        '正在加载图形码',
+        style: TextStyle(color: Color(0xff808080), fontSize: 14.w),
+      ),
+    );
   }
 
   @override
@@ -39,12 +47,7 @@ class _ImageCodeState extends State<ImageCode> {
     return Container(
         height: 44.w,
         child: isLoading
-            ? Center(
-                child: Text(
-                  '正在加载图形码',
-                  style: TextStyle(color: Color(0xff808080), fontSize: 14.w),
-                ),
-              )
+            ? _loadingWidget()
             : GestureDetector(
                 onTap: getImageCode,
                 child: Row(
@@ -60,8 +63,7 @@ class _ImageCodeState extends State<ImageCode> {
                     ),
                     Text(
                       '点击刷新图片',
-                      style:
-                          TextStyle(color: Color(0xff808080), fontSize: 14.sp),
+                      style: TextStyle(color: Color(0xff808080), fontSize: 14.sp),
                     )
                   ],
                 ),
