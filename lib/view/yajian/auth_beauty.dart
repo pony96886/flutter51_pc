@@ -46,11 +46,7 @@ class _AuthBeautyPageState extends State<AuthBeautyPage> {
   getHeadAuthData() {
     var cityCode = Provider.of<GlobalState>(context, listen: false).cityCode;
     filterVipInfoByRule(
-            page: 1,
-            limit: 3,
-            cityCode: cityCode != null ? cityCode.toString() : '110100',
-            videoValid: '1',
-            rule: '4')
+            page: 1, limit: 3, cityCode: cityCode != null ? cityCode.toString() : '110100', videoValid: '1', rule: '4')
         .then((res) {
       if (res!['status'] != 0) {
         List _data = res['data'] == null ? [] : res['data'];
@@ -126,203 +122,41 @@ class _AuthBeautyPageState extends State<AuthBeautyPage> {
           Expanded(
               child: NotificationListener<ScrollNotification>(
             child: CustomScrollView(physics: ClampingScrollPhysics(), slivers: [
-              headData.length == 0
-                  ? SliverToBoxAdapter(
-                      child: SizedBox(
-                        height: 0,
-                      ),
-                    )
-                  : SliverPadding(
-                      padding: EdgeInsets.symmetric(horizontal: 15.w),
-                      sliver: SliverToBoxAdapter(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              '新茶推荐',
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: Color(0xff1e1e1e),
-                                  fontSize: 15.sp),
+              if (headData.isNotEmpty)
+                SliverPadding(
+                    padding: EdgeInsets.symmetric(horizontal: 15.w),
+                    sliver: SliverToBoxAdapter(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            '新茶推荐',
+                            style: TextStyle(fontWeight: FontWeight.bold, color: Color(0xff1e1e1e), fontSize: 15.sp),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.symmetric(vertical: 10.w),
+                            child: GridView(
+                              physics: NeverScrollableScrollPhysics(),
+                              padding: EdgeInsets.zero,
+                              shrinkWrap: true,
+                              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                                  childAspectRatio: 1.341,
+                                  crossAxisCount: 3,
+                                  mainAxisSpacing: 8.w,
+                                  crossAxisSpacing: 8.w),
+                              children: headData.asMap().keys.map((e) => _buildItem(e)).toList(),
                             ),
-                            Padding(
-                              padding: EdgeInsets.symmetric(vertical: 10.w),
-                              child: GridView(
-                                physics: NeverScrollableScrollPhysics(),
-                                padding: EdgeInsets.zero,
-                                shrinkWrap: true,
-                                gridDelegate:
-                                    SliverGridDelegateWithFixedCrossAxisCount(
-                                        childAspectRatio: 1.341,
-                                        crossAxisCount: 3,
-                                        mainAxisSpacing: 8.w,
-                                        crossAxisSpacing: 8.w),
-                                children: headData
-                                    .asMap()
-                                    .keys
-                                    .map((e) => GestureDetector(
-                                          onTap: () {
-                                            if (headData[e]['status'] == 2) {
-                                              var _id = headData[e]
-                                                          ['info_id'] ==
-                                                      null
-                                                  ? headData[e]['id'].toString()
-                                                  : headData[e]['info_id']
-                                                      .toString();
-                                              if (CgPrivilege.getPrivilegeStatus(
-                                                  PrivilegeType.infoVip,
-                                                  PrivilegeType
-                                                      .privilegeAppointment)) {
-                                                AppGlobal.appRouter?.push(
-                                                    CommonUtils.getRealHash(
-                                                        'vipDetailPage/' +
-                                                            _id +
-                                                            '/null/'));
-                                              } else {
-                                                // 新的调用方式：
-                                                CgDialog.cgShowDialog(
-                                                    context,
-                                                    '开通会员',
-                                                    '购买会员才能在线预约雅间妹子，平台担保交易，照片和人不匹配平台包赔，让你约到合乎心意的妹子',
-                                                    [
-                                                      '去开通'
-                                                    ], callBack: () async {
-                                                  AppGlobal.appRouter?.push(
-                                                      CommonUtils.getRealHash(
-                                                          'memberCardsPage'));
-                                                });
-                                              }
-                                            } else {
-                                              BotToast.showText(
-                                                  text: '资源正在处理中,请稍后再试',
-                                                  align: Alignment(0, 0));
-                                            }
-                                          },
-                                          child: ClipRRect(
-                                            borderRadius:
-                                                BorderRadius.circular(5),
-                                            child: Container(
-                                              width: CommonUtils.getWidth(220),
-                                              height: CommonUtils.getWidth(164),
-                                              child: Stack(
-                                                children: [
-                                                  ImageNetTool(
-                                                    url: headData[e]
-                                                                ['resources'][0]
-                                                            ['url'] ??
-                                                        '',
-                                                    fit: BoxFit.cover,
-                                                  ),
-                                                  Positioned(
-                                                      left: 0,
-                                                      right: 0,
-                                                      bottom: 0,
-                                                      child: Container(
-                                                        height: 48.5.w,
-                                                        padding: EdgeInsets
-                                                            .symmetric(
-                                                                vertical: 4.5.w,
-                                                                horizontal:
-                                                                    6.5.w),
-                                                        decoration:
-                                                            BoxDecoration(
-                                                                gradient:
-                                                                    LinearGradient(
-                                                          colors: [
-                                                            Colors.black54,
-                                                            Colors.transparent
-                                                          ],
-                                                          begin: Alignment
-                                                              .bottomCenter,
-                                                          end: Alignment
-                                                              .topCenter,
-                                                        )),
-                                                        child: Column(
-                                                          crossAxisAlignment:
-                                                              CrossAxisAlignment
-                                                                  .start,
-                                                          mainAxisSize:
-                                                              MainAxisSize.max,
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .end,
-                                                          children: [
-                                                            Text(
-                                                              headData[e]
-                                                                  ['title'],
-                                                              style: TextStyle(
-                                                                color: Colors
-                                                                    .white,
-                                                                fontSize: 10.w,
-                                                              ),
-                                                              maxLines: 1,
-                                                              overflow:
-                                                                  TextOverflow
-                                                                      .ellipsis,
-                                                            ),
-                                                            Row(
-                                                              mainAxisSize:
-                                                                  MainAxisSize
-                                                                      .min,
-                                                              children: [
-                                                                Container(
-                                                                  margin: EdgeInsets
-                                                                      .only(
-                                                                          top: 3.5
-                                                                              .w),
-                                                                  padding: EdgeInsets.symmetric(
-                                                                      horizontal:
-                                                                          CommonUtils.getWidth(
-                                                                              9)),
-                                                                  height: 11.w,
-                                                                  decoration: BoxDecoration(
-                                                                      borderRadius:
-                                                                          BorderRadius.circular(
-                                                                              3),
-                                                                      color: Color(
-                                                                          0xffdbc1a0)),
-                                                                  child: Center(
-                                                                    child: Container(
-                                                                        constraints: BoxConstraints(maxWidth: CommonUtils.getWidth(180)),
-                                                                        child: Text(
-                                                                          headData[e]['price_p'] == null
-                                                                              ? '未设置价格'
-                                                                              : headData[e]['price_p'].toString() + "元",
-                                                                          style: TextStyle(
-                                                                              fontSize: 7.sp,
-                                                                              color: Colors.white),
-                                                                          maxLines:
-                                                                              1,
-                                                                          overflow:
-                                                                              TextOverflow.ellipsis,
-                                                                        )),
-                                                                  ),
-                                                                )
-                                                              ],
-                                                            )
-                                                          ],
-                                                        ),
-                                                      )),
-                                                ],
-                                              ),
-                                            ),
-                                          ),
-                                        ))
-                                    .toList(),
-                              ),
-                            )
-                          ],
-                        ),
-                      )),
+                          )
+                        ],
+                      ),
+                    )),
               SliverPadding(
                 padding: EdgeInsets.symmetric(horizontal: 15.w),
                 sliver: StatefulBuilder(builder: (context, setValue) {
                   return SliverToBoxAdapter(
                     child: Container(
                       padding: EdgeInsets.all(14.w),
-                      decoration: BoxDecoration(
-                          color: Color(0xfff8f6f1),
-                          borderRadius: BorderRadius.circular(5.w)),
+                      decoration: BoxDecoration(color: Color(0xfff8f6f1), borderRadius: BorderRadius.circular(5.w)),
                       child: SingleChildScrollView(
                         scrollDirection: Axis.horizontal,
                         child: RuleFilterTabs(
@@ -357,8 +191,7 @@ class _AuthBeautyPageState extends State<AuthBeautyPage> {
                             ),
                             child: Text(
                               '本城市还没有认证美女～',
-                              style: TextStyle(
-                                  fontSize: 14.sp, color: Color(0xffb4b4b4)),
+                              style: TextStyle(fontSize: 14.sp, color: Color(0xffb4b4b4)),
                             ),
                           ),
                         )
@@ -370,8 +203,7 @@ class _AuthBeautyPageState extends State<AuthBeautyPage> {
                             bottom: CommonUtils.getWidth(60),
                           ),
                           sliver: SliverWaterfallFlow(
-                            gridDelegate:
-                                SliverWaterfallFlowDelegateWithFixedCrossAxisCount(
+                            gridDelegate: SliverWaterfallFlowDelegateWithFixedCrossAxisCount(
                               crossAxisCount: 2,
                               mainAxisSpacing: CommonUtils.getWidth(10),
                               crossAxisSpacing: CommonUtils.getWidth(10),
@@ -388,11 +220,100 @@ class _AuthBeautyPageState extends State<AuthBeautyPage> {
                             ),
                           )))
             ]),
-            onNotification: (ScrollNotification scrollInfo) =>
-                _onScrollNotification(scrollInfo),
+            onNotification: (ScrollNotification scrollInfo) => _onScrollNotification(scrollInfo),
           ))
         ],
       ),
     ));
+  }
+
+  Widget _buildItem(int e) {
+    return GestureDetector(
+      onTap: () {
+        if (headData[e]['status'] == 2) {
+          var _id = headData[e]['info_id'] == null ? headData[e]['id'].toString() : headData[e]['info_id'].toString();
+          if (CgPrivilege.getPrivilegeStatus(PrivilegeType.infoVip, PrivilegeType.privilegeAppointment)) {
+            AppGlobal.appRouter?.push(CommonUtils.getRealHash('vipDetailPage/' + _id + '/null/'));
+          } else {
+            // 新的调用方式：
+            CgDialog.cgShowDialog(context, '开通会员', '购买会员才能在线预约雅间妹子，平台担保交易，照片和人不匹配平台包赔，让你约到合乎心意的妹子', ['去开通'],
+                callBack: () async {
+              AppGlobal.appRouter?.push(CommonUtils.getRealHash('memberCardsPage'));
+            });
+          }
+        } else {
+          BotToast.showText(text: '资源正在处理中,请稍后再试', align: Alignment(0, 0));
+        }
+      },
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(5),
+        child: Container(
+          width: CommonUtils.getWidth(220),
+          height: CommonUtils.getWidth(164),
+          child: Stack(
+            children: [
+              ImageNetTool(
+                url: headData[e]['resources'][0]['url'] ?? '',
+                fit: BoxFit.cover,
+              ),
+              Positioned(
+                  left: 0,
+                  right: 0,
+                  bottom: 0,
+                  child: Container(
+                    height: 48.5.w,
+                    padding: EdgeInsets.symmetric(vertical: 4.5.w, horizontal: 6.5.w),
+                    decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                      colors: [Colors.black54, Colors.transparent],
+                      begin: Alignment.bottomCenter,
+                      end: Alignment.topCenter,
+                    )),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.max,
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Text(
+                          headData[e]['title'],
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 10.w,
+                          ),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Container(
+                              margin: EdgeInsets.only(top: 3.5.w),
+                              padding: EdgeInsets.symmetric(horizontal: CommonUtils.getWidth(9)),
+                              height: 11.w,
+                              decoration:
+                                  BoxDecoration(borderRadius: BorderRadius.circular(3), color: Color(0xffdbc1a0)),
+                              child: Center(
+                                child: Container(
+                                    constraints: BoxConstraints(maxWidth: CommonUtils.getWidth(180)),
+                                    child: Text(
+                                      headData[e]['price_p'] == null
+                                          ? '未设置价格'
+                                          : headData[e]['price_p'].toString() + "元",
+                                      style: TextStyle(fontSize: 7.sp, color: Colors.white),
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                    )),
+                              ),
+                            )
+                          ],
+                        )
+                      ],
+                    ),
+                  )),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }
