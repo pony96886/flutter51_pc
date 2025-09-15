@@ -31,8 +31,7 @@ class BrokerHomepage extends StatefulWidget {
   _BrokerHomepageState createState() => _BrokerHomepageState();
 }
 
-class _BrokerHomepageState extends State<BrokerHomepage>
-    with TickerProviderStateMixin {
+class _BrokerHomepageState extends State<BrokerHomepage> with TickerProviderStateMixin {
   int defaultScrooller = 300;
   ScrollController? _scrollViewController;
   TabController? _tabController;
@@ -68,15 +67,7 @@ class _BrokerHomepageState extends State<BrokerHomepage>
       'isFlow': false,
       'api': '/api/v150/UserConfirmList'
     },
-    {
-      'id': 3,
-      'title': '收藏',
-      'activeWidth': 1.sw / 4,
-      'inActiveWidth': 1.sw / 4,
-      'row': 1,
-      'isFlow': false,
-      'api': ''
-    }
+    {'id': 3, 'title': '收藏', 'activeWidth': 1.sw / 4, 'inActiveWidth': 1.sw / 4, 'row': 1, 'isFlow': false, 'api': ''}
   ];
 
   List resourcesDataList = [];
@@ -91,12 +82,12 @@ class _BrokerHomepageState extends State<BrokerHomepage>
     var result = await getUserPostNum(widget.aff!);
     if (result!['status'] == 1) {
       if (result['data']['postVipInfoNum'] == 0) {
-         _tabs.removeWhere((tab) => tab['id'] == 0);
+        _tabs.removeWhere((tab) => tab['id'] == 0);
       } else {
         isAgent = true;
       }
       if (isAgent) {
-          _tabs.removeWhere((tab) => tab['id'] == 2);
+        _tabs.removeWhere((tab) => tab['id'] == 2);
       }
       _tabController = TabController(vsync: this, length: _tabs.length);
       _tabController!.addListener(() {
@@ -116,8 +107,7 @@ class _BrokerHomepageState extends State<BrokerHomepage>
   }
 
   addListenerScroll() {
-    _o.value = _scrollViewController!.position.pixels /
-        _scrollViewController!.position.maxScrollExtent;
+    _o.value = _scrollViewController!.position.pixels / _scrollViewController!.position.maxScrollExtent;
   }
 
   @override
@@ -166,8 +156,7 @@ class _BrokerHomepageState extends State<BrokerHomepage>
                             Positioned.fill(
                               child: ValueListenableBuilder(
                                 valueListenable: _o,
-                                builder: (BuildContext? context, dynamic value,
-                                    Widget? child) {
+                                builder: (BuildContext? context, dynamic value, Widget? child) {
                                   return Opacity(
                                     opacity: value,
                                     child: PageTitleBar(
@@ -186,8 +175,7 @@ class _BrokerHomepageState extends State<BrokerHomepage>
                     body: ExtendedNestedScrollView(
                         controller: _scrollViewController,
                         physics: ClampingScrollPhysics(),
-                        headerSliverBuilder:
-                            (BuildContext context, bool innerBoxIsScrolled) {
+                        headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
                           return <Widget>[
                             SliverToBoxAdapter(
                               child: Column(
@@ -212,40 +200,40 @@ class _BrokerHomepageState extends State<BrokerHomepage>
                                 child: TabBarView(
                                     controller: _tabController,
                                     children: _tabs.asMap().keys.map((e) {
-                                      if (_tabs[e]['id'] == 3) {
-                                        return CollectView(
-                                          aff: widget.aff,
-                                        );
-                                      }
-                                      return PageViewMixin(
-                                        child: PublicList(
-                                            noController: true,
-                                            isShow: true,
-                                            isFlow: _tabs[e]['isFlow'],
-                                            api: _tabs[e]['api'],
-                                            data: {'aff': widget.aff},
-                                            row: _tabs[e]['row'],
-                                            itemBuild: (context, index, data,
-                                                page, limit, getListData) {
-                                              if (_tabs[e]['id'] == 0) {
-                                                return ElegantCard(
-                                                  cardInfo: data,
-                                                );
-                                              } else if (_tabs[e]['id'] == 1) {
-                                                return V3ZhaoPiaoCard(
-                                                    isBrokerhome: true,
-                                                    zpInfo: data);
-                                              } else {
-                                                return ReportCard(
-                                                    reportInfo: data);
-                                              }
-                                            }),
-                                      );
+                                      return _buildTabView(e);
                                     }).toList()))
                           ],
                         ))),
               ],
             ));
+  }
+
+  Widget _buildTabView(int e) {
+    if (_tabs[e]['id'] == 3) {
+      return CollectView(
+        aff: widget.aff,
+      );
+    }
+    return PageViewMixin(
+      child: PublicList(
+          noController: true,
+          isShow: true,
+          isFlow: _tabs[e]['isFlow'],
+          api: _tabs[e]['api'],
+          data: {'aff': widget.aff},
+          row: _tabs[e]['row'],
+          itemBuild: (context, index, data, page, limit, getListData) {
+            if (_tabs[e]['id'] == 0) {
+              return ElegantCard(
+                cardInfo: data,
+              );
+            } else if (_tabs[e]['id'] == 1) {
+              return V3ZhaoPiaoCard(isBrokerhome: true, zpInfo: data);
+            } else {
+              return ReportCard(reportInfo: data);
+            }
+          }),
+    );
   }
 
   Widget _headerContent() {
@@ -275,9 +263,7 @@ class _BrokerHomepageState extends State<BrokerHomepage>
                         type: widget.thumb,
                       ),
                       SizedBox(height: 10.w),
-                      Text(widget.brokerName!,
-                          style: TextStyle(
-                              color: Color(0xFF1E1E1E), fontSize: 15.w)),
+                      Text(widget.brokerName!, style: TextStyle(color: Color(0xFF1E1E1E), fontSize: 15.w)),
                     ],
                   ),
                   Expanded(flex: 1, child: SizedBox()),
@@ -287,39 +273,26 @@ class _BrokerHomepageState extends State<BrokerHomepage>
                           ? Column(
                               children: [
                                 Text(vipInfoNum.toString(),
-                                    style: TextStyle(
-                                        color: Color(0xFF1E1E1E),
-                                        fontSize: 18.sp)),
+                                    style: TextStyle(color: Color(0xFF1E1E1E), fontSize: 18.sp)),
                                 SizedBox(height: 7.5.w),
-                                Text('雅间妹子',
-                                    style: TextStyle(
-                                        color: Color(0xFF969696),
-                                        fontSize: 12.sp)),
+                                Text('雅间妹子', style: TextStyle(color: Color(0xFF969696), fontSize: 12.sp)),
                               ],
                             )
                           : SizedBox(),
                       SizedBox(width: 30.w),
                       Column(
                         children: [
-                          Text(infoNum.toString(),
-                              style: TextStyle(
-                                  color: Color(0xFF1E1E1E), fontSize: 18.sp)),
+                          Text(infoNum.toString(), style: TextStyle(color: Color(0xFF1E1E1E), fontSize: 18.sp)),
                           SizedBox(height: 7.5.w),
-                          Text('发布茶帖',
-                              style: TextStyle(
-                                  color: Color(0xFF969696), fontSize: 12.sp)),
+                          Text('发布茶帖', style: TextStyle(color: Color(0xFF969696), fontSize: 12.sp)),
                         ],
                       ),
                       SizedBox(width: 30.w),
                       Column(
                         children: [
-                          Text('$confirmNum',
-                              style: TextStyle(
-                                  color: Color(0xFF1E1E1E), fontSize: 18.sp)),
+                          Text('$confirmNum', style: TextStyle(color: Color(0xFF1E1E1E), fontSize: 18.sp)),
                           SizedBox(height: 7.5.w),
-                          Text('验茶报告',
-                              style: TextStyle(
-                                  color: Color(0xFF969696), fontSize: 12.sp)),
+                          Text('验茶报告', style: TextStyle(color: Color(0xFF969696), fontSize: 12.sp)),
                         ],
                       )
                     ],
@@ -334,7 +307,9 @@ class _BrokerHomepageState extends State<BrokerHomepage>
 
 class AvatarBox extends StatelessWidget {
   final dynamic type;
+
   AvatarBox({Key? key, this.type}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return ClipRRect(
