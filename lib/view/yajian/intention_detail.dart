@@ -15,6 +15,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class IntentionDetailPage extends StatefulWidget {
   final String? id;
+
   IntentionDetailPage({Key? key, this.id}) : super(key: key);
 
   @override
@@ -77,92 +78,94 @@ class _IntentionDetailPageState extends State<IntentionDetailPage> {
               title: '意向详情',
             ),
             preferredSize: Size(double.infinity, 44.w)),
-        body: loading
-            ? Loading()
-            : Container(
-                width: double.infinity,
-                height: double.infinity,
-                child: SingleChildScrollView(
-                  child: Stack(
-                    clipBehavior: Clip.none,
-                    children: <Widget>[
-                      Container(
-                        width: 345.w,
-                        margin: new EdgeInsets.symmetric(horizontal: 15.w),
-                        padding: new EdgeInsets.only(top: 20.w, left: 15.w, right: 15.w),
-                        decoration: BoxDecoration(boxShadow: [
-                          //阴影
-                          BoxShadow(color: Colors.black12, offset: Offset(0, 0.5.w), blurRadius: 2.5.w)
-                        ], color: Colors.white, borderRadius: BorderRadius.circular(10)),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            for (var item in itemList!) hallItem(item['icon'], item['title'], item['detail']),
-                            detailData!['status'] == 1
-                                ? Container(
-                                    margin: EdgeInsets.only(top: 5.w),
-                                    height: 54.w,
-                                    decoration: BoxDecoration(
-                                        border: Border(top: BorderSide(width: 0.5, color: Color(0xFFEEEEEE)))),
-                                    child: GestureDetector(
-                                      onTap: () {
-                                        gradOder(detailData!['id']).then((res) {
-                                          if (res!['status'] != 0) {
-                                            if (WebSocketUtility.imToken == null) {
-                                              CommonUtils.getImPath(context, callBack: () {
-                                                //跳转IM
-                                                toLlIm();
-                                              });
-                                            } else {
-                                              //跳转IM
-                                              toLlIm();
-                                            }
-                                          } else {
-                                            BotToast.showText(text: res['msg'], align: Alignment(0, 0));
-                                          }
-                                        });
-                                      },
-                                      behavior: HitTestBehavior.translucent,
-                                      child: Center(
-                                        child: Text(
-                                          '抢单私聊',
-                                          style: TextStyle(
-                                              fontSize: 15.sp, fontWeight: FontWeight.w500, color: Color(0xFF5584E3)),
-                                        ),
-                                      ),
-                                    ))
-                                : Container(),
-                          ],
-                        ),
-                      ),
-                      Positioned(
-                          right: 25.w,
-                          top: -5.w,
-                          child: SizedBox(
-                            width: 110.w,
-                            height: 20.w,
-                            child: Stack(
-                              children: [
-                                LocalPNG(
-                                  url: 'assets/images/card/timing.png',
-                                  fit: BoxFit.fill,
-                                  width: 110.w,
-                                  height: 20.w,
-                                ),
-                                Center(
-                                  child: CardCountdown(
-                                    timer: detailData!['expireTime'],
-                                  ),
-                                ),
-                              ],
-                            ),
-                          )),
-                    ],
-                  ),
-                ),
-              ),
+        body: loading ? Loading() : _buildBody(),
       ),
     );
+  }
+
+  Widget _buildBody() {
+    return Container(
+      width: double.infinity,
+      height: double.infinity,
+      child: SingleChildScrollView(
+        child: Stack(
+          clipBehavior: Clip.none,
+          children: <Widget>[
+            Container(
+              width: 345.w,
+              margin: new EdgeInsets.symmetric(horizontal: 15.w),
+              padding: new EdgeInsets.only(top: 20.w, left: 15.w, right: 15.w),
+              decoration: BoxDecoration(boxShadow: [
+                //阴影
+                BoxShadow(color: Colors.black12, offset: Offset(0, 0.5.w), blurRadius: 2.5.w)
+              ], color: Colors.white, borderRadius: BorderRadius.circular(10)),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  for (var item in itemList!) hallItem(item['icon'], item['title'], item['detail']),
+                  detailData!['status'] == 1 ? _buildDetail() : Container(),
+                ],
+              ),
+            ),
+            Positioned(
+                right: 25.w,
+                top: -5.w,
+                child: SizedBox(
+                  width: 110.w,
+                  height: 20.w,
+                  child: Stack(
+                    children: [
+                      LocalPNG(
+                        url: 'assets/images/card/timing.png',
+                        fit: BoxFit.fill,
+                        width: 110.w,
+                        height: 20.w,
+                      ),
+                      Center(
+                        child: CardCountdown(
+                          timer: detailData!['expireTime'],
+                        ),
+                      ),
+                    ],
+                  ),
+                )),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildDetail() {
+    return Container(
+        margin: EdgeInsets.only(top: 5.w),
+        height: 54.w,
+        decoration: BoxDecoration(border: Border(top: BorderSide(width: 0.5, color: Color(0xFFEEEEEE)))),
+        child: GestureDetector(
+          onTap: () {
+            gradOder(detailData!['id']).then((res) {
+              if (res!['status'] != 0) {
+                if (WebSocketUtility.imToken == null) {
+                  CommonUtils.getImPath(context, callBack: () {
+                    //跳转IM
+                    toLlIm();
+                  });
+                } else {
+                  //跳转IM
+                  toLlIm();
+                }
+              } else {
+                BotToast.showText(text: res['msg'], align: Alignment(0, 0));
+              }
+            });
+          },
+          behavior: HitTestBehavior.translucent,
+          child: Center(
+            child: Text(
+              '抢单私聊',
+              style: TextStyle(fontSize: 15.sp, fontWeight: FontWeight.w500, color: Color(0xFF5584E3)),
+            ),
+          ),
+        ));
   }
 
   Widget hallItem(String imgPath, String title, dynamic detail) {
