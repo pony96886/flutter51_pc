@@ -28,12 +28,14 @@ class _HuakuiGelouState extends State<HuakuiGelou> {
   ValueNotifier<int> currentIndex = ValueNotifier<int>(0);
   int page = 1;
   List<Widget>? cardList;
+
   // favorite 0未收藏1收藏
   ValueNotifier<bool> isFavorite = ValueNotifier<bool>(false);
   bool netWorkErr = false;
   bool isAll = false;
   bool loading = true;
   List? gelouList;
+
   gethuakuiData() async {
     loading = (page == 1);
     netWorkErr = false;
@@ -141,175 +143,174 @@ class _HuakuiGelouState extends State<HuakuiGelou> {
                           transparent: true,
                           text: '客官～ 当前暂时无数据～',
                         )
-                      : Column(
-                          children: <Widget>[
-                            Expanded(
-                                child: Container(
-                              child: ValueListenableBuilder(
-                                  valueListenable: currentIndex,
-                                  builder: (context, value, child) {
-                                    return TCard(
-                                      cards: gelouList!.asMap().keys.map((e) {
-                                        return Container(
-                                            key: PageStorageKey('huakui_$e'),
-                                            decoration: BoxDecoration(
-                                              color: Colors.white,
-                                              borderRadius: BorderRadius.circular(10),
-                                            ),
-                                            child:
-                                                gelouList![e]['resources'].where((item) => item['type'] == 2).length ==
-                                                        0
-                                                    ? ClipRRect(
-                                                        borderRadius: BorderRadius.circular(10),
-                                                        child: NoData(
-                                                          text: '此资源没有视频～',
-                                                        ))
-                                                    : HuakuiCard(
-                                                        gelouInfo: gelouList![e],
-                                                        loaddingIndex: e,
-                                                        currentIndex: currentIndex));
-                                      }).toList(),
-                                      size: Size(325.w, 490.w),
-                                      controller: _controller,
-                                      onForward: (index, info) {
-                                        currentIndex.value = index;
-                                        isFavorite.value = (gelouList![index]['userFavorite'] == 1);
-                                        if (currentIndex.value == (gelouList!.length - 3) && !isAll) {
-                                          page++;
-                                          gethuakuiData();
-                                        }
-                                      },
-                                      onBack: (int index) {
-                                        currentIndex.value = index;
-                                        isFavorite.value = (gelouList![currentIndex.value]['userFavorite'] == 1);
-                                      },
-                                    );
-                                  }),
-                            )),
-                            Container(
-                              color: Colors.transparent,
-                              margin: EdgeInsets.only(bottom: ScreenUtil().bottomBarHeight + 28.w, top: 30.w),
-                              child: Center(
-                                child: Container(
-                                  width: CommonUtils.getWidth(540),
-                                  height: CommonUtils.getWidth(80),
-                                  decoration: BoxDecoration(
-                                      color: Colors.white70,
-                                      borderRadius: BorderRadius.circular(CommonUtils.getWidth(40))),
-                                  child: Stack(
-                                    clipBehavior: Clip.none,
+                      : _buildBody()))),
+    );
+  }
+
+  Widget _buildGelouItem(int e) {
+    return Container(
+        key: PageStorageKey('huakui_$e'),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: gelouList![e]['resources'].where((item) => item['type'] == 2).length == 0
+            ? ClipRRect(
+                borderRadius: BorderRadius.circular(10),
+                child: NoData(
+                  text: '此资源没有视频～',
+                ))
+            : HuakuiCard(gelouInfo: gelouList![e], loaddingIndex: e, currentIndex: currentIndex));
+  }
+
+  Widget _buildBody() {
+    return Column(
+      children: <Widget>[
+        Expanded(
+            child: Container(
+          child: ValueListenableBuilder(
+              valueListenable: currentIndex,
+              builder: (context, value, child) {
+                return TCard(
+                  cards: gelouList!.asMap().keys.map((e) {
+                    return _buildGelouItem(e);
+                  }).toList(),
+                  size: Size(325.w, 490.w),
+                  controller: _controller,
+                  onForward: (index, info) {
+                    currentIndex.value = index;
+                    isFavorite.value = (gelouList![index]['userFavorite'] == 1);
+                    if (currentIndex.value == (gelouList!.length - 3) && !isAll) {
+                      page++;
+                      gethuakuiData();
+                    }
+                  },
+                  onBack: (int index) {
+                    currentIndex.value = index;
+                    isFavorite.value = (gelouList![currentIndex.value]['userFavorite'] == 1);
+                  },
+                );
+              }),
+        )),
+        Container(
+          color: Colors.transparent,
+          margin: EdgeInsets.only(bottom: ScreenUtil().bottomBarHeight + 28.w, top: 30.w),
+          child: Center(
+            child: Container(
+              width: CommonUtils.getWidth(540),
+              height: CommonUtils.getWidth(80),
+              decoration:
+                  BoxDecoration(color: Colors.white70, borderRadius: BorderRadius.circular(CommonUtils.getWidth(40))),
+              child: Stack(
+                clipBehavior: Clip.none,
+                children: <Widget>[
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      GestureDetector(
+                        excludeFromSemantics: true,
+                        onTap: () {
+                          // swiperController.previous();
+                          if (currentIndex.value != 0) {
+                            _controller.back();
+                          }
+                        },
+                        child: ValueListenableBuilder(
+                          valueListenable: currentIndex,
+                          builder: (context, value, child) {
+                            return Container(
+                                height: double.infinity,
+                                color: Colors.transparent,
+                                child: Opacity(
+                                  opacity: value == 0 ? 0.5 : 1,
+                                  child: Row(
+                                    crossAxisAlignment: CrossAxisAlignment.center,
                                     children: <Widget>[
-                                      Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                        children: <Widget>[
-                                          GestureDetector(
-                                            excludeFromSemantics: true,
-                                            onTap: () {
-                                              // swiperController.previous();
-                                              if (currentIndex.value != 0) {
-                                                _controller.back();
-                                              }
-                                            },
-                                            child: ValueListenableBuilder(
-                                              valueListenable: currentIndex,
-                                              builder: (context, value, child) {
-                                                return Container(
-                                                    height: double.infinity,
-                                                    color: Colors.transparent,
-                                                    child: Opacity(
-                                                      opacity: value == 0 ? 0.5 : 1,
-                                                      child: Row(
-                                                        crossAxisAlignment: CrossAxisAlignment.center,
-                                                        children: <Widget>[
-                                                          Container(
-                                                            width: 8.w,
-                                                            height: 11.w,
-                                                            margin: EdgeInsets.only(right: 11.w, left: 20.w),
-                                                            child: LocalPNG(
-                                                              url: 'assets/images/card/previou.png',
-                                                              width: 8.w,
-                                                              height: 11.w,
-                                                            ),
-                                                          ),
-                                                          Text(
-                                                            '上一张',
-                                                            style: TextStyle(
-                                                                fontSize: 12.sp, color: StyleTheme.cTitleColor),
-                                                          )
-                                                        ],
-                                                      ),
-                                                    ));
-                                              },
-                                            ),
-                                          ),
-                                          GestureDetector(
-                                            onTap: () {
-                                              // swiperController.next();
-                                              if (currentIndex.value != gelouList!.length - 1) {
-                                                _controller.forward();
-                                              }
-                                            },
-                                            child: Container(
-                                                height: double.infinity,
-                                                color: Colors.transparent,
-                                                child: ValueListenableBuilder(
-                                                    valueListenable: currentIndex,
-                                                    builder: (context, value, child) {
-                                                      return Opacity(
-                                                        opacity: value == gelouList!.length - 1 ? 0.5 : 1,
-                                                        child: Row(
-                                                          crossAxisAlignment: CrossAxisAlignment.center,
-                                                          children: <Widget>[
-                                                            Text('下一张',
-                                                                style: TextStyle(
-                                                                    fontSize: 12.sp, color: StyleTheme.cTitleColor)),
-                                                            Container(
-                                                              width: 8.w,
-                                                              height: 11.w,
-                                                              margin: EdgeInsets.only(right: 20.w, left: 11.w),
-                                                              child: LocalPNG(
-                                                                url: 'assets/images/card/next.png',
-                                                                width: 8.w,
-                                                                height: 11.w,
-                                                              ),
-                                                            ),
-                                                          ],
-                                                        ),
-                                                      );
-                                                    })),
-                                          ),
-                                        ],
+                                      Container(
+                                        width: 8.w,
+                                        height: 11.w,
+                                        margin: EdgeInsets.only(right: 11.w, left: 20.w),
+                                        child: LocalPNG(
+                                          url: 'assets/images/card/previou.png',
+                                          width: 8.w,
+                                          height: 11.w,
+                                        ),
                                       ),
-                                      Positioned(
-                                          top: CommonUtils.getWidth(-20),
-                                          left: CommonUtils.getWidth(200),
-                                          child: ValueListenableBuilder(
-                                              valueListenable: isFavorite,
-                                              builder: (context, bool value, child) {
-                                                String yishStr = "yishoucang";
-                                                String weishouc = "weishoucang";
-                                                String isFaStr = value ? yishStr : weishouc;
-                                                return GestureDetector(
-                                                  onTap: _collect,
-                                                  child: Container(
-                                                    width: CommonUtils.getWidth(140),
-                                                    height: CommonUtils.getWidth(120),
-                                                    color: Colors.transparent,
-                                                    child: LocalPNG(
-                                                        width: CommonUtils.getWidth(140),
-                                                        height: CommonUtils.getWidth(120),
-                                                        url: 'assets/images/card/' + isFaStr + '.png',
-                                                        fit: BoxFit.cover),
-                                                  ),
-                                                );
-                                              }))
+                                      Text(
+                                        '上一张',
+                                        style: TextStyle(fontSize: 12.sp, color: StyleTheme.cTitleColor),
+                                      )
                                     ],
                                   ),
-                                ),
+                                ));
+                          },
+                        ),
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          // swiperController.next();
+                          if (currentIndex.value != gelouList!.length - 1) {
+                            _controller.forward();
+                          }
+                        },
+                        child: Container(
+                            height: double.infinity,
+                            color: Colors.transparent,
+                            child: ValueListenableBuilder(
+                                valueListenable: currentIndex,
+                                builder: (context, value, child) {
+                                  return Opacity(
+                                    opacity: value == gelouList!.length - 1 ? 0.5 : 1,
+                                    child: Row(
+                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                      children: <Widget>[
+                                        Text('下一张', style: TextStyle(fontSize: 12.sp, color: StyleTheme.cTitleColor)),
+                                        Container(
+                                          width: 8.w,
+                                          height: 11.w,
+                                          margin: EdgeInsets.only(right: 20.w, left: 11.w),
+                                          child: LocalPNG(
+                                            url: 'assets/images/card/next.png',
+                                            width: 8.w,
+                                            height: 11.w,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                })),
+                      ),
+                    ],
+                  ),
+                  Positioned(
+                      top: CommonUtils.getWidth(-20),
+                      left: CommonUtils.getWidth(200),
+                      child: ValueListenableBuilder(
+                          valueListenable: isFavorite,
+                          builder: (context, bool value, child) {
+                            String yishStr = "yishoucang";
+                            String weishouc = "weishoucang";
+                            String isFaStr = value ? yishStr : weishouc;
+                            return GestureDetector(
+                              onTap: _collect,
+                              child: Container(
+                                width: CommonUtils.getWidth(140),
+                                height: CommonUtils.getWidth(120),
+                                color: Colors.transparent,
+                                child: LocalPNG(
+                                    width: CommonUtils.getWidth(140),
+                                    height: CommonUtils.getWidth(120),
+                                    url: 'assets/images/card/' + isFaStr + '.png',
+                                    fit: BoxFit.cover),
                               ),
-                            )
-                          ],
-                        )))),
+                            );
+                          }))
+                ],
+              ),
+            ),
+          ),
+        )
+      ],
     );
   }
 }
