@@ -437,37 +437,8 @@ class VipDetailState extends State<VipDetailPage> with TickerProviderStateMixin 
     }
   }
 
-  Widget serverInfo() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        _dtailList(),
-        verifyDetail!['desc'] == "" || verifyDetail!['desc'] == null
-            ? Container(
-                height: 5.w,
-                color: Colors.transparent,
-              )
-            : Container(
-                width: double.infinity,
-                margin: EdgeInsets.only(
-                  right: 15.w,
-                  left: 15.w,
-                  top: 20.w,
-                ),
-                color: Color(0xFFF8F8F8),
-                padding: new EdgeInsets.symmetric(horizontal: 15.5.w, vertical: 15.w),
-                child: Text(
-                  verifyDetail!['desc'],
-                  style: TextStyle(fontSize: 14.sp, color: StyleTheme.cTitleColor),
-                ),
-              ),
-      ],
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
-    var agent = Provider.of<HomeConfig>(context).member.agent;
     return Consumer<HomeConfig>(
       builder: (_, value, __) {
         money = value.member.money;
@@ -497,191 +468,216 @@ class VipDetailState extends State<VipDetailPage> with TickerProviderStateMixin 
                   ),
                   preferredSize: Size(double.infinity, 44.w)),
               // 使用PullToRefreshNotification包裹列表
-              body: verifyDetail == null
-                  ? Loading()
-                  : Column(
-                      children: [
-                        Expanded(
-                            child: Stack(
-                          clipBehavior: Clip.none,
-                          children: [
-                            PublicList(
-                              api: '/api/info/getVipInfoConfirm',
-                              data: {'info_id': widget.id},
-                              isShow: true,
-                              isSliver: true,
-                              noRefresh: true,
-                              nullText: '还没有评论哦～',
-                              then: (data) {
-                                _avg = data['avg'];
-                                setState(() {});
-                              },
-                              sliverHead: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [_swiper(), _detailHeader(), girlInfo(), serverInfo(), _totalScore()],
-                              ),
-                              itemBuild: (context, index, data, page, limit, getListData) {
-                                return _scoreCard(data);
-                              },
-                            )
-                          ],
-                        )),
-                        // KySocket.uuid == verifyDetail.uuid ||
-                        if (!(agent == 1 || widget.type == '1'))
-                          Container(
-                            height: 49.w + ScreenUtil().bottomBarHeight,
-                            padding: new EdgeInsets.only(bottom: ScreenUtil().bottomBarHeight, left: 15.w, right: 15.w),
-                            color: StyleTheme.bottomappbarColor,
-                            width: double.infinity,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: <Widget>[
-                                    Row(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: <Widget>[
-                                        GestureDetector(
-                                          onTap: () {
-                                            if (CgPrivilege.getPrivilegeStatus(
-                                                PrivilegeType.infoVip, PrivilegeType.privilegeAppointment)) {
-                                              _collect();
-                                            } else {
-                                              CgDialog.cgShowDialog(
-                                                  context,
-                                                  '开通会员',
-                                                  '购买会员才能在线预约雅间服务，平台担保交易，照片和人不匹配平台包赔，让你约到合乎心意的嫩模',
-                                                  ['取消', '去开通'], callBack: () {
-                                                AppGlobal.appRouter?.push(CommonUtils.getRealHash('memberCardsPage'));
-                                              });
-                                            }
-                                          },
-                                          child: Container(
-                                            margin: EdgeInsets.only(right: (fullAmount ? 10 : 20).w),
-                                            child: Row(
-                                              mainAxisSize: MainAxisSize.min,
-                                              children: [
-                                                Container(
-                                                  margin: new EdgeInsets.only(right: (fullAmount ? 0 : 10).w),
-                                                  child: LocalPNG(
-                                                    url: isFavorite
-                                                        ? 'assets/images/card/iscollect.png'
-                                                        : 'assets/images/mymony/collect.png',
-                                                    width: 25.w,
-                                                    height: 25.w,
-                                                  ),
-                                                ),
-                                                fullAmount ? Container() : Text('收藏')
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                        GestureDetector(
-                                            onTap: connectGirl,
-                                            child: Row(
-                                              mainAxisSize: MainAxisSize.min,
-                                              children: [
-                                                Container(
-                                                  margin: new EdgeInsets.only(right: 10.w),
-                                                  child: LocalPNG(
-                                                    url: 'assets/images/detail/chat.png',
-                                                    width: 25.w,
-                                                    height: 25.w,
-                                                  ),
-                                                ),
-                                                fullAmount ? Container() : Text('私聊')
-                                              ],
-                                            )),
-                                      ],
-                                    )
-                                  ],
-                                ),
-                                if (fullAmount)
-                                  GestureDetector(
-                                    // ignore: missing_return
-                                    onTap: () {
-                                      showPublish(1);
-                                    },
-                                    child: Row(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: <Widget>[
-                                        Container(
-                                          width: 110.w,
-                                          height: 40.w,
-                                          margin: new EdgeInsets.only(left: 10.w),
-                                          child: Stack(
-                                            children: [
-                                              LocalPNG(
-                                                width: 110.w,
-                                                height: 40.w,
-                                                url: 'assets/images/detail/vip_qezf.png',
-                                              ),
-                                              Center(
-                                                child: Text(
-                                                  '全额支付',
-                                                  style: TextStyle(
-                                                      color: Colors.white,
-                                                      fontSize: 14.sp,
-                                                      fontWeight: FontWeight.w500),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                GestureDetector(
-                                  // ignore: missing_return
-                                  onTap: () {
-                                    if (!CgPrivilege.getPrivilegeStatus(
-                                        PrivilegeType.infoVip, PrivilegeType.privilegeAppointment)) {
-                                      CgDialog.cgShowDialog(context, '开通会员',
-                                          '购买会员才能在线预约雅间服务，平台担保交易，照片和人不匹配平台包赔，让你约到合乎心意的嫩模', ['取消', '去开通'], callBack: () {
-                                        AppGlobal.appRouter?.push(CommonUtils.getRealHash('memberCardsPage'));
-                                      });
-                                      return;
-                                    }
-                                    if (verifyDetail!['status'] == 1) {
-                                      BotToast.showText(text: '该资源正在审核当中,无法下单', align: Alignment(0, 0));
-                                    }
-                                    if (verifyDetail!['status'] == 2) {
-                                      setState(() {
-                                        myMoney = money;
-                                      });
-                                      showPublish(2);
-                                    }
-                                  },
-                                  child: Container(
-                                    width: 110.w,
-                                    height: 40.w,
-                                    margin: new EdgeInsets.only(left: 10.w),
-                                    child: Stack(
-                                      children: [
-                                        LocalPNG(
-                                          width: 110.w,
-                                          height: 40.w,
-                                          url: 'assets/images/mymony/money-img.png',
-                                        ),
-                                        Center(
-                                          child: Text(
-                                            '支付预约金',
-                                            style: TextStyle(
-                                                color: Colors.white, fontSize: 14.sp, fontWeight: FontWeight.w500),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                )
-                              ],
-                            ),
-                          )
-                      ],
-                    )),
+              body: verifyDetail == null ? Loading() : _buildBody()),
         );
       },
+    );
+  }
+
+  Widget _buildBody() {
+    var agent = Provider.of<HomeConfig>(context).member.agent;
+    return Column(
+      children: [
+        Expanded(
+            child: Stack(
+          clipBehavior: Clip.none,
+          children: [
+            PublicList(
+              api: '/api/info/getVipInfoConfirm',
+              data: {'info_id': widget.id},
+              isShow: true,
+              isSliver: true,
+              noRefresh: true,
+              nullText: '还没有评论哦～',
+              then: (data) {
+                _avg = data['avg'];
+                setState(() {});
+              },
+              sliverHead: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [_swiper(), _detailHeader(), girlInfo(), serverInfo(), _totalScore()],
+              ),
+              itemBuild: (context, index, data, page, limit, getListData) {
+                return _scoreCard(data);
+              },
+            )
+          ],
+        )),
+        // KySocket.uuid == verifyDetail.uuid ||
+        if (!(agent == 1 || widget.type == '1'))
+          Container(
+            height: 49.w + ScreenUtil().bottomBarHeight,
+            padding: new EdgeInsets.only(bottom: ScreenUtil().bottomBarHeight, left: 15.w, right: 15.w),
+            color: StyleTheme.bottomappbarColor,
+            width: double.infinity,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        GestureDetector(
+                          onTap: () {
+                            if (CgPrivilege.getPrivilegeStatus(
+                                PrivilegeType.infoVip, PrivilegeType.privilegeAppointment)) {
+                              _collect();
+                            } else {
+                              CgDialog.cgShowDialog(
+                                  context, '开通会员', '购买会员才能在线预约雅间服务，平台担保交易，照片和人不匹配平台包赔，让你约到合乎心意的嫩模', ['取消', '去开通'],
+                                  callBack: () {
+                                AppGlobal.appRouter?.push(CommonUtils.getRealHash('memberCardsPage'));
+                              });
+                            }
+                          },
+                          child: Container(
+                            margin: EdgeInsets.only(right: (fullAmount ? 10 : 20).w),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Container(
+                                  margin: new EdgeInsets.only(right: (fullAmount ? 0 : 10).w),
+                                  child: LocalPNG(
+                                    url: isFavorite
+                                        ? 'assets/images/card/iscollect.png'
+                                        : 'assets/images/mymony/collect.png',
+                                    width: 25.w,
+                                    height: 25.w,
+                                  ),
+                                ),
+                                fullAmount ? Container() : Text('收藏')
+                              ],
+                            ),
+                          ),
+                        ),
+                        GestureDetector(
+                            onTap: connectGirl,
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Container(
+                                  margin: new EdgeInsets.only(right: 10.w),
+                                  child: LocalPNG(
+                                    url: 'assets/images/detail/chat.png',
+                                    width: 25.w,
+                                    height: 25.w,
+                                  ),
+                                ),
+                                fullAmount ? Container() : Text('私聊')
+                              ],
+                            )),
+                      ],
+                    )
+                  ],
+                ),
+                if (fullAmount)
+                  GestureDetector(
+                    // ignore: missing_return
+                    onTap: () {
+                      showPublish(1);
+                    },
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        Container(
+                          width: 110.w,
+                          height: 40.w,
+                          margin: new EdgeInsets.only(left: 10.w),
+                          child: Stack(
+                            children: [
+                              LocalPNG(
+                                width: 110.w,
+                                height: 40.w,
+                                url: 'assets/images/detail/vip_qezf.png',
+                              ),
+                              Center(
+                                child: Text(
+                                  '全额支付',
+                                  style: TextStyle(color: Colors.white, fontSize: 14.sp, fontWeight: FontWeight.w500),
+                                ),
+                              ),
+                            ],
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                GestureDetector(
+                  // ignore: missing_return
+                  onTap: () {
+                    if (!CgPrivilege.getPrivilegeStatus(PrivilegeType.infoVip, PrivilegeType.privilegeAppointment)) {
+                      CgDialog.cgShowDialog(
+                          context, '开通会员', '购买会员才能在线预约雅间服务，平台担保交易，照片和人不匹配平台包赔，让你约到合乎心意的嫩模', ['取消', '去开通'],
+                          callBack: () {
+                        AppGlobal.appRouter?.push(CommonUtils.getRealHash('memberCardsPage'));
+                      });
+                      return;
+                    }
+                    if (verifyDetail!['status'] == 1) {
+                      BotToast.showText(text: '该资源正在审核当中,无法下单', align: Alignment(0, 0));
+                    }
+                    if (verifyDetail!['status'] == 2) {
+                      setState(() {
+                        myMoney = money;
+                      });
+                      showPublish(2);
+                    }
+                  },
+                  child: Container(
+                    width: 110.w,
+                    height: 40.w,
+                    margin: new EdgeInsets.only(left: 10.w),
+                    child: Stack(
+                      children: [
+                        LocalPNG(
+                          width: 110.w,
+                          height: 40.w,
+                          url: 'assets/images/mymony/money-img.png',
+                        ),
+                        Center(
+                          child: Text(
+                            '支付预约金',
+                            style: TextStyle(color: Colors.white, fontSize: 14.sp, fontWeight: FontWeight.w500),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                )
+              ],
+            ),
+          )
+      ],
+    );
+  }
+
+  Widget serverInfo() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        _dtailList(),
+        verifyDetail!['desc'] == "" || verifyDetail!['desc'] == null
+            ? Container(
+                height: 5.w,
+                color: Colors.transparent,
+              )
+            : Container(
+                width: double.infinity,
+                margin: EdgeInsets.only(
+                  right: 15.w,
+                  left: 15.w,
+                  top: 20.w,
+                ),
+                color: Color(0xFFF8F8F8),
+                padding: new EdgeInsets.symmetric(horizontal: 15.5.w, vertical: 15.w),
+                child: Text(
+                  verifyDetail!['desc'],
+                  style: TextStyle(fontSize: 14.sp, color: StyleTheme.cTitleColor),
+                ),
+              ),
+      ],
     );
   }
 
