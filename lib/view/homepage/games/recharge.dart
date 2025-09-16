@@ -693,51 +693,7 @@ class _GameRechargePageState extends State<GameRechargePage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 isNumber == null
-                    ? Container(
-                        width: 100.w,
-                        alignment: Alignment.center,
-                        child: TextField(
-                          onSubmitted: (e) {},
-                          onChanged: (ev) {
-                            try {
-                              if (double.parse(ev == '' ? '1' : ev) > 0) {
-                                if (double.parse(ev) > double.parse(value!)) {
-                                  changeState(() {
-                                    changeNumber = value;
-                                    numController.text = value;
-                                  });
-                                } else {
-                                  changeNumber = ev == '' ? '0' : ev;
-                                }
-
-                                changeState(() {});
-                              } else {
-                                changeState(() {
-                                  changeNumber = '0';
-                                  numController.text = '0';
-                                });
-                              }
-                            } catch (e) {
-                              changeState(() {
-                                changeNumber = '0';
-                                numController.text = '0';
-                              });
-                              CommonUtils.showText('请输入正确的数字～');
-                            }
-                          },
-                          keyboardType: TextInputType.phone,
-                          scrollPadding: EdgeInsets.all(0),
-                          textInputAction: TextInputAction.send,
-                          autofocus: true,
-                          controller: numController,
-                          decoration: InputDecoration(
-                              isDense: true,
-                              contentPadding: EdgeInsets.only(left: 10, right: 10, top: 5, bottom: 5),
-                              border: InputBorder.none,
-                              hintStyle: TextStyle(color: StyleTheme.cBioColor, fontSize: 16.sp),
-                              hintText: "0.0"),
-                        ),
-                      )
+                    ? _buildNumberTextField(changeState, isNumber: isNumber, title: title, value: value)
                     : Text(
                         changeNumber,
                         style: TextStyle(color: Colors.black, fontSize: 16.sp),
@@ -750,21 +706,20 @@ class _GameRechargePageState extends State<GameRechargePage> {
           Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              isNumber == null
-                  ? GestureDetector(
-                      onTap: () {
-                        changeState(() {
-                          numController.text = value!;
-                          changeNumber = value;
-                        });
-                      },
-                      child: LocalPNG(
-                        url: 'assets/images/games/max_icon.png',
-                        width: 34.w,
-                        fit: BoxFit.fitWidth,
-                      ),
-                    )
-                  : Container(),
+              if (isNumber == null)
+                GestureDetector(
+                  onTap: () {
+                    changeState(() {
+                      numController.text = value!;
+                      changeNumber = value;
+                    });
+                  },
+                  child: LocalPNG(
+                    url: 'assets/images/games/max_icon.png',
+                    width: 34.w,
+                    fit: BoxFit.fitWidth,
+                  ),
+                ),
               SizedBox(
                 width: 5.5.w,
               ),
@@ -772,6 +727,54 @@ class _GameRechargePageState extends State<GameRechargePage> {
             ],
           )
         ],
+      ),
+    );
+  }
+
+  Widget _buildNumberTextField(Function changeState, {bool? isNumber, String? title, String? value}) {
+    return Container(
+      width: 100.w,
+      alignment: Alignment.center,
+      child: TextField(
+        onSubmitted: (e) {},
+        onChanged: (ev) {
+          try {
+            if (double.parse(ev == '' ? '1' : ev) > 0) {
+              if (double.parse(ev) > double.parse(value!)) {
+                changeState(() {
+                  changeNumber = value;
+                  numController.text = value;
+                });
+              } else {
+                changeNumber = ev == '' ? '0' : ev;
+              }
+
+              changeState(() {});
+            } else {
+              changeState(() {
+                changeNumber = '0';
+                numController.text = '0';
+              });
+            }
+          } catch (e) {
+            changeState(() {
+              changeNumber = '0';
+              numController.text = '0';
+            });
+            CommonUtils.showText('请输入正确的数字～');
+          }
+        },
+        keyboardType: TextInputType.phone,
+        scrollPadding: EdgeInsets.all(0),
+        textInputAction: TextInputAction.send,
+        autofocus: true,
+        controller: numController,
+        decoration: InputDecoration(
+            isDense: true,
+            contentPadding: EdgeInsets.only(left: 10, right: 10, top: 5, bottom: 5),
+            border: InputBorder.none,
+            hintStyle: TextStyle(color: StyleTheme.cBioColor, fontSize: 16.sp),
+            hintText: "0.0"),
       ),
     );
   }

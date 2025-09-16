@@ -63,8 +63,7 @@ class _GameRecordingPageState extends State<GameRecordingPage> {
   void initState() {
     super.initState();
     scrollController.addListener(() {
-      if (scrollController.position.pixels ==
-          scrollController.position.maxScrollExtent) {
+      if (scrollController.position.pixels == scrollController.position.maxScrollExtent) {
         if (!isAll) {
           setState(() {
             page++;
@@ -76,9 +75,7 @@ class _GameRecordingPageState extends State<GameRecordingPage> {
     });
     _getOrderList();
   }
-// getStatus(){
 
-// }
   @override
   Widget build(BuildContext context) {
     String chargeStr = '充值记录';
@@ -94,10 +91,7 @@ class _GameRecordingPageState extends State<GameRecordingPage> {
           ),
           title: Text(
             widget.type == 0 ? chargeStr : txjlstr,
-            style: TextStyle(
-                color: StyleTheme.cTitleColor,
-                fontSize: 18.sp,
-                fontWeight: FontWeight.w500),
+            style: TextStyle(color: StyleTheme.cTitleColor, fontSize: 18.sp, fontWeight: FontWeight.w500),
           ),
           backgroundColor: Colors.transparent,
           elevation: 0,
@@ -114,21 +108,21 @@ class _GameRecordingPageState extends State<GameRecordingPage> {
                   ? NoData(
                       text: '无$cccc记录～',
                     )
-                  : (ListView.separated(
-                      padding: EdgeInsets.symmetric(horizontal: 16.sp),
-                      controller: scrollController,
-                      itemCount:
-                          (orderList!.length == 0) ? 1 : orderList!.length + 1,
-                      itemBuilder: (context, index) {
-                        //显示单词列表项
-                        return index == orderList!.length
-                            ? renderMore()
-                            : coinWidget(orderList![index]);
-                      },
-                      separatorBuilder: (context, idnex) =>
-                          SizedBox(height: 10.w),
-                    ))),
+                  : _buildListView()),
     );
+  }
+
+  Widget _buildListView() {
+    return (ListView.separated(
+      padding: EdgeInsets.symmetric(horizontal: 16.sp),
+      controller: scrollController,
+      itemCount: (orderList!.length == 0) ? 1 : orderList!.length + 1,
+      itemBuilder: (context, index) {
+        //显示单词列表项
+        return index == orderList!.length ? renderMore() : coinWidget(orderList![index]);
+      },
+      separatorBuilder: (context, idnex) => SizedBox(height: 10.w),
+    ));
   }
 
   Color getStatus(int status) {
@@ -206,8 +200,7 @@ class _GameRecordingPageState extends State<GameRecordingPage> {
                   )
                 ],
               ),
-              Text(oderItem['created_at'].toString(),
-                  style: TextStyle(color: Color(0xff999999), fontSize: 12.sp)),
+              Text(oderItem['created_at'].toString(), style: TextStyle(color: Color(0xff999999), fontSize: 12.sp)),
             ],
           ),
           SizedBox(
@@ -234,15 +227,9 @@ class _GameRecordingPageState extends State<GameRecordingPage> {
                   )
                 ],
               ),
-              Text(
-                  widget.type == 0
-                      ? oderItem['status_text'] ?? "-"
-                      : oderItem['status'] ?? "-",
+              Text(widget.type == 0 ? oderItem['status_text'] ?? "-" : oderItem['status'] ?? "-",
                   style: TextStyle(
-                      color: widget.type == 0
-                          ? getStatus(oderItem['status'])
-                          : Color(0xff999999),
-                      fontSize: 12.sp)),
+                      color: widget.type == 0 ? getStatus(oderItem['status']) : Color(0xff999999), fontSize: 12.sp)),
             ],
           )
         ],
