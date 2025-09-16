@@ -16,6 +16,7 @@ import '../../../utils/cache/image_net_tool.dart';
 
 class NackdChatMark extends StatefulWidget {
   final Map? data;
+
   const NackdChatMark({Key? key, this.data}) : super(key: key);
 
   @override
@@ -28,6 +29,7 @@ class _NackdChatMarkState extends State<NackdChatMark> {
   List servers = [];
   double girlFace = 1;
   double serverMass = 1;
+
   @override
   void initState() {
     // TODO: implement initState
@@ -59,182 +61,187 @@ class _NackdChatMarkState extends State<NackdChatMark> {
                     ),
                   ),
                 ),
-                Expanded(
-                    child: ListView(
-                  children: [
-                    Container(
-                      margin: EdgeInsets.only(left: 15.w, right: 15.w, top: 10.w),
-                      color: Colors.white,
-                      child: Row(
-                        children: [
-                          Container(
-                            height: 160.w,
-                            width: 120.w,
-                            margin: EdgeInsets.only(right: 15.5.w),
-                            child: ImageNetTool(url: data!['girl_chat']['cover']),
-                          ),
-                          Expanded(
-                              child: SizedBox(
-                            height: 160.w,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  '${data!['girl_chat']['title']}',
-                                  style: TextStyle(
-                                      color: StyleTheme.cTitleColor, fontSize: 15.sp, fontWeight: FontWeight.w500),
-                                ),
-                                Text(
-                                  'ID：${data!['girl_chat']['id']}',
-                                  style: TextStyle(
-                                    color: Color.fromRGBO(150, 150, 150, 1),
-                                    fontSize: 12.sp,
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: 10.w,
-                                ),
-                                Text(
-                                  '附加项目：${servers.isEmpty ? '--' : servers.join('、')}',
-                                  style: TextStyle(
-                                    color: Color.fromRGBO(100, 100, 100, 1),
-                                    fontSize: 12.sp,
-                                  ),
-                                ),
-                                Spacer(),
-                                Text(
-                                  '支付金额：${data!['total_amount']}元宝',
-                                  style: TextStyle(
-                                    color: Color.fromRGBO(100, 100, 100, 1),
-                                    fontSize: 12.sp,
-                                  ),
-                                ),
-                                // Text(
-                                //   '联系方式：${data['user_contact']}',
-                                //   style: TextStyle(
-                                //     color: Color.fromRGBO(100, 100, 100, 1),
-                                //     fontSize: 12.sp,
-                                //   ),
-                                // )
-                              ],
-                            ),
-                          ))
-                        ],
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 15.w),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Container(
-                            margin: new EdgeInsets.only(top: 9.5.w),
-                            child: Row(
-                              children: [
-                                Text(
-                                  '妹子颜值:',
-                                  style: TextStyle(fontSize: 14.sp, color: StyleTheme.cTitleColor),
-                                ),
-                                StarRating(
-                                  onRatingChanged: (rating) {
-                                    girlFace = rating;
-                                    setState(() {});
-                                  },
-                                  rating: girlFace,
-                                  size: 12.w,
-                                  spacing: 5.w,
-                                )
-                              ],
-                            ),
-                          ),
-                          Container(
-                            margin: new EdgeInsets.only(top: 9.5.w),
-                            child: Row(
-                              children: [
-                                Text(
-                                  '服务质量:',
-                                  style: TextStyle(fontSize: 14.sp, color: StyleTheme.cTitleColor),
-                                ),
-                                StarRating(
-                                  rating: serverMass,
-                                  onRatingChanged: (rating) {
-                                    serverMass = rating;
-                                    setState(() {});
-                                  },
-                                  size: 12.w,
-                                  spacing: 5.w,
-                                )
-                              ],
-                            ),
-                          ),
-                          Container(
-                            margin: EdgeInsets.only(bottom: 20.w, top: 15.w),
-                            height: 151.w,
-                            padding: EdgeInsets.all(10.w),
-                            decoration:
-                                BoxDecoration(borderRadius: BorderRadius.circular(5.w), color: Color(0xfff5f5f5)),
-                            child: TextField(
-                              maxLines: 999,
-                              maxLength: 300,
-                              controller: content,
-                              decoration: InputDecoration(
-                                contentPadding: EdgeInsets.zero,
-                                hintText: '说说你对本次体验的想法吧',
-                                counterStyle: TextStyle(color: Color(0xffb4b4b4), fontSize: 15.sp),
-                                hintStyle: TextStyle(color: Color(0xffb4b4b4), fontSize: 15.sp),
-                                labelStyle: TextStyle(color: Color(0xff1e1e1e), fontSize: 15.sp),
-                                border: InputBorder.none, // Removes the default border
-                              ),
-                            ),
-                          )
-                        ],
-                      ),
-                    )
-                  ],
-                )),
-                Center(
-                  child: GestureDetector(
-                    behavior: HitTestBehavior.translucent,
-                    onTap: () {
-                      if (content.text.isEmpty) {
-                        CommonUtils.showText('请输入您的体验评价');
-                        return;
-                      }
-                      BotToast.showLoading();
-                      girlchatEvaluation(id: data!['id'], face: girlFace, service: serverMass, comment: content.text)
-                          .then((res) {
-                        if (res!['status'] != 0) {
-                          CommonUtils.showText(res['msg']);
-                          context.pop();
-                        } else {
-                          CommonUtils.showText(res['msg']);
-                        }
-                      }).whenComplete(() {
-                        BotToast.closeAllLoading();
-                      });
-                    },
-                    child: Stack(
-                      children: [
-                        LocalPNG(
-                          width: 275.w,
-                          height: 50.w,
-                          url: 'assets/images/mymony/money-img.png',
-                        ),
-                        Positioned.fill(
-                            child: Center(
-                                child: Text(
-                          '提交',
-                          style: TextStyle(fontSize: 15.w, color: Colors.white),
-                        ))),
-                      ],
-                    ),
-                  ),
-                ),
+                _buildBody(),
+                _buildBottomBtn(),
                 SizedBox(
                   height: 83.w,
                 )
               ],
             )));
+  }
+
+  Widget _buildBody() {
+    return Expanded(
+        child: ListView(
+      children: [
+        Container(
+          margin: EdgeInsets.only(left: 15.w, right: 15.w, top: 10.w),
+          color: Colors.white,
+          child: Row(
+            children: [
+              Container(
+                height: 160.w,
+                width: 120.w,
+                margin: EdgeInsets.only(right: 15.5.w),
+                child: ImageNetTool(url: data!['girl_chat']['cover']),
+              ),
+              Expanded(
+                  child: SizedBox(
+                height: 160.w,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      '${data!['girl_chat']['title']}',
+                      style: TextStyle(color: StyleTheme.cTitleColor, fontSize: 15.sp, fontWeight: FontWeight.w500),
+                    ),
+                    Text(
+                      'ID：${data!['girl_chat']['id']}',
+                      style: TextStyle(
+                        color: Color.fromRGBO(150, 150, 150, 1),
+                        fontSize: 12.sp,
+                      ),
+                    ),
+                    SizedBox(
+                      height: 10.w,
+                    ),
+                    Text(
+                      '附加项目：${servers.isEmpty ? '--' : servers.join('、')}',
+                      style: TextStyle(
+                        color: Color.fromRGBO(100, 100, 100, 1),
+                        fontSize: 12.sp,
+                      ),
+                    ),
+                    Spacer(),
+                    Text(
+                      '支付金额：${data!['total_amount']}元宝',
+                      style: TextStyle(
+                        color: Color.fromRGBO(100, 100, 100, 1),
+                        fontSize: 12.sp,
+                      ),
+                    ),
+                    // Text(
+                    //   '联系方式：${data['user_contact']}',
+                    //   style: TextStyle(
+                    //     color: Color.fromRGBO(100, 100, 100, 1),
+                    //     fontSize: 12.sp,
+                    //   ),
+                    // )
+                  ],
+                ),
+              ))
+            ],
+          ),
+        ),
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 15.w),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                margin: new EdgeInsets.only(top: 9.5.w),
+                child: Row(
+                  children: [
+                    Text(
+                      '妹子颜值:',
+                      style: TextStyle(fontSize: 14.sp, color: StyleTheme.cTitleColor),
+                    ),
+                    StarRating(
+                      onRatingChanged: (rating) {
+                        girlFace = rating;
+                        setState(() {});
+                      },
+                      rating: girlFace,
+                      size: 12.w,
+                      spacing: 5.w,
+                    )
+                  ],
+                ),
+              ),
+              Container(
+                margin: new EdgeInsets.only(top: 9.5.w),
+                child: Row(
+                  children: [
+                    Text(
+                      '服务质量:',
+                      style: TextStyle(fontSize: 14.sp, color: StyleTheme.cTitleColor),
+                    ),
+                    StarRating(
+                      rating: serverMass,
+                      onRatingChanged: (rating) {
+                        serverMass = rating;
+                        setState(() {});
+                      },
+                      size: 12.w,
+                      spacing: 5.w,
+                    )
+                  ],
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.only(bottom: 20.w, top: 15.w),
+                height: 151.w,
+                padding: EdgeInsets.all(10.w),
+                decoration: BoxDecoration(borderRadius: BorderRadius.circular(5.w), color: Color(0xfff5f5f5)),
+                child: TextField(
+                  maxLines: 999,
+                  maxLength: 300,
+                  controller: content,
+                  decoration: InputDecoration(
+                    contentPadding: EdgeInsets.zero,
+                    hintText: '说说你对本次体验的想法吧',
+                    counterStyle: TextStyle(color: Color(0xffb4b4b4), fontSize: 15.sp),
+                    hintStyle: TextStyle(color: Color(0xffb4b4b4), fontSize: 15.sp),
+                    labelStyle: TextStyle(color: Color(0xff1e1e1e), fontSize: 15.sp),
+                    border: InputBorder.none, // Removes the default border
+                  ),
+                ),
+              )
+            ],
+          ),
+        )
+      ],
+    ));
+  }
+
+  Widget _buildBottomBtn() {
+    return Center(
+      child: GestureDetector(
+        behavior: HitTestBehavior.translucent,
+        onTap: () {
+          if (content.text.isEmpty) {
+            CommonUtils.showText('请输入您的体验评价');
+            return;
+          }
+          BotToast.showLoading();
+          girlchatEvaluation(id: data!['id'], face: girlFace, service: serverMass, comment: content.text).then((res) {
+            if (res!['status'] != 0) {
+              CommonUtils.showText(res['msg']);
+              context.pop();
+            } else {
+              CommonUtils.showText(res['msg']);
+            }
+          }).whenComplete(() {
+            BotToast.closeAllLoading();
+          });
+        },
+        child: Stack(
+          children: [
+            LocalPNG(
+              width: 275.w,
+              height: 50.w,
+              url: 'assets/images/mymony/money-img.png',
+            ),
+            Positioned.fill(
+                child: Center(
+                    child: Text(
+              '提交',
+              style: TextStyle(fontSize: 15.w, color: Colors.white),
+            ))),
+          ],
+        ),
+      ),
+    );
   }
 }

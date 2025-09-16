@@ -99,89 +99,7 @@ class _NakedChatPageState extends State<NakedChatPage> with SingleTickerProvider
                   ),
                 ),
               ),
-              Expanded(
-                  child: loading
-                      ? PageStatus.loading(true)
-                      : ExtendedNestedScrollView(
-                          physics: ClampingScrollPhysics(),
-                          controller: _scrollViewController,
-                          headerSliverBuilder: (BuildContext context, bool b) {
-                            return [
-                              SliverToBoxAdapter(
-                                child: bannerWidget(),
-                              ),
-                              SliverToBoxAdapter(
-                                child: tips.isEmpty
-                                    ? SizedBox()
-                                    : Padding(
-                                        padding: EdgeInsets.only(left: 15.w, right: 15.w, top: 10.w),
-                                        child: Row(
-                                          children: [
-                                            LocalPNG(
-                                              url: "assets/images/home/icon_notices.png",
-                                              width: 18.w,
-                                              height: 18.w,
-                                            ),
-                                            SizedBox(
-                                              width: 4.w,
-                                            ),
-                                            Expanded(
-                                                child: SizedBox(
-                                              height: 18.w,
-                                              child: new Marquee(
-                                                text: tips,
-                                                style: new TextStyle(color: StyleTheme.cTitleColor, fontSize: 12.sp),
-                                                scrollAxis: Axis.horizontal,
-                                              ),
-                                            ))
-                                          ],
-                                        ),
-                                      ),
-                              )
-                            ];
-                          },
-                          body: Column(
-                            children: [
-                              NavTabBarWidget(
-                                tabBarHeight: 44.0.w,
-                                tabVc: tabController,
-                                tabs: tabs.map((e) => (e['name'] ?? e['title']).toString()).toList(),
-                                // containerPadding: EdgeInsets.symmetric(horizontal: 70.w),
-                                textPadding: EdgeInsets.symmetric(horizontal: 6.w),
-                                selectedIndex: tabController!.index,
-                                norTextStyle: TextStyle(color: StyleTheme.cTitleColor, fontSize: 14.sp),
-                                selTextStyle: TextStyle(
-                                    color: StyleTheme.cTitleColor, fontSize: 18.sp, fontWeight: FontWeight.bold),
-                                indicatorStyle: NavIndicatorStyle.none,
-                              ),
-                              Expanded(
-                                  child: ExtendedTabBarView(
-                                      controller: tabController,
-                                      children: tabs.map(
-                                        (e) {
-                                          return PageViewMixin(
-                                            child: PublicList(
-                                                controller: _scrollViewController,
-                                                isShow: true,
-                                                limit: 30,
-                                                isFlow: false,
-                                                isSliver: false,
-                                                api: '/api/girlchat/list',
-                                                data: {'tag_id': e['id']},
-                                                row: 2,
-                                                aspectRatio: 0.74,
-                                                mainAxisSpacing: 10.w,
-                                                crossAxisSpacing: 5.w,
-                                                itemBuild: (context, index, data, page, limit, getListData) {
-                                                  return NakedchtCard(
-                                                    data: data,
-                                                  );
-                                                }),
-                                          );
-                                        },
-                                      ).toList()))
-                            ],
-                          )))
+              Expanded(child: loading ? PageStatus.loading(true) : _buildScrollView())
             ],
           ),
         ),
@@ -207,5 +125,87 @@ class _NakedChatPageState extends State<NakedChatPage> with SingleTickerProvider
             ))
       ],
     ));
+  }
+
+  Widget _buildScrollView() {
+    return ExtendedNestedScrollView(
+        physics: ClampingScrollPhysics(),
+        controller: _scrollViewController,
+        headerSliverBuilder: (BuildContext context, bool b) {
+          return [
+            SliverToBoxAdapter(
+              child: bannerWidget(),
+            ),
+            SliverToBoxAdapter(
+              child: tips.isEmpty
+                  ? SizedBox()
+                  : Padding(
+                      padding: EdgeInsets.only(left: 15.w, right: 15.w, top: 10.w),
+                      child: Row(
+                        children: [
+                          LocalPNG(
+                            url: "assets/images/home/icon_notices.png",
+                            width: 18.w,
+                            height: 18.w,
+                          ),
+                          SizedBox(
+                            width: 4.w,
+                          ),
+                          Expanded(
+                              child: SizedBox(
+                            height: 18.w,
+                            child: new Marquee(
+                              text: tips,
+                              style: new TextStyle(color: StyleTheme.cTitleColor, fontSize: 12.sp),
+                              scrollAxis: Axis.horizontal,
+                            ),
+                          ))
+                        ],
+                      ),
+                    ),
+            )
+          ];
+        },
+        body: Column(
+          children: [
+            NavTabBarWidget(
+              tabBarHeight: 44.0.w,
+              tabVc: tabController,
+              tabs: tabs.map((e) => (e['name'] ?? e['title']).toString()).toList(),
+              // containerPadding: EdgeInsets.symmetric(horizontal: 70.w),
+              textPadding: EdgeInsets.symmetric(horizontal: 6.w),
+              selectedIndex: tabController!.index,
+              norTextStyle: TextStyle(color: StyleTheme.cTitleColor, fontSize: 14.sp),
+              selTextStyle: TextStyle(color: StyleTheme.cTitleColor, fontSize: 18.sp, fontWeight: FontWeight.bold),
+              indicatorStyle: NavIndicatorStyle.none,
+            ),
+            Expanded(
+                child: ExtendedTabBarView(
+                    controller: tabController,
+                    children: tabs.map(
+                      (e) {
+                        return PageViewMixin(
+                          child: PublicList(
+                              controller: _scrollViewController,
+                              isShow: true,
+                              limit: 30,
+                              isFlow: false,
+                              isSliver: false,
+                              api: '/api/girlchat/list',
+                              data: {'tag_id': e['id']},
+                              row: 2,
+                              aspectRatio: 0.74,
+                              mainAxisSpacing: 10.w,
+                              crossAxisSpacing: 5.w,
+                              itemBuild: (context, index, data, page, limit, getListData) {
+                                return NakedchtCard(
+                                  data: data,
+                                );
+                              }),
+                        );
+                      },
+                    ).toList()))
+          ],
+        ));
   }
 }

@@ -57,11 +57,8 @@ class _NakedchatDetailState extends State<NakedchatDetail> {
         CommonUtils.showText(res['data']['msg']);
       } else {
         if (res['msg'] == 'err') {
-          CgDialog.cgShowDialog(
-              context, '温馨提示', '免费收藏已达上限，请前往开通会员', ['取消', '立即前往'],
-              callBack: () {
-            AppGlobal.appRouter
-                ?.push(CommonUtils.getRealHash('memberCardsPage'));
+          CgDialog.cgShowDialog(context, '温馨提示', '免费收藏已达上限，请前往开通会员', ['取消', '立即前往'], callBack: () {
+            AppGlobal.appRouter?.push(CommonUtils.getRealHash('memberCardsPage'));
           });
         } else {
           CommonUtils.showText(res['msg']);
@@ -75,9 +72,7 @@ class _NakedchatDetailState extends State<NakedchatDetail> {
       // var image = verifyDetail!['photos'].firstWhere((v) => v['type'] == 1);
 
       AppGlobal.chatUser = FormUserMsg(
-          uuid: user!['uuid'].toString(),
-          nickname: user!['nickname'].toString(),
-          avatar: user!['thumb'].toString());
+          uuid: user!['uuid'].toString(), nickname: user!['nickname'].toString(), avatar: user!['thumb'].toString());
       AppGlobal.appRouter?.push(CommonUtils.getRealHash('llchat'));
     } else {
       BotToast.showText(text: '数据出现错误，无法私聊～', align: Alignment(0, 0));
@@ -85,10 +80,8 @@ class _NakedchatDetailState extends State<NakedchatDetail> {
   }
 
   connectGirl() {
-    if (!CgPrivilege.getPrivilegeStatus(
-        PrivilegeType.infoSystem, PrivilegeType.privilegeIm)) {
-      CommonUtils.showVipDialog(context,
-          PrivilegeType.infoSysteString + PrivilegeType.privilegeImString);
+    if (!CgPrivilege.getPrivilegeStatus(PrivilegeType.infoSystem, PrivilegeType.privilegeIm)) {
+      CommonUtils.showVipDialog(context, PrivilegeType.infoSysteString + PrivilegeType.privilegeImString);
       return;
     }
     if (WebSocketUtility.imToken == null) {
@@ -129,14 +122,12 @@ class _NakedchatDetailState extends State<NakedchatDetail> {
           decoration: BoxDecoration(borderRadius: BorderRadius.circular(8)),
           child: GestureDetector(
             onTap: () {
-              AppGlobal.appRouter?.push(CommonUtils.getRealHash(
-                  'brokerHomepage/' +
-                      item['user']['aff'].toString() +
-                      '/' +
-                      Uri.encodeComponent(item['user']['thumb'].toString()) +
-                      '/' +
-                      Uri.encodeComponent(
-                          item['user']['nickname'].toString())));
+              AppGlobal.appRouter?.push(CommonUtils.getRealHash('brokerHomepage/' +
+                  item['user']['aff'].toString() +
+                  '/' +
+                  Uri.encodeComponent(item['user']['thumb'].toString()) +
+                  '/' +
+                  Uri.encodeComponent(item['user']['nickname'].toString())));
             },
             child: Container(
               height: CommonUtils.getWidth(80),
@@ -162,8 +153,7 @@ class _NakedchatDetailState extends State<NakedchatDetail> {
                 children: [
                   Text(
                     '妹子颜值:',
-                    style: TextStyle(
-                        fontSize: 14.sp, color: StyleTheme.cTitleColor),
+                    style: TextStyle(fontSize: 14.sp, color: StyleTheme.cTitleColor),
                   ),
                   StarRating(
                     rating: item['face'].toDouble(),
@@ -180,8 +170,7 @@ class _NakedchatDetailState extends State<NakedchatDetail> {
                 children: [
                   Text(
                     '服务质量:',
-                    style: TextStyle(
-                        fontSize: 14.sp, color: StyleTheme.cTitleColor),
+                    style: TextStyle(fontSize: 14.sp, color: StyleTheme.cTitleColor),
                   ),
                   StarRating(
                     rating: item['service'].toDouble(),
@@ -197,15 +186,12 @@ class _NakedchatDetailState extends State<NakedchatDetail> {
                 : Container(
                     width: double.infinity,
                     margin: new EdgeInsets.only(top: 16.sp),
-                    padding: EdgeInsets.symmetric(
-                        horizontal: CommonUtils.getWidth(28), vertical: 15.w),
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5),
-                        color: StyleTheme.bottomappbarColor),
+                    padding: EdgeInsets.symmetric(horizontal: CommonUtils.getWidth(28), vertical: 15.w),
+                    decoration:
+                        BoxDecoration(borderRadius: BorderRadius.circular(5), color: StyleTheme.bottomappbarColor),
                     child: Text(
                       item['comment'],
-                      style:
-                          TextStyle(color: Color(0xFF646464), fontSize: 12.sp),
+                      style: TextStyle(color: Color(0xFF646464), fontSize: 12.sp),
                     ),
                   ),
             SizedBox(
@@ -236,96 +222,8 @@ class _NakedchatDetailState extends State<NakedchatDetail> {
                         : Container()
                   ],
                 ),
-                // GestureDetector(
-                //   onTap: () {
-                //     // replyItemComment(item['id']);
-                //   },
-                //   child: Row(
-                //     mainAxisSize: MainAxisSize.min,
-                //     children: [
-                //       LocalPNG(
-                //         url: 'assets/images/elegantroom/icon_reply.png',
-                //         width: 15.w,
-                //         height: 15.w,
-                //       ),
-                //       SizedBox(
-                //         width: 5.w,
-                //       ),
-                //       Text(
-                //         '回复',
-                //         style: TextStyle(
-                //             color: StyleTheme.cTitleColor, fontSize: 12.sp),
-                //       )
-                //     ],
-                //   ),
-                // )
               ],
             ),
-            //二级评论
-            // Column(
-            //   mainAxisSize: MainAxisSize.min,
-            //   crossAxisAlignment: CrossAxisAlignment.start,
-            //   children: (item['child'] as List).map((e) {
-            //     return Column(
-            //       crossAxisAlignment: CrossAxisAlignment.start,
-            //       mainAxisSize: MainAxisSize.min,
-            //       children: [
-            //         SizedBox(
-            //           height: 16.w,
-            //         ),
-            //         Row(
-            //           mainAxisSize: MainAxisSize.min,
-            //           children: [
-            //             Container(
-            //               height: 25.w,
-            //               width: 25.w,
-            //               child: Avatar(
-            //                 type: e['thumb'],
-            //                 radius: 12.5.w,
-            //               ),
-            //             ),
-            //             SizedBox(
-            //               width: 10.w,
-            //             ),
-            //             Text(
-            //               e['nickname'].toString(),
-            //               style: TextStyle(
-            //                 color: StyleTheme.cTitleColor,
-            //                 fontSize: 16.sp,
-            //               ),
-            //             ),
-            //           ],
-            //         ),
-            //         Container(
-            //           width: double.infinity,
-            //           margin: new EdgeInsets.only(
-            //               top: 10.w, left: 35.w, bottom: 10.w),
-            //           padding: EdgeInsets.symmetric(
-            //               horizontal: 14.w, vertical: 15.w),
-            //           decoration: BoxDecoration(
-            //               borderRadius: BorderRadius.circular(5),
-            //               color: StyleTheme.bottomappbarColor),
-            //           child: Text(
-            //             e['desc'].toString(),
-            //             style: TextStyle(
-            //                 color: Color(0xFF646464), fontSize: 12.sp),
-            //           ),
-            //         ),
-            //         Padding(
-            //           padding: EdgeInsets.only(left: 35.w),
-            //           child: Text(
-            //             CommonUtils.getCgTime(
-            //                 int.parse(e['created_at'].toString())),
-            //             style: TextStyle(
-            //               color: StyleTheme.cBioColor,
-            //               fontSize: 12.sp,
-            //             ),
-            //           ),
-            //         )
-            //       ],
-            //     );
-            //   }).toList(),
-            // )
           ],
         ))
       ]),
@@ -359,10 +257,7 @@ class _NakedchatDetailState extends State<NakedchatDetail> {
               children: <Widget>[
                 Text(
                   verifyDetail!['new_user_tips'],
-                  style: TextStyle(
-                      height: 2,
-                      color: StyleTheme.cDangerColor,
-                      fontSize: 12.sp),
+                  style: TextStyle(height: 2, color: StyleTheme.cDangerColor, fontSize: 12.sp),
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                 ),
@@ -390,15 +285,12 @@ class _NakedchatDetailState extends State<NakedchatDetail> {
   }
 
   Widget _swiper() {
-    var image = verifyDetail!['photos']
-        .where((element) => element['type'] != 2)
-        .toList();
+    var image = verifyDetail!['photos'].where((element) => element['type'] != 2).toList();
     return verifyDetail!['photos'] != null && verifyDetail!['photos'].length > 0
         ? Container(
             color: Color(0xFFE5E5E5),
             height: 240.w,
-            child: verifyDetail!['photos'] != null &&
-                    verifyDetail!['photos'].length > 0
+            child: verifyDetail!['photos'] != null && verifyDetail!['photos'].length > 0
                 ? Swiper(
                     itemBuilder: (BuildContext context, int index) {
                       return verifyDetail!['photos'][index]['type'] == 2
@@ -408,10 +300,7 @@ class _NakedchatDetailState extends State<NakedchatDetail> {
                             )
                           : GestureDetector(
                               onTap: () {
-                                AppGlobal.picMap = {
-                                  'resources': verifyDetail!['photos'],
-                                  'index': index
-                                };
+                                AppGlobal.picMap = {'resources': verifyDetail!['photos'], 'index': index};
                                 context.push('/teaViewPicPage');
                               },
                               child: ImageNetTool(
@@ -427,23 +316,18 @@ class _NakedchatDetailState extends State<NakedchatDetail> {
                     itemHeight: CommonUtils.getWidth(480),
                     pagination: SwiperPagination(
                       alignment: Alignment.bottomRight,
-                      builder: new SwiperCustomPagination(builder:
-                          (BuildContext context, SwiperPluginConfig config) {
+                      builder: new SwiperCustomPagination(builder: (BuildContext context, SwiperPluginConfig config) {
                         return IgnorePointer(
                           child: Container(
                               padding: new EdgeInsets.symmetric(
                                 horizontal: CommonUtils.getWidth(26),
                                 vertical: CommonUtils.getWidth(7),
                               ),
-                              decoration: BoxDecoration(
-                                  color: Colors.black45,
-                                  borderRadius: BorderRadius.circular(10.0)),
+                              decoration:
+                                  BoxDecoration(color: Colors.black45, borderRadius: BorderRadius.circular(10.0)),
                               child: Text(
-                                (config.activeIndex + 1).toString() +
-                                    '/' +
-                                    config.itemCount.toString(),
-                                style: TextStyle(
-                                    fontSize: 14.sp, color: Colors.white),
+                                (config.activeIndex + 1).toString() + '/' + config.itemCount.toString(),
+                                style: TextStyle(fontSize: 14.sp, color: Colors.white),
                               )),
                         );
                       }),
@@ -480,16 +364,13 @@ class _NakedchatDetailState extends State<NakedchatDetail> {
                         children: [
                           _swiper(),
                           Padding(
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 15.w, vertical: 20.w),
+                            padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 20.w),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
                                   verifyDetail!['title'].toString(),
-                                  style: TextStyle(
-                                      color: StyleTheme.cTitleColor,
-                                      fontSize: 15.w),
+                                  style: TextStyle(color: StyleTheme.cTitleColor, fontSize: 15.w),
                                 ),
                                 SizedBox(
                                   height: 10.w,
@@ -498,9 +379,7 @@ class _NakedchatDetailState extends State<NakedchatDetail> {
                                   children: [
                                     Text(
                                       'ID：${verifyDetail!['id']}',
-                                      style: TextStyle(
-                                          color: StyleTheme.cBioColor,
-                                          fontSize: 10.w),
+                                      style: TextStyle(color: StyleTheme.cBioColor, fontSize: 10.w),
                                     ),
                                     SizedBox(
                                       width: 10.w,
@@ -509,9 +388,7 @@ class _NakedchatDetailState extends State<NakedchatDetail> {
                                         ? SizedBox()
                                         : Text(
                                             '${verifyDetail!['unlock_count']}人聊过',
-                                            style: TextStyle(
-                                                color: StyleTheme.cBioColor,
-                                                fontSize: 10.w),
+                                            style: TextStyle(color: StyleTheme.cBioColor, fontSize: 10.w),
                                           ),
                                   ],
                                 )
@@ -522,33 +399,22 @@ class _NakedchatDetailState extends State<NakedchatDetail> {
                           serverItem('个人资料',
                               '${verifyDetail!['girl_age']}岁/${verifyDetail!['girl_height']}cm/${verifyDetail!['girl_weight']}kg/${verifyDetail!['girl_cup']}罩杯',
                               top: 20),
-                          serverItem(
-                              '服务项目',
-                              verifyDetail!['girl_service_type'].isEmpty
-                                  ? '--'
-                                  : verifyDetail!['girl_service_type']),
-                          serverItem('是否露脸',
-                              verifyDetail!['show_face'] == 1 ? '是' : '否'),
+                          serverItem('服务项目',
+                              verifyDetail!['girl_service_type'].isEmpty ? '--' : verifyDetail!['girl_service_type']),
+                          serverItem('是否露脸', verifyDetail!['show_face'] == 1 ? '是' : '否'),
                           Padding(
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 15.w, vertical: 30.w),
+                            padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 30.w),
                             child: Row(
                               children: [
-                                Text('茶友评价',
-                                    style: TextStyle(
-                                        color: StyleTheme.cTitleColor,
-                                        fontSize: 18.w)),
+                                Text('茶友评价', style: TextStyle(color: StyleTheme.cTitleColor, fontSize: 18.w)),
                                 Text('（${verifyDetail!['comment_num'] ?? 0})',
-                                    style: TextStyle(
-                                        color: StyleTheme.cTitleColor,
-                                        fontSize: 12.w))
+                                    style: TextStyle(color: StyleTheme.cTitleColor, fontSize: 12.w))
                               ],
                             ),
                           )
                         ],
                       ),
-                      itemBuild:
-                          (context, index, data, page, limit, getListData) {
+                      itemBuild: (context, index, data, page, limit, getListData) {
                         return _scoreCard(data);
                       },
                     )),
@@ -556,10 +422,7 @@ class _NakedchatDetailState extends State<NakedchatDetail> {
               ? SizedBox()
               : Container(
                   height: 49.w + ScreenUtil().bottomBarHeight,
-                  padding: new EdgeInsets.only(
-                      bottom: ScreenUtil().bottomBarHeight,
-                      left: 15.w,
-                      right: 15.w),
+                  padding: new EdgeInsets.only(bottom: ScreenUtil().bottomBarHeight, left: 15.w, right: 15.w),
                   color: StyleTheme.bottomappbarColor,
                   width: double.infinity,
                   child: Row(
@@ -607,8 +470,7 @@ class _NakedchatDetailState extends State<NakedchatDetail> {
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
                                       Container(
-                                        margin:
-                                            new EdgeInsets.only(right: 10.w),
+                                        margin: new EdgeInsets.only(right: 10.w),
                                         child: LocalPNG(
                                           url: 'assets/images/detail/chat.png',
                                           width: 25.w,
@@ -625,18 +487,14 @@ class _NakedchatDetailState extends State<NakedchatDetail> {
                       GestureDetector(
                         // ignore: missing_return
                         onTap: () {
-                          AppGlobal.appRouter?.push(
-                              CommonUtils.getRealHash('nakedChatpay'),
-                              extra: {
-                                'girl_chat_id': widget.id,
-                                'time_set': verifyDetail!['time_set'],
-                                'addition_items':
-                                    verifyDetail!['addition_items'],
-                                'price_per_minute':
-                                    verifyDetail!['price_per_minute'] ?? 0,
-                                'title': verifyDetail!['title'],
-                                'user': verifyDetail!['user']
-                              });
+                          AppGlobal.appRouter?.push(CommonUtils.getRealHash('nakedChatpay'), extra: {
+                            'girl_chat_id': widget.id,
+                            'time_set': verifyDetail!['time_set'],
+                            'addition_items': verifyDetail!['addition_items'],
+                            'price_per_minute': verifyDetail!['price_per_minute'] ?? 0,
+                            'title': verifyDetail!['title'],
+                            'user': verifyDetail!['user']
+                          });
                         },
                         child: Container(
                           width: 110.w,
@@ -652,10 +510,7 @@ class _NakedchatDetailState extends State<NakedchatDetail> {
                               Center(
                                 child: Text(
                                   '立即预约',
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 14.sp,
-                                      fontWeight: FontWeight.w500),
+                                  style: TextStyle(color: Colors.white, fontSize: 14.sp, fontWeight: FontWeight.w500),
                                 ),
                               ),
                             ],

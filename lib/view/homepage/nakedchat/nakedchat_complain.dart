@@ -13,6 +13,7 @@ import 'package:go_router/go_router.dart';
 
 class NakedchatComplain extends StatefulWidget {
   final dynamic data;
+
   const NakedchatComplain({Key? key, this.data}) : super(key: key);
 
   @override
@@ -44,12 +45,7 @@ class _NakedchatComplainState extends State<NakedchatComplain> {
         List _img = value['pic'].map((e) {
           return e['url'];
         }).toList();
-        girlchatComplaint(
-                id: widget.data['id'],
-                types: selectServes,
-                content: content.text,
-                img: _img)
-            .then((res) {
+        girlchatComplaint(id: widget.data['id'], types: selectServes, content: content.text, img: _img).then((res) {
           if (res!['status'] != 0) {
             context.pop();
             CommonUtils.showText('举报成功');
@@ -69,10 +65,7 @@ class _NakedchatComplainState extends State<NakedchatComplain> {
       if (res!['status'] != 0) {
         loading = false;
         optionsList = res['data']['option'];
-        tips = (res['data']['tips'] as String)
-            .split('\n')
-            .where((value) => value.isNotEmpty)
-            .toList();
+        tips = (res['data']['tips'] as String).split('\n').where((value) => value.isNotEmpty).toList();
         setState(() {});
       } else {
         CommonUtils.showText(res['msg']);
@@ -127,138 +120,126 @@ class _NakedchatComplainState extends State<NakedchatComplain> {
                 PageTitleBar(
                   title: '投诉',
                 ),
-                Expanded(
-                    child: loading
-                        ? PageStatus.loading(true)
-                        : ListView(
-                            padding: EdgeInsets.symmetric(
-                                vertical: 15.w, horizontal: 15.w),
-                            children: [
-                              Wrap(
-                                spacing: 31.w,
-                                runSpacing: 20.w,
-                                children: <Widget>[
-                                  for (var key in optionsList!.keys)
-                                    Row(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        checkboxServes(optionsList![key], key)
-                                      ],
-                                    )
-                                ],
-                              ),
-                              DefaultTextStyle(
-                                  style: TextStyle(
-                                      color: StyleTheme.cDangerColor,
-                                      fontSize: 12.sp),
-                                  child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: tips.map((e) {
-                                        return Padding(
-                                          padding: EdgeInsets.symmetric(
-                                              vertical: 7.5.w),
-                                          child: Text(e),
-                                        );
-                                      }).toList())),
-                              Container(
-                                margin:
-                                    EdgeInsets.only(bottom: 20.w, top: 15.w),
-                                height: 151.w,
-                                padding: EdgeInsets.all(10.w),
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(5.w),
-                                    color: Color(0xfff5f5f5)),
-                                child: TextField(
-                                  maxLines: 999,
-                                  maxLength: 300,
-                                  controller: content,
-                                  decoration: InputDecoration(
-                                    contentPadding: EdgeInsets.zero,
-                                    hintText: '说说你对本次体验的想法吧',
-                                    counterStyle: TextStyle(
-                                        color: Color(0xffb4b4b4),
-                                        fontSize: 15.sp),
-                                    hintStyle: TextStyle(
-                                        color: Color(0xffb4b4b4),
-                                        fontSize: 15.sp),
-                                    labelStyle: TextStyle(
-                                        color: Color(0xff1e1e1e),
-                                        fontSize: 15.sp),
-                                    border: InputBorder
-                                        .none, // Removes the default border
-                                  ),
-                                ),
-                              ),
-                              SizedBox(
-                                height: 29.5.w,
-                              ),
-                              Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Text(
-                                    '照片',
-                                    style: TextStyle(
-                                      color: StyleTheme.cTitleColor,
-                                      fontSize: 16.sp,
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    width: 5.w,
-                                  ),
-                                  Text(
-                                    '请提供图片证明，越详细越好）',
-                                    style: TextStyle(
-                                      color: StyleTheme.cDangerColor,
-                                      fontSize: 12.sp,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              Text(
-                                '为了尽快为您处理，请务必提供关键的聊天截图',
-                                style: TextStyle(
-                                  color: StyleTheme.cDangerColor,
-                                  fontSize: 12.sp,
-                                ),
-                              ),
-                              SizedBox(
-                                height: 21.w,
-                              ),
-                              UploadResouceWidget(
-                                parmas: 'pic',
-                                uploadType: 'image',
-                                maxLength: 10,
-                                initResouceList: [],
-                              ),
-                            ],
-                          )),
+                Expanded(child: loading ? PageStatus.loading(true) : _buildList()),
                 SizedBox(
                   height: 10.w,
                 ),
-                GestureDetector(
-                  onTap: submitComplaint,
-                  behavior: HitTestBehavior.translucent,
-                  child: Stack(
-                    children: [
-                      LocalPNG(
-                        width: 275.w,
-                        height: 50.w,
-                        url: 'assets/images/mymony/money-img.png',
-                      ),
-                      Positioned.fill(
-                          child: Center(
-                              child: Text(
-                        '确认提交',
-                        style: TextStyle(fontSize: 15.w, color: Colors.white),
-                      ))),
-                    ],
-                  ),
-                ),
+                _buildBottomBtn(),
                 SizedBox(
                   height: ScreenUtil().bottomBarHeight + 19.5.w,
                 )
               ],
             )));
+  }
+
+  Widget _buildBottomBtn() {
+    return GestureDetector(
+      onTap: submitComplaint,
+      behavior: HitTestBehavior.translucent,
+      child: Stack(
+        children: [
+          LocalPNG(
+            width: 275.w,
+            height: 50.w,
+            url: 'assets/images/mymony/money-img.png',
+          ),
+          Positioned.fill(
+              child: Center(
+                  child: Text(
+            '确认提交',
+            style: TextStyle(fontSize: 15.w, color: Colors.white),
+          ))),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildList() {
+    return ListView(
+      padding: EdgeInsets.symmetric(vertical: 15.w, horizontal: 15.w),
+      children: [
+        Wrap(
+          spacing: 31.w,
+          runSpacing: 20.w,
+          children: <Widget>[
+            for (var key in optionsList!.keys)
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [checkboxServes(optionsList![key], key)],
+              )
+          ],
+        ),
+        DefaultTextStyle(
+            style: TextStyle(color: StyleTheme.cDangerColor, fontSize: 12.sp),
+            child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: tips.map((e) {
+                  return Padding(
+                    padding: EdgeInsets.symmetric(vertical: 7.5.w),
+                    child: Text(e),
+                  );
+                }).toList())),
+        Container(
+          margin: EdgeInsets.only(bottom: 20.w, top: 15.w),
+          height: 151.w,
+          padding: EdgeInsets.all(10.w),
+          decoration: BoxDecoration(borderRadius: BorderRadius.circular(5.w), color: Color(0xfff5f5f5)),
+          child: TextField(
+            maxLines: 999,
+            maxLength: 300,
+            controller: content,
+            decoration: InputDecoration(
+              contentPadding: EdgeInsets.zero,
+              hintText: '说说你对本次体验的想法吧',
+              counterStyle: TextStyle(color: Color(0xffb4b4b4), fontSize: 15.sp),
+              hintStyle: TextStyle(color: Color(0xffb4b4b4), fontSize: 15.sp),
+              labelStyle: TextStyle(color: Color(0xff1e1e1e), fontSize: 15.sp),
+              border: InputBorder.none, // Removes the default border
+            ),
+          ),
+        ),
+        SizedBox(
+          height: 29.5.w,
+        ),
+        Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              '照片',
+              style: TextStyle(
+                color: StyleTheme.cTitleColor,
+                fontSize: 16.sp,
+              ),
+            ),
+            SizedBox(
+              width: 5.w,
+            ),
+            Text(
+              '请提供图片证明，越详细越好）',
+              style: TextStyle(
+                color: StyleTheme.cDangerColor,
+                fontSize: 12.sp,
+              ),
+            ),
+          ],
+        ),
+        Text(
+          '为了尽快为您处理，请务必提供关键的聊天截图',
+          style: TextStyle(
+            color: StyleTheme.cDangerColor,
+            fontSize: 12.sp,
+          ),
+        ),
+        SizedBox(
+          height: 21.w,
+        ),
+        UploadResouceWidget(
+          parmas: 'pic',
+          uploadType: 'image',
+          maxLength: 10,
+          initResouceList: [],
+        ),
+      ],
+    );
   }
 }
