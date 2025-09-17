@@ -356,6 +356,29 @@ class _SquarePagesState extends State<SquarePages> with TickerProviderStateMixin
     );
   }
 
+  PreferredSize _appBarView() {
+    return PreferredSize(
+        child: Padding(
+          padding: EdgeInsets.only(top: kIsWeb ? 0 : 15.w, bottom: kIsWeb ? 5.w : 0),
+          child: V3SearchAppBarWidget(
+            isHidden: true,
+            callBack: (areaCode) {
+              cityCode = areaCode.toString();
+              getJpNum();
+            },
+            tapSearch: () {
+              AppGlobal.appRouter?.push(CommonUtils.getRealHash('searchResult'));
+            },
+            tapFilter: () {
+              VerticalModalSheet.show(
+                  context: context, child: tabsContainer(), direction: VerticalModalSheetDirection.TOP);
+            },
+            tapTitle: _onTapHeaderTitle,
+          ),
+        ),
+        preferredSize: Size.fromHeight(ScreenUtil().statusBarHeight + (kIsWeb ? 50.w : 20.w)));
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -373,114 +396,9 @@ class _SquarePagesState extends State<SquarePages> with TickerProviderStateMixin
                 fit: BoxFit.fitWidth,
                 alignment: Alignment.topLeft),
             Scaffold(
-              appBar: PreferredSize(
-                  child: Padding(
-                    padding: EdgeInsets.only(top: kIsWeb ? 0 : 15.w, bottom: kIsWeb ? 5.w : 0),
-                    child: V3SearchAppBarWidget(
-                      isHidden: true,
-                      callBack: (areaCode) {
-                        cityCode = areaCode.toString();
-                        getJpNum();
-                      },
-                      tapSearch: () {
-                        AppGlobal.appRouter?.push(CommonUtils.getRealHash('searchResult'));
-                      },
-                      tapFilter: () {
-                        VerticalModalSheet.show(
-                            context: context, child: tabsContainer(), direction: VerticalModalSheetDirection.TOP);
-                      },
-                      tapTitle: _onTapHeaderTitle,
-                    ),
-                  ),
-                  preferredSize: Size.fromHeight(ScreenUtil().statusBarHeight + (kIsWeb ? 50.w : 20.w))),
+              appBar: _appBarView(),
               backgroundColor: Colors.transparent,
-              body: PullToRefreshNotification(
-                // pullBackOnRefresh: true,
-                onRefresh: onRefresh,
-                maxDragOffset: maxDragOffset,
-                armedDragUpCancel: false,
-                key: pullKey,
-                child: NestedScrollView(
-                    physics: ClampingScrollPhysics(),
-                    controller: _scrollViewController,
-                    headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-                      return [
-                        PullToRefreshContainer((PullToRefreshScrollNotificationInfo? e) {
-                          return buildPulltoRefreshHeader(e);
-                        }),
-                        SliverAppBar(
-                          leading: Container(),
-                          pinned: false,
-                          elevation: 0,
-                          backgroundColor: Colors.transparent,
-                          expandedHeight: ScreenUtil().setWidth(100 +
-                              (_banner.length == 0 ? 0 : 175) +
-                              (renzhengData.length > 0 ? 135 : 0) +
-                              (peifuData.length > 0 ? 135 : 0)),
-                          flexibleSpace: FlexibleSpaceBar(
-                            collapseMode: CollapseMode.parallax,
-                            background: Column(
-                              children: [
-                                _banner.length > 0
-                                    ? RepaintBoundary(
-                                        child: Container(
-                                        margin: EdgeInsets.only(top: 5.w, left: 15.w, right: 15.w),
-                                        height: 175.w,
-                                        child: Detail_ad(
-                                            radius: 18.w,
-                                            width: ScreenUtil().screenWidth - 30.w,
-                                            height: 175.w,
-                                            app_layout: true,
-                                            data: _banner),
-                                      ))
-                                    : SizedBox(height: 0),
-                                _menuView(),
-                                renzhengData.length > 0
-                                    ? tuijianList('认证茶女郎&茶铺推荐', 'renzheng', renzhengData)
-                                    : Container(),
-                                peifuData.length > 0 ? tuijianList('赔付资源推荐', 'peifu', peifuData) : Container()
-                              ],
-                            ),
-                          ),
-                          excludeHeaderSemantics: true,
-                          systemOverlayStyle: SystemUiOverlayStyle.dark,
-                        ),
-                      ];
-                    },
-                    body: pageLoading
-                        ? Loading()
-                        : Column(
-                            children: [
-                              TabNavShuimo(
-                                bgColor: true,
-                                tabs: _tabs,
-                                tabController: _tabController,
-                                selectedTabIndex: _selectedTabIndex,
-                              ).build(context),
-                              Expanded(
-                                  child: filterList == null
-                                      ? Loading()
-                                      : TabBarView(
-                                          controller: _tabController,
-                                          children: _tabs.asMap().keys.map((e) {
-                                            dynamic _id = _tabs[e]['id'];
-                                            return SquareList(
-                                                ads: _id == 1 ? absList : null, //茶友分享插入广告
-                                                api: apiList[_id],
-                                                tabList: filterList![_id] ?? {},
-                                                filter: parmasList[_id],
-                                                row: _id == 3 ? 2 : 1,
-                                                id: _id,
-                                                aspectRatio: 0.7,
-                                                mainAxisSpacing: 5.w,
-                                                crossAxisSpacing: 5.w,
-                                                build: (Map data) {
-                                                  return getCardType(_id, data);
-                                                });
-                                          }).toList()))
-                            ],
-                          )),
-              ),
+              body: _bodyView(),
               bottomNavigationBar: BottomAppBar(
                 child: Container(
                   color: Colors.white,
@@ -507,6 +425,95 @@ class _SquarePagesState extends State<SquarePages> with TickerProviderStateMixin
           ],
         ),
       ),
+    );
+  }
+
+  Widget _bodyView() {
+    return PullToRefreshNotification(
+      // pullBackOnRefresh: true,
+      onRefresh: onRefresh,
+      maxDragOffset: maxDragOffset,
+      armedDragUpCancel: false,
+      key: pullKey,
+      child: NestedScrollView(
+          physics: ClampingScrollPhysics(),
+          controller: _scrollViewController,
+          headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+            return [
+              PullToRefreshContainer((PullToRefreshScrollNotificationInfo? e) {
+                return buildPulltoRefreshHeader(e);
+              }),
+              SliverAppBar(
+                leading: Container(),
+                pinned: false,
+                elevation: 0,
+                backgroundColor: Colors.transparent,
+                expandedHeight: ScreenUtil().setWidth(100 +
+                    (_banner.length == 0 ? 0 : 175) +
+                    (renzhengData.length > 0 ? 135 : 0) +
+                    (peifuData.length > 0 ? 135 : 0)),
+                flexibleSpace: FlexibleSpaceBar(
+                  collapseMode: CollapseMode.parallax,
+                  background: Column(
+                    children: [
+                      _banner.length > 0
+                          ? RepaintBoundary(
+                              child: Container(
+                              margin: EdgeInsets.only(top: 5.w, left: 15.w, right: 15.w),
+                              height: 175.w,
+                              child: Detail_ad(
+                                  radius: 18.w,
+                                  width: ScreenUtil().screenWidth - 30.w,
+                                  height: 175.w,
+                                  app_layout: true,
+                                  data: _banner),
+                            ))
+                          : SizedBox(height: 0),
+                      _menuView(),
+                      renzhengData.length > 0 ? tuijianList('认证茶女郎&茶铺推荐', 'renzheng', renzhengData) : Container(),
+                      peifuData.length > 0 ? tuijianList('赔付资源推荐', 'peifu', peifuData) : Container()
+                    ],
+                  ),
+                ),
+                excludeHeaderSemantics: true,
+                systemOverlayStyle: SystemUiOverlayStyle.dark,
+              ),
+            ];
+          },
+          body: pageLoading
+              ? Loading()
+              : Column(
+                  children: [
+                    TabNavShuimo(
+                      bgColor: true,
+                      tabs: _tabs,
+                      tabController: _tabController,
+                      selectedTabIndex: _selectedTabIndex,
+                    ).build(context),
+                    Expanded(
+                        child: filterList == null
+                            ? Loading()
+                            : TabBarView(
+                                controller: _tabController,
+                                children: _tabs.asMap().keys.map((e) {
+                                  dynamic _id = _tabs[e]['id'];
+                                  return SquareList(
+                                      ads: _id == 1 ? absList : null,
+                                      //茶友分享插入广告
+                                      api: apiList[_id],
+                                      tabList: filterList![_id] ?? {},
+                                      filter: parmasList[_id],
+                                      row: _id == 3 ? 2 : 1,
+                                      id: _id,
+                                      aspectRatio: 0.7,
+                                      mainAxisSpacing: 5.w,
+                                      crossAxisSpacing: 5.w,
+                                      build: (Map data) {
+                                        return getCardType(_id, data);
+                                      });
+                                }).toList()))
+                  ],
+                )),
     );
   }
 
@@ -850,6 +857,7 @@ class SignInFloatingButton extends StatelessWidget {
 class ChaXiaoWaiButton extends StatelessWidget {
   final String? uuid;
   final bool isXiaowai;
+
   ChaXiaoWaiButton({Key? key, this.uuid, this.isXiaowai = false}) : super(key: key);
 
   @override
@@ -899,6 +907,7 @@ class ChaXiaoWaiButton extends StatelessWidget {
 class MenuCard extends StatelessWidget {
   final String? image;
   final GestureTapCallback? onTap;
+
   const MenuCard({Key? key, this.image, this.onTap}) : super(key: key);
 
   @override
@@ -928,6 +937,7 @@ class TabsContainer extends StatefulWidget {
   final Function? onTabs;
   final bool? needLimit;
   final int? filter;
+
   TabsContainer({Key? key, this.tabs, this.selectTabIndex, this.onTabs, this.needLimit = false, this.filter})
       : super(key: key);
 
@@ -1008,6 +1018,7 @@ class TabsItem extends StatelessWidget {
   final int? index;
   final int? keys;
   final GestureTapCallback? onTap;
+
   TabsItem({Key? key, this.title, this.index, this.onTap, this.keys}) : super(key: key);
 
   @override

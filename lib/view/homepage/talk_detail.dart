@@ -16,11 +16,12 @@ import 'package:chaguaner2023/utils/yy_toast.dart';
 import 'package:chaguaner2023/view/homepage/Template.dart';
 import 'package:chaguaner2023/components/avatar_widget.dart';
 
-
 class TackDetailPage extends StatefulWidget {
   final String? id;
   final bool isAds;
+
   TackDetailPage({Key? key, this.id, this.isAds = false}) : super(key: key);
+
   @override
   State<StatefulWidget> createState() => TackDetailState();
 }
@@ -44,9 +45,8 @@ class TackDetailState extends State<TackDetailPage> {
       setState(() {
         _tackDetai = content['data'];
         if (_tackDetai!['content'].indexOf("*") > -1) {
-          var setContent = _tackDetai!['content'].substring(
-              _tackDetai!['content'].indexOf('*') + 1,
-              _tackDetai!['content'].lastIndexOf('*'));
+          var setContent = _tackDetai!['content']
+              .substring(_tackDetai!['content'].indexOf('*') + 1, _tackDetai!['content'].lastIndexOf('*'));
           setContent = setContent.trim();
           setContentList = setContent.split("</a>");
         }
@@ -127,8 +127,7 @@ class TackDetailState extends State<TackDetailPage> {
         }
       }
     }
-    content = new Column(
-        children: tiles //重点在这里，因为用编辑器写Column生成的children后面会跟一个<Widget>[]，
+    content = new Column(children: tiles //重点在这里，因为用编辑器写Column生成的children后面会跟一个<Widget>[]，
         //此时如果我们直接把生成的tiles放在<Widget>[]中是会报一个类型不匹配的错误，把<Widget>[]删了就可以了
         );
     return content;
@@ -177,9 +176,7 @@ class TackDetailState extends State<TackDetailPage> {
           _tackDetai!['favorite_count'] = (_tackDetai!['favorite_count'] - 1);
         }
       });
-      BotToast.showText(
-          text: result!['data']['is_favorite'] == 1 ? collectStr : cancleColStr,
-          align: Alignment(0, 0));
+      BotToast.showText(text: result!['data']['is_favorite'] == 1 ? collectStr : cancleColStr, align: Alignment(0, 0));
     } else {
       CommonUtils.showText(result['msg']);
     }
@@ -197,191 +194,162 @@ class TackDetailState extends State<TackDetailPage> {
               title: widget.isAds ? adDetail : '',
             ),
             preferredSize: Size(double.infinity, 44.w)),
-        body: loading
-            ? Loading()
-            : Container(
-                child: Column(
-                  children: [
-                    widget.isAds
-                        ? Container(
-                            width: double.infinity,
-                            decoration: BoxDecoration(color: Color(0xfffbf0e5)),
-                            padding: EdgeInsets.all(5.w),
-                            child: Center(
-                              child: Text(
-                                "广告信息非平台提供，请您仔细甄别谨慎消费",
-                                style: TextStyle(
-                                    color: Color(0xffec5251), fontSize: 12.sp),
-                              ),
-                            ),
-                          )
-                        : Container(),
-                    Container(
-                      padding: new EdgeInsets.only(left: 16.w, right: 16.w),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Flexible(
-                                  child: Text(
-                                _tackDetai!['title'],
-                                style: TextStyle(
-                                    fontSize: 20.w,
-                                    fontWeight: FontWeight.w500,
-                                    color: Color(0xFF323232),
-                                    height: 1.5),
-                              )),
-                            ],
-                          ),
-                          Container(
-                              height: 50.5.w,
-                              width: double.infinity,
-                              decoration: BoxDecoration(
-                                border: Border(
-                                    bottom: BorderSide(
-                                        color: StyleTheme.textbgColor1,
-                                        width: 1.w,
-                                        style: BorderStyle.solid)),
-                              ),
-                              child: Row(
-                                children: [
-                                  Text(
-                                      _tackDetai!['created_at'] != null
-                                          ? getTime(int.parse(
-                                              _tackDetai!['created_at']
-                                                  .toString()))
-                                          : '',
-                                      style: TextStyle(
-                                        fontSize: 14.w,
-                                        color: StyleTheme.cBioColor,
-                                      )),
-                                ],
-                              ))
-                        ],
-                      ),
+        body: loading ? Loading() : _bodyView(),
+      ),
+    );
+  }
+
+  Widget _bodyView() {
+    return Container(
+      child: Column(
+        children: [
+          widget.isAds
+              ? Container(
+                  width: double.infinity,
+                  decoration: BoxDecoration(color: Color(0xfffbf0e5)),
+                  padding: EdgeInsets.all(5.w),
+                  child: Center(
+                    child: Text(
+                      "广告信息非平台提供，请您仔细甄别谨慎消费",
+                      style: TextStyle(color: Color(0xffec5251), fontSize: 12.sp),
                     ),
-                    Expanded(
-                        child: ListView(
-                      shrinkWrap: true,
-                      padding: new EdgeInsets.only(
-                          left: 15.w,
-                          right: 15.w,
-                          top: 15.w,
-                          bottom: 20.w + ScreenUtil().statusBarHeight),
-                      children: [
-                        Template(
-                            html: setContent(_tackDetai!['content']),
-                            title: _tackDetai!['title'],
-                            imagePath: imagePath!),
-                        buildGrid(),
-                        SizedBox(
-                          height: 10.w,
-                        ),
-                        Divider(
-                            height: 1.w,
-                            color: Color.fromARGB(255, 174, 174, 174)),
-                        SizedBox(
-                          height: 10.w,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            IconAndText(
-                              icons: _tackDetai!['is_favorite']
-                                  ? 'assets/images/card/iscollect.png'
-                                  : 'assets/images/detail/collo.png',
-                              text: _tackDetai!['favorite_count']?.toString() ??
-                                  '0',
-                              onTap: () {
-                                onFavoriteTalk();
-                              },
-                            ),
-                            IconAndText(
-                              icons: 'assets/images/detail/share.png',
-                              text: '分享',
-                              onTap: () {
-                                AppGlobal.appRouter?.push(
-                                    CommonUtils.getRealHash('shareQRCodePage'));
-                              },
-                            ),
-                          ],
-                        ),
-                        SizedBox(
-                          height: 20.w,
-                        ),
-                        TalkCommentList(
-                            id: widget.id, onReplyComment: _replyComment),
-                      ],
+                  ),
+                )
+              : Container(),
+          Container(
+            padding: new EdgeInsets.only(left: 16.w, right: 16.w),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Flexible(
+                        child: Text(
+                      _tackDetai!['title'],
+                      style:
+                          TextStyle(fontSize: 20.w, fontWeight: FontWeight.w500, color: Color(0xFF323232), height: 1.5),
                     )),
-                    Container(
-                      decoration: BoxDecoration(
-                        border: Border(
-                          top: BorderSide(width: 1, color: Color(0xFFEEEEEE)),
-                        ),
-                      ),
-                      height: ScreenUtil().bottomBarHeight + 45.w,
-                      padding: new EdgeInsets.only(
-                        left: 15.w,
-                        right: 15.w,
-                      ),
-                      child: Container(
-                        margin: new EdgeInsets.only(
-                            bottom: ScreenUtil().bottomBarHeight),
-                        child: Row(
-                          children: [
-                            Expanded(
-                              child: Container(
-                                height: 35.w,
-                                margin: EdgeInsets.only(left: 10.w),
-                                decoration: BoxDecoration(
-                                    color: StyleTheme.bottomappbarColor,
-                                    borderRadius:
-                                        BorderRadius.circular(17.5.w)),
-                                child: Center(
-                                  child: TextField(
-                                    controller: editingController,
-                                    decoration: InputDecoration(
-                                        isDense: true,
-                                        contentPadding: EdgeInsets.only(
-                                            left: 10,
-                                            right: 10,
-                                            top: 5,
-                                            bottom: 5),
-                                        border: InputBorder.none,
-                                        hintStyle: TextStyle(
-                                            color: StyleTheme.cBioColor,
-                                            fontSize: 16.sp),
-                                        hintText: hintString),
-                                  ),
-                                ),
-                              ),
-                            ),
-                            GestureDetector(
-                                onTap: _sendMsg,
-                                child: Container(
-                                  margin: new EdgeInsets.only(left: 15.w),
-                                  width: 55.w,
-                                  height: 30.w,
-                                  decoration: BoxDecoration(
-                                      color: StyleTheme.cDangerColor,
-                                      borderRadius: BorderRadius.circular(5.w)),
-                                  child: Center(
-                                    child: Text(
-                                      '发送',
-                                      style: TextStyle(
-                                          color: Colors.white, fontSize: 14.sp),
-                                    ),
-                                  ),
-                                ))
-                          ],
-                        ),
-                      ),
-                    )
                   ],
                 ),
+                Container(
+                    height: 50.5.w,
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      border: Border(
+                          bottom: BorderSide(color: StyleTheme.textbgColor1, width: 1.w, style: BorderStyle.solid)),
+                    ),
+                    child: Row(
+                      children: [
+                        Text(
+                            _tackDetai!['created_at'] != null
+                                ? getTime(int.parse(_tackDetai!['created_at'].toString()))
+                                : '',
+                            style: TextStyle(
+                              fontSize: 14.w,
+                              color: StyleTheme.cBioColor,
+                            )),
+                      ],
+                    ))
+              ],
+            ),
+          ),
+          Expanded(
+              child: ListView(
+            shrinkWrap: true,
+            padding:
+                new EdgeInsets.only(left: 15.w, right: 15.w, top: 15.w, bottom: 20.w + ScreenUtil().statusBarHeight),
+            children: [
+              Template(html: setContent(_tackDetai!['content']), title: _tackDetai!['title'], imagePath: imagePath!),
+              buildGrid(),
+              SizedBox(
+                height: 10.w,
               ),
+              Divider(height: 1.w, color: Color.fromARGB(255, 174, 174, 174)),
+              SizedBox(
+                height: 10.w,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  IconAndText(
+                    icons: _tackDetai!['is_favorite']
+                        ? 'assets/images/card/iscollect.png'
+                        : 'assets/images/detail/collo.png',
+                    text: _tackDetai!['favorite_count']?.toString() ?? '0',
+                    onTap: () {
+                      onFavoriteTalk();
+                    },
+                  ),
+                  IconAndText(
+                    icons: 'assets/images/detail/share.png',
+                    text: '分享',
+                    onTap: () {
+                      AppGlobal.appRouter?.push(CommonUtils.getRealHash('shareQRCodePage'));
+                    },
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: 20.w,
+              ),
+              TalkCommentList(id: widget.id, onReplyComment: _replyComment),
+            ],
+          )),
+          Container(
+            decoration: BoxDecoration(
+              border: Border(
+                top: BorderSide(width: 1, color: Color(0xFFEEEEEE)),
+              ),
+            ),
+            height: ScreenUtil().bottomBarHeight + 45.w,
+            padding: new EdgeInsets.only(
+              left: 15.w,
+              right: 15.w,
+            ),
+            child: Container(
+              margin: new EdgeInsets.only(bottom: ScreenUtil().bottomBarHeight),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Container(
+                      height: 35.w,
+                      margin: EdgeInsets.only(left: 10.w),
+                      decoration: BoxDecoration(
+                          color: StyleTheme.bottomappbarColor, borderRadius: BorderRadius.circular(17.5.w)),
+                      child: Center(
+                        child: TextField(
+                          controller: editingController,
+                          decoration: InputDecoration(
+                              isDense: true,
+                              contentPadding: EdgeInsets.only(left: 10, right: 10, top: 5, bottom: 5),
+                              border: InputBorder.none,
+                              hintStyle: TextStyle(color: StyleTheme.cBioColor, fontSize: 16.sp),
+                              hintText: hintString),
+                        ),
+                      ),
+                    ),
+                  ),
+                  GestureDetector(
+                      onTap: _sendMsg,
+                      child: Container(
+                        margin: new EdgeInsets.only(left: 15.w),
+                        width: 55.w,
+                        height: 30.w,
+                        decoration:
+                            BoxDecoration(color: StyleTheme.cDangerColor, borderRadius: BorderRadius.circular(5.w)),
+                        child: Center(
+                          child: Text(
+                            '发送',
+                            style: TextStyle(color: Colors.white, fontSize: 14.sp),
+                          ),
+                        ),
+                      ))
+                ],
+              ),
+            ),
+          )
+        ],
       ),
     );
   }
@@ -391,9 +359,8 @@ class IconAndText extends StatelessWidget {
   final String icons;
   final String text;
   final void Function()? onTap;
-  const IconAndText(
-      {Key? key, required this.icons, required this.text, required this.onTap})
-      : super(key: key);
+
+  const IconAndText({Key? key, required this.icons, required this.text, required this.onTap}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -422,8 +389,8 @@ class IconAndText extends StatelessWidget {
 class TalkCommentList extends StatefulWidget {
   final String? id;
   final Function? onReplyComment;
-  const TalkCommentList({Key? key, this.id, this.onReplyComment})
-      : super(key: key);
+
+  const TalkCommentList({Key? key, this.id, this.onReplyComment}) : super(key: key);
 
   @override
   State<TalkCommentList> createState() => _TalkCommentListState();
@@ -445,9 +412,7 @@ class _TalkCommentListState extends State<TalkCommentList> {
 
     _scrollController.addListener(() {
       final position = _scrollController.position;
-      if (_hasMore &&
-          !_isLoading &&
-          position.pixels >= position.maxScrollExtent - 200) {
+      if (_hasMore && !_isLoading && position.pixels >= position.maxScrollExtent - 200) {
         _page += 1;
         _getCommentList();
       }
@@ -499,8 +464,7 @@ class _TalkCommentListState extends State<TalkCommentList> {
       return Padding(
         padding: EdgeInsets.symmetric(vertical: 40.w),
         child: Center(
-          child: Text('暂无评论',
-              style: TextStyle(color: Colors.grey, fontSize: 12.sp)),
+          child: Text('暂无评论', style: TextStyle(color: Colors.grey, fontSize: 12.sp)),
         ),
       );
     }
@@ -508,11 +472,7 @@ class _TalkCommentListState extends State<TalkCommentList> {
     if (_isLoading) {
       return Padding(
         padding: EdgeInsets.symmetric(vertical: 16.w),
-        child: const Center(
-            child: SizedBox(
-                height: 24,
-                width: 24,
-                child: CircularProgressIndicator(strokeWidth: 2))),
+        child: const Center(child: SizedBox(height: 24, width: 24, child: CircularProgressIndicator(strokeWidth: 2))),
       );
     }
 
@@ -520,8 +480,7 @@ class _TalkCommentListState extends State<TalkCommentList> {
       return Padding(
         padding: EdgeInsets.symmetric(vertical: 16.w),
         child: Center(
-          child: Text('没有更多了',
-              style: TextStyle(color: Colors.grey, fontSize: 12.sp)),
+          child: Text('没有更多了', style: TextStyle(color: Colors.grey, fontSize: 12.sp)),
         ),
       );
     }
@@ -541,12 +500,10 @@ class _TalkCommentListState extends State<TalkCommentList> {
           ),
           SizedBox(width: 10.w),
           Expanded(
-            child:
-                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
               Row(children: [
                 Text(item['user']['nickname'] ?? '匿名用户',
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold, fontSize: 14.sp)),
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14.sp)),
               ]),
               SizedBox(height: 3.w),
               Text(item['content'] ?? '', style: TextStyle(fontSize: 13.sp)),
@@ -555,8 +512,7 @@ class _TalkCommentListState extends State<TalkCommentList> {
                 Icon(Icons.location_on, size: 14.w, color: Colors.grey),
                 SizedBox(width: 3.w),
                 Text(
-                  CommonUtils.getCgTime(
-                          int.parse(item['created_at'].toString())) +
+                  CommonUtils.getCgTime(int.parse(item['created_at'].toString())) +
                       ' 发布' +
                       "  ${item['city_str'] ?? ''}",
                   style: TextStyle(fontSize: 11.sp, color: Colors.grey),
@@ -565,15 +521,13 @@ class _TalkCommentListState extends State<TalkCommentList> {
                 InkWell(
                   onTap: () {
                     if (widget.onReplyComment != null) {
-                      widget.onReplyComment!(
-                          item['id'], item['user']['nickname']);
+                      widget.onReplyComment!(item['id'], item['user']['nickname']);
                     }
                   },
                   child: Row(children: [
                     Icon(Icons.reply, size: 14.w, color: Colors.grey),
                     SizedBox(width: 3.w),
-                    Text('回复',
-                        style: TextStyle(fontSize: 12.sp, color: Colors.grey)),
+                    Text('回复', style: TextStyle(fontSize: 12.sp, color: Colors.grey)),
                   ]),
                 ),
               ]),
@@ -585,21 +539,16 @@ class _TalkCommentListState extends State<TalkCommentList> {
           Container(
             padding: EdgeInsets.all(8.w),
             margin: EdgeInsets.only(left: 50.w),
-            decoration: BoxDecoration(
-                color: Colors.grey[100],
-                borderRadius: BorderRadius.circular(6.r)),
+            decoration: BoxDecoration(color: Colors.grey[100], borderRadius: BorderRadius.circular(6.r)),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: List.generate(item['child'].length, (i) {
                 final reply = item['child'][i];
                 return Padding(
-                  padding: EdgeInsets.only(
-                      bottom: i == item['child'].length - 1 ? 0 : 6.w),
+                  padding: EdgeInsets.only(bottom: i == item['child'].length - 1 ? 0 : 6.w),
                   child: RichText(
                     text: TextSpan(children: [
-                      TextSpan(
-                          text: "${reply['user']['nickname'] ?? '匿名'}: ",
-                          style: TextStyle(fontSize: 12.sp)),
+                      TextSpan(text: "${reply['user']['nickname'] ?? '匿名'}: ", style: TextStyle(fontSize: 12.sp)),
                       if (item!['aff'] == reply['aff'])
                         WidgetSpan(
                           alignment: PlaceholderAlignment.middle,
@@ -610,10 +559,7 @@ class _TalkCommentListState extends State<TalkCommentList> {
                             child: CommonUtils.authorWidget(),
                           ),
                         ),
-                      TextSpan(
-                          text: reply['content'] ?? '',
-                          style: TextStyle(
-                              color: Colors.black87, fontSize: 12.sp)),
+                      TextSpan(text: reply['content'] ?? '', style: TextStyle(color: Colors.black87, fontSize: 12.sp)),
                     ]),
                   ),
                 );
@@ -633,8 +579,7 @@ class _TalkCommentListState extends State<TalkCommentList> {
         physics: const NeverScrollableScrollPhysics(),
         shrinkWrap: true,
         itemCount: _commentList.length + 1,
-        separatorBuilder: (_, __) =>
-            Divider(color: Colors.transparent, height: 15.w),
+        separatorBuilder: (_, __) => Divider(color: Colors.transparent, height: 15.w),
         itemBuilder: (context, index) {
           if (index == _commentList.length) return _buildFooter();
           final item = _commentList[index];
