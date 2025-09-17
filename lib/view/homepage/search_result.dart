@@ -30,6 +30,7 @@ import '../../utils/cache/image_net_tool.dart';
 class SearchResult extends StatefulWidget {
   SearchResult({Key? key, this.parmas}) : super(key: key);
   final Object? parmas;
+
   @override
   _SearchResultState createState() => _SearchResultState();
 }
@@ -84,8 +85,9 @@ class _SearchResultState extends State<SearchResult> {
 
   clearHistory() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString('${SpKeys.searchHistory}', '#').then(
-        (value) => BotToast.showText(text: '清除成功', align: Alignment(0, 0)));
+    prefs
+        .setString('${SpKeys.searchHistory}', '#')
+        .then((value) => BotToast.showText(text: '清除成功', align: Alignment(0, 0)));
     getHistory();
   }
 
@@ -104,9 +106,7 @@ class _SearchResultState extends State<SearchResult> {
       return;
     }
     addHistory(clearValue);
-    AppGlobal.appRouter?.push(
-        CommonUtils.getRealHash(
-            'searchSuggestionList/' + Uri.encodeComponent(clearValue)),
+    AppGlobal.appRouter?.push(CommonUtils.getRealHash('searchSuggestionList/' + Uri.encodeComponent(clearValue)),
         extra: widget.parmas);
   }
 
@@ -122,9 +122,7 @@ class _SearchResultState extends State<SearchResult> {
           },
           child: Container(
             padding: EdgeInsets.symmetric(vertical: 5.w, horizontal: 15.w),
-            decoration: BoxDecoration(
-                color: Color(0xFFEEEEEE),
-                borderRadius: BorderRadius.circular(30.0)),
+            decoration: BoxDecoration(color: Color(0xFFEEEEEE), borderRadius: BorderRadius.circular(30.0)),
             child: Text(
               _history[i],
               style: TextStyle(color: StyleTheme.cTitleColor, fontSize: 14.sp),
@@ -141,128 +139,129 @@ class _SearchResultState extends State<SearchResult> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: PreferredSize(
-          child: PageTitleBar(
-              centerWidget: Container(
-                width: 260.w,
-                height: 30.w,
-                decoration: BoxDecoration(
-                  color: Color(0xFFEEEEEE),
-                  borderRadius: BorderRadius.circular(30.0),
-                ),
-                child: TextField(
-                  autofocus: true,
-                  onSubmitted: _onSubmit,
-                  controller: myController,
-                  inputFormatters: <TextInputFormatter>[
-                    LengthLimitingTextInputFormatter(18),
-                    FilteringTextInputFormatter.deny(RegExp('[ ]'))
-                  ],
-                  textInputAction: TextInputAction.done,
-                  decoration: InputDecoration(
-                    hintText: '输入关键词搜索',
-                    hintStyle: TextStyle(color: StyleTheme.cBioColor),
-                    contentPadding: EdgeInsets.zero,
-                    fillColor: StyleTheme.textbgColor1,
-                    prefixIcon: Padding(
-                      child: LocalPNG(
-                        url: 'assets/images/home/icon-search.png',
-                      ),
-                      padding: EdgeInsets.only(left: 10.w, right: 10.w),
-                    ),
-                    prefixIconConstraints: BoxConstraints(
-                      maxHeight: 35.w,
-                      maxWidth: 35.w,
-                    ),
-                    disabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(30.0),
-                        borderSide:
-                            BorderSide(color: Colors.transparent, width: 0)),
-                    focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(30.0),
-                        borderSide:
-                            BorderSide(color: Colors.transparent, width: 0)),
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(30.0),
-                        borderSide:
-                            BorderSide(color: Colors.transparent, width: 0)),
-                    enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(30.0),
-                        borderSide:
-                            BorderSide(color: Colors.transparent, width: 0)),
-                  ),
-                  style: TextStyle(
-                    fontSize: 15.sp,
+      appBar: _appBarView(),
+      body: _bodyView(),
+    );
+  }
+
+  Widget _bodyView() {
+    return SingleChildScrollView(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Padding(
+            padding: EdgeInsets.all(15.w),
+            child: Row(
+              children: <Widget>[
+                Expanded(
+                  child: Text(
+                    '历史记录',
+                    style: TextStyle(color: StyleTheme.cTitleColor, fontSize: 15.sp),
                   ),
                 ),
-              ),
-              rightWidget: GestureDetector(
-                behavior: HitTestBehavior.translucent,
-                onTap: () {
-                  _onSubmit(myController.text);
-                },
-                child: Padding(
-                    padding: EdgeInsets.all(10.w),
-                    child: Text(
-                      '搜索',
-                      style: TextStyle(
-                        color: StyleTheme.cTitleColor,
-                        fontSize: 14.sp,
-                      ),
-                      softWrap: false,
-                    )),
-              )),
-          preferredSize: Size(double.infinity, 44.w)),
-      body: SingleChildScrollView(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Padding(
-              padding: EdgeInsets.all(15.w),
-              child: Row(
-                children: <Widget>[
-                  Expanded(
-                    child: Text(
-                      '历史记录',
-                      style: TextStyle(
-                          color: StyleTheme.cTitleColor, fontSize: 15.sp),
-                    ),
+                GestureDetector(
+                  onTap: () {
+                    clearHistory();
+                  },
+                  child: LocalPNG(
+                    url: 'assets/images/delete_icon.png',
+                    width: 25.w,
+                    height: 25.w,
                   ),
-                  GestureDetector(
-                    onTap: () {
-                      clearHistory();
-                    },
-                    child: LocalPNG(
-                      url: 'assets/images/delete_icon.png',
-                      width: 25.w,
-                      height: 25.w,
-                    ),
-                  )
-                ],
-              ),
+                )
+              ],
             ),
-            Padding(
-                padding: EdgeInsets.symmetric(horizontal: 15.w),
-                child: buildHistory(context))
-          ],
-        ),
+          ),
+          Padding(padding: EdgeInsets.symmetric(horizontal: 15.w), child: buildHistory(context))
+        ],
       ),
     );
+  }
+
+  Widget _appBarSearchInput() {
+    return TextField(
+      autofocus: true,
+      onSubmitted: _onSubmit,
+      controller: myController,
+      inputFormatters: <TextInputFormatter>[
+        LengthLimitingTextInputFormatter(18),
+        FilteringTextInputFormatter.deny(RegExp('[ ]'))
+      ],
+      textInputAction: TextInputAction.done,
+      decoration: InputDecoration(
+        hintText: '输入关键词搜索',
+        hintStyle: TextStyle(color: StyleTheme.cBioColor),
+        contentPadding: EdgeInsets.zero,
+        fillColor: StyleTheme.textbgColor1,
+        prefixIcon: Padding(
+          child: LocalPNG(
+            url: 'assets/images/home/icon-search.png',
+          ),
+          padding: EdgeInsets.only(left: 10.w, right: 10.w),
+        ),
+        prefixIconConstraints: BoxConstraints(
+          maxHeight: 35.w,
+          maxWidth: 35.w,
+        ),
+        disabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(30.0), borderSide: BorderSide(color: Colors.transparent, width: 0)),
+        focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(30.0), borderSide: BorderSide(color: Colors.transparent, width: 0)),
+        border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(30.0), borderSide: BorderSide(color: Colors.transparent, width: 0)),
+        enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(30.0), borderSide: BorderSide(color: Colors.transparent, width: 0)),
+      ),
+      style: TextStyle(
+        fontSize: 15.sp,
+      ),
+    );
+  }
+
+  PreferredSize _appBarView() {
+    return PreferredSize(
+        child: PageTitleBar(
+            centerWidget: Container(
+              width: 260.w,
+              height: 30.w,
+              decoration: BoxDecoration(
+                color: Color(0xFFEEEEEE),
+                borderRadius: BorderRadius.circular(30.0),
+              ),
+              child: _appBarSearchInput(),
+            ),
+            rightWidget: GestureDetector(
+              behavior: HitTestBehavior.translucent,
+              onTap: () {
+                _onSubmit(myController.text);
+              },
+              child: Padding(
+                  padding: EdgeInsets.all(10.w),
+                  child: Text(
+                    '搜索',
+                    style: TextStyle(
+                      color: StyleTheme.cTitleColor,
+                      fontSize: 14.sp,
+                    ),
+                    softWrap: false,
+                  )),
+            )),
+        preferredSize: Size(double.infinity, 44.w));
   }
 }
 
 class SearchSuggestionList extends StatefulWidget {
   final String? title;
   final Map? extra;
+
   SearchSuggestionList({Key? key, this.title, this.extra}) : super(key: key);
 
   @override
   _SearchSuggestionListState createState() => _SearchSuggestionListState();
 }
 
-class _SearchSuggestionListState extends State<SearchSuggestionList>
-    with TickerProviderStateMixin {
+class _SearchSuggestionListState extends State<SearchSuggestionList> with TickerProviderStateMixin {
   TabController? _tabController;
   List _tabs = [
     {
@@ -348,14 +347,14 @@ class _SearchSuggestionListState extends State<SearchSuggestionList>
     }
   ];
   int _selectedTabIndex = 0;
+
   @override
   void initState() {
     super.initState();
     if (widget.extra?['index'] != null) {
       _selectedTabIndex = (widget.extra as Map)['index'];
     }
-    _tabController = TabController(
-        vsync: this, length: _tabs.length, initialIndex: _selectedTabIndex);
+    _tabController = TabController(vsync: this, length: _tabs.length, initialIndex: _selectedTabIndex);
     //点击tab
     _tabController!.addListener(() {
       _selectedTabIndex = _tabController!.index;
@@ -412,12 +411,8 @@ class _SearchSuggestionListState extends State<SearchSuggestionList>
                                 Text(_tabs[key]['title'],
                                     style: _selectedTabIndex == key
                                         ? TextStyle(
-                                            color: StyleTheme.cTitleColor,
-                                            fontSize: 18.sp,
-                                            fontWeight: FontWeight.w700)
-                                        : TextStyle(
-                                            color: StyleTheme.cTitleColor,
-                                            fontSize: 14.sp)),
+                                            color: StyleTheme.cTitleColor, fontSize: 18.sp, fontWeight: FontWeight.w700)
+                                        : TextStyle(color: StyleTheme.cTitleColor, fontSize: 14.sp)),
                                 Positioned(
                                     top: 0,
                                     right: 0,
@@ -428,11 +423,8 @@ class _SearchSuggestionListState extends State<SearchSuggestionList>
                                               width: 14.w,
                                               height: 12.w,
                                               decoration: BoxDecoration(
-                                                  color: Color(0xffffb295)
-                                                      .withOpacity(0.8),
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          10)),
+                                                  color: Color(0xffffb295).withOpacity(0.8),
+                                                  borderRadius: BorderRadius.circular(10)),
                                             ),
                                           )
                                         : Text(' ')),
@@ -457,8 +449,7 @@ class _SearchSuggestionListState extends State<SearchSuggestionList>
                     api: '/api/info/search',
                     data: {'word': widget.title},
                     row: 1,
-                    itemBuild:
-                        (context, index, data, page, limit, getListData) {
+                    itemBuild: (context, index, data, page, limit, getListData) {
                       return V3ZhaoPiaoCard(zpInfo: data);
                     }),
               ),
@@ -474,8 +465,7 @@ class _SearchSuggestionListState extends State<SearchSuggestionList>
                     api: '/api/info/search',
                     data: {'word': widget.title, 'search_type': 2},
                     row: 1,
-                    itemBuild:
-                        (context, index, data, page, limit, getListData) {
+                    itemBuild: (context, index, data, page, limit, getListData) {
                       return V3ZhaoPiaoCard(isPeifu: true, zpInfo: data);
                     }),
               ),
@@ -494,8 +484,7 @@ class _SearchSuggestionListState extends State<SearchSuggestionList>
                     aspectRatio: 0.7,
                     mainAxisSpacing: 5.w,
                     crossAxisSpacing: 5.w,
-                    itemBuild:
-                        (context, index, data, page, limit, getListData) {
+                    itemBuild: (context, index, data, page, limit, getListData) {
                       return RenZhengCard(
                         chapuData: data,
                       );
@@ -513,8 +502,7 @@ class _SearchSuggestionListState extends State<SearchSuggestionList>
                     api: '/api/info/search',
                     data: {'word': widget.title, 'search_type': 4},
                     row: 2,
-                    itemBuild:
-                        (context, index, data, page, limit, getListData) {
+                    itemBuild: (context, index, data, page, limit, getListData) {
                       return ElegantCard(cardInfo: data);
                     }),
               ),
@@ -530,8 +518,7 @@ class _SearchSuggestionListState extends State<SearchSuggestionList>
                     api: '/api/info/searchAgent',
                     data: {'word': widget.title},
                     row: 1,
-                    itemBuild:
-                        (context, index, data, page, limit, getListData) {
+                    itemBuild: (context, index, data, page, limit, getListData) {
                       return chaBossCard(data);
                     }),
               ),
@@ -550,8 +537,7 @@ class _SearchSuggestionListState extends State<SearchSuggestionList>
                     aspectRatio: 0.74,
                     mainAxisSpacing: 10.w,
                     crossAxisSpacing: 5.w,
-                    itemBuild:
-                        (context, index, data, page, limit, getListData) {
+                    itemBuild: (context, index, data, page, limit, getListData) {
                       return NakedchtCard(data: data);
                     }),
               ),
@@ -566,8 +552,7 @@ class _SearchSuggestionListState extends State<SearchSuggestionList>
                       api: '/api/mv/search',
                       data: {'word': widget.title},
                       row: 2,
-                      itemBuild:
-                          (context, index, data, page, limit, getListData) {
+                      itemBuild: (context, index, data, page, limit, getListData) {
                         return TanhuaCard(
                           item: data,
                         );
@@ -586,8 +571,7 @@ class _SearchSuggestionListState extends State<SearchSuggestionList>
                       noData: NoData(
                         text: '还没有商品哦～',
                       ),
-                      itemBuild:
-                          (context, index, data, page, limit, getListData) {
+                      itemBuild: (context, index, data, page, limit, getListData) {
                         return MallGirlCard(
                           data: data,
                         );
@@ -606,8 +590,7 @@ class _SearchSuggestionListState extends State<SearchSuggestionList>
                       noData: NoData(
                         text: '还没有包养哦～',
                       ),
-                      itemBuild:
-                          (context, index, data, page, limit, getListData) {
+                      itemBuild: (context, index, data, page, limit, getListData) {
                         return AdoptCard(
                           adoptData: data,
                         );
@@ -663,10 +646,7 @@ class _SearchSuggestionListState extends State<SearchSuggestionList>
                       children: [
                         Text(
                           faqiData['nickname'],
-                          style: TextStyle(
-                              color: StyleTheme.cTitleColor,
-                              fontSize: 15.sp,
-                              fontWeight: FontWeight.w700),
+                          style: TextStyle(color: StyleTheme.cTitleColor, fontSize: 15.sp, fontWeight: FontWeight.w700),
                         ),
                         Text(
                             '发布 ' +
@@ -692,25 +672,17 @@ class _SearchSuggestionListState extends State<SearchSuggestionList>
                     if (WebSocketUtility.imToken == null) {
                       CommonUtils.getImPath(context, callBack: () {
                         //跳转IM
-                        toLlIm(
-                            uuid: faqiData['uuid'],
-                            nickname: faqiData['nickname'],
-                            thumb: faqiData['thumb']);
+                        toLlIm(uuid: faqiData['uuid'], nickname: faqiData['nickname'], thumb: faqiData['thumb']);
                       });
                     } else {
                       //跳转IM
-                      toLlIm(
-                          uuid: faqiData['uuid'],
-                          nickname: faqiData['nickname'],
-                          thumb: faqiData['thumb']);
+                      toLlIm(uuid: faqiData['uuid'], nickname: faqiData['nickname'], thumb: faqiData['thumb']);
                     }
                   },
                   child: Container(
                     width: 85.w,
                     height: 30.w,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(15),
-                        color: StyleTheme.cDangerColor),
+                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(15), color: StyleTheme.cDangerColor),
                     child: Center(
                       child: Text('联系茶老板',
                           style: TextStyle(
@@ -728,23 +700,17 @@ class _SearchSuggestionListState extends State<SearchSuggestionList>
                       top: 20.w,
                     ),
                     child: GridView.builder(
-                        itemCount: faqiData['girls'].length > 3
-                            ? 3
-                            : faqiData['girls'].length,
+                        itemCount: faqiData['girls'].length > 3 ? 3 : faqiData['girls'].length,
                         physics: NeverScrollableScrollPhysics(),
                         shrinkWrap: true,
                         padding: EdgeInsets.zero,
                         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                            childAspectRatio: 0.85,
-                            crossAxisCount: 3,
-                            mainAxisSpacing: 5.w,
-                            crossAxisSpacing: 5.w),
+                            childAspectRatio: 0.85, crossAxisCount: 3, mainAxisSpacing: 5.w, crossAxisSpacing: 5.w),
                         itemBuilder: (context, index) {
                           return meiziItem(
                               faqiData['girls'][index]['title'],
                               faqiData['girls'][index]['resources'].length > 0
-                                  ? faqiData['girls'][index]['resources'][0]
-                                      ['url']
+                                  ? faqiData['girls'][index]['resources'][0]['url']
                                   : null);
                         }))
                 : SizedBox()
