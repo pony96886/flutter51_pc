@@ -40,6 +40,7 @@ class _GamePageState extends State<GamePage> {
   String? tips;
   List historyList = [];
   String intoGStr = '进入大厅';
+
   intpage() async {
     await rechargeValue().then((res) {
       if (res == null) {
@@ -65,9 +66,7 @@ class _GamePageState extends State<GamePage> {
   }
 
   setHistory({int? id, String? icon, String? name}) {
-    var changeHistory = historyList
-        .where((item) => item['id'].toString() == id.toString())
-        .toList();
+    var changeHistory = historyList.where((item) => item['id'].toString() == id.toString()).toList();
     if (changeHistory.isEmpty) {
       historyList.insert(0, {"id": id.toString(), "icons": icon, "name": name});
       var newObj = historyList;
@@ -93,8 +92,7 @@ class _GamePageState extends State<GamePage> {
         return;
       }
       if (res['status'] != 0) {
-        Provider.of<HomeConfig>(context, listen: false)
-            .setGameCoin(res['data']);
+        Provider.of<HomeConfig>(context, listen: false).setGameCoin(res['data']);
         setState(() {});
       } else {
         CommonUtils.showText(res['msg']);
@@ -145,8 +143,7 @@ class _GamePageState extends State<GamePage> {
             'title': '充值',
             'cover': 'assets/images/games/recharge.png',
             'onTap': () {
-              AppGlobal.appRouter
-                  ?.push(CommonUtils.getRealHash('gameRechargePage'));
+              AppGlobal.appRouter?.push(CommonUtils.getRealHash('gameRechargePage'));
             },
             'icon': res['data']['vipIcon'] ? vipStriii : null
           },
@@ -154,8 +151,7 @@ class _GamePageState extends State<GamePage> {
             'title': '提现',
             'cover': 'assets/images/games/withdraw.png',
             'onTap': () {
-              AppGlobal.appRouter
-                  ?.push(CommonUtils.getRealHash('gameWithdrawPage'));
+              AppGlobal.appRouter?.push(CommonUtils.getRealHash('gameWithdrawPage'));
             },
             'icon': null
           },
@@ -176,9 +172,8 @@ class _GamePageState extends State<GamePage> {
             'cover': 'assets/images/games/activity.png',
             'onTap': () {
               if (res['data']['button'].isNotEmpty) {
-                AppGlobal.appRouter?.push(CommonUtils.getRealHash('webview/' +
-                    Uri.encodeComponent(res['data']['button'].toString()) +
-                    '/活动'));
+                AppGlobal.appRouter?.push(CommonUtils.getRealHash(
+                    'webview/' + Uri.encodeComponent(res['data']['button'].toString()) + '/活动'));
               }
             },
             'icon': null
@@ -228,47 +223,32 @@ class _GamePageState extends State<GamePage> {
                               Padding(
                                 padding: EdgeInsets.only(bottom: 7.5.w),
                                 child: Text("游戏公告",
-                                    style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 20.sp,
-                                        fontWeight: FontWeight.w600)),
+                                    style:
+                                        TextStyle(color: Colors.black, fontSize: 20.sp, fontWeight: FontWeight.w600)),
                               ),
-                              Text(text,
-                                  style: TextStyle(
-                                      color: Color(0xff808080),
-                                      fontSize: 14.sp)),
+                              Text(text, style: TextStyle(color: Color(0xff808080), fontSize: 14.sp)),
                             ],
                           ))),
                           url.isEmpty
                               ? Container()
                               : GestureDetector(
                                   onTap: () {
-                                    AppGlobal.appRouter?.push(
-                                        CommonUtils.getRealHash('gameWebView/' +
-                                            Uri.encodeComponent(
-                                                url.toString()) +
-                                            '/0'));
+                                    AppGlobal.appRouter?.push(CommonUtils.getRealHash(
+                                        'gameWebView/' + Uri.encodeComponent(url.toString()) + '/0'));
                                   },
                                   child: Container(
                                     alignment: Alignment.center,
                                     margin: EdgeInsets.only(top: 10.w),
                                     decoration: BoxDecoration(
-                                        borderRadius:
-                                            BorderRadius.circular(20.w),
+                                        borderRadius: BorderRadius.circular(20.w),
                                         gradient: LinearGradient(
-                                          colors: [
-                                            Color(0xFFffedb5),
-                                            Color(0xFFfbad3e)
-                                          ],
+                                          colors: [Color(0xFFffedb5), Color(0xFFfbad3e)],
                                           begin: Alignment.topCenter,
                                           end: Alignment.bottomCenter,
                                         )),
                                     width: 261.w,
                                     height: 40.w,
-                                    child: Text('查看详情',
-                                        style: TextStyle(
-                                            fontSize: 14.sp,
-                                            color: Color(0xff903600))),
+                                    child: Text('查看详情', style: TextStyle(fontSize: 14.sp, color: Color(0xff903600))),
                                   ),
                                 )
                         ],
@@ -292,8 +272,6 @@ class _GamePageState extends State<GamePage> {
 
   @override
   Widget build(BuildContext context) {
-    String _coin =
-        Provider.of<HomeConfig>(context, listen: false).gameCoin ?? '0';
     return HeaderContainer(
         child: Scaffold(
       backgroundColor: Colors.transparent,
@@ -302,8 +280,7 @@ class _GamePageState extends State<GamePage> {
         child: GestureDetector(
           onTap: () {
             ServiceParmas.type = 'game';
-            AppGlobal.appRouter
-                ?.push(CommonUtils.getRealHash('onlineServicePage'));
+            AppGlobal.appRouter?.push(CommonUtils.getRealHash('onlineServicePage'));
           },
           child: LocalPNG(
             url: 'assets/images/games/kefu.png',
@@ -323,247 +300,223 @@ class _GamePageState extends State<GamePage> {
                 getdata();
               },
             )
-          : (loading
-              ? Loading()
-              : CustomScrollView(
-                  slivers: [
-                    SliverToBoxAdapter(
-                      child: tips == ''
-                          ? null
-                          : Container(
-                              height: 25.w,
-                              decoration: BoxDecoration(
-                                color: Color(0xffffe38f),
-                              ),
-                              child: Row(
-                                children: [
-                                  SizedBox(
-                                    width: 10.w,
-                                  ),
-                                  LocalPNG(
-                                    url: 'assets/images/games/speaker.png',
-                                    width: 29.5.w,
-                                    fit: BoxFit.fitWidth,
-                                  ),
-                                  Expanded(
-                                      child: new Marquee(
-                                    text: tips!,
-                                    style: TextStyle(
-                                        color: Color(0xff6b000c),
-                                        fontSize: 11.sp),
-                                    scrollAxis: Axis.horizontal,
-                                  ))
-                                ],
-                              ),
-                            ),
-                    ),
-                    SliverToBoxAdapter(
-                      child: Center(
-                        child: Container(
-                          margin: EdgeInsets.only(top: 18.w),
-                          width: 345.w,
-                          height: 100.w,
-                          child: Stack(
-                            children: [
-                              LocalPNG(
-                                  url: 'assets/images/games/coin_banner.png',
-                                  width: 345.w,
-                                  height: 104.w,
-                                  fit: BoxFit.fill),
-                              Padding(
-                                padding:
-                                    EdgeInsets.symmetric(horizontal: 39.5.w),
-                                child: Center(
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      Text(
-                                        '钱包余额（元）',
-                                        style: TextStyle(
-                                            color: Color(0xffcccccc),
-                                            fontSize: 12.sp),
-                                      ),
-                                      SizedBox(
-                                        height: 20.w,
-                                      ),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text(
-                                            _coin,
-                                            style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 33.sp),
-                                          ),
-                                          Container()
-                                        ],
-                                      )
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                    headWidget(),
-                    SliverToBoxAdapter(
-                      child: historyList.length == 0
-                          ? Container()
-                          : Padding(
-                              padding: EdgeInsets.symmetric(
-                                  vertical: 14.w, horizontal: 15.w),
-                              child: Text(
-                                '最近在玩',
-                                style: TextStyle(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 18.sp),
-                              ),
-                            ),
-                    ),
-                    SliverToBoxAdapter(
-                      child: historyList.length == 0
-                          ? Container()
-                          : Container(
-                              width: 1.sw,
-                              height: 168.5.w,
-                              child: ListView.builder(
-                                scrollDirection: Axis.horizontal,
-                                itemCount: historyList.length,
-                                padding:
-                                    EdgeInsets.symmetric(horizontal: 10.5.w),
-                                itemBuilder: (BuildContext content, int index) {
-                                  return Container(
-                                    margin: EdgeInsets.only(right: 15.w),
-                                    width: 168.w,
-                                    child: GestureDetector(
-                                      onTap: () {
-                                        enterGamePage(
-                                            id: int.parse(
-                                                historyList[index]['id']),
-                                            name: historyList[index]['name'],
-                                            icon: historyList[index]['icons']);
-                                      },
-                                      child: Column(
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: [
-                                          Container(
-                                            width: 168.w,
-                                            height: 100.w,
-                                            child: ClipRRect(
-                                                borderRadius:
-                                                    BorderRadius.circular(5),
-                                                child: ImageNetTool(
-                                                  url: historyList[index]
-                                                      ['icons'],
-                                                )),
-                                          ),
-                                          SizedBox(
-                                            height: 10.5.w,
-                                          ),
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Text(
-                                                historyList[index]['name']
-                                                    .toString(),
-                                                style: TextStyle(
-                                                    color: Colors.black,
-                                                    fontWeight: FontWeight.w600,
-                                                    fontSize: 12.sp),
-                                              ),
-                                              startBtn()
-                                            ],
-                                          )
-                                        ],
-                                      ),
-                                    ),
-                                  );
-                                },
-                              ),
-                            ),
-                    ),
-                    SliverToBoxAdapter(
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(
-                            vertical: 14.w, horizontal: 15.w),
-                        child: Text(
-                          '更多游戏',
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 19.sp),
-                        ),
-                      ),
-                    ),
-                    SliverToBoxAdapter(
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 15.w),
-                        child: Wrap(
-                            alignment: WrapAlignment.spaceBetween,
-                            runSpacing: 9.w,
-                            // spacing: GVScreenUtil.setWidth(18),
-                            children: moreGame!.asMap().keys.map((e) {
-                              return Container(
-                                width: 168.w,
-                                child: GestureDetector(
-                                  onTap: () {
-                                    enterGamePage(
-                                        id: moreGame![e]['id'],
-                                        name: moreGame![e]['name'],
-                                        icon: moreGame![e]['icons']);
-                                  },
-                                  child: Column(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      Container(
-                                        width: 168.w,
-                                        height: 100.w,
-                                        child: ClipRRect(
-                                            borderRadius:
-                                                BorderRadius.circular(5),
-                                            child: ImageNetTool(
-                                              url: moreGame![e]['icons'],
-                                            )),
-                                      ),
-                                      SizedBox(
-                                        height: 10.5.w,
-                                      ),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text(
-                                            moreGame![e]['name'],
-                                            style: TextStyle(
-                                                color: Colors.black,
-                                                fontWeight: FontWeight.w600,
-                                                fontSize: 12.sp),
-                                          ),
-                                          startBtn()
-                                        ],
-                                      )
-                                    ],
-                                  ),
-                                ),
-                              );
-                            }).toList()),
-                      ),
-                    ),
-                    SliverToBoxAdapter(
-                      child: SizedBox(
-                        height: 91.w,
-                      ),
-                    )
-                  ],
-                )),
+          : (loading ? Loading() : _buildBody()),
     ));
+  }
+
+  Widget _buildBody() {
+    return CustomScrollView(
+      slivers: [
+        SliverToBoxAdapter(
+          child: tips == '' ? null : _tips(),
+        ),
+        _coinView(),
+        headWidget(),
+        _bodyTitle('最近在玩', empty: historyList.length == 0),
+        _historyList(),
+        _bodyTitle('更多游戏'),
+        _moreGameList(),
+        SliverToBoxAdapter(
+          child: SizedBox(
+            height: 91.w,
+          ),
+        )
+      ],
+    );
+  }
+
+  Widget _bodyTitle(String title, {bool empty = false}) {
+    return SliverToBoxAdapter(
+      child: empty
+          ? Container()
+          : Padding(
+              padding: EdgeInsets.symmetric(vertical: 14.w, horizontal: 15.w),
+              child: Text(
+                title,
+                style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 18.sp),
+              ),
+            ),
+    );
+  }
+
+  Widget _moreGameList() {
+    return SliverToBoxAdapter(
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 15.w),
+        child: Wrap(
+            alignment: WrapAlignment.spaceBetween,
+            runSpacing: 9.w,
+            // spacing: GVScreenUtil.setWidth(18),
+            children: moreGame!.asMap().keys.map((e) {
+              return Container(
+                width: 168.w,
+                child: GestureDetector(
+                  onTap: () {
+                    enterGamePage(id: moreGame![e]['id'], name: moreGame![e]['name'], icon: moreGame![e]['icons']);
+                  },
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Container(
+                        width: 168.w,
+                        height: 100.w,
+                        child: ClipRRect(
+                            borderRadius: BorderRadius.circular(5),
+                            child: ImageNetTool(
+                              url: moreGame![e]['icons'],
+                            )),
+                      ),
+                      SizedBox(
+                        height: 10.5.w,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            moreGame![e]['name'],
+                            style: TextStyle(color: Colors.black, fontWeight: FontWeight.w600, fontSize: 12.sp),
+                          ),
+                          startBtn()
+                        ],
+                      )
+                    ],
+                  ),
+                ),
+              );
+            }).toList()),
+      ),
+    );
+  }
+
+  Widget _historyList() {
+    return SliverToBoxAdapter(
+      child: historyList.length == 0
+          ? Container()
+          : Container(
+              width: 1.sw,
+              height: 168.5.w,
+              child: ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: historyList.length,
+                padding: EdgeInsets.symmetric(horizontal: 10.5.w),
+                itemBuilder: (BuildContext content, int index) {
+                  return Container(
+                    margin: EdgeInsets.only(right: 15.w),
+                    width: 168.w,
+                    child: GestureDetector(
+                      onTap: () {
+                        enterGamePage(
+                            id: int.parse(historyList[index]['id']),
+                            name: historyList[index]['name'],
+                            icon: historyList[index]['icons']);
+                      },
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Container(
+                            width: 168.w,
+                            height: 100.w,
+                            child: ClipRRect(
+                                borderRadius: BorderRadius.circular(5),
+                                child: ImageNetTool(
+                                  url: historyList[index]['icons'],
+                                )),
+                          ),
+                          SizedBox(
+                            height: 10.5.w,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                historyList[index]['name'].toString(),
+                                style: TextStyle(color: Colors.black, fontWeight: FontWeight.w600, fontSize: 12.sp),
+                              ),
+                              startBtn()
+                            ],
+                          )
+                        ],
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ),
+    );
+  }
+
+  Widget _tips() {
+    return Container(
+      height: 25.w,
+      decoration: BoxDecoration(
+        color: Color(0xffffe38f),
+      ),
+      child: Row(
+        children: [
+          SizedBox(
+            width: 10.w,
+          ),
+          LocalPNG(
+            url: 'assets/images/games/speaker.png',
+            width: 29.5.w,
+            fit: BoxFit.fitWidth,
+          ),
+          Expanded(
+              child: new Marquee(
+            text: tips!,
+            style: TextStyle(color: Color(0xff6b000c), fontSize: 11.sp),
+            scrollAxis: Axis.horizontal,
+          ))
+        ],
+      ),
+    );
+  }
+
+  Widget _coinView() {
+    String _coin = Provider.of<HomeConfig>(context, listen: false).gameCoin ?? '0';
+
+    return SliverToBoxAdapter(
+      child: Center(
+        child: Container(
+          margin: EdgeInsets.only(top: 18.w),
+          width: 345.w,
+          height: 100.w,
+          child: Stack(
+            children: [
+              LocalPNG(url: 'assets/images/games/coin_banner.png', width: 345.w, height: 104.w, fit: BoxFit.fill),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 39.5.w),
+                child: Center(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        '钱包余额（元）',
+                        style: TextStyle(color: Color(0xffcccccc), fontSize: 12.sp),
+                      ),
+                      SizedBox(
+                        height: 20.w,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            _coin,
+                            style: TextStyle(color: Colors.white, fontSize: 33.sp),
+                          ),
+                          Container()
+                        ],
+                      )
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 
   enterGamePage({int? id, String? icon, String? name}) async {
@@ -572,9 +525,8 @@ class _GamePageState extends State<GamePage> {
       if (res!['status'] != 0) {
         BotToast.closeAllLoading();
         setHistory(id: id, icon: icon, name: name);
-        AppGlobal.appRouter?.push(CommonUtils.getRealHash('gameWebView/' +
-            Uri.encodeComponent(res['data']['url'].toString()) +
-            '/0'));
+        AppGlobal.appRouter
+            ?.push(CommonUtils.getRealHash('gameWebView/' + Uri.encodeComponent(res['data']['url'].toString()) + '/0'));
       } else {
         BotToast.showText(text: res['msg'], align: Alignment(0, 0));
         BotToast.closeAllLoading();
@@ -582,11 +534,7 @@ class _GamePageState extends State<GamePage> {
     });
   }
 
-  inputItem(
-      {String? text,
-      TextEditingController? textController,
-      String? hintText,
-      TextInputType? type}) {
+  inputItem({String? text, TextEditingController? textController, String? hintText, TextInputType? type}) {
     return Padding(
       padding: EdgeInsets.symmetric(
         horizontal: 25.w,
@@ -605,8 +553,7 @@ class _GamePageState extends State<GamePage> {
           Container(
             width: 254.w,
             decoration: BoxDecoration(
-                border: Border.all(color: Color(0XFFe6e6e6), width: 0.5.w),
-                borderRadius: BorderRadius.circular(5.w)),
+                border: Border.all(color: Color(0XFFe6e6e6), width: 0.5.w), borderRadius: BorderRadius.circular(5.w)),
             padding: EdgeInsets.symmetric(horizontal: 17.5.w),
             child: Center(
               child: TextField(
@@ -663,16 +610,10 @@ class _GamePageState extends State<GamePage> {
                             child: Column(
                               mainAxisSize: MainAxisSize.min,
                               children: [
-                                LocalPNG(
-                                    url: menuList![e]['cover'],
-                                    width: 35.w,
-                                    height: 35.w,
-                                    fit: BoxFit.contain),
+                                LocalPNG(url: menuList![e]['cover'], width: 35.w, height: 35.w, fit: BoxFit.contain),
                                 Text(
                                   menuList![e]['title'],
-                                  style: TextStyle(
-                                      color: Color(0xff666666),
-                                      fontSize: 12.sp),
+                                  style: TextStyle(color: Color(0xff666666), fontSize: 12.sp),
                                 )
                               ],
                             ),
@@ -680,9 +621,7 @@ class _GamePageState extends State<GamePage> {
                           Positioned(
                             top: 0,
                             right: (e == 0 ? -27.5 : -20).w,
-                            child: menuList![e]['icon'] == null
-                                ? Container()
-                                : LocalPNG(url: menuList![e]['icon']),
+                            child: menuList![e]['icon'] == null ? Container() : LocalPNG(url: menuList![e]['icon']),
                             width: 35.w,
                             height: 15.w,
                           )

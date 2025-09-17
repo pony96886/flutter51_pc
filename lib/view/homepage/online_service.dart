@@ -36,6 +36,7 @@ class OnlineServicePage extends StatefulWidget {
   final String? orderId;
   final String? isSend;
   final List? images;
+
   OnlineServicePage({Key? key, this.orderId, this.images, this.isSend, this.type}) : super(key: key);
 
   @override
@@ -59,6 +60,7 @@ class OnlineServicState extends State<OnlineServicePage> {
   List? msgList;
   bool isAll = false;
   String chaguanString = '[chaguan]';
+
   getMsgPath(String msg, int status) {
     var isPath = regExp.hasMatch(msg);
     var pathMsg = msg.replaceAll('http', '${chaguanString}http');
@@ -380,105 +382,110 @@ class OnlineServicState extends State<OnlineServicePage> {
             title: '在线客服',
           ),
           preferredSize: Size(double.infinity, 44.w)),
-      body: loading
-          ? Loading()
-          : Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      body: loading ? Loading() : _bodyView(),
+    ));
+  }
+
+  Widget _bodyView() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Flexible(
+            child: ListView.separated(
+                shrinkWrap: true,
+                physics: ClampingScrollPhysics(),
+                controller: scrollControllerFalse,
+                padding: EdgeInsets.only(top: 5.w, left: 15.w, right: 15.w, bottom: 20.w),
+                reverse: true,
+                separatorBuilder: (BuildContext context, int index) => Container(),
+                itemCount: msgList!.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return conversationTimeItem(msgList![index], index);
+                })),
+        _bottomInputView()
+      ],
+    );
+  }
+
+  Widget _bottomInputView() {
+    return Container(
+      decoration: BoxDecoration(
+        border: Border(
+          top: BorderSide(width: 1, color: Color(0xFFEEEEEE)),
+        ),
+      ),
+      height: ScreenUtil().bottomBarHeight + 45.w,
+      padding: new EdgeInsets.only(
+        left: 15.w,
+        right: 15.w,
+      ),
+      child: Container(
+        margin: new EdgeInsets.only(bottom: ScreenUtil().bottomBarHeight),
+        child: Row(
+          children: [
+            Stack(
               children: [
-                Flexible(
-                    child: ListView.separated(
-                        shrinkWrap: true,
-                        physics: ClampingScrollPhysics(),
-                        controller: scrollControllerFalse,
-                        padding: EdgeInsets.only(top: 5.w, left: 15.w, right: 15.w, bottom: 20.w),
-                        reverse: true,
-                        separatorBuilder: (BuildContext context, int index) => Container(),
-                        itemCount: msgList!.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          return conversationTimeItem(msgList![index], index);
-                        })),
-                Container(
-                  decoration: BoxDecoration(
-                    border: Border(
-                      top: BorderSide(width: 1, color: Color(0xFFEEEEEE)),
-                    ),
-                  ),
-                  height: ScreenUtil().bottomBarHeight + 45.w,
-                  padding: new EdgeInsets.only(
-                    left: 15.w,
-                    right: 15.w,
-                  ),
-                  child: Container(
-                    margin: new EdgeInsets.only(bottom: ScreenUtil().bottomBarHeight),
-                    child: Row(
-                      children: [
-                        Stack(
-                          children: [
-                            LocalPNG(
-                              url: 'assets/images/icon-img.png',
-                              fit: BoxFit.fill,
-                              width: 25.w,
-                              height: 25.w,
-                            ),
-                            Positioned.fill(
-                                child: UploadResouceWidget(
-                              maxLength: 1,
-                              noMark: true,
-                              isIndependent: true,
-                              transparent: true,
-                              parmas: 'images',
-                              onSelect: () {
-                                StartUploadFile.upload().then((value) {
-                                  print(value);
-                                  sendImage(value!['images'][0]['url']);
-                                }).whenComplete(() {
-                                  UploadFileList.allFile['images']!.originalUrls.clear();
-                                  UploadFileList.allFile['images']!.urls.clear();
-                                });
-                              },
-                            ))
-                          ],
-                        ),
-                        Expanded(
-                          child: Container(
-                            height: 35.w,
-                            margin: EdgeInsets.only(left: 15.w),
-                            decoration: BoxDecoration(
-                                color: StyleTheme.bottomappbarColor, borderRadius: BorderRadius.circular(17.5.w)),
-                            child: TextField(
-                              controller: editingController,
-                              decoration: InputDecoration(
-                                  isDense: true,
-                                  contentPadding: EdgeInsets.only(left: 10, right: 10, top: 5, bottom: 5),
-                                  border: InputBorder.none,
-                                  hintStyle: TextStyle(color: StyleTheme.cBioColor, fontSize: 16.sp),
-                                  hintText: "请输入消息..."),
-                            ),
-                          ),
-                        ),
-                        GestureDetector(
-                            onTap: _sendMsg,
-                            child: Container(
-                              margin: new EdgeInsets.only(left: 15.w),
-                              width: 55.w,
-                              height: 30.w,
-                              decoration: BoxDecoration(
-                                  color: StyleTheme.cDangerColor, borderRadius: BorderRadius.circular(5.w)),
-                              child: Center(
-                                child: Text(
-                                  '发送',
-                                  style: TextStyle(color: Colors.white, fontSize: 14.sp),
-                                ),
-                              ),
-                            ))
-                      ],
-                    ),
-                  ),
-                )
+                LocalPNG(
+                  url: 'assets/images/icon-img.png',
+                  fit: BoxFit.fill,
+                  width: 25.w,
+                  height: 25.w,
+                ),
+                Positioned.fill(
+                    child: UploadResouceWidget(
+                  maxLength: 1,
+                  noMark: true,
+                  isIndependent: true,
+                  transparent: true,
+                  parmas: 'images',
+                  onSelect: () {
+                    StartUploadFile.upload().then((value) {
+                      print(value);
+                      sendImage(value!['images'][0]['url']);
+                    }).whenComplete(() {
+                      UploadFileList.allFile['images']!.originalUrls.clear();
+                      UploadFileList.allFile['images']!.urls.clear();
+                    });
+                  },
+                ))
               ],
             ),
-    ));
+            Expanded(
+              child: Container(
+                height: 35.w,
+                margin: EdgeInsets.only(left: 15.w),
+                decoration:
+                    BoxDecoration(color: StyleTheme.bottomappbarColor, borderRadius: BorderRadius.circular(17.5.w)),
+                child: TextField(
+                  controller: editingController,
+                  decoration: InputDecoration(
+                      isDense: true,
+                      contentPadding: EdgeInsets.only(left: 10, right: 10, top: 5, bottom: 5),
+                      border: InputBorder.none,
+                      hintStyle: TextStyle(color: StyleTheme.cBioColor, fontSize: 16.sp),
+                      hintText: "请输入消息..."),
+                ),
+              ),
+            ),
+            GestureDetector(
+                onTap: _sendMsg,
+                child: Container(
+                  margin: new EdgeInsets.only(left: 15.w),
+                  width: 55.w,
+                  height: 30.w,
+                  decoration: BoxDecoration(color: StyleTheme.cDangerColor, borderRadius: BorderRadius.circular(5.w)),
+                  child: Center(
+                    child: Text(
+                      '发送',
+                      style: TextStyle(color: Colors.white, fontSize: 14.sp),
+                    ),
+                  ),
+                ))
+          ],
+        ),
+      ),
+    );
   }
 
   Widget conversationItem(String msg, int status, String thumb, int messageType, List? problemList, int isLocal) {

@@ -22,8 +22,7 @@ class CgRankPage extends StatefulWidget {
   State<CgRankPage> createState() => _CgRankPageState();
 }
 
-class _CgRankPageState extends State<CgRankPage>
-    with SingleTickerProviderStateMixin {
+class _CgRankPageState extends State<CgRankPage> with SingleTickerProviderStateMixin {
   List<Map> tabs = [];
   ValueNotifier<List> categoryList = ValueNotifier([]);
   TabController? tabController;
@@ -58,44 +57,41 @@ class _CgRankPageState extends State<CgRankPage>
   Widget build(BuildContext context) {
     return HeaderContainer(
         child: Scaffold(
-          backgroundColor: Colors.transparent,
-          appBar: PreferredSize(
-              child: PageTitleBar(title: '排行榜'),
-              preferredSize: Size(double.infinity, 44.w)),
-          body: loading
-              ? Loading()
-              : Column(
-                  children: [
-                    NavTabBarWidget(
-                      tabBarHeight: 44.0.w,
-                      tabVc: tabController,
-                      tabs: tabs.map((e) => e['name'] as String).toList(),
-                      textPadding: EdgeInsets.symmetric(horizontal: 12.5.w),
-                      selectedIndex: tabController!.index,
-                      norTextStyle: TextStyle(
-                          color: StyleTheme.cTitleColor, fontSize: 15.sp),
-                      selTextStyle: TextStyle(
-                          color: StyleTheme.cTitleColor, fontSize: 16.sp),
-                      indicatorStyle: NavIndicatorStyle.sys_fixed,
+      backgroundColor: Colors.transparent,
+      appBar: PreferredSize(child: PageTitleBar(title: '排行榜'), preferredSize: Size(double.infinity, 44.w)),
+      body: loading ? Loading() : _buildBodyView(),
+    ));
+  }
+
+  Widget _buildBodyView() {
+    return Column(
+      children: [
+        NavTabBarWidget(
+          tabBarHeight: 44.0.w,
+          tabVc: tabController,
+          tabs: tabs.map((e) => e['name'] as String).toList(),
+          textPadding: EdgeInsets.symmetric(horizontal: 12.5.w),
+          selectedIndex: tabController!.index,
+          norTextStyle: TextStyle(color: StyleTheme.cTitleColor, fontSize: 15.sp),
+          selTextStyle: TextStyle(color: StyleTheme.cTitleColor, fontSize: 16.sp),
+          indicatorStyle: NavIndicatorStyle.sys_fixed,
+        ),
+        Expanded(
+            child: ExtendedTabBarView(
+          controller: tabController,
+          children: tabs.map((item) {
+            return NestedScrollView(
+                headerSliverBuilder: (context, _v) {
+                  return [
+                    SliverToBoxAdapter(
+                      child: SizedBox(height: 0),
                     ),
-                    Expanded(
-                        child: ExtendedTabBarView(
-                      controller: tabController,
-                      children: tabs.map((item) {
-                        return NestedScrollView(
-                            headerSliverBuilder: (context, _v) {
-                              return [
-                                SliverToBoxAdapter(
-                                  child: SizedBox(height: 0),
-                                ),
-                              ];
-                            },
-                            body: CGRankList(
-                                tab: item['tab'], type: item['type']));
-                      }).toList(),
-                    ))
-                  ],
-                ),
-        ));
+                  ];
+                },
+                body: CGRankList(tab: item['tab'], type: item['type']));
+          }).toList(),
+        ))
+      ],
+    );
   }
 }

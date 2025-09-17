@@ -51,8 +51,7 @@ class GilrDrtailPage extends StatefulWidget {
   State<StatefulWidget> createState() => GilrDrtailState();
 }
 
-class GilrDrtailState extends State<GilrDrtailPage>
-    with TickerProviderStateMixin {
+class GilrDrtailState extends State<GilrDrtailPage> with TickerProviderStateMixin {
   ScrollController? _scrollViewController;
   AnimationController? _lottieController;
 
@@ -125,8 +124,7 @@ class GilrDrtailState extends State<GilrDrtailPage>
       isSelf = verifyDetail!['aff'].toString() == uid;
       userPaid = _info['data']['user_paid'];
       brokerUuid = _info['data']['uuid'];
-      isFavorite =
-          _info['data']['favorite'] == null ? false : _info['data']['favorite'];
+      isFavorite = _info['data']['favorite'] == null ? false : _info['data']['favorite'];
       brokerAvatar = _info['data']['thumb'];
       brokerName = _info['data']['nickname'];
       _introductionList = (widget.type == 3
@@ -135,9 +133,7 @@ class GilrDrtailState extends State<GilrDrtailPage>
                 'icon': 'assets/images/detail/icon-num.png',
                 'title': '妹子数量',
                 'type': true,
-                'introduction': verifyDetail!['girl_num'] == null
-                    ? 1
-                    : verifyDetail!['girl_num'].toString()
+                'introduction': verifyDetail!['girl_num'] == null ? 1 : verifyDetail!['girl_num'].toString()
               },
               {
                 'icon': 'assets/images/detail/icon-age.png',
@@ -155,9 +151,7 @@ class GilrDrtailState extends State<GilrDrtailPage>
                 'icon': 'assets/images/detail/icon-project.png',
                 'title': '服务项目',
                 'type': true,
-                'introduction': verifyDetail!['cast_way'] == null
-                    ? '未填写'
-                    : verifyDetail!['cast_way'].toString()
+                'introduction': verifyDetail!['cast_way'] == null ? '未填写' : verifyDetail!['cast_way'].toString()
               },
               {
                 'icon': 'assets/images/detail/icon-time.png',
@@ -209,16 +203,12 @@ class GilrDrtailState extends State<GilrDrtailPage>
       verifyDetail!['resources'] = _resouce;
       setState(() {});
       if (verifyDetail!['status'] == 4) {
-        CgDialog.cgShowDialog(
-            context, '提示', '该' + getType().toString() + '已被删除～', ['取消', '朕知道了'],
-            callBack: () {
+        CgDialog.cgShowDialog(context, '提示', '该' + getType().toString() + '已被删除～', ['取消', '朕知道了'], callBack: () {
           Navigator.of(context).pop(true);
         });
       }
       if (verifyDetail!['status'] == 5) {
-        CgDialog.cgShowDialog(
-            context, '提示', '该' + getType().toString() + '已被删除～', ['取消', '朕知道了'],
-            callBack: () {
+        CgDialog.cgShowDialog(context, '提示', '该' + getType().toString() + '已被删除～', ['取消', '朕知道了'], callBack: () {
           Navigator.of(context).pop(true);
         });
       }
@@ -235,8 +225,7 @@ class GilrDrtailState extends State<GilrDrtailPage>
       if (res!['status'] != 0) {
         getProfilePage().then((val) {
           if (val!['status'] != 0) {
-            Provider.of<HomeConfig>(context, listen: false)
-                .setMoney(val['data']['money']);
+            Provider.of<HomeConfig>(context, listen: false).setMoney(val['data']['money']);
           }
         });
         BotToast.showText(text: '预约成功～', align: Alignment(0, 0));
@@ -279,8 +268,7 @@ class GilrDrtailState extends State<GilrDrtailPage>
           });
         }
       } else {
-        if (confirmList!['status'] != 0 &&
-            confirmList['data']['list'].length > 0) {
+        if (confirmList!['status'] != 0 && confirmList['data']['list'].length > 0) {
           setState(() {
             timeSwitch = true;
             _evaluationTrue.addAll(confirmList['data']['list']);
@@ -296,8 +284,7 @@ class GilrDrtailState extends State<GilrDrtailPage>
   }
 
   _getHeight(_) {
-    if (_globalKey.currentContext != null &&
-        _globalKey.currentContext!.size!.height != widgetHeight) {
+    if (_globalKey.currentContext != null && _globalKey.currentContext!.size!.height != widgetHeight) {
       widgetHeight = _globalKey.currentContext!.size!.height;
       setState(() {});
     }
@@ -319,13 +306,11 @@ class GilrDrtailState extends State<GilrDrtailPage>
       reqReply(_id, nickname);
       return;
     }
-    if (CgPrivilege.getPrivilegeStatus(
-        PrivilegeType.infoConfirm, PrivilegeType.privilegeComment)) {
+    if (CgPrivilege.getPrivilegeStatus(PrivilegeType.infoConfirm, PrivilegeType.privilegeComment)) {
       if (userPaid) {
         reqReply(_id, nickname);
       } else {
-        YyShowDialog.showdialog(context, title: '提示', btnText: '支付预约金',
-            callBack: () {
+        YyShowDialog.showdialog(context, title: '提示', btnText: '支付预约金', callBack: () {
           if (verifyDetail!['status'] == 2) {
             setState(() {
               myMoney = money;
@@ -340,14 +325,12 @@ class GilrDrtailState extends State<GilrDrtailPage>
         });
       }
     } else {
-      return CommonUtils.showVipDialog(
-          context, PrivilegeType.privilegeCommentString);
+      return CommonUtils.showVipDialog(context, PrivilegeType.privilegeCommentString);
     }
   }
 
   reqReply(_id, String nickname) {
-    InputDialog.show(context, '回复给 $nickname', limitingText: 99, btnText: '发送',
-        onSubmit: (value) {
+    InputDialog.show(context, '回复给 $nickname', limitingText: 99, btnText: '发送', onSubmit: (value) {
       if (value != null) {
         replyVipComment(confirmId: _id, content: value).then((res) {
           if (res!['status'] != 0) {
@@ -377,8 +360,7 @@ class GilrDrtailState extends State<GilrDrtailPage>
     _getInfo();
     getAd();
     EventBus().on('SWICH_SERVICE', (arg) {
-      var agent = Provider.of<GlobalState>(context, listen: false)
-          .profileData?['agent'];
+      var agent = Provider.of<GlobalState>(context, listen: false).profileData?['agent'];
       // Navigator.push(
       //     context,
       //     MaterialPageRoute(
@@ -431,15 +413,13 @@ class GilrDrtailState extends State<GilrDrtailPage>
             //还没有给用户分配过客服
             var vipkefu;
             var onlineArr;
-            onlineArr =
-                UserInfo.kefuList!.where((item) => item['work'] == 1).toList();
+            onlineArr = UserInfo.kefuList!.where((item) => item['work'] == 1).toList();
             if (onlineArr.length > 0) {
               //随机分配在线客服
               vipkefu = onlineArr[Random().nextInt(onlineArr.length)];
             } else {
               //随机分配不在线客服
-              vipkefu = UserInfo
-                  .kefuList![Random().nextInt(UserInfo.kefuList!.length)];
+              vipkefu = UserInfo.kefuList![Random().nextInt(UserInfo.kefuList!.length)];
             }
             PersistentState.saveState('vipkefu', json.encode(vipkefu));
             UserInfo.officialUuid = vipkefu['uuid'];
@@ -447,10 +427,8 @@ class GilrDrtailState extends State<GilrDrtailPage>
           } else {
             //用户有客服
             var kefuObj = json.decode(value);
-            var onlineArr = UserInfo.kefuList!
-                .where((item) =>
-                    item['uuid'] == kefuObj['uuid'] && item['work'] == 1)
-                .toList();
+            var onlineArr =
+                UserInfo.kefuList!.where((item) => item['uuid'] == kefuObj['uuid'] && item['work'] == 1).toList();
             if (onlineArr.length == 1) {
               //给用户分配的客服在线
               UserInfo.officialUuid = kefuObj['uuid'];
@@ -459,16 +437,13 @@ class GilrDrtailState extends State<GilrDrtailPage>
               //给用户分配的客服不在线
               var vipkefu;
               var allOnline;
-              allOnline = UserInfo.kefuList!
-                  .where((item) => item['work'] == 1)
-                  .toList();
+              allOnline = UserInfo.kefuList!.where((item) => item['work'] == 1).toList();
               if (allOnline.length > 0) {
                 //还有在线客服随机找一个
                 vipkefu = allOnline[Random().nextInt(allOnline.length)];
               } else {
                 //没有在线客服就随机找一个
-                vipkefu = UserInfo
-                    .kefuList![Random().nextInt(UserInfo.kefuList!.length)];
+                vipkefu = UserInfo.kefuList![Random().nextInt(UserInfo.kefuList!.length)];
               }
               PersistentState.saveState('vipkefu', json.encode(vipkefu));
               UserInfo.officialUuid = vipkefu['uuid'];
@@ -476,10 +451,8 @@ class GilrDrtailState extends State<GilrDrtailPage>
             }
           }
           // ==================================================================================================
-          var image =
-              verifyDetail!['resources'].firstWhere((v) => v['type'] == 1);
-          dynamic officialUuids =
-              WebSocketUtility.uuid! + 'ImKey' + UserInfo.officialUuid!;
+          var image = verifyDetail!['resources'].firstWhere((v) => v['type'] == 1);
+          dynamic officialUuids = WebSocketUtility.uuid! + 'ImKey' + UserInfo.officialUuid!;
           PersistentState.saveState(
               '$officialUuids',
               (json.encode({
@@ -487,9 +460,7 @@ class GilrDrtailState extends State<GilrDrtailPage>
                 'image': image['url'],
                 'id': verifyDetail!['id'].toString(),
                 'price': verifyDetail!['fee'].toString(),
-                'title': verifyDetail!['title'] +
-                    '  id:' +
-                    verifyDetail!['id'].toString(),
+                'title': verifyDetail!['title'] + '  id:' + verifyDetail!['id'].toString(),
                 'status': verifyDetail!['status'].toString(),
                 'priceMin': verifyDetail!['price'].toString()
               })));
@@ -503,16 +474,11 @@ class GilrDrtailState extends State<GilrDrtailPage>
         });
       } else {
         if (brokerUuid != null) {
-          AppGlobal.chatUser = FormUserMsg(
-              isVipDetail: true,
-              uuid: brokerUuid.toString(),
-              nickname: brokerName!,
-              avatar: brokerAvatar!);
+          AppGlobal.chatUser =
+              FormUserMsg(isVipDetail: true, uuid: brokerUuid.toString(), nickname: brokerName!, avatar: brokerAvatar!);
           AppGlobal.appRouter?.push(CommonUtils.getRealHash('llchat'));
         } else {
-          BotToast.showText(
-              text: '该' + getType() + '数据出现错误，无法私聊经纪人～',
-              align: Alignment(0, 0));
+          BotToast.showText(text: '该' + getType() + '数据出现错误，无法私聊经纪人～', align: Alignment(0, 0));
         }
       }
     }
@@ -525,8 +491,7 @@ class GilrDrtailState extends State<GilrDrtailPage>
     });
     var favorite = await favoriteGilr(widget.id!);
     if (favorite!['status'] != 0) {
-      BotToast.showText(
-          text: isFavorite ? '收藏成功' : '取消收藏成功', align: Alignment(0, 0));
+      BotToast.showText(text: isFavorite ? '收藏成功' : '取消收藏成功', align: Alignment(0, 0));
       setState(() {
         verifyDetail!['userFavorite'] = isFavorite ? 1 : 0;
         isFavorite = verifyDetail!['userFavorite'] == 1;
@@ -536,8 +501,7 @@ class GilrDrtailState extends State<GilrDrtailPage>
         isFavorite = verifyDetail!['userFavorite'] == 1;
       });
       if (favorite['msg'] == 'err') {
-        CgDialog.cgShowDialog(
-            context, '温馨提示', '免费收藏已达上限，请前往开通会员', ['取消', '立即前往'], callBack: () {
+        CgDialog.cgShowDialog(context, '温馨提示', '免费收藏已达上限，请前往开通会员', ['取消', '立即前往'], callBack: () {
           AppGlobal.appRouter?.push(CommonUtils.getRealHash('memberCardsPage'));
         });
       } else {
@@ -547,10 +511,8 @@ class GilrDrtailState extends State<GilrDrtailPage>
   }
 
   connectGirl() {
-    if (!CgPrivilege.getPrivilegeStatus(
-        PrivilegeType.infoSystem, PrivilegeType.privilegeIm)) {
-      CommonUtils.showVipDialog(context,
-          PrivilegeType.infoSysteString + PrivilegeType.privilegeImString);
+    if (!CgPrivilege.getPrivilegeStatus(PrivilegeType.infoSystem, PrivilegeType.privilegeIm)) {
+      CommonUtils.showVipDialog(context, PrivilegeType.infoSysteString + PrivilegeType.privilegeImString);
       return;
     }
     if (WebSocketUtility.imToken == null) {
@@ -594,318 +556,217 @@ class GilrDrtailState extends State<GilrDrtailPage>
                     )
                   :
                   //Loding判断
-                  (loading
-                      ? Loading()
-                      : Column(
-                          children: [
-                            Expanded(
-                                child: Stack(
-                              clipBehavior: Clip.none,
-                              children: [
-                                NotificationListener<ScrollNotification>(
-                                    onNotification:
-                                        (ScrollNotification scrollInfo) =>
-                                            _onScrollNotification(scrollInfo),
-                                    child: ListView(
-                                      physics: ClampingScrollPhysics(),
-                                      children: <Widget>[
-                                        Column(
+                  (loading ? Loading() : _bodyView())),
+        );
+      },
+    );
+  }
+
+  Widget _bodyView() {
+    return Column(
+      children: [
+        Expanded(
+            child: Stack(
+          clipBehavior: Clip.none,
+          children: [
+            NotificationListener<ScrollNotification>(
+                onNotification: (ScrollNotification scrollInfo) => _onScrollNotification(scrollInfo),
+                child: ListView(
+                  physics: ClampingScrollPhysics(),
+                  children: <Widget>[
+                    Column(
+                      children: <Widget>[
+                        Container(
+                          color: Colors.white,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              verifyDetail!['resources'] != null && verifyDetail!['resources'].length > 0
+                                  ? Container(color: Color(0xFFE5E5E5), height: 240.w, child: _swiper())
+                                  : Container(),
+                              Stack(
+                                children: [
+                                  Column(
+                                    children: [
+                                      _detailHeader(),
+                                      widget.type == 2 ? faceCard() : Container(),
+                                      adData != null
+                                          ? Container(
+                                              padding: EdgeInsets.symmetric(horizontal: 10.w),
+                                              child: Detail_ad(app_layout: true, data: adData!["data"]),
+                                            )
+                                          : Container(),
+                                      Padding(padding: EdgeInsets.only(top: 15.w)),
+                                      Container(
+                                        key: _globalKey,
+                                        child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
                                           children: <Widget>[
                                             Container(
-                                              color: Colors.white,
-                                              child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  verifyDetail!['resources'] !=
-                                                              null &&
-                                                          verifyDetail![
-                                                                      'resources']
-                                                                  .length >
-                                                              0
-                                                      ? Container(
-                                                          color:
-                                                              Color(0xFFE5E5E5),
-                                                          height: 240.w,
-                                                          child: _swiper())
-                                                      : Container(),
-                                                  Stack(
-                                                    children: [
-                                                      Column(
-                                                        children: [
-                                                          _detailHeader(),
-                                                          widget.type == 2
-                                                              ? faceCard()
-                                                              : Container(),
-                                                          adData != null
-                                                              ? Container(
-                                                                  padding: EdgeInsets
-                                                                      .symmetric(
-                                                                          horizontal:
-                                                                              10.w),
-                                                                  child: Detail_ad(
-                                                                      app_layout:
-                                                                          true,
-                                                                      data: adData![
-                                                                          "data"]),
-                                                                )
-                                                              : Container(),
-                                                          Padding(
-                                                              padding: EdgeInsets
-                                                                  .only(
-                                                                      top: 15
-                                                                          .w)),
-                                                          Container(
-                                                            key: _globalKey,
-                                                            child: Column(
-                                                              crossAxisAlignment:
-                                                                  CrossAxisAlignment
-                                                                      .start,
-                                                              children: <Widget>[
-                                                                Container(
-                                                                    width: double
-                                                                        .infinity,
-                                                                    margin: EdgeInsets.symmetric(
-                                                                        horizontal: 15
-                                                                            .w),
-                                                                    color: Color(
-                                                                        0xFFF8F8F8),
-                                                                    padding: new EdgeInsets
-                                                                        .symmetric(
-                                                                        horizontal:
-                                                                            15.5
-                                                                                .w,
-                                                                        vertical: 15
-                                                                            .w),
-                                                                    child:
-                                                                        Column(
-                                                                      mainAxisSize:
-                                                                          MainAxisSize
-                                                                              .min,
-                                                                      crossAxisAlignment:
-                                                                          CrossAxisAlignment
-                                                                              .start,
-                                                                      children: [
-                                                                        _dtailList(),
-                                                                        Container(
-                                                                          height:
-                                                                              1.w,
-                                                                          color:
-                                                                              StyleTheme.textbgColor1,
-                                                                          margin:
-                                                                              EdgeInsets.only(bottom: 15.w),
-                                                                        ),
-                                                                        Text(
-                                                                          verifyDetail![
-                                                                              'desc'],
-                                                                          style: TextStyle(
-                                                                              fontSize: 14.sp,
-                                                                              color: StyleTheme.cTitleColor),
-                                                                        ),
-                                                                      ],
-                                                                    )),
-                                                              ],
-                                                            ),
-                                                          ),
-                                                          SizedBox(
-                                                            height: 15.w,
-                                                          )
-                                                        ],
-                                                      ),
-                                                      Positioned(
-                                                          top: 0,
-                                                          right: 15.w,
-                                                          child: Container(
-                                                            width: 30.w,
-                                                            height: 85.w,
-                                                            child: LocalPNG(
-                                                                url:
-                                                                    'assets/images/card/renzheng.png',
-                                                                fit: BoxFit
-                                                                    .cover),
-                                                          ))
-                                                    ],
-                                                  )
-                                                ],
-                                              ),
-                                            ),
-                                            _totalScore(),
-                                            Container(
-                                                child: _evaluationTrue.length ==
-                                                        0
-                                                    ? Container(
-                                                        padding:
-                                                            EdgeInsets.only(
-                                                                bottom: 100.w),
-                                                        child: NoData(
-                                                            text:
-                                                                '还没有人发布真实信息哦～'),
-                                                      )
-                                                    : Column(children: [
-                                                        for (var item
-                                                            in _evaluationTrue)
-                                                          _scoreCard(item)
-                                                      ])),
-                                            _evaluationTrue.length > 0
-                                                ? renderMore(trueIsLoading)
-                                                : Container()
+                                                width: double.infinity,
+                                                margin: EdgeInsets.symmetric(horizontal: 15.w),
+                                                color: Color(0xFFF8F8F8),
+                                                padding: new EdgeInsets.symmetric(horizontal: 15.5.w, vertical: 15.w),
+                                                child: Column(
+                                                  mainAxisSize: MainAxisSize.min,
+                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                  children: [
+                                                    _dtailList(),
+                                                    Container(
+                                                      height: 1.w,
+                                                      color: StyleTheme.textbgColor1,
+                                                      margin: EdgeInsets.only(bottom: 15.w),
+                                                    ),
+                                                    Text(
+                                                      verifyDetail!['desc'],
+                                                      style: TextStyle(fontSize: 14.sp, color: StyleTheme.cTitleColor),
+                                                    ),
+                                                  ],
+                                                )),
                                           ],
                                         ),
-                                      ],
-                                    )),
-                              ],
-                            )),
-                            Container(
-                              height: 49.w + ScreenUtil().bottomBarHeight,
-                              padding: new EdgeInsets.only(
-                                  bottom: ScreenUtil().bottomBarHeight,
-                                  left: 15.w,
-                                  right: 15.w),
-                              color: StyleTheme.bottomappbarColor,
-                              width: double.infinity,
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: <Widget>[
-                                      Row(
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: <Widget>[
-                                          GestureDetector(
-                                              onTap: connectGirl,
-                                              child: Row(
-                                                mainAxisSize: MainAxisSize.min,
-                                                children: [
-                                                  Container(
-                                                    margin: new EdgeInsets.only(
-                                                        right: 10.w),
-                                                    child: LocalPNG(
-                                                      url:
-                                                          'assets/images/detail/chat.png',
-                                                      width: 25.w,
-                                                      height: 25.w,
-                                                    ),
-                                                  ),
-                                                  Text(
-                                                    widget.type == 3
-                                                        ? contactTeaBoss
-                                                        : contactTeaGirl,
-                                                    style: TextStyle(
-                                                        fontSize: 14.sp,
-                                                        color: StyleTheme
-                                                            .cTitleColor,
-                                                        fontWeight:
-                                                            FontWeight.w500),
-                                                  )
-                                                ],
-                                              )),
-                                          widget.type == 3
-                                              ? Container()
-                                              : GestureDetector(
-                                                  onTap: () {
-                                                    if (CgPrivilege
-                                                        .getPrivilegeStatus(
-                                                            PrivilegeType
-                                                                .infoVip,
-                                                            PrivilegeType
-                                                                .privilegeAppointment)) {
-                                                      _collect();
-                                                    } else {
-                                                      CommonUtils.showVipDialog(
-                                                          context,
-                                                          '购买会员才能在线预约雅间妹子，平台担保交易，照片和人不匹配平台包赔，让你约到合乎心意的妹子',
-                                                          isFull: true);
-                                                    }
-                                                  },
-                                                  child: Container(
-                                                    margin: EdgeInsets.only(
-                                                        left: 20.w),
-                                                    child: Row(
-                                                      mainAxisSize:
-                                                          MainAxisSize.min,
-                                                      children: [
-                                                        Container(
-                                                          margin: new EdgeInsets
-                                                              .only(
-                                                              right: 10.w),
-                                                          child: LocalPNG(
-                                                            url: isFavorite
-                                                                ? 'assets/images/card/iscollect.png'
-                                                                : 'assets/images/mymony/collect.png',
-                                                            width: 25.w,
-                                                            height: 25.w,
-                                                          ),
-                                                        ),
-                                                        Text('收藏',
-                                                            style: TextStyle(
-                                                                fontSize: 14.sp,
-                                                                color: StyleTheme
-                                                                    .cTitleColor,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w500))
-                                                      ],
-                                                    ),
-                                                  ),
-                                                )
-                                        ],
+                                      ),
+                                      SizedBox(
+                                        height: 15.w,
                                       )
                                     ],
                                   ),
-                                  GestureDetector(
-                                    // ignore: missing_return
-                                    onTap: () {
-                                      if (verifyDetail!['type'] == 2 &&
-                                          verifyDetail!['girl_age'] == "0") {
-                                        BotToast.showText(
-                                            text: '休息中、无法预约！',
-                                            align: Alignment(0, 0));
-                                        return;
-                                      }
-                                      if (verifyDetail!['status'] == 2) {
-                                        setState(() {
-                                          myMoney = money;
-                                        });
-                                        showPublish();
-                                      }
-                                    },
-                                    child: Container(
-                                      width: 110.w,
-                                      height: 40.w,
-                                      margin: new EdgeInsets.only(left: 10.w),
-                                      child: Stack(
-                                        children: [
-                                          LocalPNG(
-                                              width: 110.w,
-                                              height: 40.w,
-                                              url:
-                                                  'assets/images/mymony/money-img.png',
-                                              fit: BoxFit.fill),
-                                          Center(
-                                              child: Text(
-                                            verifyDetail!['type'] == 2 &&
-                                                    verifyDetail!['girl_age'] ==
-                                                        "0"
-                                                ? '休息中'
-                                                : '支付预约金',
-                                            style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 14.w,
-                                                fontWeight: FontWeight.w500),
-                                          ))
-                                        ],
+                                  Positioned(
+                                      top: 0,
+                                      right: 15.w,
+                                      child: Container(
+                                        width: 30.w,
+                                        height: 85.w,
+                                        child: LocalPNG(url: 'assets/images/card/renzheng.png', fit: BoxFit.cover),
+                                      ))
+                                ],
+                              )
+                            ],
+                          ),
+                        ),
+                        _totalScore(),
+                        Container(
+                            child: _evaluationTrue.length == 0
+                                ? Container(
+                                    padding: EdgeInsets.only(bottom: 100.w),
+                                    child: NoData(text: '还没有人发布真实信息哦～'),
+                                  )
+                                : Column(children: [for (var item in _evaluationTrue) _scoreCard(item)])),
+                        _evaluationTrue.length > 0 ? renderMore(trueIsLoading) : Container()
+                      ],
+                    ),
+                  ],
+                )),
+          ],
+        )),
+        Container(
+          height: 49.w + ScreenUtil().bottomBarHeight,
+          padding: new EdgeInsets.only(bottom: ScreenUtil().bottomBarHeight, left: 15.w, right: 15.w),
+          color: StyleTheme.bottomappbarColor,
+          width: double.infinity,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      GestureDetector(
+                          onTap: connectGirl,
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Container(
+                                margin: new EdgeInsets.only(right: 10.w),
+                                child: LocalPNG(
+                                  url: 'assets/images/detail/chat.png',
+                                  width: 25.w,
+                                  height: 25.w,
+                                ),
+                              ),
+                              Text(
+                                widget.type == 3 ? contactTeaBoss : contactTeaGirl,
+                                style: TextStyle(
+                                    fontSize: 14.sp, color: StyleTheme.cTitleColor, fontWeight: FontWeight.w500),
+                              )
+                            ],
+                          )),
+                      widget.type == 3
+                          ? Container()
+                          : GestureDetector(
+                              onTap: () {
+                                if (CgPrivilege.getPrivilegeStatus(
+                                    PrivilegeType.infoVip, PrivilegeType.privilegeAppointment)) {
+                                  _collect();
+                                } else {
+                                  CommonUtils.showVipDialog(context, '购买会员才能在线预约雅间妹子，平台担保交易，照片和人不匹配平台包赔，让你约到合乎心意的妹子',
+                                      isFull: true);
+                                }
+                              },
+                              child: Container(
+                                margin: EdgeInsets.only(left: 20.w),
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Container(
+                                      margin: new EdgeInsets.only(right: 10.w),
+                                      child: LocalPNG(
+                                        url: isFavorite
+                                            ? 'assets/images/card/iscollect.png'
+                                            : 'assets/images/mymony/collect.png',
+                                        width: 25.w,
+                                        height: 25.w,
                                       ),
                                     ),
-                                  )
-                                ],
+                                    Text('收藏',
+                                        style: TextStyle(
+                                            fontSize: 14.sp,
+                                            color: StyleTheme.cTitleColor,
+                                            fontWeight: FontWeight.w500))
+                                  ],
+                                ),
                               ),
                             )
-                          ],
-                        ))),
-        );
-      },
+                    ],
+                  )
+                ],
+              ),
+              GestureDetector(
+                // ignore: missing_return
+                onTap: () {
+                  if (verifyDetail!['type'] == 2 && verifyDetail!['girl_age'] == "0") {
+                    BotToast.showText(text: '休息中、无法预约！', align: Alignment(0, 0));
+                    return;
+                  }
+                  if (verifyDetail!['status'] == 2) {
+                    setState(() {
+                      myMoney = money;
+                    });
+                    showPublish();
+                  }
+                },
+                child: Container(
+                  width: 110.w,
+                  height: 40.w,
+                  margin: new EdgeInsets.only(left: 10.w),
+                  child: Stack(
+                    children: [
+                      LocalPNG(width: 110.w, height: 40.w, url: 'assets/images/mymony/money-img.png', fit: BoxFit.fill),
+                      Center(
+                          child: Text(
+                        verifyDetail!['type'] == 2 && verifyDetail!['girl_age'] == "0" ? '休息中' : '支付预约金',
+                        style: TextStyle(color: Colors.white, fontSize: 14.w, fontWeight: FontWeight.w500),
+                      ))
+                    ],
+                  ),
+                ),
+              )
+            ],
+          ),
+        )
+      ],
     );
   }
 
@@ -925,19 +786,13 @@ class GilrDrtailState extends State<GilrDrtailPage>
 
   Widget _totalScore() {
     String zeroSt = '0.0';
-    String girlSer = _avg["avg(girl_service)"] == null
-        ? zeroSt
-        : _avg["avg(girl_service)"].substring(0, 3);
+    String girlSer = _avg["avg(girl_service)"] == null ? zeroSt : _avg["avg(girl_service)"].substring(0, 3);
     return Container(
         height: 53.w,
         margin: new EdgeInsets.only(bottom: 19.5.w),
         decoration: BoxDecoration(
           color: Colors.white,
-          border: Border(
-              bottom: BorderSide(
-                  color: StyleTheme.textbgColor1,
-                  width: 1.w,
-                  style: BorderStyle.solid)),
+          border: Border(bottom: BorderSide(color: StyleTheme.textbgColor1, width: 1.w, style: BorderStyle.solid)),
         ),
         child: Row(
           children: <Widget>[
@@ -946,10 +801,7 @@ class GilrDrtailState extends State<GilrDrtailPage>
               margin: EdgeInsets.only(left: 15.w),
               child: Text(
                 verifyDetail!['confirm'].toString() + '人评价',
-                style: TextStyle(
-                    fontSize: 18.sp,
-                    color: StyleTheme.cTitleColor,
-                    fontWeight: FontWeight.bold),
+                style: TextStyle(fontSize: 18.sp, color: StyleTheme.cTitleColor, fontWeight: FontWeight.bold),
               ),
             )),
             Expanded(
@@ -959,8 +811,7 @@ class GilrDrtailState extends State<GilrDrtailPage>
                   children: [
                     Text(
                       '服务质量 ' + girlSer.toString(),
-                      style: TextStyle(
-                          fontSize: 14.sp, color: StyleTheme.cTitleColor),
+                      style: TextStyle(fontSize: 14.sp, color: StyleTheme.cTitleColor),
                     ),
                   ],
                 ))
@@ -971,7 +822,6 @@ class GilrDrtailState extends State<GilrDrtailPage>
   String nowPay = '立即支付';
 
   Future showPublish() {
-    String userCheckStr = widget.type == 3 ? teaBoss : teaGirlStr;
     return showModalBottomSheet(
         isScrollControlled: true,
         context: context,
@@ -988,237 +838,12 @@ class GilrDrtailState extends State<GilrDrtailPage>
                   alignment: Alignment.center,
                   children: <Widget>[
                     Container(
-                        padding:
-                            EdgeInsets.only(top: 20.w, left: 15.w, right: 15.w),
+                        padding: EdgeInsets.only(top: 20.w, left: 15.w, right: 15.w),
                         child: Swiper(
                           controller: swiperController,
                           physics: NeverScrollableScrollPhysics(),
                           itemBuilder: (BuildContext context, int index) {
-                            return index == 0
-                                ? Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Container(
-                                        child: Center(
-                                            child: Text(
-                                          '支付预约金',
-                                          style: TextStyle(
-                                              fontSize: 18.sp,
-                                              color: StyleTheme.cTitleColor,
-                                              fontWeight: FontWeight.w500),
-                                        )),
-                                      ),
-                                      Container(
-                                        child: Flex(
-                                          direction: Axis.horizontal,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.end,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          children: [
-                                            Expanded(
-                                                flex: 1, child: Container()),
-                                            Expanded(
-                                                flex: 2,
-                                                child: Container(
-                                                  margin: EdgeInsets.only(
-                                                      top: 40.w, bottom: 40.w),
-                                                  child: Center(
-                                                    child: Row(
-                                                      mainAxisSize:
-                                                          MainAxisSize.min,
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .center,
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        Container(
-                                                          margin:
-                                                              EdgeInsets.only(
-                                                                  right: 11.w),
-                                                          width: 38.w,
-                                                          height: 27.w,
-                                                          child: LocalPNG(
-                                                              url:
-                                                                  'assets/images/detail/vip-yuanbao.png',
-                                                              width: 38.w,
-                                                              height: 27.w,
-                                                              fit: BoxFit
-                                                                  .contain),
-                                                        ),
-                                                        Text.rich(TextSpan(
-                                                            text: (verifyDetail![
-                                                                        'fee'] -
-                                                                    selectValue)
-                                                                .toString(),
-                                                            style: TextStyle(
-                                                                color: StyleTheme
-                                                                    .cTitleColor,
-                                                                fontSize:
-                                                                    36.sp),
-                                                            children: [
-                                                              TextSpan(
-                                                                text: '元宝',
-                                                                style: TextStyle(
-                                                                    color: StyleTheme
-                                                                        .cTitleColor,
-                                                                    fontSize:
-                                                                        18.sp),
-                                                              )
-                                                            ])),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                )),
-                                            Expanded(
-                                                flex: 1,
-                                                child: selectValue != 0
-                                                    ? Container(
-                                                        margin: EdgeInsets.only(
-                                                            top: 15.w),
-                                                        child: Text(
-                                                          verifyDetail!['fee']
-                                                                  .toString() +
-                                                              '元宝',
-                                                          style: TextStyle(
-                                                            color: StyleTheme
-                                                                .cBioColor,
-                                                            fontSize: 18.sp,
-                                                            decoration:
-                                                                TextDecoration
-                                                                    .lineThrough,
-                                                            decorationColor:
-                                                                StyleTheme
-                                                                    .cBioColor,
-                                                          ),
-                                                        ),
-                                                      )
-                                                    : Container()),
-                                          ],
-                                        ),
-                                      ),
-                                      BottomLine(),
-                                      rowText(
-                                        '优惠券',
-                                        selectValue == 0
-                                            ? '选择优惠券'
-                                            : selectValue.toString() + '元宝优惠券',
-                                        setBottomSheetState,
-                                        selectValue == 0
-                                            ? StyleTheme.cBioColor
-                                            : StyleTheme.cDangerColor,
-                                      ),
-                                      BottomLine(),
-                                      rowText(
-                                          '预约妹子',
-                                          verifyDetail!['title'].toString(),
-                                          setBottomSheetState),
-                                      BottomLine(),
-                                      rowText(
-                                          '发布用户',
-                                          verifyDetail!['nickname'].toString(),
-                                          setBottomSheetState),
-                                      BottomLine(),
-                                      Center(
-                                        child: Text(
-                                          '账户余额：' + myMoney.toString() + '元宝',
-                                          style: TextStyle(
-                                              color: StyleTheme.cDangerColor,
-                                              fontSize: 12.sp),
-                                          textAlign: TextAlign.center,
-                                        ),
-                                      ),
-                                      Expanded(
-                                          child: Center(
-                                        child: GestureDetector(
-                                          onTap: () {
-                                            if (myMoney <
-                                                (verifyDetail!['fee'] -
-                                                    selectValue)) {
-                                              AppGlobal.appRouter?.push(
-                                                  CommonUtils.getRealHash(
-                                                      'ingotWallet'));
-                                            } else {
-                                              if (verifyDetail!['status'] ==
-                                                  2) {
-                                                reservation();
-                                              } else {
-                                                if (verifyDetail!['status'] ==
-                                                    4) {
-                                                  CgDialog.cgShowDialog(
-                                                      context,
-                                                      '提示',
-                                                      '当前' +
-                                                          getType().toString() +
-                                                          '已被删除,不能支付预约金哦～',
-                                                      ['取消', '朕知道了'],
-                                                      callBack: () {});
-                                                }
-                                                if (verifyDetail!['status'] ==
-                                                    5) {
-                                                  CgDialog.cgShowDialog(
-                                                      context,
-                                                      '提示',
-                                                      '当前' +
-                                                          userCheckStr +
-                                                          '不在线,不能支付预约金,请稍后再来吧～',
-                                                      ['取消', '朕知道了'],
-                                                      callBack: () {});
-                                                }
-                                              }
-                                            }
-                                          },
-                                          child: Column(
-                                            mainAxisSize: MainAxisSize.min,
-                                            children: [
-                                              Container(
-                                                margin: EdgeInsets.only(
-                                                    bottom: 10.w),
-                                                width: 275.w,
-                                                height: 50.w,
-                                                child: Stack(
-                                                  children: [
-                                                    LocalPNG(
-                                                        width: 275.w,
-                                                        height: 50.w,
-                                                        url:
-                                                            'assets/images/mymony/money-img.png',
-                                                        alignment:
-                                                            Alignment.center,
-                                                        fit: BoxFit.fill),
-                                                    Center(
-                                                        child: Text(
-                                                      myMoney <
-                                                              (verifyDetail![
-                                                                      'fee'] -
-                                                                  selectValue)
-                                                          ? '余额不足,去充值'
-                                                          : nowPay,
-                                                      style: TextStyle(
-                                                          fontSize: 15.sp,
-                                                          color: Colors.white),
-                                                    ))
-                                                  ],
-                                                ),
-                                              ),
-                                              Text(
-                                                '支付预约金前，请先沟通价格、服务等信息，未服务请勿点确认',
-                                                style: TextStyle(
-                                                    color:
-                                                        StyleTheme.cDangerColor,
-                                                    fontSize: 12.sp),
-                                              )
-                                            ],
-                                          ),
-                                        ),
-                                      ))
-                                    ],
-                                  )
-                                : youHuiQuan(setBottomSheetState);
+                            return index == 0 ? zhiFuYuYue(setBottomSheetState) : youHuiQuan(setBottomSheetState);
                           },
                           itemCount: 2,
                           layout: SwiperLayout.DEFAULT,
@@ -1251,6 +876,153 @@ class GilrDrtailState extends State<GilrDrtailPage>
         });
   }
 
+  Widget zhiFuYuYue(Function setBottomSheetState) {
+    String userCheckStr = widget.type == 3 ? teaBoss : teaGirlStr;
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Container(
+          child: Center(
+              child: Text(
+            '支付预约金',
+            style: TextStyle(fontSize: 18.sp, color: StyleTheme.cTitleColor, fontWeight: FontWeight.w500),
+          )),
+        ),
+        Container(
+          child: Flex(
+            direction: Axis.horizontal,
+            mainAxisAlignment: MainAxisAlignment.end,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Expanded(flex: 1, child: Container()),
+              Expanded(
+                  flex: 2,
+                  child: Container(
+                    margin: EdgeInsets.only(top: 40.w, bottom: 40.w),
+                    child: Center(
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Container(
+                            margin: EdgeInsets.only(right: 11.w),
+                            width: 38.w,
+                            height: 27.w,
+                            child: LocalPNG(
+                                url: 'assets/images/detail/vip-yuanbao.png',
+                                width: 38.w,
+                                height: 27.w,
+                                fit: BoxFit.contain),
+                          ),
+                          Text.rich(TextSpan(
+                              text: (verifyDetail!['fee'] - selectValue).toString(),
+                              style: TextStyle(color: StyleTheme.cTitleColor, fontSize: 36.sp),
+                              children: [
+                                TextSpan(
+                                  text: '元宝',
+                                  style: TextStyle(color: StyleTheme.cTitleColor, fontSize: 18.sp),
+                                )
+                              ])),
+                        ],
+                      ),
+                    ),
+                  )),
+              Expanded(
+                  flex: 1,
+                  child: selectValue != 0
+                      ? Container(
+                          margin: EdgeInsets.only(top: 15.w),
+                          child: Text(
+                            verifyDetail!['fee'].toString() + '元宝',
+                            style: TextStyle(
+                              color: StyleTheme.cBioColor,
+                              fontSize: 18.sp,
+                              decoration: TextDecoration.lineThrough,
+                              decorationColor: StyleTheme.cBioColor,
+                            ),
+                          ),
+                        )
+                      : Container()),
+            ],
+          ),
+        ),
+        BottomLine(),
+        rowText(
+          '优惠券',
+          selectValue == 0 ? '选择优惠券' : selectValue.toString() + '元宝优惠券',
+          setBottomSheetState,
+          selectValue == 0 ? StyleTheme.cBioColor : StyleTheme.cDangerColor,
+        ),
+        BottomLine(),
+        rowText('预约妹子', verifyDetail!['title'].toString(), setBottomSheetState),
+        BottomLine(),
+        rowText('发布用户', verifyDetail!['nickname'].toString(), setBottomSheetState),
+        BottomLine(),
+        Center(
+          child: Text(
+            '账户余额：' + myMoney.toString() + '元宝',
+            style: TextStyle(color: StyleTheme.cDangerColor, fontSize: 12.sp),
+            textAlign: TextAlign.center,
+          ),
+        ),
+        Expanded(
+            child: Center(
+          child: GestureDetector(
+            onTap: () {
+              if (myMoney < (verifyDetail!['fee'] - selectValue)) {
+                AppGlobal.appRouter?.push(CommonUtils.getRealHash('ingotWallet'));
+              } else {
+                if (verifyDetail!['status'] == 2) {
+                  reservation();
+                } else {
+                  if (verifyDetail!['status'] == 4) {
+                    CgDialog.cgShowDialog(context, '提示', '当前' + getType().toString() + '已被删除,不能支付预约金哦～', ['取消', '朕知道了'],
+                        callBack: () {});
+                  }
+                  if (verifyDetail!['status'] == 5) {
+                    CgDialog.cgShowDialog(context, '提示', '当前' + userCheckStr + '不在线,不能支付预约金,请稍后再来吧～', ['取消', '朕知道了'],
+                        callBack: () {});
+                  }
+                }
+              }
+            },
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Container(
+                  margin: EdgeInsets.only(bottom: 10.w),
+                  width: 275.w,
+                  height: 50.w,
+                  child: Stack(
+                    children: [
+                      LocalPNG(
+                          width: 275.w,
+                          height: 50.w,
+                          url: 'assets/images/mymony/money-img.png',
+                          alignment: Alignment.center,
+                          fit: BoxFit.fill),
+                      Center(
+                          child: Text(
+                        myMoney < (verifyDetail!['fee'] - selectValue) ? '余额不足,去充值' : nowPay,
+                        style: TextStyle(fontSize: 15.sp, color: Colors.white),
+                      ))
+                    ],
+                  ),
+                ),
+                Text(
+                  '支付预约金前，请先沟通价格、服务等信息，未服务请勿点确认',
+                  style: TextStyle(color: StyleTheme.cDangerColor, fontSize: 12.sp),
+                )
+              ],
+            ),
+          ),
+        ))
+      ],
+    );
+  }
+
   Widget youHuiQuan(Function setBottomSheetState) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
@@ -1281,10 +1053,7 @@ class GilrDrtailState extends State<GilrDrtailPage>
                 child: Center(
               child: Text(
                 '选择优惠券',
-                style: TextStyle(
-                    fontSize: 18.sp,
-                    color: StyleTheme.cTitleColor,
-                    fontWeight: FontWeight.w500),
+                style: TextStyle(fontSize: 18.sp, color: StyleTheme.cTitleColor, fontWeight: FontWeight.w500),
               ),
             )),
             GestureDetector(
@@ -1314,8 +1083,7 @@ class GilrDrtailState extends State<GilrDrtailPage>
     );
   }
 
-  Widget rowText(String title, String content, Function callBack,
-      [Color? color]) {
+  Widget rowText(String title, String content, Function callBack, [Color? color]) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -1348,18 +1116,14 @@ class GilrDrtailState extends State<GilrDrtailPage>
                       width: 15.w,
                       height: 15.w,
                       child: LocalPNG(
-                          url: 'assets/images/detail/right-icon.png',
-                          width: 15.w,
-                          height: 15.w,
-                          fit: BoxFit.fill),
+                          url: 'assets/images/detail/right-icon.png', width: 15.w, height: 15.w, fit: BoxFit.fill),
                     )
                   ],
                 ),
               )
             : Text(
                 content,
-                style:
-                    TextStyle(fontSize: 14.sp, color: StyleTheme.cTitleColor),
+                style: TextStyle(fontSize: 14.sp, color: StyleTheme.cTitleColor),
               )
       ],
     );
@@ -1444,20 +1208,15 @@ class GilrDrtailState extends State<GilrDrtailPage>
                           children: [
                             Text(
                               '小编打分',
-                              style: TextStyle(
-                                  color: Colors.white, fontSize: 12.sp),
+                              style: TextStyle(color: Colors.white, fontSize: 12.sp),
                             ),
                             Text(
                               verifyDetail!['girl_face'].toString(),
-                              style: TextStyle(
-                                  color: Color(0xffffff96),
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 36.sp),
+                              style: TextStyle(color: Color(0xffffff96), fontWeight: FontWeight.w500, fontSize: 36.sp),
                             ),
                             Text(
                               '女郎颜值',
-                              style: TextStyle(
-                                  color: Colors.white, fontSize: 12.sp),
+                              style: TextStyle(color: Colors.white, fontSize: 12.sp),
                             ),
                           ],
                         ),
@@ -1480,8 +1239,7 @@ class GilrDrtailState extends State<GilrDrtailPage>
                       children: [
                         Text(
                           '地址：' + verifyDetail!['address'].toString(),
-                          style:
-                              TextStyle(color: Colors.white, fontSize: 14.sp),
+                          style: TextStyle(color: Colors.white, fontSize: 14.sp),
                           maxLines: 4,
                           overflow: TextOverflow.ellipsis,
                         ),
@@ -1511,13 +1269,12 @@ class GilrDrtailState extends State<GilrDrtailPage>
                 margin: new EdgeInsets.only(right: 9.5.w),
                 child: GestureDetector(
                   onTap: () {
-                    AppGlobal.appRouter?.push(CommonUtils.getRealHash(
-                        'brokerHomepage/' +
-                            item['aff'].toString() +
-                            '/' +
-                            Uri.encodeComponent(item['thumb'].toString()) +
-                            '/' +
-                            Uri.encodeComponent(item['nickname'].toString())));
+                    AppGlobal.appRouter?.push(CommonUtils.getRealHash('brokerHomepage/' +
+                        item['aff'].toString() +
+                        '/' +
+                        Uri.encodeComponent(item['thumb'].toString()) +
+                        '/' +
+                        Uri.encodeComponent(item['nickname'].toString())));
                   },
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(15.w),
@@ -1548,11 +1305,9 @@ class GilrDrtailState extends State<GilrDrtailPage>
                     children: [
                       Text(
                         "${DateUtil.formatDateStr(item['created_str'].toString(), format: DateFormats.y_mo_d)}",
-                        style: TextStyle(
-                            color: StyleTheme.color153, fontSize: 11.sp),
+                        style: TextStyle(color: StyleTheme.color153, fontSize: 11.sp),
                       ),
-                      if (item['time_str'] != null &&
-                          item['time_str'].trim().isNotEmpty)
+                      if (item['time_str'] != null && item['time_str'].trim().isNotEmpty)
                         Padding(
                           padding: EdgeInsets.only(left: 6.w),
                           child: Row(
@@ -1563,10 +1318,8 @@ class GilrDrtailState extends State<GilrDrtailPage>
                                 height: 13.w,
                                 padding: EdgeInsets.symmetric(horizontal: 6.w),
                                 decoration: BoxDecoration(
-                                    gradient: LinearGradient(colors: [
-                                      Color.fromRGBO(255, 144, 0, 1),
-                                      Color.fromRGBO(255, 194, 30, 1)
-                                    ]),
+                                    gradient: LinearGradient(
+                                        colors: [Color.fromRGBO(255, 144, 0, 1), Color.fromRGBO(255, 194, 30, 1)]),
                                     borderRadius: BorderRadius.only(
                                       topLeft: Radius.circular(6.5.w),
                                       bottomLeft: Radius.circular(6.5.w),
@@ -1574,9 +1327,7 @@ class GilrDrtailState extends State<GilrDrtailPage>
                                     )),
                                 child: Text(
                                   "${item['time_str']}",
-                                  style: TextStyle(
-                                      color: Color.fromRGBO(248, 253, 255, 1),
-                                      fontSize: 8.sp),
+                                  style: TextStyle(color: Color.fromRGBO(248, 253, 255, 1), fontSize: 8.sp),
                                 ),
                               )
                             ],
@@ -1614,14 +1365,11 @@ class GilrDrtailState extends State<GilrDrtailPage>
                             height: 15.w,
                             alignment: Alignment.center,
                             decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(7.5.w),
-                                color: StyleTheme.color253240228),
+                                borderRadius: BorderRadius.circular(7.5.w), color: StyleTheme.color253240228),
                             padding: EdgeInsets.symmetric(horizontal: 6.5.w),
                             child: Text(
                               e,
-                              style: TextStyle(
-                                  fontSize: 10.w,
-                                  color: StyleTheme.cDangerColor),
+                              style: TextStyle(fontSize: 10.w, color: StyleTheme.cDangerColor),
                             ),
                           )
                         ],
@@ -1646,17 +1394,11 @@ class GilrDrtailState extends State<GilrDrtailPage>
               padding: EdgeInsets.symmetric(vertical: 11.w),
               physics: NeverScrollableScrollPhysics(),
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 3,
-                  mainAxisSpacing: 7.5.w,
-                  crossAxisSpacing: 7.5.w,
-                  childAspectRatio: 1),
+                  crossAxisCount: 3, mainAxisSpacing: 7.5.w, crossAxisSpacing: 7.5.w, childAspectRatio: 1),
               itemBuilder: (context, index) {
                 return GestureDetector(
                   onTap: () {
-                    AppGlobal.picMap = {
-                      'resources': item['media'],
-                      'index': index
-                    };
+                    AppGlobal.picMap = {'resources': item['media'], 'index': index};
                     context.push('/teaViewPicPage');
                   },
                   child: ClipRRect(
@@ -1677,8 +1419,7 @@ class GilrDrtailState extends State<GilrDrtailPage>
                   children: [
                     Text(
                       verifyDetail!['post_type'] == 2 ? '男模颜值:' : '妹子颜值:',
-                      style: TextStyle(
-                          fontSize: 14.sp, color: StyleTheme.cTitleColor),
+                      style: TextStyle(fontSize: 14.sp, color: StyleTheme.cTitleColor),
                     ),
                     StarRating(
                       rating: item['girl_face'].toDouble(),
@@ -1705,8 +1446,7 @@ class GilrDrtailState extends State<GilrDrtailPage>
                       ),
                       Text(
                         '回复',
-                        style: TextStyle(
-                            color: StyleTheme.cTitleColor, fontSize: 12.sp),
+                        style: TextStyle(color: StyleTheme.cTitleColor, fontSize: 12.sp),
                       )
                     ],
                   ),
@@ -1721,8 +1461,7 @@ class GilrDrtailState extends State<GilrDrtailPage>
               children: [
                 Text(
                   '服务质量:',
-                  style:
-                      TextStyle(fontSize: 14.sp, color: StyleTheme.cTitleColor),
+                  style: TextStyle(fontSize: 14.sp, color: StyleTheme.cTitleColor),
                 ),
                 StarRating(
                   rating: item['girl_service'].toDouble(),
@@ -1738,9 +1477,7 @@ class GilrDrtailState extends State<GilrDrtailPage>
             Container(
               padding: EdgeInsets.symmetric(horizontal: 11.w, vertical: 2.w),
               margin: EdgeInsets.only(top: 11.5.w),
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(5),
-                  color: StyleTheme.bottomappbarColor),
+              decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), color: StyleTheme.bottomappbarColor),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -1761,12 +1498,9 @@ class GilrDrtailState extends State<GilrDrtailPage>
                                   child: CommonUtils.authorWidget(),
                                 ),
                               ),
-                            TextSpan(
-                                text: "${e['desc']}",
-                                style: TextStyle(color: StyleTheme.color102))
+                            TextSpan(text: "${e['desc']}", style: TextStyle(color: StyleTheme.color102))
                           ]),
-                          style: TextStyle(
-                              fontSize: 15.sp, color: StyleTheme.color34),
+                          style: TextStyle(fontSize: 15.sp, color: StyleTheme.color34),
                         )
                       ],
                     ),
@@ -1836,10 +1570,7 @@ class GilrDrtailState extends State<GilrDrtailPage>
   Widget _detailHeader() {
     return Container(
       padding: new EdgeInsets.only(
-          left: 15.5.w,
-          right: 15.w,
-          top: 15.w,
-          bottom: (verifyDetail!['video_valid'] == 1 ? 0 : 15).w),
+          left: 15.5.w, right: 15.w, top: 15.w, bottom: (verifyDetail!['video_valid'] == 1 ? 0 : 15).w),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -1847,23 +1578,18 @@ class GilrDrtailState extends State<GilrDrtailPage>
           Flexible(
               child: Text(
             verifyDetail!['title'].toString(),
-            style: TextStyle(
-                fontSize: 18.sp,
-                color: StyleTheme.cTitleColor,
-                fontWeight: FontWeight.bold),
+            style: TextStyle(fontSize: 18.sp, color: StyleTheme.cTitleColor, fontWeight: FontWeight.bold),
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
           )),
           GestureDetector(
             onTap: () {
-              AppGlobal.appRouter?.push(CommonUtils.getRealHash(
-                  'brokerHomepage/' +
-                      verifyDetail!['aff'].toString() +
-                      '/' +
-                      Uri.encodeComponent(verifyDetail!['thumb'].toString()) +
-                      '/' +
-                      Uri.encodeComponent(
-                          verifyDetail!['nickname'].toString())));
+              AppGlobal.appRouter?.push(CommonUtils.getRealHash('brokerHomepage/' +
+                  verifyDetail!['aff'].toString() +
+                  '/' +
+                  Uri.encodeComponent(verifyDetail!['thumb'].toString()) +
+                  '/' +
+                  Uri.encodeComponent(verifyDetail!['nickname'].toString())));
             },
             child: Padding(
               padding: EdgeInsets.only(
@@ -1902,16 +1628,11 @@ class GilrDrtailState extends State<GilrDrtailPage>
                     : Container(
                         height: 16.w,
                         padding: EdgeInsets.symmetric(horizontal: 7.5.w),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(3),
-                            color: Color(0xffdbc1a0)),
+                        decoration: BoxDecoration(borderRadius: BorderRadius.circular(3), color: Color(0xffdbc1a0)),
                         child: Center(
                           child: Text(
-                            '成交' +
-                                verifyDetail!['appointment'].toString() +
-                                '单',
-                            style:
-                                TextStyle(color: Colors.white, fontSize: 11.sp),
+                            '成交' + verifyDetail!['appointment'].toString() + '单',
+                            style: TextStyle(color: Colors.white, fontSize: 11.sp),
                           ),
                         ),
                       ),
@@ -1921,9 +1642,7 @@ class GilrDrtailState extends State<GilrDrtailPage>
                 Container(
                   height: 16.w,
                   padding: EdgeInsets.symmetric(horizontal: 7.5.w),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(3),
-                      color: Color(0xffdbc1a0)),
+                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(3), color: Color(0xffdbc1a0)),
                   child: Center(
                     child: Text(
                       '预约金' + verifyDetail!['fee'].toString(),
@@ -1934,8 +1653,7 @@ class GilrDrtailState extends State<GilrDrtailPage>
                 SizedBox(
                   width: 10.w,
                 ),
-                verifyDetail!['guaranty'] == null ||
-                        verifyDetail!['guaranty'] == 0
+                verifyDetail!['guaranty'] == null || verifyDetail!['guaranty'] == 0
                     ? Container()
                     : Row(
                         mainAxisSize: MainAxisSize.min,
@@ -1956,11 +1674,8 @@ class GilrDrtailState extends State<GilrDrtailPage>
                                   )),
                               child: Center(
                                 child: Text(
-                                  '可赔付押金' +
-                                      verifyDetail!['guaranty'].toString() +
-                                      '元宝',
-                                  style: TextStyle(
-                                      color: Colors.white, fontSize: 8.sp),
+                                  '可赔付押金' + verifyDetail!['guaranty'].toString() + '元宝',
+                                  style: TextStyle(color: Colors.white, fontSize: 8.sp),
                                 ),
                               ))
                         ],
@@ -1983,14 +1698,8 @@ class GilrDrtailState extends State<GilrDrtailPage>
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               for (var item in _introductionList!)
-                _introductionItem(
-                    item['icon'],
-                    item['title'],
-                    item['introduction'],
-                    item['star'] ?? 0,
-                    item['type'] ?? false,
-                    item['copy'],
-                    item['isTag'] ?? false)
+                _introductionItem(item['icon'], item['title'], item['introduction'], item['star'] ?? 0,
+                    item['type'] ?? false, item['copy'], item['isTag'] ?? false)
             ],
           ),
         ));
@@ -2030,11 +1739,7 @@ class GilrDrtailState extends State<GilrDrtailPage>
                   child: Text(
                     title + ':',
                     style: TextStyle(
-                        height: 1.3,
-                        fontSize: 14.sp,
-                        color: type
-                            ? StyleTheme.cTitleColor
-                            : StyleTheme.cDangerColor),
+                        height: 1.3, fontSize: 14.sp, color: type ? StyleTheme.cTitleColor : StyleTheme.cDangerColor),
                   )),
               star != 0
                   ? StarRating(
@@ -2049,9 +1754,7 @@ class GilrDrtailState extends State<GilrDrtailPage>
                         style: TextStyle(
                             height: 1.3,
                             fontSize: 14.sp,
-                            color: type
-                                ? StyleTheme.cTitleColor
-                                : StyleTheme.cDangerColor),
+                            color: type ? StyleTheme.cTitleColor : StyleTheme.cDangerColor),
                         maxLines: 4,
                         overflow: TextOverflow.ellipsis,
                       ),
@@ -2070,9 +1773,7 @@ class GilrDrtailState extends State<GilrDrtailPage>
         Container(
           height: 15.w,
           padding: new EdgeInsets.symmetric(horizontal: 6.5.w),
-          decoration: BoxDecoration(
-              color: Color(0xFFFDF0E4),
-              borderRadius: BorderRadius.circular(7.5.w)),
+          decoration: BoxDecoration(color: Color(0xFFFDF0E4), borderRadius: BorderRadius.circular(7.5.w)),
           child: Center(
             child: Text(
               tag,
@@ -2085,11 +1786,8 @@ class GilrDrtailState extends State<GilrDrtailPage>
   }
 
   Widget _swiper() {
-    var image = verifyDetail!['resources']
-        .where((element) => element['type'] != 2)
-        .toList();
-    return verifyDetail!['resources'] != null &&
-            verifyDetail!['resources'].length > 0
+    var image = verifyDetail!['resources'].where((element) => element['type'] != 2).toList();
+    return verifyDetail!['resources'] != null && verifyDetail!['resources'].length > 0
         ? Swiper(
             itemBuilder: (BuildContext context, int index) {
               return verifyDetail!['resources'][index]['type'] == 2
@@ -2099,10 +1797,7 @@ class GilrDrtailState extends State<GilrDrtailPage>
                     )
                   : GestureDetector(
                       onTap: () {
-                        AppGlobal.picMap = {
-                          'resources': verifyDetail!['resources'],
-                          'index': index
-                        };
+                        AppGlobal.picMap = {'resources': verifyDetail!['resources'], 'index': index};
                         context.push('/teaViewPicPage');
                         // CommonUtils.setStatusBar(isLight: true);
                         // showImageViewer(
@@ -2131,20 +1826,15 @@ class GilrDrtailState extends State<GilrDrtailPage>
             itemHeight: 240.w,
             pagination: SwiperPagination(
               alignment: Alignment.bottomRight,
-              builder: new SwiperCustomPagination(
-                  builder: (BuildContext context, SwiperPluginConfig config) {
+              builder: new SwiperCustomPagination(builder: (BuildContext context, SwiperPluginConfig config) {
                 return Container(
                     padding: new EdgeInsets.symmetric(
                       horizontal: 13.w,
                       vertical: 3.5.w,
                     ),
-                    decoration: BoxDecoration(
-                        color: Colors.black45,
-                        borderRadius: BorderRadius.circular(10.0)),
+                    decoration: BoxDecoration(color: Colors.black45, borderRadius: BorderRadius.circular(10.0)),
                     child: Text(
-                      (config.activeIndex + 1).toString() +
-                          '/' +
-                          config.itemCount.toString(),
+                      (config.activeIndex + 1).toString() + '/' + config.itemCount.toString(),
                       style: TextStyle(fontSize: 14.sp, color: Colors.white),
                     ));
               }),
@@ -2162,8 +1852,7 @@ class GilrDrtailState extends State<GilrDrtailPage>
             margin: EdgeInsets.only(right: 3.5.w),
             width: 15.w,
             height: 15.w,
-            child: LocalPNG(
-                url: icon, width: 15.w, height: 15.w, fit: BoxFit.contain),
+            child: LocalPNG(url: icon, width: 15.w, height: 15.w, fit: BoxFit.contain),
           ),
           Text(
             title,
@@ -2185,14 +1874,10 @@ class GilrDrtailState extends State<GilrDrtailPage>
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                LocalPNG(
-                    url: 'assets/images/card/tag-bg-$tagValue.png',
-                    height: 15.w,
-                    fit: BoxFit.fill),
+                LocalPNG(url: 'assets/images/card/tag-bg-$tagValue.png', height: 15.w, fit: BoxFit.fill),
                 Text(
                   title,
-                  style: TextStyle(
-                      fontSize: 10.sp, color: StyleTheme.cDangerColor),
+                  style: TextStyle(fontSize: 10.sp, color: StyleTheme.cDangerColor),
                 ),
               ],
             ),
@@ -2228,10 +1913,7 @@ class GilrDrtailState extends State<GilrDrtailPage>
               children: <Widget>[
                 Text(
                   '如果不满意妹子可以联系茶老板退预约金，消费金额包含预约金，点击右上角“消费须知”了解更多',
-                  style: TextStyle(
-                      height: 2,
-                      color: StyleTheme.cDangerColor,
-                      fontSize: 12.sp),
+                  style: TextStyle(height: 2, color: StyleTheme.cDangerColor, fontSize: 12.sp),
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                 ),

@@ -129,13 +129,10 @@ class _GameRecordingPageState extends State<GameRecordingPage> {
     switch (status) {
       case 0:
         return Color(0xff0bc10f);
-        break;
       case 2:
         return Color(0xfff34751);
-        break;
       case 3:
         return Color(0xff999999);
-        break;
       default:
         return Color(0xff999999);
     }
