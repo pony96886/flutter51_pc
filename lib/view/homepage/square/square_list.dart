@@ -15,6 +15,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 
+import '../../../components/filterTabsContainer.dart';
 import '../../../utils/cache/image_net_tool.dart';
 import '../../../utils/network_http.dart';
 
@@ -29,6 +30,7 @@ class SquareList extends StatefulWidget {
   final double crossAxisSpacing;
   final List? ads; //广告
   final int? id;
+
   SquareList(
       {Key? key,
       required this.tabList,
@@ -56,6 +58,7 @@ class _SquareListState extends State<SquareList> {
   Map reqData = {'page': 1, 'limit': 20};
   Map selectTab = {};
   int? postType;
+
   @override
   void initState() {
     super.initState();
@@ -67,6 +70,7 @@ class _SquareListState extends State<SquareList> {
   }
 
   List? searchData;
+
   Future getSearchResult() async {
     widget.tabList?.keys.forEach((element) {
       if (element == 'type' && (widget.id == 1 || widget.id == 2)) {
@@ -199,6 +203,7 @@ class _SquareListState extends State<SquareList> {
   }
 
   ScrollController controller = ScrollController();
+
   @override
   Widget build(BuildContext context) {
     return networkErr
@@ -245,7 +250,7 @@ class _SquareListState extends State<SquareList> {
                                 children: widget.tabList!.keys.map((_key) {
                                   return SingleChildScrollView(
                                       scrollDirection: Axis.horizontal,
-                                      child: TabsContainer(
+                                      child: FilterTabsContainer(
                                         tabs: widget.tabList![_key],
                                         filter: _key == 'type' ? postType : null,
                                         selectTabIndex: selectTab[_key],
@@ -264,53 +269,7 @@ class _SquareListState extends State<SquareList> {
                               )),
                     ),
                   ),
-                  SliverToBoxAdapter(
-                    child: widget.ads == null
-                        ? Container()
-                        : Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: widget.ads!.asMap().keys.map((e) {
-                              return widget.ads![e]['position'] != 2
-                                  ? Container()
-                                  : Stack(
-                                      children: [
-                                        GestureDetector(
-                                            onTap: () {
-                                              _onTapSwiper(widget.ads![e]['type'].toString(), widget.ads![e]['url']);
-                                              // if (widget.ads![e]['type'] == 1) {
-                                              //   CommonUtils.launchURL(
-                                              //       widget.ads![e]['url']);
-                                              // } else {
-                                              //   AppGlobal.appRouter?.push(
-                                              //       '/tackDetailPage/' +
-                                              //           widget.ads![e]['url']
-                                              //               .toString());
-                                              // }
-                                            },
-                                            child: Container(
-                                                margin: EdgeInsets.only(bottom: 10.w),
-                                                decoration: BoxDecoration(
-                                                  boxShadow: [
-                                                    //阴影
-                                                    BoxShadow(
-                                                        color: Colors.black12,
-                                                        offset: Offset(0, 0.5.w),
-                                                        blurRadius: 2.5.w)
-                                                  ],
-                                                  color: Colors.white,
-                                                ),
-                                                width: ScreenUtil().screenWidth - 30.w,
-                                                height: 150.w,
-                                                child: ImageNetTool(
-                                                  fit: BoxFit.cover,
-                                                  url: widget.ads![e]['img_full_url'],
-                                                  radius: BorderRadius.circular(10),
-                                                ))),
-                                      ],
-                                    );
-                            }).toList(),
-                          ),
-                  ),
+                  _adsView(),
                   loading
                       ? SliverToBoxAdapter(
                           child: PageStatus.loading(true),
@@ -343,5 +302,43 @@ class _SquareListState extends State<SquareList> {
               ),
             ),
           );
+  }
+
+  Widget _adsView() {
+    return SliverToBoxAdapter(
+      child: widget.ads == null
+          ? Container()
+          : Column(
+              mainAxisSize: MainAxisSize.min,
+              children: widget.ads!.asMap().keys.map((e) {
+                return widget.ads![e]['position'] != 2
+                    ? Container()
+                    : Stack(
+                        children: [
+                          GestureDetector(
+                              onTap: () {
+                                _onTapSwiper(widget.ads![e]['type'].toString(), widget.ads![e]['url']);
+                              },
+                              child: Container(
+                                  margin: EdgeInsets.only(bottom: 10.w),
+                                  decoration: BoxDecoration(
+                                    boxShadow: [
+                                      //阴影
+                                      BoxShadow(color: Colors.black12, offset: Offset(0, 0.5.w), blurRadius: 2.5.w)
+                                    ],
+                                    color: Colors.white,
+                                  ),
+                                  width: ScreenUtil().screenWidth - 30.w,
+                                  height: 150.w,
+                                  child: ImageNetTool(
+                                    fit: BoxFit.cover,
+                                    url: widget.ads![e]['img_full_url'],
+                                    radius: BorderRadius.circular(10),
+                                  ))),
+                        ],
+                      );
+              }).toList(),
+            ),
+    );
   }
 }
