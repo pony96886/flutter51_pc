@@ -1,6 +1,7 @@
 import 'package:bot_toast/bot_toast.dart';
 import 'package:chaguaner2023/components/card/elegantCard.dart';
 import 'package:chaguaner2023/components/cgDialog.dart';
+import 'package:chaguaner2023/components/filterTabsContainer.dart';
 import 'package:chaguaner2023/components/headerContainer.dart';
 import 'package:chaguaner2023/components/loading.dart';
 import 'package:chaguaner2023/components/page_title_bar.dart';
@@ -159,7 +160,7 @@ class _AuthBeautyPageState extends State<AuthBeautyPage> {
                       decoration: BoxDecoration(color: Color(0xfff8f6f1), borderRadius: BorderRadius.circular(5.w)),
                       child: SingleChildScrollView(
                         scrollDirection: Axis.horizontal,
-                        child: RuleFilterTabs(
+                        child: FilterTabsContainer(
                           tabs: ruleList,
                           selectTabIndex: _ruleListValue,
                           onTabs: (e) {

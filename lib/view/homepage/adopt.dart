@@ -1,4 +1,5 @@
 import 'package:chaguaner2023/components/card/adoptCard.dart';
+import 'package:chaguaner2023/components/filterTabsContainer.dart';
 import 'package:chaguaner2023/components/loading.dart';
 import 'package:chaguaner2023/components/nodata.dart';
 import 'package:chaguaner2023/components/page_status.dart';
@@ -133,10 +134,12 @@ class _AdoptScreenState extends State<AdoptScreen> with TickerProviderStateMixin
                                       children: [
                                         SingleChildScrollView(
                                           scrollDirection: Axis.horizontal,
-                                          child: TabsContainer(
+                                          child: FilterTabsContainer(
                                             tabs: entry.key == 'order'
                                                 ? List<Map<String, dynamic>>.from(filterTabs[entry.key])
                                                 : filterTabs[entry.key],
+                                            selectTabTextStyle: TextStyle(
+                                                color: Color(0xff646464), fontSize: 12.sp, fontWeight: FontWeight.w700),
                                             selectTabIndex: entry.value,
                                             onTabs: (int index) {
                                               setState(() {
@@ -226,102 +229,102 @@ class _AdoptScreenState extends State<AdoptScreen> with TickerProviderStateMixin
     );
   }
 }
-
-class TabsContainer extends StatefulWidget {
-  final List? tabs;
-  final int? selectTabIndex;
-  final Function? onTabs;
-  final bool? needLimit;
-  final int? filter;
-  TabsContainer({Key? key, this.tabs, this.selectTabIndex, this.onTabs, this.needLimit = false, this.filter})
-      : super(key: key);
-
-  @override
-  _TabsContainerState createState() => _TabsContainerState();
-}
-
-class _TabsContainerState extends State<TabsContainer> {
-  int? index;
-
-  @override
-  void initState() {
-    super.initState();
-    index = widget.selectTabIndex;
-  }
-
-  onTapTabsItem(int e) {
-    setState(() {
-      index = e;
-    });
-    widget.onTabs!(e);
-  }
-
-  @override
-  void didUpdateWidget(covariant TabsContainer oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    if (oldWidget.selectTabIndex != index) {
-      index = widget.selectTabIndex;
-      setState(() {});
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      child: Row(
-        children: widget.tabs!.asMap().keys.map((e) {
-          return TabsItem(
-            title: widget.tabs![e]['title'],
-            index: index!,
-            keys: e,
-            onTap: () {
-              onTapTabsItem(e);
-            },
-          );
-        }).toList(),
-      ),
-    );
-  }
-}
-
-class TabsItem extends StatelessWidget {
-  final String? title;
-  final int? index;
-  final int? keys;
-  final GestureTapCallback? onTap;
-  TabsItem({Key? key, this.title, this.index, this.onTap, this.keys}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        color: Colors.transparent,
-        alignment: Alignment.centerLeft,
-        padding: EdgeInsets.only(right: 21.5.w),
-        child: Stack(
-          children: <Widget>[
-            Positioned(
-                top: 0,
-                right: 0,
-                child: index == keys
-                    ? Opacity(
-                        opacity: 0.8,
-                        child: Container(
-                          width: 12.w,
-                          height: 12.w,
-                          decoration:
-                              BoxDecoration(color: StyleTheme.cDangerColor, borderRadius: BorderRadius.circular(10)),
-                        ),
-                      )
-                    : SizedBox()),
-            Text("$title",
-                style: index == keys
-                    ? TextStyle(color: Color(0xff646464), fontSize: 12.sp, fontWeight: FontWeight.w700)
-                    : TextStyle(color: Color(0xff646464), fontSize: 12.sp)),
-          ],
-        ),
-      ),
-    );
-  }
-}
+//
+// class TabsContainer extends StatefulWidget {
+//   final List? tabs;
+//   final int? selectTabIndex;
+//   final Function? onTabs;
+//   final bool? needLimit;
+//   final int? filter;
+//   TabsContainer({Key? key, this.tabs, this.selectTabIndex, this.onTabs, this.needLimit = false, this.filter})
+//       : super(key: key);
+//
+//   @override
+//   _TabsContainerState createState() => _TabsContainerState();
+// }
+//
+// class _TabsContainerState extends State<TabsContainer> {
+//   int? index;
+//
+//   @override
+//   void initState() {
+//     super.initState();
+//     index = widget.selectTabIndex;
+//   }
+//
+//   onTapTabsItem(int e) {
+//     setState(() {
+//       index = e;
+//     });
+//     widget.onTabs!(e);
+//   }
+//
+//   @override
+//   void didUpdateWidget(covariant TabsContainer oldWidget) {
+//     super.didUpdateWidget(oldWidget);
+//     if (oldWidget.selectTabIndex != index) {
+//       index = widget.selectTabIndex;
+//       setState(() {});
+//     }
+//   }
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return Container(
+//       child: Row(
+//         children: widget.tabs!.asMap().keys.map((e) {
+//           return TabsItem(
+//             title: widget.tabs![e]['title'],
+//             index: index!,
+//             keys: e,
+//             onTap: () {
+//               onTapTabsItem(e);
+//             },
+//           );
+//         }).toList(),
+//       ),
+//     );
+//   }
+// }
+//
+// class TabsItem extends StatelessWidget {
+//   final String? title;
+//   final int? index;
+//   final int? keys;
+//   final GestureTapCallback? onTap;
+//   TabsItem({Key? key, this.title, this.index, this.onTap, this.keys}) : super(key: key);
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return GestureDetector(
+//       onTap: onTap,
+//       child: Container(
+//         color: Colors.transparent,
+//         alignment: Alignment.centerLeft,
+//         padding: EdgeInsets.only(right: 21.5.w),
+//         child: Stack(
+//           children: <Widget>[
+//             Positioned(
+//                 top: 0,
+//                 right: 0,
+//                 child: index == keys
+//                     ? Opacity(
+//                         opacity: 0.8,
+//                         child: Container(
+//                           width: 12.w,
+//                           height: 12.w,
+//                           decoration:
+//                               BoxDecoration(color: StyleTheme.cDangerColor, borderRadius: BorderRadius.circular(10)),
+//                         ),
+//                       )
+//                     : SizedBox()),
+//             Text("$title",
+//                 style: index == keys
+//                     ? TextStyle(color: Color(0xff646464), fontSize: 12.sp, fontWeight: FontWeight.w700)
+//                     : TextStyle(color: Color(0xff646464), fontSize: 12.sp)),
+//           ],
+//         ),
+//       ),
+//     );
+//   }
+// }

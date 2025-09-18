@@ -10,6 +10,8 @@ import 'package:chaguaner2023/components/list/public_list.dart';
 import 'package:chaguaner2023/components/nodata.dart';
 import 'package:chaguaner2023/view/homepage/squarePages.dart';
 
+import '../../components/filterTabsContainer.dart';
+
 class CGRankList extends StatefulWidget {
   final int type;
   final List? tab;
@@ -26,8 +28,7 @@ class _CGRankListState extends State<CGRankList> {
   void initState() {
     super.initState();
     tabList = {
-      'tags':
-          widget.tab!.map((item) => {...item, 'title': item['name']}).toList(),
+      'tags': widget.tab!.map((item) => {...item, 'title': item['name']}).toList(),
     };
   }
 
@@ -49,7 +50,7 @@ class _CGRankListState extends State<CGRankList> {
                 return SingleChildScrollView(
                     padding: EdgeInsets.zero,
                     scrollDirection: Axis.horizontal,
-                    child: TabsContainer(
+                    child: FilterTabsContainer(
                       tabs: tabList['tags'],
                       selectTabIndex: selectTab,
                       onTabs: (e) {
@@ -70,9 +71,7 @@ class _CGRankListState extends State<CGRankList> {
                 crossAxisSpacing: 6.w,
                 data: {
                   "rank_type": widget.type,
-                  "rank_time": widget.tab!.isEmpty
-                      ? 'day'
-                      : widget.tab![selectTab]["type"],
+                  "rank_time": widget.tab!.isEmpty ? 'day' : widget.tab![selectTab]["type"],
                 },
                 isShow: true,
                 noData: NoData(text: '还没有商品哦～'),
